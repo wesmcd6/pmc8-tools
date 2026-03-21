@@ -7,6 +7,7 @@ Downloads for Explore Scientific PMC-Eight telescope mount users.
 | Branch | Contents |
 |--------|----------|
 | [`explorestars-lite`](../../tree/explorestars-lite) | ExplorestarsLite Android APK — standalone telescope control app |
+| [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest PMC-Eight Propeller firmware (flash via UFCT) |
 | [`esp32-ota`](../../tree/esp32-ota) | ESP32 OTA firmware update script, binary, and quick start guide |
 
 ---
@@ -25,6 +26,12 @@ Switch to the **[explorestars-lite](../../tree/explorestars-lite)** branch to do
 2. Tap to install on your Android phone (allow "Install from unknown sources" if prompted)
 3. If Play Protect blocks it, tap "Install anyway"
 4. Open the app, go to Setup, enter your mount's IP address, and tap Connect
+
+## PMC-Eight Propeller Firmware
+
+Switch to the **[pmc8-firmware](../../tree/pmc8-firmware)** branch to download.
+
+Latest Propeller firmware for the PMC-Eight controller. Flash using the **UFCT** (Universal Firmware Configuration Tool).
 
 ## ESP32 OTA Firmware Update
 
