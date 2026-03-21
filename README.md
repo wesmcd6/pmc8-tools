@@ -7,7 +7,6 @@ Latest PMC-Eight Propeller firmware binary for use with the UFCT (Universal Firm
 **20A02.1.8.2.bt** — Bluetooth Classic (SPP) variant
 
 ### What's in this update
-- ESV bulk status fix (5ms delay eliminates timeouts)
 - Required for ExplorestarsLite and HTTP bridge operation
 
 ## How to Update
