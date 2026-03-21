@@ -2,9 +2,18 @@
 
 Downloads for Explore Scientific PMC-Eight telescope mount users.
 
+## Branches
+
+| Branch | Contents |
+|--------|----------|
+| [`explorestars-lite`](../../tree/explorestars-lite) | ExplorestarsLite Android APK — standalone telescope control app |
+| [`esp32-ota`](../../tree/esp32-ota) | ESP32 OTA firmware update script, binary, and quick start guide |
+
+---
+
 ## ExplorestarsLite — Android App
 
-**`com.explorestarlite.app-Signed.apk`** — Standalone telescope control app for Android phones.
+Switch to the **[explorestars-lite](../../tree/explorestars-lite)** branch to download.
 
 - Controls PMC-Eight mounts via ESP32 WiFi bridge (no PC needed)
 - Catalog search, GoTo, tracking, spiral search, sync, meridian flip
@@ -12,22 +21,16 @@ Downloads for Explore Scientific PMC-Eight telescope mount users.
 
 ### Install
 
-1. Download the APK to your Android phone
-2. Tap to install (allow "Install from unknown sources" if prompted)
+1. Go to the [explorestars-lite branch](../../tree/explorestars-lite) and download the APK
+2. Tap to install on your Android phone (allow "Install from unknown sources" if prompted)
 3. If Play Protect blocks it, tap "Install anyway"
 4. Open the app, go to Setup, enter your mount's IP address, and tap Connect
 
 ## ESP32 OTA Firmware Update
 
+Switch to the **[esp32-ota](../../tree/esp32-ota)** branch to download.
+
 Update your PMC-Eight's ESP32 firmware over WiFi — no serial cable or jumpers needed.
-
-### Files
-
-| File | Description |
-|------|-------------|
-| `ota_update_v2.py` | Python script — handles the full OTA process |
-| `esp-at.bin` | ESP32 AT firmware binary (OTA-compatible, ~1.5 MB) |
-| `OTA_QUICK_START_V2.txt` | Step-by-step instructions |
 
 ### Prerequisites
 
@@ -36,15 +39,7 @@ Update your PMC-Eight's ESP32 firmware over WiFi — no serial cable or jumpers 
 - USB serial connection to the PMC-Eight (COM port)
 - PMC-Eight powered on with Propeller firmware running
 
-### Quick Start
-
-```
-python ota_update_v2.py --help
-```
-
-See `OTA_QUICK_START_V2.txt` for detailed instructions. The script supports two modes:
-- **Direct (AP mode)** — PC connected to the PMC-8's own WiFi network
-- **LAN mode** — PC and PMC-8 both on your home WiFi
+See `OTA_QUICK_START_V2.txt` on the esp32-ota branch for detailed instructions.
 
 ## Support
 
