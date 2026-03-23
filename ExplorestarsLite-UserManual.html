@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExplorestarsLite User Manual</title>
 <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; color: #222; line-height: 1.6; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; color: #222; line-height: 1.6; }
+  #content { max-width: 900px; margin: 0 auto; padding: 20px; }
   h1 { color: #1a237e; border-bottom: 3px solid #1a237e; padding-bottom: 8px; }
   h2 { color: #283593; margin-top: 40px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
   h3 { color: #3949ab; margin-top: 24px; }
@@ -17,26 +18,49 @@
   table { border-collapse: collapse; width: 100%; margin: 12px 0; }
   th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
   th { background: #e8eaf6; }
-  #toc { background: #fafafa; border: 1px solid #ddd; padding: 16px 24px; border-radius: 6px; margin: 20px 0; }
-  #toc ul { list-style: none; padding-left: 0; }
-  #toc ul ul { padding-left: 20px; }
-  #toc a { text-decoration: none; color: #1565c0; }
-  #toc a:hover { text-decoration: underline; }
   a { color: #1565c0; }
   .key { display: inline-block; background: #eee; border: 1px solid #ccc; border-radius: 4px; padding: 2px 8px; font-weight: bold; min-width: 30px; text-align: center; }
   img.icon { height: 1em; vertical-align: middle; }
   .subtitle { color: #666; font-size: 1.1em; margin-top: -8px; }
   footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; color: #888; font-size: 0.9em; }
+
+  /* TOC side panel */
+  #toc-panel {
+    position: fixed; top: 0; left: -280px; width: 270px; height: 100%;
+    background: #f5f5fa; border-right: 2px solid #1a237e; z-index: 2000;
+    overflow-y: auto; padding: 16px 12px; transition: left 0.25s ease;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  }
+  #toc-panel.open { left: 0; }
+  #toc-panel ul { list-style: none; padding-left: 0; margin: 0; }
+  #toc-panel ul ul { padding-left: 16px; }
+  #toc-panel li { margin: 4px 0; }
+  #toc-panel a { text-decoration: none; color: #1565c0; font-size: 0.9rem; display: block; padding: 3px 0; }
+  #toc-panel a:hover { text-decoration: underline; }
+  #toc-panel .toc-title { font-weight: bold; font-size: 1rem; color: #1a237e; margin-bottom: 12px; }
+
+  #toc-toggle {
+    position: fixed; top: 8px; left: 8px; z-index: 2001;
+    background: #1a237e; color: white; border: none; border-radius: 4px;
+    padding: 6px 12px; font-size: 0.85rem; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  #toc-toggle:active { background: #3949ab; }
+
+  #toc-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); z-index: 1999;
+  }
+  #toc-overlay.open { display: block; }
 </style>
 </head>
 <body>
 
-<h1>ExplorestarsLite User Manual</h1>
-<p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
-<p><strong>Version 1.0</strong> &bull; March 2026</p>
+<button id="toc-toggle" onclick="toggleToc()">&#9776; Contents</button>
+<div id="toc-overlay" onclick="toggleToc()"></div>
 
-<div id="toc">
-<strong>Table of Contents</strong>
+<div id="toc-panel">
+<div class="toc-title">Contents</div>
 <ul>
   <li><a href="#overview">1. Overview</a></li>
   <li><a href="#install">2. Installation</a></li>
@@ -88,6 +112,12 @@
 </ul>
 </div>
 
+<div id="content">
+
+<h1>ExplorestarsLite User Manual</h1>
+<p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
+<p><strong>Version 1.1.1</strong> &bull; March 2026</p>
+
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
 <p>ExplorestarsLite is a standalone Android app that controls Explore Scientific PMC-Eight&trade; telescope mounts directly from your phone via WiFi. No PC, laptop, or internet connection is required.</p>
@@ -112,10 +142,16 @@
 
 <!-- ======================= INSTALL ======================= -->
 <h2 id="install">2. Installation</h2>
+<div style="text-align: center; margin: 16px 0;">
+  <a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank">
+    <img src="images/pmc8-tools-qr.png" alt="Scan to download" style="width: 150px; height: 150px;" />
+  </a>
+  <br><a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank" style="font-size: 0.85em;">Tap QR or here to download latest APK</a>
+</div>
 <ol>
-  <li>Download the APK from <a href="https://github.com/wesmcd6/pmc8-tools">github.com/wesmcd6/pmc8-tools</a> (switch to the <strong>explorestars-lite</strong> branch).</li>
-  <li>Tap the downloaded file to install.</li>
-  <li>If prompted, allow <strong>"Install from unknown sources"</strong> for your browser.</li>
+  <li>Scan the QR code above or visit <a href="https://github.com/wesmcd6/pmc8-tools">github.com/wesmcd6/pmc8-tools</a> (switch to the <strong>explorestars-lite</strong> branch).</li>
+  <li>Tap the APK file, then tap the three dots icon and select Download.</li>
+  <li>Tap the downloaded file to install. Allow <strong>"Install from unknown sources"</strong> if prompted.</li>
   <li>If Google Play Protect warns you, tap <strong>"Install anyway"</strong>.</li>
 </ol>
 
@@ -431,6 +467,21 @@
 <p>ExplorestarsLite &copy; 2026 &bull; <a href="https://github.com/wesmcd6/pmc8-tools">github.com/wesmcd6/pmc8-tools</a></p>
 <p>PMC-Eight&trade; is a trademark of Explore Scientific &bull; <a href="https://www.explorescientific.com">www.explorescientific.com</a></p>
 </footer>
+
+</div><!-- end content -->
+
+<script>
+function toggleToc() {
+    document.getElementById('toc-panel').classList.toggle('open');
+    document.getElementById('toc-overlay').classList.toggle('open');
+}
+// Close TOC when a link is tapped
+document.getElementById('toc-panel').addEventListener('click', function(e) {
+    if (e.target.tagName === 'A') {
+        toggleToc();
+    }
+});
+</script>
 
 </body>
 </html>
