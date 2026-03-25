@@ -84,7 +84,7 @@
       <li><a href="#catalog">6.1 Catalog Search</a></li>
       <li><a href="#nearby">6.2 Nearby Search</a></li>
       <li><a href="#solar">6.3 Solar System</a></li>
-      <li><a href="#custom">6.4 Custom Coordinates</a></li>
+      <li><a href="#custom">6.4 Custom Coordinates &amp; Saved Targets</a></li>
       <li><a href="#goto">6.5 GoTo &amp; Sync</a></li>
       <li><a href="#altaz-goto">6.6 Alt/Az GoTo</a></li>
     </ul>
@@ -94,7 +94,7 @@
       <li><a href="#tracking">7.1 Tracking</a></li>
       <li><a href="#meridian">7.2 Meridian Flip</a></li>
       <li><a href="#spiral">7.3 Spiral Search</a></li>
-      <li><a href="#dpad">7.4 Direction Pad</a></li>
+      <li><a href="#dpad">7.4 Thumb Pad &amp; Direction</a></li>
       <li><a href="#slew">7.5 Slew Speed</a></li>
     </ul>
   </li>
@@ -105,6 +105,7 @@
     <ul>
       <li><a href="#apmode">11.1 AP Mode (Field Use)</a></li>
       <li><a href="#lanmode">11.2 LAN Mode (Home Use)</a></li>
+      <li><a href="#alpaca">11.3 Alpaca Server Compatibility</a></li>
     </ul>
   </li>
   <li><a href="#mounts">12. Supported Mounts</a></li>
@@ -116,7 +117,7 @@
 
 <h1>ExplorestarsLite User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
-<p><strong>Version 1.1.1</strong> &bull; March 2026</p>
+<p><strong>Version 1.1.6</strong> &bull; March 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -162,7 +163,7 @@
 <!-- ======================= QUICK START ======================= -->
 <h2 id="quickstart">3. Quick Start</h2>
 <ol>
-  <li>Power on your PMC-Eight mount and wait for the ESP32 to start (~10 seconds).</li>
+  <li>Power on your PMC-Eight mount and wait for WiFi to start (~10 seconds).</li>
   <li>Connect your phone to the mount's WiFi network (default SSID: <code>PMC-Eight</code>, default IP: <code>192.168.47.1</code>).</li>
   <li>Open ExplorestarsLite.</li>
   <li>On the <strong>Setup</strong> page, verify the IP address and tap <strong>CONNECT</strong>.</li>
@@ -177,7 +178,9 @@
 <h3 id="appbar">4.1 App Bar</h3>
 <p>The top bar shows:</p>
 <ul>
-  <li><strong>App icon and title</strong> &mdash; "ExplorestarsLite"</li>
+  <li><strong>App icon</strong> (yellow ES swirl) &mdash; tap to open the <a href="https://www.explorescientific.com" target="_blank">Explore Scientific</a> website</li>
+  <li><strong>Title</strong> &mdash; "ExplorestarsLite"</li>
+  <li><strong>Help</strong> (? icon) &mdash; tap to open the built-in user manual</li>
   <li><strong>Night vision toggle</strong> (moon icon) &mdash; tap to enter/exit <a href="#nightvision">night vision mode</a></li>
   <li><strong>Connection indicator</strong> &mdash; green circle = connected, red circle = disconnected, plus status text</li>
 </ul>
@@ -212,11 +215,11 @@
 <h2 id="setup">5. Setup Page</h2>
 
 <h3 id="connection">5.1 Connection</h3>
-<p>Enter the ESP32's IP address and select your mount model, then tap <strong>CONNECT</strong>.</p>
+<p>Enter the PMC-Eight's IP address and select your mount model, then tap <strong>CONNECT</strong>.</p>
 
 <table>
   <tr><th>Field</th><th>Default</th><th>Description</th></tr>
-  <tr><td>ESP32 IP Address</td><td><code>192.168.47.1</code></td><td>IP of the ESP32 WiFi module. Use the default for AP mode, or enter your LAN IP for home network use.</td></tr>
+  <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the PMC-Eight WiFi interface. Use the default for AP mode, or enter your LAN IP for home network use.</td></tr>
   <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: Losmandy G-11, iExos-100, EXOS-2.</td></tr>
 </table>
 
@@ -274,13 +277,23 @@
 <p>Positions are computed offline using Meeus algorithms &mdash; no internet needed.</p>
 <p>The tracking rate is set automatically: Solar rate for the Sun, Lunar rate for the Moon, Sidereal for everything else.</p>
 
-<h3 id="custom">6.4 Custom Coordinates</h3>
+<h3 id="custom">6.4 Custom Coordinates &amp; Saved Targets</h3>
 <p>Tap the <strong>pencil icon</strong> next to the target heading to open the custom coordinate dialog. Enter RA and Dec manually in hours/degrees, minutes, seconds format.</p>
 <ul>
   <li>Choose <strong>J2000</strong> if entering catalog coordinates (will be precessed to JNOW).</li>
   <li>Choose <strong>JNOW</strong> if entering current-epoch coordinates.</li>
-  <li>Optionally name the target &mdash; named targets are saved to local storage for reuse.</li>
+  <li><strong>Proper motion</strong> &mdash; optionally enter PM RA&middot;cos(&delta;) and PM Dec in mas/yr for high-proper-motion stars.</li>
+  <li><strong>Name the target</strong> to save it permanently. Named targets are stored in the app and appear in the <strong>Saved Targets</strong> list on the Target page whenever the search field is empty.</li>
 </ul>
+
+<h4>Managing Saved Targets</h4>
+<p>To view your saved targets, clear the search field &mdash; the saved targets list appears automatically in the results area. Each entry has:</p>
+<ul>
+  <li><strong>Tap</strong> &mdash; select the target for GoTo/Sync.</li>
+  <li><strong>Edit</strong> (pencil icon) &mdash; re-opens the custom coordinate dialog with the target's data pre-filled. Save with the same name to update it.</li>
+  <li><strong>Delete</strong> (trash icon) &mdash; permanently removes the target from saved storage.</li>
+</ul>
+<p>Saved targets also appear in catalog search results when their name matches the search text. They are persisted across sessions and app restarts.</p>
 
 <h3 id="goto">6.5 GoTo &amp; Sync</h3>
 <ul>
@@ -342,23 +355,45 @@
 <p>A <strong>Stop</strong> button (red) appears during active search to cancel.</p>
 <p>Manual stepping auto-pauses a running search. The search center initializes from the selected target.</p>
 
-<h3 id="dpad">7.4 Direction Pad</h3>
-<p>The directional pad provides manual slewing in four directions: North, South, East, West. Press and hold a direction button to slew; release to stop.</p>
-
-<p>Below the pad, three action buttons:</p>
+<h3 id="dpad">7.4 Thumb Pad &amp; Direction</h3>
+<p>The thumb pad is a large circular touch area for manual centering. Touch and drag in any direction to slew; release to stop. Only one axis moves at a time (the dominant direction).</p>
 <ul>
-  <li><strong>GOTO</strong> &mdash; slew to the selected target (same as Target page GOTO).</li>
+  <li><strong>Deadband</strong> &mdash; small area in the center where no motion occurs.</li>
+  <li><strong>N/S</strong> &mdash; DEC axis motion.</li>
+  <li><strong>E/W</strong> &mdash; RA axis motion, symmetric relative to tracking (see Slew Rate below).</li>
+  <li><strong>Release</strong> &mdash; DEC stops, RA returns to tracking rate (sidereal, solar, or lunar as appropriate).</li>
+</ul>
+
+<p>The Direction section also shows:</p>
+<ul>
+  <li><strong>Target Alt/Az</strong> (cyan) &mdash; where the selected target is in the sky.</li>
+  <li><strong>Mount Alt/Az/HA</strong> (orange/blue) &mdash; where the mount is currently pointing.</li>
+</ul>
+
+<p>Below the thumb pad, three action buttons:</p>
+<ul>
+  <li><strong>GOTO</strong> &mdash; slew to the selected target.</li>
   <li><strong>HOME</strong> &mdash; slew to the home/park position.</li>
   <li><strong>SYNC</strong> &mdash; sync the mount to the selected target.</li>
 </ul>
 
-<h3 id="slew">7.5 Slew Speed</h3>
-<p>An 11-position slider controls manual slew speed. The current rate in &deg;/s is displayed.</p>
+<h3 id="slew">7.5 Slew Rate</h3>
+<p>A discrete-stop slider selects the slew rate used by the thumb pad. The first two positions are configurable; the rest are fixed rates.</p>
 
+<h4>Rate Stops</h4>
 <table>
-  <tr><th>Position</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
-  <tr><td><strong>&deg;/s</strong></td><td>0</td><td>0.02</td><td>0.05</td><td>0.075</td><td>0.1</td><td>0.2</td><td>0.5</td><td>1.0</td><td>1.4</td><td>1.5</td><td>2.0</td></tr>
+  <tr><th>Position</th><th>Mode</th><th>Description</th></tr>
+  <tr><td>1</td><td><strong>Fine</strong></td><td>1&ndash;4&times; sidereal. Tap the Fine label to configure.</td></tr>
+  <tr><td>2</td><td><strong>Coarse</strong></td><td>0.1&ndash;0.4&deg;/s. Tap the Coarse label to configure.</td></tr>
+  <tr><td>3&ndash;12</td><td>Fixed</td><td>0.02, 0.05, 0.075, 0.1, 0.2, 0.5, 1.0, 1.4, 1.5, 2.0 &deg;/s</td></tr>
 </table>
+
+<h4>Symmetric RA Motion (Fine &amp; Coarse)</h4>
+<p>In Fine and Coarse modes, RA slewing is <em>symmetric relative to tracking</em>. Moving east (against sidereal) and west (with sidereal) produces the same apparent speed in the eyepiece. This is achieved by adding or subtracting the selected rate from the sidereal tracking rate.</p>
+
+<div class="tip">
+<strong>Tip:</strong> Fine 1&times; is ideal for precise centering at the eyepiece. The object drifts at sidereal rate in one direction and stops in the other. Fine 3&ndash;4&times; is good for faster centering. Coarse is for larger corrections.
+</div>
 
 <!-- ======================= CALCULATORS ======================= -->
 <h2 id="calculators">8. Calculators</h2>
@@ -418,25 +453,38 @@
 <h2 id="networking">11. Networking</h2>
 
 <h3 id="apmode">11.1 AP Mode (Field Use)</h3>
-<p>The default configuration for field use. The ESP32 creates its own WiFi network.</p>
+<p>The default configuration for field use. The PMC-Eight creates its own WiFi network.</p>
 <ol>
   <li>Power on the PMC-Eight.</li>
-  <li>On your phone, connect to the mount's WiFi network (default SSID: <code>PMC-Eight</code>).</li>
+  <li>On your phone, connect to the mount's WiFi network (SSID: <code>PMC-Eight XXXX</code>, where XXXX is a unique 4-digit code for your unit). The password is <code>PMC-Eight</code>.</li>
   <li>In the app, use the default IP: <code>192.168.47.1</code>.</li>
 </ol>
 <p>Multiple devices may connect simultaneously &mdash; each will have full control and can display mount status. The mount responds to any command regardless of source, so users must coordinate to avoid sending conflicting commands.</p>
 
 <h3 id="lanmode">11.2 LAN Mode (Home Use)</h3>
-<p>For home use, you can configure the ESP32 to join your home WiFi network. This allows the mount, your phone, and your PC to all be on the same network simultaneously.</p>
+<p>For home use, you can configure the PMC-Eight to join your home WiFi network. This allows the mount, your phone, and your PC to all be on the same network simultaneously.</p>
 <ol>
-  <li>Configure the ESP32 to join your home WiFi (see OTA quick start guide).</li>
-  <li>Find the ESP32's IP address on your LAN (check your router's DHCP table).</li>
+  <li>Configure the PMC-Eight to join your home WiFi (see OTA quick start guide).</li>
+  <li>Find the PMC-Eight's IP address on your LAN (check your router's DHCP table).</li>
   <li>In the app, enter that LAN IP address.</li>
 </ol>
 
 <div class="tip">
 <strong>Multi-client:</strong> In LAN mode, ExplorestarsLite on your phone can run alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel) on your PC, all controlling the same mount.
 </div>
+
+<h3 id="alpaca">11.3 Alpaca Server Compatibility</h3>
+<p>ExplorestarsLite works seamlessly alongside the PMC-Eight ASCOM Alpaca telescope driver. The Alpaca server may connect to the PMC-Eight either serially (USB) or through WiFi, and may be configured to use either TCP or UDP &mdash; the PMC-Eight supports both simultaneously without specific configuration. The app and Alpaca can communicate with the mount at the same time.</p>
+
+<p>When running together:</p>
+<ul>
+  <li><strong>Either can control the mount</strong> &mdash; GoTo, tracking, slewing, and sync commands from ExplorestarsLite or any ASCOM Alpaca Server connected planetarium software (e.g., Cartes du Ciel, Stellarium, SkySafari) are accepted by the mount.</li>
+  <li><strong>Real-time status</strong> &mdash; ExplorestarsLite displays the mount's current position, tracking state, and slew status regardless of which client issued the command. If your planetarium software starts a GoTo, the app shows "Slewing" and updates the position in real time.</li>
+  <li><strong>Shared tracking</strong> &mdash; If Alpaca starts or stops tracking, ExplorestarsLite detects the rate change within a few seconds and updates its display.</li>
+  <li><strong>Manual centering</strong> &mdash; Use the app's thumb pad for fine centering while your planetarium software maintains the target reference. This is especially useful for visual observing sessions where the PC handles planning and the phone handles eyepiece work.</li>
+</ul>
+
+<p>No special setup is required. Simply connect both the app and Alpaca to the same PMC-Eight, either in AP mode or on your home LAN.</p>
 
 <!-- ======================= MOUNTS ======================= -->
 <h2 id="mounts">12. Supported Mounts</h2>
@@ -453,7 +501,7 @@
 
 <table>
   <tr><th>Problem</th><th>Solution</th></tr>
-  <tr><td>App says "Failed" on connect</td><td>Verify your phone is connected to the mount's WiFi network. Check the IP address. Ensure the PMC-Eight is powered on and the ESP32 has booted (~10 seconds).</td></tr>
+  <tr><td>App says "Failed" on connect</td><td>Verify your phone is connected to the mount's WiFi network. Check the IP address. Ensure the PMC-Eight is powered on and WiFi has started (~10 seconds).</td></tr>
   <tr><td>Connected but no position updates</td><td>Check that the correct mount model is selected. Try disconnecting and reconnecting.</td></tr>
   <tr><td>GoTo points to wrong location</td><td>Verify your latitude and longitude are correct. Check that you selected the correct mount model. Perform a sync on a known object first.</td></tr>
   <tr><td>Sync is disabled / blocked</td><td>The cross-meridian guard blocks sync when pier sides don't match. Ensure you're on the correct side of the meridian for the target.</td></tr>
