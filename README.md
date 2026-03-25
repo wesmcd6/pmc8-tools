@@ -1,53 +1,25 @@
-# PMC-Eight Tools
+# ExplorestarsLite — Windows Desktop
 
-Downloads for Explore Scientific PMC-Eight telescope mount users.
+Standalone Windows desktop app for controlling Explore Scientific PMC-Eight™ telescope mounts.
 
-## Branches
+## Download
 
-| Branch | Contents |
-|--------|----------|
-| [`explorestars-lite`](../../tree/explorestars-lite) | ExplorestarsLite Android APK — standalone telescope control app |
-| [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest PMC-Eight Propeller firmware (flash via UFCT) |
-| [`esp32-ota`](../../tree/esp32-ota) | ESP32 OTA firmware update script, binary, and quick start guide |
+Download `ExplorestarsLite-Windows.zip`, extract, and run `ExplorestarsLite.Maui.exe`.
 
----
+## Requirements
 
-## ExplorestarsLite — Android App
+- Windows 10 (version 1903 / build 19041) or later
 
-Switch to the **[explorestars-lite](../../tree/explorestars-lite)** branch to download.
+## Install
 
-- Controls PMC-Eight mounts via ESP32 WiFi bridge (no PC needed)
-- Catalog search, GoTo, tracking, spiral search, sync, meridian flip
-- Works in ESP32 AP mode (192.168.47.1) or on your home WiFi LAN
+1. Download and extract the zip file
+2. Run `ExplorestarsLite.Maui.exe`
+3. Optionally create a shortcut on your desktop or taskbar
 
-### Install
+## Connection
 
-1. Go to the [explorestars-lite branch](../../tree/explorestars-lite) and download the APK
-2. Tap to install on your Android phone (allow "Install from unknown sources" if prompted)
-3. If Play Protect blocks it, tap "Install anyway"
-4. Open the app, go to Setup, enter your mount's IP address, and tap Connect
+Connect to your PMC-Eight via WiFi (same as the Android app). Serial and Bluetooth support coming soon.
 
-## PMC-Eight Propeller Firmware
+## Features
 
-Switch to the **[pmc8-firmware](../../tree/pmc8-firmware)** branch to download.
-
-Latest Propeller firmware for the PMC-Eight controller. Flash using the **UFCT** (Universal Firmware Configuration Tool).
-
-## ESP32 OTA Firmware Update
-
-Switch to the **[esp32-ota](../../tree/esp32-ota)** branch to download.
-
-Update your PMC-Eight's ESP32 firmware over WiFi — no serial cable or jumpers needed.
-
-### Prerequisites
-
-- Python 3.x installed on your PC
-- `pip install pyserial`
-- USB serial connection to the PMC-Eight (COM port)
-- PMC-Eight powered on with Propeller firmware running
-
-See `OTA_QUICK_START_V2.txt` on the esp32-ota branch for detailed instructions.
-
-## Support
-
-For questions about the PMC-Eight mount, visit the [Explore Scientific PMC-Eight forum](https://www.explorescientific.com).
+Same as the Android app — catalog search, GoTo, tracking, spiral search, sync, meridian flip, night vision, and more. See the built-in help (? icon) for the full user manual.
