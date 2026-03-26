@@ -100,16 +100,17 @@
   </li>
   <li><a href="#calculators">8. Calculators</a></li>
   <li><a href="#firmware">9. Firmware Config</a></li>
-  <li><a href="#nightvision">10. Night Vision Mode</a></li>
-  <li><a href="#networking">11. Networking</a>
+  <li><a href="#polar">10. Daylight Polar Alignment</a></li>
+  <li><a href="#nightvision">11. Night Vision Mode</a></li>
+  <li><a href="#networking">12. Networking</a>
     <ul>
-      <li><a href="#apmode">11.1 AP Mode (Field Use)</a></li>
-      <li><a href="#lanmode">11.2 LAN Mode (Home Use)</a></li>
-      <li><a href="#alpaca">11.3 Alpaca Server Compatibility</a></li>
+      <li><a href="#apmode">12.1 AP Mode (Field Use)</a></li>
+      <li><a href="#lanmode">12.2 LAN Mode (Home Use)</a></li>
+      <li><a href="#alpaca">12.3 Alpaca Server Compatibility</a></li>
     </ul>
   </li>
-  <li><a href="#mounts">12. Supported Mounts</a></li>
-  <li><a href="#troubleshooting">13. Troubleshooting</a></li>
+  <li><a href="#mounts">13. Supported Mounts</a></li>
+  <li><a href="#troubleshooting">14. Troubleshooting</a></li>
 </ul>
 </div>
 
@@ -117,7 +118,7 @@
 
 <h1>ExplorestarsLite User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
-<p><strong>Version 1.2.1</strong> &bull; March 2026</p>
+<p><strong>Version 1.2.2</strong> &bull; March 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -144,9 +145,11 @@
 <!-- ======================= INSTALL ======================= -->
 <h2 id="install">2. Installation</h2>
 <div style="text-align: center; margin: 16px 0;">
-  <a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank">
+  <div style="position: relative; display: inline-block;">
     <img src="images/pmc8-tools-qr.png" alt="Scan to download" style="width: 150px; height: 150px;" />
-  </a>
+    <a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank"
+       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
+  </div>
   <br><a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank" style="font-size: 0.85em;">Tap QR or here to download latest APK</a>
 </div>
 <ol>
@@ -243,6 +246,7 @@
 <ul>
   <li><strong>Firmware Config</strong> &mdash; read/write PMC-Eight firmware settings (requires connection). See <a href="#firmware">Section 9</a>.</li>
   <li><strong>Calculators</strong> &mdash; 12 astronomy calculators. See <a href="#calculators">Section 8</a>.</li>
+  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 10</a>.</li>
 </ul>
 
 <!-- ======================= TARGET ======================= -->
@@ -444,15 +448,45 @@
 <strong>Caution:</strong> Incorrect motor current or mount type settings can damage your mount. Only change settings you understand.
 </div>
 
+<!-- ======================= POLAR ALIGNMENT ======================= -->
+<h2 id="polar">10. Daylight Polar Alignment</h2>
+<p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>.</p>
+
+<h4>How It Works</h4>
+<p>The display shows two crosshairs:</p>
+<ul>
+  <li><strong style="color:#ff4444;">Red +</strong> &mdash; the celestial pole (NCP or SCP, based on your latitude)</li>
+  <li><strong style="color:#00ff41;">Green +</strong> &mdash; where your phone is pointing</li>
+</ul>
+<p>Three concentric circles show Telrad-style scale rings at 0.5&deg;, 1&deg;, and 1.5&deg;. A connecting line shows the direction and distance to the pole.</p>
+
+<h4>Procedure</h4>
+<ol>
+  <li>Verify your latitude and longitude are set correctly on the Setup page.</li>
+  <li>Enter your local <strong>magnetic declination</strong> (the difference between true north and magnetic north). Find your value at <a href="https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml" target="_blank">NOAA's calculator</a>. East declination is positive, west is negative.</li>
+  <li><strong>Calibrate the compass</strong> by moving the phone slowly in a figure-8 pattern.</li>
+  <li>Place the phone flat on the mount's RA axis (or on a flat surface aligned with the axis).</li>
+  <li>Tap <strong>Start Alignment</strong>.</li>
+  <li>Adjust the mount's <strong>altitude</strong> (up/down) and <strong>azimuth</strong> (left/right) until the green crosshair overlaps the red crosshair.</li>
+</ol>
+
+<div class="note">
+<strong>Phone requirements:</strong> Your phone must have a magnetometer (compass) and accelerometer. Most iPhones have both. Some budget Android phones lack a magnetometer &mdash; in that case, only altitude adjustment will work (azimuth requires the compass).
+</div>
+
+<div class="tip">
+<strong>Tip:</strong> On iPhone, the polar alignment page must be accessed over HTTPS for compass access. The Android APK does not have this restriction.
+</div>
+
 <!-- ======================= NIGHT VISION ======================= -->
-<h2 id="nightvision">10. Night Vision Mode</h2>
+<h2 id="nightvision">11. Night Vision Mode</h2>
 <p>Tap the <strong>moon icon</strong> in the app bar to toggle night vision mode. The screen shifts to deep red tones to preserve your dark adaptation while observing.</p>
 <p>The mode uses a CSS filter that converts all colors to red and reduces brightness. Tap the moon icon again to return to normal mode.</p>
 
 <!-- ======================= NETWORKING ======================= -->
-<h2 id="networking">11. Networking</h2>
+<h2 id="networking">12. Networking</h2>
 
-<h3 id="apmode">11.1 AP Mode (Field Use)</h3>
+<h3 id="apmode">12.1 AP Mode (Field Use)</h3>
 <p>The default configuration for field use. The PMC-Eight creates its own WiFi network.</p>
 <ol>
   <li>Power on the PMC-Eight.</li>
@@ -461,7 +495,7 @@
 </ol>
 <p>Multiple devices may connect simultaneously &mdash; each will have full control and can display mount status. The mount responds to any command regardless of source, so users must coordinate to avoid sending conflicting commands.</p>
 
-<h3 id="lanmode">11.2 LAN Mode (Home Use)</h3>
+<h3 id="lanmode">12.2 LAN Mode (Home Use)</h3>
 <p>For home use, you can configure the PMC-Eight to join your home WiFi network. This allows the mount, your phone, and your PC to all be on the same network simultaneously.</p>
 <ol>
   <li>Configure the PMC-Eight to join your home WiFi (see OTA quick start guide).</li>
@@ -473,7 +507,7 @@
 <strong>Multi-client:</strong> In LAN mode, ExplorestarsLite on your phone can run alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel) on your PC, all controlling the same mount.
 </div>
 
-<h3 id="alpaca">11.3 Alpaca Server Compatibility</h3>
+<h3 id="alpaca">12.3 Alpaca Server Compatibility</h3>
 <p>ExplorestarsLite works seamlessly alongside the PMC-Eight ASCOM Alpaca telescope driver. The Alpaca server may connect to the PMC-Eight either serially (USB) or through WiFi, and may be configured to use either TCP or UDP &mdash; the PMC-Eight supports both simultaneously without specific configuration. The app and Alpaca can communicate with the mount at the same time.</p>
 
 <p>When running together:</p>
@@ -487,7 +521,7 @@
 <p>No special setup is required. Simply connect both the app and Alpaca to the same PMC-Eight, either in AP mode or on your home LAN.</p>
 
 <!-- ======================= MOUNTS ======================= -->
-<h2 id="mounts">12. Supported Mounts</h2>
+<h2 id="mounts">13. Supported Mounts</h2>
 
 <table>
   <tr><th>Mount</th><th>Encoder Counts</th><th>Notes</th></tr>
@@ -497,7 +531,7 @@
 </table>
 
 <!-- ======================= TROUBLESHOOTING ======================= -->
-<h2 id="troubleshooting">13. Troubleshooting</h2>
+<h2 id="troubleshooting">14. Troubleshooting</h2>
 
 <table>
   <tr><th>Problem</th><th>Solution</th></tr>
