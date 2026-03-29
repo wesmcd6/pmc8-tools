@@ -118,7 +118,7 @@
 
 <h1>ExplorestarsLite User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
-<p><strong>Version 1.2.6</strong> &bull; March 2026</p>
+<p><strong>Version 1.2.7</strong> &bull; March 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -140,6 +140,7 @@
   <li>Night vision mode for dark adaptation</li>
   <li>Firmware configuration reader/writer</li>
   <li>Daylight polar alignment using phone compass and accelerometer</li>
+  <li>Bluetooth Classic (SPP) connection on Android &mdash; no WiFi needed in the field</li>
   <li>Works alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel)</li>
 </ul>
 
@@ -219,11 +220,29 @@
 <h2 id="setup">5. Setup Page</h2>
 
 <h3 id="connection">5.1 Connection</h3>
-<p>Enter the PMC-Eight's IP address and select your mount model, then tap <strong>CONNECT</strong>.</p>
+<p>The app connects to the PMC-Eight via WiFi or Bluetooth. Select your connection type, mount model, and tap <strong>CONNECT</strong>.</p>
+
+<h4>WiFi (all platforms)</h4>
+<p>Enter the PMC-Eight's IP address. Use the default <code>192.168.47.1</code> for AP mode, or your LAN IP for home network use.</p>
+
+<h4>Bluetooth Classic (Android only)</h4>
+<p>Connect directly to the PMC-Eight via Bluetooth &mdash; no WiFi needed. This is ideal for field use where the phone connects to the mount over Bluetooth while WiFi remains free for other uses.</p>
+<ol>
+  <li><strong>Pair first</strong> &mdash; in your Android Bluetooth settings, pair with the PMC-Eight (it appears as a Bluetooth device).</li>
+  <li>In the app, select <strong>Bluetooth</strong> from the Connection dropdown.</li>
+  <li>Select the PMC-Eight from the paired devices list.</li>
+  <li>Tap <strong>CONNECT</strong>.</li>
+</ol>
+
+<div class="note">
+<strong>Note:</strong> Bluetooth Classic (SPP) is not available on iPhone due to Apple platform restrictions. iPhone users should connect via WiFi.
+</div>
 
 <table>
   <tr><th>Field</th><th>Default</th><th>Description</th></tr>
-  <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the PMC-Eight WiFi interface. Use the default for AP mode, or enter your LAN IP for home network use.</td></tr>
+  <tr><td>Connection</td><td>WiFi</td><td>WiFi or Bluetooth (Android only). Bluetooth dropdown appears only on devices with Bluetooth support.</td></tr>
+  <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the PMC-Eight WiFi interface. Only shown when WiFi is selected.</td></tr>
+  <tr><td>PMC-Eight Bluetooth</td><td>&mdash;</td><td>Paired Bluetooth device. Only shown when Bluetooth is selected. Tap Refresh if the mount was recently paired.</td></tr>
   <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: Losmandy G-11, iExos-100, EXOS-2.</td></tr>
 </table>
 
