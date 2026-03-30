@@ -9,7 +9,7 @@ Control your Explore Scientific PMC-Eight telescope mount from your iPhone or An
    - [Caddy](https://caddyserver.com/download) — select **Windows amd64**, download, rename to `caddy.exe`, put it in `C:\caddy\`
 
 2. **Download this package:**
-   - Click the green **Code** button above, then **Download ZIP**
+   - **[Click here to download the ZIP](https://github.com/wesmcd6/pmc8-tools/archive/refs/heads/pwa-server.zip)**
    - Extract the ZIP to any folder (e.g., `C:\ExplorestarsLite`)
 
 3. **Start the server:**
@@ -25,10 +25,12 @@ That's it. The app runs in your phone's browser.
 
 ## Guides
 
-- **[Server Setup Guide](docs/server-setup-guide.html)** — detailed step-by-step instructions with troubleshooting
-- **[iPhone HTTPS Setup](docs/iphone-https-setup.html)** — install the certificate for polar alignment (compass access requires HTTPS)
+Right-click each link below and choose **"Save link as..."** to download, then open the saved file in your browser:
 
-> **Tip:** To read the guides before setting up the server, click the file links above and use GitHub's preview, or download the ZIP and open the HTML files in your browser.
+- **[Server Setup Guide](https://raw.githubusercontent.com/wesmcd6/pmc8-tools/pwa-server/docs/server-setup-guide.html)** — detailed step-by-step instructions with troubleshooting
+- **[iPhone HTTPS Setup](https://raw.githubusercontent.com/wesmcd6/pmc8-tools/pwa-server/docs/iphone-https-setup.html)** — install the certificate for polar alignment (compass access requires HTTPS)
+
+These guides are also included in the ZIP download (in the `docs` folder).
 
 ## What's in the Box
 
