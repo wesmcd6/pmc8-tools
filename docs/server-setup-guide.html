@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ExplorestarsLite — Server Setup Guide</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; background: #1a1a2e; color: #e0e0e0; line-height: 1.7; }
+  h1 { color: #4dabf7; border-bottom: 2px solid #333; padding-bottom: 8px; }
+  h2 { color: #69db7c; margin-top: 40px; }
+  h3 { color: #ffd43b; }
+  code { background: #2d2d44; padding: 2px 6px; border-radius: 3px; color: #ff922b; font-size: 0.95em; }
+  pre { background: #2d2d44; padding: 12px 16px; border-radius: 6px; overflow-x: auto; color: #e0e0e0; font-size: 0.95em; line-height: 1.5; }
+  .step { background: #2d2d44; border-left: 4px solid #4dabf7; padding: 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+  .note { background: #2d3a2d; border-left: 4px solid #69db7c; padding: 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+  .warn { background: #3a2d2d; border-left: 4px solid #ff6b6b; padding: 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+  ol li, ul li { margin: 10px 0; }
+  .cmd { font-family: 'Consolas', 'Courier New', monospace; background: #1a1a2e; border: 1px solid #444; display: block; padding: 10px 14px; margin: 10px 0; border-radius: 4px; color: #4dabf7; font-size: 1.05em; }
+  .how-to { background: #2d2d3a; border: 1px solid #555; padding: 12px 16px; margin: 10px 0; border-radius: 6px; font-size: 0.95em; }
+  .how-to strong { color: #ffd43b; }
+</style>
+</head>
+<body>
+
+<h1>ExplorestarsLite Server Setup</h1>
+<p>This guide shows you how to run ExplorestarsLite on a Windows PC so you can control your PMC-Eight telescope mount from your iPhone or Android phone using a web browser.</p>
+
+<p><strong>What you will do:</strong></p>
+<ol>
+  <li>Install two free programs on your PC (one time only)</li>
+  <li>Download ExplorestarsLite</li>
+  <li>Double-click a file to start the server</li>
+  <li>Open a web address on your phone</li>
+</ol>
+
+<!-- ==================== HOW TO OPEN COMMAND PROMPT ==================== -->
+
+<div class="how-to">
+<strong>How to open a Command Prompt on Windows:</strong><br/>
+Press the <strong>Windows key</strong> on your keyboard (the key with the Windows logo, bottom-left area). Type <strong>cmd</strong>. Click on <strong>Command Prompt</strong> when it appears. A black window will open. This is where you type commands and press <strong>Enter</strong> to run them.
+</div>
+
+<!-- ==================== STEP 1 ==================== -->
+
+<h2>Step 1 — Install Two Programs (One Time Only)</h2>
+<p>You need to install two free programs. If they are already installed, you can skip to the next step.</p>
+
+<h3>Program 1: Node.js</h3>
+<div class="step">
+<p><strong>Check if you already have it:</strong> In the Command Prompt, type this and press Enter:</p>
+<span class="cmd">node --version</span>
+<p>If you see a number like <code>v22.16.0</code> — you already have it. Skip to Program 2.</p>
+<p>If you see an error message — you need to install it:</p>
+<ol>
+  <li>Open this website: <a href="https://nodejs.org" style="color:#4dabf7;">https://nodejs.org</a></li>
+  <li>Click the big green button that says <strong>LTS</strong> (this downloads a file)</li>
+  <li>Open the downloaded file and click <strong>Next</strong> / <strong>Install</strong> until it finishes (do not change any settings)</li>
+  <li><strong>Close your Command Prompt window and open a new one</strong></li>
+  <li>Type <code>node --version</code> again to make sure it works</li>
+</ol>
+</div>
+
+<h3>Program 2: Caddy</h3>
+<div class="step">
+<p><strong>Check if you already have it:</strong> In the Command Prompt, type this and press Enter:</p>
+<span class="cmd">C:\caddy\caddy.exe version</span>
+<p>If you see a number like <code>v2.10.0</code> — you already have it. Go to Step 2.</p>
+<p>If you see an error message — you need to install it:</p>
+<ol>
+  <li>Open this website: <a href="https://caddyserver.com/download" style="color:#4dabf7;">https://caddyserver.com/download</a></li>
+  <li>Under <strong>Platform</strong>, select <strong>Windows amd64</strong></li>
+  <li>Click the blue <strong>Download</strong> button (do not add any extra plugins)</li>
+  <li>A file called <code>caddy_windows_amd64.exe</code> (or similar) will download</li>
+  <li>Open <strong>File Explorer</strong> (the yellow folder icon on your taskbar)</li>
+  <li>Go to <strong>This PC &rarr; Local Disk (C:)</strong></li>
+  <li>Right-click in the empty space and choose <strong>New &rarr; Folder</strong></li>
+  <li>Name the new folder: <code>caddy</code></li>
+  <li>Move the downloaded file into the <code>C:\caddy</code> folder</li>
+  <li><strong>Rename</strong> the file to <code>caddy.exe</code> (right-click &rarr; Rename)</li>
+</ol>
+</div>
+
+<!-- ==================== STEP 2 ==================== -->
+
+<h2>Step 2 — Download ExplorestarsLite</h2>
+<div class="step">
+<ol>
+  <li>Open this website: <a href="https://github.com/wesmcd6/pmc8-tools/tree/pwa-server" style="color:#4dabf7;">https://github.com/wesmcd6/pmc8-tools/tree/pwa-server</a></li>
+  <li>Click the green <strong>Code</strong> button</li>
+  <li>Click <strong>Download ZIP</strong></li>
+  <li>When the download finishes, find the ZIP file (usually in your Downloads folder)</li>
+  <li>Right-click the ZIP file and choose <strong>Extract All...</strong></li>
+  <li>Choose where to put it — for example, <code>C:\ExplorestarsLite</code></li>
+  <li>Click <strong>Extract</strong></li>
+</ol>
+</div>
+
+<div class="warn">
+<strong>Important:</strong> After extracting, open the folder and make sure you can see <code>start-servers.bat</code> directly. If instead you see another folder inside called <code>ExplorestarsLite-master</code>, open that folder — that is where your files are. You can move them up one level or just work from that inner folder.
+</div>
+
+<!-- ==================== STEP 3 ==================== -->
+
+<h2>Step 3 — Start the Server</h2>
+<div class="step">
+<ol>
+  <li>Open <strong>File Explorer</strong> and go to the folder where you extracted ExplorestarsLite</li>
+  <li>Find the file called <code>start-servers.bat</code></li>
+  <li><strong>Double-click</strong> <code>start-servers.bat</code></li>
+</ol>
+<p>A black window will open. It will:</p>
+<ul>
+  <li>Check that all three programs are installed</li>
+  <li>Show your PC's IP address (a number like <code>192.168.0.36</code>) — <strong>write this down</strong></li>
+  <li>Start the server</li>
+</ul>
+<p>When you see <strong>"All servers started!"</strong> and the two web addresses — the server is ready.</p>
+</div>
+
+<div class="warn">
+<strong>First time only — Windows Firewall:</strong> Windows may show a security popup asking if you want to allow the programs to communicate on the network. Click <strong>"Allow access"</strong> for each popup. If you click "Cancel" by mistake, your phone will not be able to connect. See the Troubleshooting section below to fix this.
+</div>
+
+<div class="note">
+<strong>Keep this window open.</strong> The server runs as long as this window is open. To stop the server, press any key in this window, or just close it.
+</div>
+
+<!-- ==================== STEP 4 ==================== -->
+
+<h2>Step 4 — Open the App on Your Phone</h2>
+
+<div class="step">
+<ol>
+  <li>Make sure your phone is connected to the <strong>same WiFi network</strong> as your PC</li>
+  <li>Open the web browser on your phone (Safari on iPhone, Chrome on Android)</li>
+  <li>In the address bar, type the address shown in the server window. It will look like:
+    <span class="cmd">http://192.168.0.36:5257</span>
+    Use the IP number from <strong>your</strong> server window — it may be different from this example.
+  </li>
+  <li>Press <strong>Go</strong> / <strong>Enter</strong></li>
+  <li>The ExplorestarsLite app should load on your phone</li>
+</ol>
+</div>
+
+<div class="note">
+<strong>Type the address exactly.</strong> It starts with <code>http://</code> (not https), then the IP number, then <code>:5257</code> (colon, then the number 5257). No spaces.
+</div>
+
+<!-- ==================== STEP 5 ==================== -->
+
+<h2>Step 5 — Connect to Your PMC-Eight Mount</h2>
+
+<div class="step">
+<ol>
+  <li>Power on the PMC-Eight mount</li>
+  <li>The mount and your phone must be on the <strong>same WiFi network</strong> as the PC</li>
+  <li>In the app on your phone, you will see the <strong>Setup</strong> page</li>
+  <li>Enter the <strong>PMC-Eight IP address</strong>:
+    <ul>
+      <li>If the mount is on your home WiFi: use the IP your router gave it</li>
+      <li>If you are not sure: ask the person who set up the mount</li>
+    </ul>
+  </li>
+  <li>Select your <strong>Mount Model</strong> (e.g., iExos-100, EXOS-2, or Losmandy G-11)</li>
+  <li>Tap <strong>CONNECT</strong></li>
+  <li>If it works, you will see <strong>"Connected"</strong> and the firmware version number</li>
+</ol>
+</div>
+
+<div class="warn">
+<strong>Important:</strong> The phone, the PC, and the PMC-Eight mount must all be on the <strong>same WiFi network</strong>. If the mount is in "AP mode" (creating its own WiFi network called PMC-Eight_xxxx), the phone cannot reach both the mount and the PC at the same time. The mount needs to be connected to your home WiFi for this setup to work.
+</div>
+
+<!-- ==================== ADD TO HOME SCREEN ==================== -->
+
+<h2>Optional — Add to iPhone Home Screen</h2>
+<div class="step">
+<p>You can make the app look and feel like a real app on your iPhone:</p>
+<ol>
+  <li>With ExplorestarsLite open in Safari, tap the <strong>Share</strong> button (the square with an upward arrow, at the bottom of the screen)</li>
+  <li>Scroll down the list and tap <strong>Add to Home Screen</strong></li>
+  <li>Tap <strong>Add</strong> in the top-right corner</li>
+</ol>
+<p>Now you have an ExplorestarsLite icon on your home screen. Tap it to open the app directly.</p>
+</div>
+
+<!-- ==================== HTTPS ==================== -->
+
+<h2>Optional — HTTPS for Polar Alignment (iPhone Only)</h2>
+<p>The polar alignment feature needs access to the iPhone's compass. Apple requires HTTPS for this. If you do not need polar alignment, you can skip this.</p>
+<div class="step">
+<ol>
+  <li>Install a security certificate on your iPhone — follow the separate guide: <strong>iphone-https-setup.html</strong></li>
+  <li>After installing the certificate, open Safari and go to:
+    <span class="cmd">https://192.168.0.36:5256</span>
+    (Use your PC's IP number, and note: <code>https</code> not <code>http</code>, and port <code>5256</code> not <code>5257</code>)
+  </li>
+  <li>The app works the same way, but now the polar alignment compass works</li>
+</ol>
+</div>
+
+<!-- ==================== TROUBLESHOOTING ==================== -->
+
+<h2>Troubleshooting</h2>
+
+<h3>The phone cannot load the app</h3>
+<ul>
+  <li><strong>Check WiFi:</strong> The phone and PC must be on the same WiFi network. If your phone is using mobile/cellular data, it will not work.</li>
+  <li><strong>Check the address:</strong> Make sure you typed it exactly right. It must start with <code>http://</code> and end with <code>:5257</code></li>
+  <li><strong>Check the server:</strong> Look at the black server window on the PC. Is it still running? Does it show "All servers started"?</li>
+  <li><strong>Windows Firewall:</strong> This is the most common problem. Windows may have blocked the connection. To fix it:
+    <ol>
+      <li>Click the <strong>Start</strong> button (Windows logo)</li>
+      <li>Type <strong>Windows Security</strong> and open it</li>
+      <li>Click <strong>Firewall &amp; network protection</strong></li>
+      <li>Click <strong>Advanced settings</strong> (this opens a new window)</li>
+      <li>Click <strong>Inbound Rules</strong> on the left side</li>
+      <li>Click <strong>New Rule...</strong> on the right side</li>
+      <li>Select <strong>Port</strong>, click Next</li>
+      <li>Select <strong>TCP</strong>, type <code>5255, 5256, 5257</code> in the box, click Next</li>
+      <li>Select <strong>Allow the connection</strong>, click Next</li>
+      <li>Check all three boxes (Domain, Private, Public), click Next</li>
+      <li>Type a name: <code>ExplorestarsLite</code>, click Finish</li>
+    </ol>
+    Now try the phone again.
+  </li>
+</ul>
+
+<h3>"node" is not recognized</h3>
+<ul>
+  <li>You must <strong>close and reopen</strong> the Command Prompt after installing Node.js. The old window does not know about the new program.</li>
+</ul>
+
+<h3>The server shows an error about "address already in use"</h3>
+<ul>
+  <li>Another program is using the same port number. Close any other server programs and try again. Or restart your PC.</li>
+</ul>
+
+<h3>The app loads but CONNECT fails</h3>
+<ul>
+  <li>Check that the PMC-Eight is powered on</li>
+  <li>Check that you entered the correct PMC-Eight IP address</li>
+  <li>Check that the mount is on the same WiFi network</li>
+</ul>
+
+<!-- ==================== STOPPING ==================== -->
+
+<h2>Stopping the Server</h2>
+<p>Go to the black server window on the PC and <strong>press any key</strong>. It will stop all servers and close. You can also just close the window.</p>
+
+</body>
+</html>

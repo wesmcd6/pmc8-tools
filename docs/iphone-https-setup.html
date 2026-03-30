@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ExplorestarsLite — iPhone HTTPS Setup</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; background: #1a1a2e; color: #e0e0e0; line-height: 1.6; }
+  h1 { color: #4dabf7; border-bottom: 2px solid #333; padding-bottom: 8px; }
+  h2 { color: #69db7c; margin-top: 32px; }
+  h3 { color: #ffd43b; }
+  code { background: #2d2d44; padding: 2px 6px; border-radius: 3px; color: #ff922b; font-size: 0.95em; }
+  .step { background: #2d2d44; border-left: 4px solid #4dabf7; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  .note { background: #2d3a2d; border-left: 4px solid #69db7c; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  .warn { background: #3a2d2d; border-left: 4px solid #ff6b6b; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  ol li { margin: 8px 0; }
+  .url { font-family: 'Consolas', 'Courier New', monospace; background: #2d2d44; display: block; padding: 8px 12px; margin: 8px 0; border-radius: 4px; color: #4dabf7; font-size: 1.1em; }
+</style>
+</head>
+<body>
+
+<h1>iPhone HTTPS Certificate Setup</h1>
+<p>ExplorestarsLite uses HTTPS for features that require a secure browser context, such as compass and accelerometer access for polar alignment. A one-time certificate install is needed on your iPhone.</p>
+
+<div class="note">
+<strong>You only need to do this once.</strong> The certificate stays installed until you remove it or it expires (10 years).
+</div>
+
+<h2>What You Need</h2>
+<ul>
+  <li>Your iPhone connected to the <strong>same WiFi network</strong> as the PC running the server</li>
+  <li>The PC's IP address (e.g., <code>192.168.0.36</code>)</li>
+  <li>The ExplorestarsLite server running on the PC (HTTP on port 5257)</li>
+</ul>
+
+<h2>Step 1 — Download the Profile</h2>
+<div class="step">
+<p>On your iPhone, open <strong>Safari</strong> (not Chrome — it must be Safari) and go to:</p>
+<span class="url">http://&lt;computer-ip&gt;:5257/caddy-trust.mobileconfig</span>
+<p>Replace <code>&lt;computer-ip&gt;</code> with your PC's actual IP address. For example:</p>
+<span class="url">http://192.168.0.36:5257/caddy-trust.mobileconfig</span>
+<p>Safari will show: <em>"This website is trying to download a configuration profile. Do you want to allow this?"</em></p>
+<p>Tap <strong>Allow</strong>.</p>
+</div>
+
+<h2>Step 2 — Install the Profile</h2>
+<div class="step">
+<ol>
+  <li>Open the <strong>Settings</strong> app</li>
+  <li>You should see a banner near the top: <strong>"Profile Downloaded"</strong> — tap it<br/>
+      <em>(If the banner has disappeared: go to Settings &rarr; General &rarr; VPN &amp; Device Management)</em></li>
+  <li>You'll see <strong>"ExplorestarsLite HTTPS"</strong> — tap it</li>
+  <li>Tap <strong>Install</strong> (top right corner)</li>
+  <li>Enter your iPhone passcode if prompted</li>
+  <li>Tap <strong>Install</strong> again on the confirmation screen</li>
+  <li>Tap <strong>Done</strong></li>
+</ol>
+</div>
+
+<h2>Step 3 — Trust the Certificate</h2>
+<div class="warn">
+<strong>Important:</strong> Installing the profile is not enough. You must also explicitly trust the certificate. This is a separate step that many people miss.
+</div>
+<div class="step">
+<ol>
+  <li>Open <strong>Settings &rarr; General &rarr; About</strong></li>
+  <li>Scroll all the way to the <strong>very bottom</strong> of the About page</li>
+  <li>Tap <strong>Certificate Trust Settings</strong></li>
+  <li>Find <strong>Caddy Local Authority - 2025 ECC Root</strong></li>
+  <li>Toggle the switch <strong>ON</strong></li>
+  <li>Tap <strong>Continue</strong> on the warning dialog</li>
+</ol>
+</div>
+
+<h2>Step 4 — Verify</h2>
+<div class="step">
+<p>Open Safari and go to:</p>
+<span class="url">https://&lt;computer-ip&gt;:5256</span>
+<p>For example:</p>
+<span class="url">https://192.168.0.36:5256</span>
+<p>The ExplorestarsLite app should load <strong>without any certificate warnings</strong>. If you see the app's splash screen and Setup page, you're done!</p>
+</div>
+
+<h2>Troubleshooting</h2>
+<h3>"Cannot connect to server"</h3>
+<ul>
+  <li>Make sure the server is running on the PC</li>
+  <li>Make sure iPhone and PC are on the same WiFi network</li>
+  <li>Try the HTTP version first: <code>http://&lt;computer-ip&gt;:5257</code> — if that doesn't work, it's a network issue, not a certificate issue</li>
+</ul>
+
+<h3>Certificate not appearing in Trust Settings</h3>
+<ul>
+  <li>Restart your iPhone and check again</li>
+  <li>Make sure Step 2 completed fully (profile shows as "Installed" under VPN &amp; Device Management)</li>
+</ul>
+
+<h3>Still getting certificate warnings</h3>
+<ul>
+  <li>Remove the old profile (Settings &rarr; General &rarr; VPN &amp; Device Management &rarr; tap profile &rarr; Remove)</li>
+  <li>Restart iPhone</li>
+  <li>Repeat from Step 1</li>
+</ul>
+
+</body>
+</html>

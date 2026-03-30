@@ -1,0 +1,24 @@
+http://:5257 {
+	root * wwwroot
+	file_server
+	try_files {path} /index.html
+}
+
+:5256 {
+	tls internal {
+		on_demand
+	}
+
+	header {
+		Permissions-Policy "accelerometer=(self), gyroscope=(self)"
+	}
+
+	# Proxy mount commands to Node.js mount-proxy (dynamic IP)
+	handle /mount-proxy/* {
+		reverse_proxy localhost:5258
+	}
+
+	root * wwwroot
+	file_server
+	try_files {path} /index.html
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>PayloadCertificateFileName</key>
+            <string>CaddyLocalAuthority.crt</string>
+            <key>PayloadContent</key>
+            <data>
+MIIBpTCCAUqgAwIBAgIRAJsWtFbuDUKEDpjHrRR1A6cwCgYIKoZIzj0EAwIwMDEuMCwGA1UEAxMl
+Q2FkZHkgTG9jYWwgQXV0aG9yaXR5IC0gMjAyNSBFQ0MgUm9vdDAeFw0yNTA4MDkyMTAyMTBaFw0z
+NTA2MTgyMTAyMTBaMDAxLjAsBgNVBAMTJUNhZGR5IExvY2FsIEF1dGhvcml0eSAtIDIwMjUgRUND
+IFJvb3QwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATCNiPrn7PpP7vhXZWBEoHErE1Qa5W1Kh1E
+XZobP6QVlscWf3ps4Zn40MbWP/4jpbxFCxXvEof5EOJuiSP1YZtOo0UwQzAOBgNVHQ8BAf8EBAMC
+AQYwEgYDVR0TAQH/BAgwBgEB/wIBATAdBgNVHQ4EFgQU8oDovKMmKiDaOcPZIN0Db4f/ppQwCgYI
+KoZIzj0EAwIDSQAwRgIhAIsJMRdzdDwuUeznTUKUimPsgNmgaeUb32TWYsdzPESWAiEA6Kfb4rY6
+4PpInfq0bFuH5HtwSj7cu3Du0cB9/cLrzZM=
+            </data>
+            <key>PayloadDescription</key>
+            <string>Adds Caddy Local Authority root CA for LAN HTTPS</string>
+            <key>PayloadDisplayName</key>
+            <string>Caddy Local Authority - 2025 ECC Root</string>
+            <key>PayloadIdentifier</key>
+            <string>com.explorestarlite.caddy-root</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.root</string>
+            <key>PayloadUUID</key>
+            <string>A1B2C3D4-E5F6-7890-ABCD-EF1234567890</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+    </array>
+    <key>PayloadDisplayName</key>
+    <string>ExplorestarsLite HTTPS</string>
+    <key>PayloadDescription</key>
+    <string>Trust Caddy Local Authority for ExplorestarsLite LAN HTTPS access</string>
+    <key>PayloadIdentifier</key>
+    <string>com.explorestarlite.https-profile</string>
+    <key>PayloadOrganization</key>
+    <string>ExplorestarsLite</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>B2C3D4E5-F6A7-8901-BCDE-F12345678901</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>

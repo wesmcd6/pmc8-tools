@@ -1,0 +1,200 @@
+/* ExplorestarsLite — dark astronomy theme */
+
+html, body {
+    background-color: #0d0d1a;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+    color-scheme: dark;
+    height: 100%;
+}
+
+/* Disable copy/paste/context menu on all buttons and interactive elements */
+button, .mud-button-root, .mud-icon-button, .mud-radio, .mud-switch, .mud-slider {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* Telemetry strip — persistent position readout */
+.telemetry-strip {
+    background-color: #0a0a18 !important;
+    border-bottom: 1px solid #222;
+}
+
+/* Bottom navigation bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 1100;
+    background-color: #1a1a2e !important;
+    border-top: 1px solid #333;
+}
+
+/* Coordinate entry — 3 fields in a row */
+.coord-entry {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+/* Direction pad — 3x3 grid */
+.dpad-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    max-width: 220px;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+}
+
+.dpad-btn {
+    width: 64px !important;
+    height: 64px !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+}
+
+.dpad-grid {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+}
+
+/* Thumb pad */
+.thumbpad {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    background: radial-gradient(circle, #1a1a2e 0%, #0d0d1a 70%);
+    border: 2px solid #00ff41;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+}
+
+.thumbpad::before, .thumbpad::after {
+    content: '';
+    position: absolute;
+    background: #333;
+}
+
+/* Vertical crosshair */
+.thumbpad::before {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+}
+
+/* Horizontal crosshair */
+.thumbpad::after {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+}
+
+.thumbpad-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #444;
+    pointer-events: none;
+}
+
+.thumbpad-dot.top { top: 10px; left: 50%; transform: translateX(-50%); }
+.thumbpad-dot.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.thumbpad-dot.left { left: 10px; top: 50%; transform: translateY(-50%); }
+.thumbpad-dot.right { right: 10px; top: 50%; transform: translateY(-50%); }
+
+.thumbpad.active-n .thumbpad-dot.top { background: #00ff41; }
+.thumbpad.active-s .thumbpad-dot.bottom { background: #00ff41; }
+.thumbpad.active-w .thumbpad-dot.left { background: #00ff41; }
+.thumbpad.active-e .thumbpad-dot.right { background: #00ff41; }
+
+/* Polar alignment display */
+.polar-container {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    max-height: 300px;
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.polar-circle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border: 2px solid #ff4444;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-sizing: border-box;
+    opacity: 0.8;
+}
+
+.polar-crosshair {
+    position: absolute;
+    font-size: 40px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+    font-family: monospace;
+}
+
+.polar-line {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 1px;
+    background: #ff4444;
+    transform-origin: 0 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Night vision mode — red-only for dark adaptation */
+body.night-mode {
+    filter: grayscale(1) sepia(1) hue-rotate(-30deg) saturate(3) brightness(0.4);
+}
+
+/* Error UI */
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    color: #333;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
