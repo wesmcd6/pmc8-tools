@@ -2,58 +2,47 @@
 
 Control your Explore Scientific PMC-Eight telescope mount from your iPhone or Android phone — no app install needed. Just a PC on the same WiFi network.
 
-## Quick Start
+## How to Get Started
 
-1. **Install two free programs** on your Windows PC:
-   - [Node.js](https://nodejs.org) — click the big green **LTS** button, run the installer
-   - [Caddy](https://caddyserver.com/download) — select **Windows amd64**, download, rename to `caddy.exe`, put it in `C:\caddy\`
+### Step 1 — Download the ZIP
 
-2. **Download this package:**
-   - **[Click here to download the ZIP](https://github.com/wesmcd6/pmc8-tools/archive/refs/heads/pwa-server.zip)**
-   - Extract the ZIP to any folder (e.g., `C:\ExplorestarsLite`)
+**[Click here to download](https://github.com/wesmcd6/pmc8-tools/archive/refs/heads/pwa-server.zip)**
 
-3. **Start the server:**
-   - Double-click `start-servers.bat`
-   - It shows your PC's IP address and starts the server
+After downloading, extract (unzip) it to a folder on your PC — for example, `C:\ExplorestarsLite`.
 
-4. **Open on your phone:**
-   - Connect your phone to the same WiFi as the PC
-   - Open Safari (iPhone) or Chrome (Android)
-   - Go to `http://<your-pc-ip>:5257` (the address shown in the server window)
+### Step 2 — Open the Setup Guide and Follow It
 
-That's it. The app runs in your phone's browser.
+Inside the extracted folder, open the `docs` folder and double-click **`server-setup-guide.html`**. It will open in your web browser.
 
-## Guides
+This guide walks you through everything:
+- Installing the two required free programs (Node.js and Caddy) — **you must do this before the server will work**
+- Starting the server
+- Connecting from your phone
+- Connecting to your PMC-Eight mount
+- Troubleshooting
 
-Right-click each link below and choose **"Save link as..."** to download, then open the saved file in your browser:
+**Follow the guide step by step.** It is written for beginners.
 
-- **[Server Setup Guide](https://raw.githubusercontent.com/wesmcd6/pmc8-tools/pwa-server/docs/server-setup-guide.html)** — detailed step-by-step instructions with troubleshooting
-- **[iPhone HTTPS Setup](https://raw.githubusercontent.com/wesmcd6/pmc8-tools/pwa-server/docs/iphone-https-setup.html)** — install the certificate for polar alignment (compass access requires HTTPS)
+### Step 3 (Optional) — HTTPS for iPhone Polar Alignment
 
-These guides are also included in the ZIP download (in the `docs` folder).
+If you need compass access on iPhone (for the polar alignment feature), there is a separate guide in the `docs` folder: **`iphone-https-setup.html`**. This is not needed for normal mount control.
 
-## What's in the Box
+## What's in the Download
 
 | File | What it does |
 |------|-------------|
-| `start-servers.bat` | Double-click to start everything |
+| `start-servers.bat` | Double-click to start the server (after setup is complete) |
 | `wwwroot/` | The ExplorestarsLite app (pre-built, ready to serve) |
-| `mount-proxy.js` | Routes mount commands through HTTPS |
+| `mount-proxy.js` | Handles mount commands over HTTPS |
 | `Caddyfile` | Web server configuration |
-| `docs/` | Setup guides |
+| `docs/` | Setup guides (open in your browser) |
 
 ## Requirements
 
 - **Windows PC** with WiFi (or Ethernet on the same network)
-- **Node.js** (free, any version 18+)
-- **Caddy** (free, single exe, no install)
+- **Node.js** — free, installed by following the setup guide
+- **Caddy** — free, installed by following the setup guide
 - **Phone** on the same WiFi network
 - **PMC-Eight mount** on the same WiFi network
 
-No .NET, no Visual Studio, no coding. Just download, double-click, and go.
-
-## HTTPS (Optional)
-
-HTTPS is only needed if you want compass access on iPhone (for polar alignment). For normal mount control — GoTo, tracking, slewing, search — plain HTTP works fine.
-
-If you need HTTPS, see the [iPhone HTTPS Setup](docs/iphone-https-setup.html) guide.
+No programming or coding knowledge required.
