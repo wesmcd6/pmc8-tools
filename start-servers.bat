@@ -62,8 +62,11 @@ start /min "ExplorestarsLite-MountProxy" node mount-proxy.js
 echo  [2/2] Starting web server...
 start /min "ExplorestarsLite-Caddy" C:\caddy\caddy.exe run --config Caddyfile --adapter caddyfile
 
-:: Wait a moment for servers to start
+:: Wait for Caddy to generate its certificate
 timeout /t 3 /nobreak >nul
+
+:: Generate the iPhone HTTPS certificate profile from this PC's Caddy cert
+node generate-mobileconfig.js >nul 2>&1
 
 echo.
 echo  ============================================

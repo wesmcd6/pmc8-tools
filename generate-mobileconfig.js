@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
+// Generates caddy-trust.mobileconfig from the local Caddy root CA.
+// Called by start-servers.bat after Caddy has run at least once.
+const fs = require('fs');
+const path = require('path');
+
+const appData = process.env.APPDATA || '';
+const certPath = path.join(appData, 'Caddy', 'pki', 'authorities', 'local', 'root.crt');
+const outPath = path.join(__dirname, 'wwwroot', 'caddy-trust.mobileconfig');
+
+if (!fs.existsSync(certPath)) {
+  console.log('Caddy root CA not found at: ' + certPath);
+  console.log('Start Caddy once first so it generates its certificate.');
+  process.exit(1);
+}
+
+// Read PEM cert, convert to DER (base64 inner content)
+const pem = fs.readFileSync(certPath, 'utf8');
+const b64 = pem.replace(/-----BEGIN CERTIFICATE-----/, '')
+              .replace(/-----END CERTIFICATE-----/, '')
+              .replace(/\s/g, '');
+
+// Wrap in base64 lines of 76 chars
+const b64Lines = b64.match(/.{1,76}/g).join('\n');
+
+const mobileconfig = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -9,19 +33,12 @@
             <string>CaddyLocalAuthority.crt</string>
             <key>PayloadContent</key>
             <data>
-MIIBpTCCAUqgAwIBAgIRAJsWtFbuDUKEDpjHrRR1A6cwCgYIKoZIzj0EAwIwMDEuMCwGA1UEAxMl
-Q2FkZHkgTG9jYWwgQXV0aG9yaXR5IC0gMjAyNSBFQ0MgUm9vdDAeFw0yNTA4MDkyMTAyMTBaFw0z
-NTA2MTgyMTAyMTBaMDAxLjAsBgNVBAMTJUNhZGR5IExvY2FsIEF1dGhvcml0eSAtIDIwMjUgRUND
-IFJvb3QwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATCNiPrn7PpP7vhXZWBEoHErE1Qa5W1Kh1E
-XZobP6QVlscWf3ps4Zn40MbWP/4jpbxFCxXvEof5EOJuiSP1YZtOo0UwQzAOBgNVHQ8BAf8EBAMC
-AQYwEgYDVR0TAQH/BAgwBgEB/wIBATAdBgNVHQ4EFgQU8oDovKMmKiDaOcPZIN0Db4f/ppQwCgYI
-KoZIzj0EAwIDSQAwRgIhAIsJMRdzdDwuUeznTUKUimPsgNmgaeUb32TWYsdzPESWAiEA6Kfb4rY6
-4PpInfq0bFuH5HtwSj7cu3Du0cB9/cLrzZM=
+${b64Lines}
             </data>
             <key>PayloadDescription</key>
             <string>Adds Caddy Local Authority root CA for LAN HTTPS</string>
             <key>PayloadDisplayName</key>
-            <string>Caddy Local Authority - 2025 ECC Root</string>
+            <string>Caddy Local Authority Root CA</string>
             <key>PayloadIdentifier</key>
             <string>com.explorestarlite.caddy-root</string>
             <key>PayloadType</key>
@@ -49,4 +66,7 @@ KoZIzj0EAwIDSQAwRgIhAIsJMRdzdDwuUeznTUKUimPsgNmgaeUb32TWYsdzPESWAiEA6Kfb4rY6
     <key>PayloadVersion</key>
     <integer>1</integer>
 </dict>
-</plist>
+</plist>`;
+
+fs.writeFileSync(outPath, mobileconfig, 'utf8');
+console.log('Generated: ' + outPath);
