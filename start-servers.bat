@@ -65,8 +65,10 @@ start /min "ExplorestarsLite-Caddy" C:\caddy\caddy.exe run --config Caddyfile --
 :: Wait for Caddy to generate its certificate
 timeout /t 3 /nobreak >nul
 
-:: Generate the iPhone HTTPS certificate profile from this PC's Caddy cert
-node generate-mobileconfig.js >nul 2>&1
+:: Generate the iPhone HTTPS certificate profile (first run only)
+if not exist "wwwroot\caddy-trust.mobileconfig" (
+    node generate-mobileconfig.js
+)
 
 echo.
 echo  ============================================
