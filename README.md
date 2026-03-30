@@ -23,10 +23,6 @@ This guide walks you through everything:
 
 **Follow the guide step by step.** It is written for beginners.
 
-### Step 3 (Optional) — HTTPS for iPhone Polar Alignment
-
-If you need compass access on iPhone (for the polar alignment feature), there is a separate guide in the `docs` folder: **`iphone-https-setup.html`**. This is not needed for normal mount control.
-
 ## What's in the Download
 
 | File | What it does |
