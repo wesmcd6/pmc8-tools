@@ -2846,7 +2846,7 @@
 "Mu01 Cygni (High proper-motion Star - Cygnus )",21.735715,28.742648,0,0
 "Pi02 Cygni (Spectroscopic binary - Cygnus )",21.779891,49.309570,0,0
 "Rho Aquilae (High proper-motion Star - Delphinus )",20.237950,15.197610,0,0
-"Deneb Dulfim (Variable Star - Delphinus )",20.553548,11.303261,0,0,1.3
+"Deneb Dulfim (Epsilon Del - AS - Star - Delphinus)",20.553548,11.303261,10,-31,3.8
 "Eta Delphini (Variable Star - Delphinus )",20.565844,13.027272,0,0
 "Zeta Delphini (Star - Delphinus )",20.588482,14.674211,0,0
 "Rotanev (Spectroscopic binary - Delphinus )",20.625816,14.595110,0,0,3.6
