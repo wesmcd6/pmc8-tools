@@ -543,8 +543,8 @@
 "The Southern Cross (Asterism - AST - Asterism - Crux)",12.451000,-60.501000,-35,-12
 "The Summer Triangle (Asterism - AST - Asterism - Cygnus/Lyra/Aquila)",19.501000,30.001000,0,0
 "The Winter Hexagon (Asterism - AST - Asterism - Orion/Taurus)",5.001000,10.001000,0,0
-"Albireo (Beta Cygni - AS - DS - β Cyg)",19.512000,27.961000,-7,-1,3.1
-"Almach (Gamma Andromedae - AS - DS - γ And)",2.064000,42.329000,43,-50,2.1
+"Albireo (Beta Cygni - AS - DS - β Cyg)",19.512450,27.959680,-7,-6,3.18
+"Almach (Gamma Andromedae - AS - DS - γ And)",2.064990,42.329730,44,-51,2.26
 "Izar (Epsilon Bootis - AS - DS - ε Boo)",14.748000,27.073000,-51,17,2.4
 "Cor Caroli (Alpha Canum Venaticorum - AS - DS - α CVn)",12.935000,38.315000,-235,54,2.9
 "Ras Algethi (Alpha Herculis - AS - DS - α Her)",17.243000,14.391000,-12,-23
@@ -1548,43 +1548,43 @@
 "Abell 2142 (Corona Borealis Cluster - G-Cl - Abell 2142)",15.983000,27.200000,0,0
 "Abell 2255 (Corona Borealis Cluster - G-Cl - Abell 2255)",17.150000,64.000000,0,0
 "Abell 2250 (Corona Borealis Cluster - G-Cl - Abell 2250)",17.083000,31.500000,0,0
-"Sirius (Alpha CMa - AS - Star - HR 2491)",6.753000,-16.716000,-546,-1223,-1.5
-"Polaris (Alpha UMi - AS - Variable/DS - HR 424)",2.530000,89.264000,44.48,16.79,2.0
-"Canopus (Alpha Car - AS - Star - HR 2326)",6.399000,-52.696000,18,23,-0.7
-"Arcturus (Alpha Boo - AS - Star - HR 5340)",14.261000,19.182000,-2280,-1999,-0.0
-"Vega (Alpha Lyr - AS - Star - HR 7001)",18.617000,38.783000,201,286,0.0
-"Capella (Alpha Aur - AS - Star - HR 1708)",5.278000,45.998000,42,-427,0.1
-"Rigel (Beta Ori - AS - Star - HR 1948)",5.242000,-8.202000,1,2,0.1
-"Procyon (Alpha CMi - AS - Star - HR 2943)",7.654667,5.217456,-717,-1034,0.3
-"Achernar (Alpha Eri - AS - Star - HR 472)",1.628000,-57.237000,68,29,0.5
-"Betelgeuse (Alpha Ori - AS - Star - HR 2061)",5.920000,7.407000,27,20,0.5
-"Hadar (Beta Cen - AS - Star - HR 5267)",14.064000,-60.373000,-33,-23,0.6
-"Altair (Alpha Aql - AS - Star - HR 7557)",19.846000,8.868000,536,387,0.8
-"Acrux (Alpha Cru - AS - Star - HR 4729)",12.443000,-63.099000,-36,-11,0.8
-"Aldebaran (Alpha Tau - AS - Star - HR 1457)",4.599000,16.509000,63,-189,0.8
-"Antares (Alpha Sco - AS - Star - HR 6211)",16.490000,-26.432000,-11,-25,1.0
-"Spica (Alpha Vir - AS - Star - HR 5056)",13.420000,-11.161000,-42,1,1.0
-"Pollux (Beta Gem - AS - Star - HR 2990)",7.755000,28.026000,-627,-48,1.1
-"Fomalhaut (Alpha PsA - AS - Star - HR 8728)",22.957000,-29.622000,329,-165,1.2
-"Deneb (Alpha Cyg - AS - Star - HR 7924)",20.690000,45.280000,2,2,1.3
-"Regulus (Alpha Leo - AS - Star - HR 4963)",10.139000,11.967000,-248,-17,4.1
+"Sirius (Alpha CMa - AS - Star - HR 2491)",6.752480,-16.716120,-546,-1223,-1.46
+"Polaris (Alpha UMi - AS - Variable/DS - HR 424)",2.530300,89.264110,44,-12,1.98
+"Canopus (Alpha Car - AS - Star - HR 2326)",6.399200,-52.695660,20,24,-0.74
+"Arcturus (Alpha Boo - AS - Star - HR 5340)",14.261030,19.182220,-1093,-1999,-0.05
+"Vega (Alpha Lyr - AS - Star - HR 7001)",18.615650,38.783690,201,286,0.03
+"Capella (Alpha Aur - AS - Star - HR 1708)",5.278150,45.997990,76,-427,0.08
+"Rigel (Beta Ori - AS - Star - HR 1948)",5.242300,-8.201640,1,0,0.13
+"Procyon (Alpha CMi - AS - Star - HR 2943)",7.655150,5.227500,-716,-1034,0.34
+"Achernar (Alpha Eri - AS - Star - HR 472)",1.628570,-57.236750,88,-40,0.46
+"Betelgeuse (Alpha Ori - AS - Star - HR 2061)",5.919530,7.407060,27,10,0.5
+"Hadar (Beta Cen - AS - Star - HR 5267)",14.063730,-60.373040,-33,-25,0.61
+"Altair (Alpha Aql - AS - Star - HR 7557)",19.846390,8.868320,536,385,0.77
+"Acrux (Alpha Cru - AS - Star - HR 4729)",12.443310,-63.099090,-36,-12,0.76
+"Aldebaran (Alpha Tau - AS - Star - HR 1457)",4.598680,16.509300,63,-189,0.86
+"Antares (Alpha Sco - AS - Star - HR 6211)",16.490130,-26.432000,-10,-23,1.09
+"Spica (Alpha Vir - AS - Star - HR 5056)",13.419890,-11.161320,-42,-31,1.04
+"Pollux (Beta Gem - AS - Star - HR 2990)",7.755260,28.026200,-626,-46,1.14
+"Fomalhaut (Alpha PsA - AS - Star - HR 8728)",22.960850,-29.622240,329,-165,1.16
+"Deneb (Alpha Cyg - AS - Star - HR 7924)",20.690530,45.280340,2,2,1.25
+"Regulus (Alpha Leo - AS - Star - HR 4963)",10.139530,11.967200,-249,6,1.4
 "Adhara (Epsilon CMa - AS - Star - HR 2618)",6.977000,-28.972000,2,-2,1.5
-"Castor (Alpha Gem - AS - Star - HR 2891)",7.755000,31.888000,-146,-146,1.6
-"Shaula (Lambda Sco - AS - Star - HR 6527)",17.560000,-37.104000,0,0,1.6
+"Castor (Alpha Gem - AS - Star - HR 2891)",7.576680,31.888280,-191,-145,1.58
+"Shaula (Lambda Sco - AS - Star - HR 6527)",17.560150,-37.103820,-8,-30,1.63
 "Bellatrix (Gamma Ori - AS - Star - HR 1790)",5.419000,6.350000,1,-1,1.6
-"Elnath (Beta Tau - AS - Star - HR 1791)",5.438000,28.607000,171,-171,1.6
+"Elnath (Beta Tau - AS - Star - HR 1791)",5.438190,28.607820,23,-174,1.65
 "Alnilam (Epsilon Ori - AS - Star - HR 1907)",5.603000,-1.202000,1,1,1.7
-"Alnair (Alpha Gru - AS - Star - HR 8414)",22.138000,-46.961000,0,0,2.1
-"Alphard (Alpha Hya - AS - Star - HR 4450)",9.460000,-8.660000,0,0,2.0
-"Mirfak (Alpha Per - AS - Star - HR 2091)",3.405000,49.861000,34,-34,1.8
-"Dubhe (Alpha UMa - AS - Star - HR 4301)",11.062000,61.751000,0,0,1.8
+"Alnair (Alpha Gru - AS - Star - HR 8414)",22.137220,-46.960970,128,-147,1.74
+"Alphard (Alpha Hya - AS - Star - HR 4450)",9.459790,-8.658600,-15,33,1.98
+"Mirfak (Alpha Per - AS - Star - HR 2091)",3.405380,49.861210,24,-26,1.8
+"Dubhe (Alpha UMa - AS - Star - HR 4301)",11.062130,61.751030,-136,-35,1.79
 "Wezen (Delta CMa - AS - Star - HR 2693)",7.138000,-26.393000,0,0,1.8
-"Sargas (Theta Sco - AS - Star - HR 6553)",17.621000,-42.999000,0,0,1.9
-"Kaus Australis (Epsilon Sgr - AS - Star - HR 6872)",18.402000,-34.385000,0,0,1.9
-"Menkalinan (Beta Aur - AS - Star - HR 1605)",6.000000,44.947000,0,0,1.9
-"Alpheratz (Alpha And - AS - Star - HR 15)",0.139000,29.090000,0,0,2.1
-"Mirach (Beta And - AS - Star - HR 337)",1.163000,35.617000,0,0,2.1
-"Hamal (Alpha Ari - AS - Star - HR 617)",2.119000,23.463000,0,0,2.0
+"Sargas (Theta Sco - AS - Star - HR 6553)",17.621990,-42.997820,-6,-2,1.87
+"Kaus Australis (Epsilon Sgr - AS - Star - HR 6872)",18.402870,-34.384620,-39,-124,1.85
+"Menkalinan (Beta Aur - AS - Star - HR 1605)",5.992150,44.947430,-57,-1,1.9
+"Alpheratz (Alpha And - AS - Star - HR 15)",0.139790,29.090430,136,-163,2.06
+"Mirach (Beta And - AS - Star - HR 337)",1.162210,35.620560,176,-112,2.05
+"Hamal (Alpha Ari - AS - Star - HR 617)",2.119520,23.462410,188,-148,2
 "Sheratan (Beta Ari - AS - Star - HR 890)",1.910000,20.808000,0,0,2.6
 "Mesarthim (Gamma Ari - AS - Star - HR 546)",1.899000,19.294000,0,0,4.8
 "Alcyone (Eta Tau - AS - Star - HR 1773)",3.791000,24.105000,0,0,2.9
@@ -1600,11 +1600,11 @@
 "Avior (Epsilon Car - AS - Star - HR 3699)",8.160000,-59.509000,0,0,1.9
 "Alsephina (Delta Vel - AS - Star - HR 3484)",8.750000,-54.708000,0,0,2.0
 "Alpherg (Alpha Psc - AS - Star - HR 5447)",2.120000,2.763000,0,0
-"Scheat (Beta Peg - AS - Star - HR 8775)",23.063000,28.082000,0,0,2.4
-"Markab (Alpha Peg - AS - Star - HR 8430)",23.079000,15.205000,0,0,2.5
-"Alpheratz (Alpha And - AS - Star - HR 15)",0.139000,29.090000,0,0,2.1
-"Mirach (Beta And - AS - Star - HR 337)",1.163000,35.617000,0,0,2.1
-"Hamal (Alpha Ari - AS - Star - HR 617)",2.119000,23.463000,0,0,2.0
+"Scheat (Beta Peg - AS - Star - HR 8775)",23.062900,28.082790,188,137,2.42
+"Markab (Alpha Peg - AS - Star - HR 8430)",23.079340,15.205260,61,-42,2.49
+"Alpheratz (Alpha And - AS - Star - HR 15)",0.139790,29.090430,136,-163,2.06
+"Mirach (Beta And - AS - Star - HR 337)",1.162210,35.620560,176,-112,2.05
+"Hamal (Alpha Ari - AS - Star - HR 617)",2.119520,23.462410,188,-148,2
 "Sheratan (Beta Ari - AS - Star - HR 890)",1.910000,20.808000,0,0,2.6
 "Mesarthim (Gamma Ari - AS - Star - HR 546)",1.899000,19.294000,0,0,4.8
 "Alcyone (Eta Tau - AS - Star - HR 1773)",3.791000,24.105000,0,0,2.9
@@ -1620,11 +1620,11 @@
 "Avior (Epsilon Car - AS - Star - HR 3699)",8.160000,-59.509000,0,0,1.9
 "Alsephina (Delta Vel - AS - Star - HR 3484)",8.750000,-54.708000,0,0,2.0
 "Alpherg (Alpha Psc - AS - Star - HR 5447)",2.120000,2.763000,0,0
-"Scheat (Beta Peg - AS - Star - HR 8775)",23.063000,28.082000,0,0,2.4
-"Markab (Alpha Peg - AS - Star - HR 8430)",23.079000,15.205000,0,0,2.5
-"Alpheratz (Alpha And - AS - Star - HR 15)",0.139000,29.090000,0,0,2.1
-"Mirach (Beta And - AS - Star - HR 337)",1.163000,35.617000,0,0,2.1
-"Hamal (Alpha Ari - AS - Star - HR 617)",2.119000,23.463000,0,0,2.0
+"Scheat (Beta Peg - AS - Star - HR 8775)",23.062900,28.082790,188,137,2.42
+"Markab (Alpha Peg - AS - Star - HR 8430)",23.079340,15.205260,61,-42,2.49
+"Alpheratz (Alpha And - AS - Star - HR 15)",0.139790,29.090430,136,-163,2.06
+"Mirach (Beta And - AS - Star - HR 337)",1.162210,35.620560,176,-112,2.05
+"Hamal (Alpha Ari - AS - Star - HR 617)",2.119520,23.462410,188,-148,2
 "Sheratan (Beta Ari - AS - Star - HR 890)",1.910000,20.808000,0,0,2.6
 "Mesarthim (Gamma Ari - AS - Star - HR 546)",1.899000,19.294000,0,0,4.8
 "Alcyone (Eta Tau - AS - Star - HR 1773)",3.791000,24.105000,0,0,2.9
@@ -1639,25 +1639,25 @@
 "Miaplacidus (Beta Car - AS - Star - HR 3685)",9.220000,-69.717000,0,0,1.7
 "Avior (Epsilon Car - AS - Star - HR 3699)",8.160000,-59.509000,0,0,1.9
 "Alsephina (Delta Vel - AS - Star - HR 3484)",8.750000,-54.708000,0,0,2.0
-"Alpheratz (Alpha And - AS - DS - WDS 00081+2905)",0.139000,29.090000,0,0,2.1
+"Alpheratz (Alpha And - AS - DS - WDS 00081+2905)",0.139790,29.090430,136,-163,2.06
 "Achird (Eta Cas - AS - DS - WDS 00491+5749)",0.818000,57.815000,1085,-515
-"Mirach (Beta And - AS - DS - WDS 01163+3558)",1.163000,35.617000,0,0,2.1
-"Almach (Gamma And - AS - DS - WDS 02035+4220)",2.064000,42.329000,43,-50,2.1
+"Mirach (Beta And - AS - DS - WDS 01163+3558)",1.162210,35.620560,176,-112,2.05
+"Almach (Gamma And - AS - DS - WDS 02035+4220)",2.064990,42.329730,44,-51,2.26
 "Alcyone (Eta Tau - AS - DS - WDS 03791+2410)",3.791000,24.105000,0,0,2.9
-"Rigel (Beta Ori - AS - DS - WDS 05242-0820)",5.242000,-8.202000,1,2,0.1
-"Castor (Alpha Gem - AS - DS - WDS 07346+3153)",7.755000,31.888000,-146,-146,1.6
+"Rigel (Beta Ori - AS - DS - WDS 05242-0820)",5.242300,-8.201640,1,0,0.13
+"Castor (Alpha Gem - AS - DS - WDS 07346+3153)",7.576680,31.888280,-191,-145,1.58
 "Izar (Epsilon Boo - AS - DS - WDS 14450+2704)",14.748000,27.073000,-51,17,2.4
 "Cor Caroli (Alpha CVn - AS - DS - WDS 12565+3832)",12.935000,38.315000,-235,54,2.9
 "Algieba (Gamma Leo - AS - DS - WDS 10200+1950)",10.332000,19.835000,311,-155,2.3
 "Rasalgethi (Alpha Her - AS - DS - WDS 17148+1423)",17.243000,14.391000,-12,-23,3.5
-"Albireo (Beta Cyg - AS - DS - WDS 19307+2758)",19.512000,27.961000,-7,-1,3.1
+"Albireo (Beta Cyg - AS - DS - WDS 19307+2758)",19.512450,27.959680,-7,-6,3.18
 "95 Her (95 Her - AS - DS - WDS 18028+2159)",18.028000,21.595000,-12,14
 "Fawaris (Delta Cyg - AS - DS - WDS 19455+4538)",19.455000,45.383000,0,0
 "Zeta Lyr (Zeta Lyr - AS - DS - WDS 18445+3755)",18.745000,37.585000,2,1
-"Acrux (Alpha Cru - AS - DS - WDS 12265-6306)",12.443000,-63.099000,-36,-11,0.8
+"Acrux (Alpha Cru - AS - DS - WDS 12265-6306)",12.443310,-63.099090,-36,-12,0.76
 "Gamma Crucis (Gamma Cru - AS - DS - WDS 12431-5711)",12.431000,-57.183000,0,0
-"Mimosa (Beta Cru - AS - DS - WDS 12479-5954)",12.479000,-59.688000,0,0,1.3
-"Gacrux (Gamma Cru - AS - DS - WDS 12431-5711)",12.431000,-57.183000,0,0,1.6
+"Mimosa (Beta Cru - AS - DS - WDS 12479-5954)",12.795340,-59.688770,-49,-16,1.25
+"Gacrux (Gamma Cru - AS - DS - WDS 12431-5711)",12.519430,-57.113210,28,-265,1.63
 "Alpha Circini (Alpha Cir - AS - DS - WDS 14165-6500)",14.165000,-65.000000,0,0
 "Alpha Lupi (Alpha Lup - AS - DS - WDS 14320-4710)",14.320000,-47.167000,0,0
 "Delta Vel (Delta Vel - AS - DS - WDS 08500-5450)",8.750000,-54.708000,0,0
@@ -1675,7 +1675,7 @@
 "Omega Centauri (Omicron Cen - AS - DS - WDS 13260-4720)",13.260000,-47.333000,0,0
 "Delta Cep (Delta Cep - AS - Variable - Cepheid, 5.4d)",22.485000,58.415000,15,4,3.8
 "Sheliak (Beta Lyr - AS - Variable - Eclipsing Beta Lyrae, 12.9d)",18.835000,33.365000,1,-2,3.5
-"Algol (Beta Per - AS - Variable - Eclipsing, 2.87d)",3.135000,40.957000,0,0,2.1
+"Algol (Beta Per - AS - Variable - Eclipsing, 2.87d)",3.136150,40.955650,2,-1,2.12
 "Mira (Omicron Cet - AS - Variable - Mira, 332d)",2.322000,-2.977000,0,0,3.0
 "Chi Cyg (Chi Cyg - AS - Variable - Mira, 408d)",19.756000,30.367000,0,0,5.2
 "R Leo (R Leo - AS - Variable - Mira, 313d)",9.800000,11.367000,0,0,7.5
@@ -2033,7 +2033,7 @@
 "k Aquarii (Long-period variable star - Aquarius )",20.795622,-5.027700,0,0
 "Mu Aquarii (Spectroscopic binary - Aquarius )",20.877565,-8.983315,0,0
 "Albulaan (Star - Aquarius )",21.159902,-11.371693,0,0
-"Sadalsuud (Star - Aquarius )",21.525981,-5.571176,0,0,2.9
+"Sadalsuud (Star - Aquarius )",21.525980,-5.571160,19,-8,2.87
 "Xi Aquarii (Spectroscopic binary - Aquarius )",21.629197,-7.854202,0,0
 "d Aquarii (Star - Aquarius )",21.659241,2.243558,0,0
 "Kae Uh (Be Star - Aquarius )",22.055234,-2.155364,0,0
@@ -2556,7 +2556,7 @@
 "3 Centauri (Star - Centaurus )",13.863772,-32.994069,0,0
 "N Centauri (Star - Centaurus )",13.868018,-52.811532,0,0
 "h Centauri (Spectroscopic binary - Centaurus )",13.886817,-31.927613,0,0
-"Alnair (Spectroscopic binary - Centaurus )",13.925663,-47.288375,0,0,1.7
+"Alnair (Spectroscopic binary - Centaurus )",22.137220,-46.960970,128,-147,1.74
 "HR 5241 (Star - Centaurus )",13.960801,-63.686695,0,0
 "Phi Centauri (Variable Star - Centaurus )",13.971185,-42.100754,0,0
 "Upsilon1 Centauri (Variable Star - Centaurus )",13.977986,-44.803586,0,0
@@ -3045,7 +3045,7 @@
 "64 Geminorum (Star - Gemini )",7.489011,28.118275,0,0
 "b Geminorum (Spectroscopic binary - Gemini )",7.496878,27.916139,0,0
 "68 Geminorum (Star - Gemini )",7.560135,15.826662,0,0
-"Castor (Spectroscopic binary - Gemini )",7.576694,31.888492,0,0,1.6
+"Castor (Spectroscopic binary - Gemini )",7.576680,31.888280,-191,-145,1.58
 "HR  2896 (Star - Gemini )",7.585777,30.960934,0,0
 "Upsilon Geminorum (Variable Star - Gemini )",7.598708,26.895747,0,0
 "Omicron Geminorum (Star - Gemini )",7.652759,34.584355,0,0
@@ -3336,7 +3336,7 @@
 "Brachium / Cornu / Zubenalgubi (Semi-regular pulsating Star - Libra )",15.067838,-25.281963,0,0,3.3
 "Zuben Hakrabi (also HD133216) (Star - Libra )",15.110443,-16.256815,0,0
 "Iota Librae (Spectroscopic binary - Libra )",15.203692,-19.791711,0,0
-"Zubeneschamali (Variable Star - Libra )",15.283448,-9.382914,0,0,2.6
+"Zubeneschamali (Variable Star - Libra )",15.283470,-9.382910,-99,-21,2.61
 "Epsilon Librae (Spectroscopic binary - Libra )",15.403302,-10.322260,0,0
 "Zeta Librae (Variable Star - Libra )",15.548673,-16.852843,0,0
 "37 Librae (High proper-motion Star - Libra )",15.569639,-10.064530,0,0
@@ -3657,7 +3657,7 @@
 "Beta Pavonis (Star - Pavo )",20.749304,-66.203215,0,0
 "Omicron Pavonis (Variable Star - Pavo )",21.222364,-70.126265,0,0
 "Gamma Pavonis (Variable Star - Pavo )",21.440724,-65.366198,0,0
-"Algenib (Variable Star of beta Cep type - Pegasus )",0.220598,15.183594,0,0,2.8
+"Algenib (Variable Star of beta Cep type - Pegasus )",0.220600,15.183610,4,-8,2.83
 "Chi Pegasi (Variable Star - Pegasus )",0.243379,20.206699,0,0
 "1 Pegasi (Spectroscopic binary - Pegasus )",21.368111,19.804509,0,0
 "2 Pegasi (Star - Pegasus )",21.499137,23.638837,0,0
@@ -4270,7 +4270,7 @@
 "Megrez (Variable Star - Ursa Major )",12.257100,57.032615,0,0,3.3
 "74 Ursae Majoris (Star - Ursa Major )",12.499258,58.405744,0,0
 "78 Ursae Majoris (Star - Ursa Major )",13.012108,56.366333,0,0
-"Mizar (Spectroscopic binary - Ursa Major )",13.398981,54.921822,0,0,2.3
+"Mizar (Spectroscopic binary - Ursa Major )",13.398760,54.925350,121,-22,2.27
 "Alcor (Double or multiple star - Ursa Major )",13.420427,54.987956,0,0
 "HR 5085 (High proper-motion Star - Ursa Major )",13.474191,59.945786,0,0
 "82 Ursae Majoris (High proper-motion Star - Ursa Major )",13.658458,52.921203,0,0
@@ -4448,40 +4448,40 @@
 "NGC 6981 (Cluster, globular - Aquarius)",20.891667,-12.533333,0,0,9.0
 "Sun",0.000000,0.000000,0,0
 "Caph (Variable Star of delta Sct type - Cassiopeia)",0.152968,59.149781,0,0,2.3
-"Ankaa / Nair al-Zaurak (Spectroscopic binary - Phoenix)",0.438063,-42.306078,0,0,2.4
-"Schedar (High proper-motion Star - Cassiopeia)",0.675123,56.537331,0,0,2.2
+"Ankaa (Alpha Phe - AS - Star - HR 99)",0.438070,-42.305980,232,-353,2.37
+"Schedar (High proper-motion Star - Cassiopeia)",0.675120,56.537330,50,-32,2.24
 "Deneb Kaitos / Diphda (Variable Star - Cetus)",0.726492,-17.986606,0,0,1.3
 "Tsih (Be Star - Cassiopeia)",0.945148,60.716740,0,0,2.5
 "Mintaka (Star - Orion)",5.533444,-0.299081,0,0,2.2
 "Bogardus / Mahasim (Variable Star of alpha2 CVn type - Auriga)",5.995353,37.212585,0,0
 "Murzim (Variable Star of beta Cep type - Canis Major)",6.378329,-17.955919,0,0,2.0
 "Alhena / Almeisan (Spectroscopic binary - Gemini)",6.628531,16.399280,0,0,1.9
-"Suhail (Long-period variable star - Vela)",9.133266,-43.432590,0,0,2.2
+"Suhail (Long-period variable star - Vela)",9.133270,-43.432590,-24,14,2.21
 "Aspidiske (Variable Star - Carina)",9.284835,-59.275232,0,0,2.3
-"Markab (Spectroscopic binary - Vela)",9.368560,-55.010667,0,0,2.5
-"Merak (Variable Star - Ursa Major)",11.030688,56.382426,0,0,2.4
-"Denebola (Variable Star of delta Sct type - Leo)",11.817661,14.572058,0,0,2.1
+"Markab (Spectroscopic binary - Vela)",23.079340,15.205260,61,-42,2.49
+"Merak (Variable Star - Ursa Major)",11.030690,56.382430,81,34,2.37
+"Denebola (Variable Star of delta Sct type - Leo)",11.817660,14.572180,-499,-114,2.13
 "Phad / Phecda (Emission-line Star - Ursa Major)",11.897179,53.694757,0,0,2.4
-"Gacrux (High proper-motion Star - Crux)",12.519433,-57.113213,0,0,1.6
+"Gacrux (High proper-motion Star - Crux)",12.519430,-57.113210,28,-265,1.63
 "Mimosa / Becrux (Variable Star of beta Cep type - Crux)",12.795352,-59.688772,0,0,1.3
-"Alioth (Variable Star of alpha2 CVn type - Ursa Major)",12.900486,55.959823,0,0,1.8
+"Alioth (Variable Star of alpha2 CVn type - Ursa Major)",12.900490,55.959830,112,-8,1.77
 "Birdun (Variable Star of beta Cep type - Centaurus)",13.664794,-53.466391,0,0
 "Alkaid / Benetnash (Variable Star - Ursa Major)",13.792344,49.313267,0,0,1.9
 "Menkent (High proper-motion Star - Centaurus)",14.111374,-36.369958,0,0,2.1
 "Marfikent (Be Star - Centaurus)",14.591784,-42.157825,0,0,3.8
 "Men / Kakkab (Variable Star of beta Cep type - Lupus)",14.698821,-47.388199,0,0
-"Kochab (Variable Star - Ursa Minor)",14.845090,74.155504,0,0,2.1
+"Kochab (Variable Star - Ursa Minor)",14.845100,74.155510,-32,12,2.08
 "Alphecca / Gemma / Gnosia (Eclipsing binary of Algol type (detached) - Corona Borealis)",15.578130,26.714693,0,0,2.2
 "Dschubba (Spectroscopic binary - Scorpius)",16.005557,-22.621706,0,0,2.3
-"Atria (Star - Triangulum Australe)",16.811082,-69.027716,0,0,1.9
+"Atria (Star - Triangulum Australe)",16.811080,-69.027720,18,-32,1.92
 "Wei (Variable Star - Scorpius)",16.836059,-34.293228,0,0,2.3
 "Ras Alhague (Variable Star - Ophiuchus)",17.582242,12.560037,0,0,2.1
 "Girtab (Variable Star of beta Cep type - Scorpius)",17.708132,-39.029983,0,0,2.4
-"Nunki (Star - Sagittarius)",18.921091,-26.296724,0,0,2.0
+"Nunki (Star - Sagittarius)",18.921090,-26.296720,13,-52,2.05
 "Sadr (Variable Star - Cygnus)",20.370473,40.256679,0,0,2.2
 "Gienah (Double or multiple star - Cygnus)",20.770190,33.970254,0,0,2.6
 "Alderamin (Variable Star - Cepheus)",21.309659,62.585574,0,0,2.5
-"Enif (Long-period variable star - Pegasus)",21.736432,9.875009,0,0,2.4
+"Enif (Long-period variable star - Pegasus)",21.736440,9.875010,30,1,2.39
 "Gruid / Alphaulka (Long Period Variable candidate - Grus)",22.711125,-46.884580,0,0
 "IC 65 (Galaxy - Andromeda )",1.015361,47.681667,0,0,13.6
 "NGC 226 (Galaxy - Andromeda )",0.714972,32.580278,0,0,14.4
@@ -10940,7 +10940,7 @@
 "Sh2-261 (Lowers Nebula - EN - Sharpless 261)",6.288000,15.817000,0,0
 "IC 1795 (Fish Head Nebula - EN - IC 1795)",2.453000,62.097000,0,0
 "Sh2-132 (Lion Nebula - EN - Sharpless 132)",22.317000,56.117000,0,0
-"Sadalmelik (Alpha Aqr - AS - Star - HR 8414)",22.096000,-0.320000,18,-10,2.1
+"Sadalmelik (Alpha Aqr - AS - Star - HR 8414)",22.096400,-0.319850,18,-10,2.95
 "Sadachbia (Gamma Aqr - AS - Star - HR 8518)",22.361000,-1.387000,126,-17,3.3
 "Skat (Delta Aqr - AS - Star - HR 8709)",22.911000,-15.821000,25,-35,3.3
 "Albali (Epsilon Aqr - AS - Star - HR 7950)",20.795000,-9.496000,31,-28,4.0
@@ -10968,7 +10968,7 @@
 "Alnasl (Gamma Sgr - AS - Star - HR 6746)",18.097000,-30.424000,-1,-22,2.8
 "Kaus Media (Delta Sgr - AS - Star - HR 6859)",18.350000,-29.828000,32,-26,2.7
 "Kaus Borealis (Lambda Sgr - AS - Star - HR 6913)",18.466000,-25.422000,-44,-186,2.6
-"Nunki (Sigma Sgr - AS - Star - HR 7121)",18.921000,-26.297000,15,-53,2.7
+"Nunki (Sigma Sgr - AS - Star - HR 7121)",18.921090,-26.296720,13,-52,2.05
 "Ascella (Zeta Sgr - AS - Star - HR 7194)",19.043000,-29.880000,11,22,2.9
 "Ainalrami (Phi Sgr - AS - Star - HR 7039)",18.761000,-26.991000,57,-146
 "Pi Sgr (Albaldah - AS - Star - HR 7264)",19.163000,-21.024000,2,-37
@@ -10976,8 +10976,8 @@
 "Gienah Corvi (Gamma Crv - AS - Star - HR 4662)",12.263000,-17.542000,-159,23,2.6
 "Kraz (Beta Crv - AS - Star - HR 4786)",12.573000,-23.397000,1,47,3.0
 "Minkar (Epsilon Crv - AS - Star - HR 4630)",12.168000,-22.620000,-71,10,2.6
-"Zubenelgenubi (Alpha2 Lib - AS - Star - HR 5531)",14.848000,-16.042000,-106,-69,2.6
-"Zubeneschamali (Beta Lib - AS - Star - HR 5685)",15.283000,-9.383000,-99,-19,2.8
+"Zubenelgenubi (Alpha2 Lib - AS - Star - HR 5531)",14.848030,-16.041780,-105,-69,2.75
+"Zubeneschamali (Beta Lib - AS - Star - HR 5685)",15.283470,-9.382910,-99,-21,2.61
 "Sigma Lib (Sigma Lib - AS - Star - HR 5603)",15.068000,-25.282000,-72,-44,3.9
 "Gamma Lib (Gamma Lib - AS - Star - HR 5787)",15.592000,-14.789000,62,51
 "Tejat (Mu Gem - AS - Star - HR 2286)",6.383000,22.514000,57,-110,2.9
@@ -10996,10 +10996,10 @@
 "Psi Cap (Psi Cap - AS - Star - HR 7936)",20.768000,-25.271000,7,-27
 "Algedi (Alpha2 Cap - AS - Star - HR 7754)",20.294000,-12.508000,61,3
 "Menkar (Alpha Cet - AS - Star - HR 911)",3.038000,4.090000,-11,-78,2.6
-"Diphda (Beta Cet - AS - Star - HR 188)",0.727000,-17.987000,232,32,2.0
+"Diphda (Beta Cet - AS - Star - HR 188)",0.726490,-17.986610,232,32,2.02
 "Kaffaljidhma (Gamma Cet - AS - Star - HR 804)",2.722000,3.236000,146,-51,3.5
 "Iota Cet (Iota Cet - AS - Star - HR 456)",1.858000,-8.824000,18,-114
-"Enif (Epsilon Peg - AS - Star - HR 8308)",21.736000,9.875000,30,1,2.4
+"Enif (Epsilon Peg - AS - Star - HR 8308)",21.736440,9.875010,30,1,2.39
 "Theta Peg (Baham - AS - Star - HR 8450)",22.170000,6.198000,163,-54,3.5
 "Mu Peg (Sadalbari - AS - Star - HR 8684)",22.833000,24.601000,141,25,3.5
 "Delta Peg (Delta Peg - AS - Star - HR 8709)",22.691000,20.769000,25,-4
@@ -11223,7 +11223,7 @@
 "Beta Ara (Beta Ara - AS - Star - HR 6461 / HD 157244 / HIP 85258)",17.421667,-55.529700,-8,-24,3.1
 "Delta Ara (Delta Ara - AS - Star - HR 6500 / HD 158094 / HIP 85727)",17.518056,-60.683600,69,-136
 "Alpha Ara (Alpha Ara - AS - Star - HR 6510 / HD 158427 / HIP 85792)",17.530833,-49.876400,-33,-67,3.0
-"Rasalhague (Alpha Oph - AS - Star - HR 6556 / HD 159561 / HIP 86032)",17.582222,12.560000,109,-222,2.1
+"Rasalhague (Alpha Oph - AS - Star - HR 6556 / HD 159561 / HIP 86032)",17.582250,12.560000,110,-222,2.07
 "Iota Her (Iota Her - AS - Star - HR 6588 / HD 160762 / HIP 86414)",17.657778,46.006400,-32,1
 "Kappa Sco (Kappa Sco - AS - Star - HR 6580 / HD 160578 / HIP 86670)",17.708333,-39.029700,-7,-25,2.7
 "Eta Pav (Eta Pav - AS - Star - HR 6855 / HD 168339 / HIP 89937)",17.762222,-64.723300,17,-100
@@ -11267,7 +11267,7 @@
 "Delta1 Gru (Delta1 Gru - AS - Star - HR 8556 / HD 213009 / HIP 110997)",22.487778,-43.495600,175,-147
 "Alpha Lac (Alpha Lac - AS - Star - HR 8585 / HD 213558 / HIP 111169)",22.521389,50.282500,76,-49
 "Tiaki (Beta Gru - AS - Star - HR 8636 / HD 214952 / HIP 112122)",22.711111,-46.884700,136,-4,2.1
-"Matar (Eta Peg - AS - Star - HR 8650 / HD 215182 / HIP 112158)",22.716667,30.221400,1,-24,2.9
+"Matar (Eta Peg - AS - Star - HR 8650 / HD 215182 / HIP 112158)",22.716700,30.221280,1,-24,2.94
 "Lambda Peg (Lambda Peg - AS - Star - HR 8667 / HD 215665 / HIP 112440)",22.775278,23.565600,42,-20
 "Epsilon Gru (Epsilon Gru - AS - Star - HR 8747 / HD 215789 / HIP 112623)",22.809722,-51.316900,66,12
 "Iota Cep (Iota Cep - AS - Star - HR 8694 / HD 216228 / HIP 112724)",22.828056,66.200600,0,0
