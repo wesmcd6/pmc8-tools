@@ -100,9 +100,10 @@
   </li>
   <li><a href="#calculators">8. Calculators</a></li>
   <li><a href="#firmware">9. Firmware Config</a></li>
-  <li><a href="#polar">10. Daylight Polar Alignment</a></li>
-  <li><a href="#nightvision">11. Night Vision Mode</a></li>
-  <li><a href="#networking">12. Networking</a>
+  <li><a href="#staralign">10. Star Alignment</a></li>
+  <li><a href="#polar">11. Daylight Polar Alignment</a></li>
+  <li><a href="#nightvision">12. Night Vision Mode</a></li>
+  <li><a href="#networking">13. Networking</a>
     <ul>
       <li><a href="#apmode">12.1 AP Mode (Field Use)</a></li>
       <li><a href="#lanmode">12.2 LAN Mode (Home Use)</a></li>
@@ -117,13 +118,13 @@
 <div id="content">
 
 <h1>ExplorestarsLite User Manual</h1>
-<p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control &mdash; Android App</p>
-<p><strong>Version 1.2.7</strong> &bull; March 2026</p>
+<p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
+<p><strong>Version 1.3.0</strong> &bull; March 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
-<p>ExplorestarsLite is a standalone Android app that controls Explore Scientific PMC-Eight&trade; telescope mounts directly from your phone via WiFi. No PC, laptop, or internet connection is required.</p>
-<p>The app communicates with the PMC-Eight through the ESP32 WiFi module built into the mount controller. Your phone sends commands over HTTP to the ESP32, which forwards them to the PMC-Eight's Propeller processor.</p>
+<p>ExplorestarsLite controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). No internet connection is required.</p>
+<p>The app communicates with the PMC-Eight through the ESP32 WiFi module (WiFi), Bluetooth Classic SPP (Android), or directly via USB serial (Windows desktop). Your commands are forwarded to the PMC-Eight's Propeller processor.</p>
 
 <div class="note">
 <strong>Architecture:</strong> Phone &rarr; WiFi &rarr; ESP32 HTTP bridge (port 80) &rarr; TCP loopback &rarr; PMC-Eight Propeller firmware
@@ -138,9 +139,13 @@
   <li>Meridian flip with auto-flip option</li>
   <li>12 astronomy calculators</li>
   <li>Night vision mode for dark adaptation</li>
+  <li>Multi-star alignment with 7-parameter mount model (PA, home offsets, level, cone)</li>
+  <li>Geometry-graded star selection with nearest-star indicator</li>
   <li>Firmware configuration reader/writer</li>
   <li>Daylight polar alignment using phone compass and accelerometer</li>
   <li>Bluetooth Classic (SPP) connection on Android &mdash; no WiFi needed in the field</li>
+  <li>Serial (USB COM port) connection on Windows desktop &mdash; direct to Propeller</li>
+  <li>Connection settings remembered across sessions</li>
   <li>Works alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel)</li>
 </ul>
 
@@ -220,7 +225,7 @@
 <h2 id="setup">5. Setup Page</h2>
 
 <h3 id="connection">5.1 Connection</h3>
-<p>The app connects to the PMC-Eight via WiFi or Bluetooth. Select your connection type, mount model, and tap <strong>CONNECT</strong>.</p>
+<p>The app connects to the PMC-Eight via WiFi, Bluetooth, or Serial. Select your connection type, mount model, and tap <strong>CONNECT</strong>. Your connection type and device selection are remembered across sessions.</p>
 
 <h4>WiFi (all platforms)</h4>
 <p>Enter the PMC-Eight's IP address. Use the default <code>192.168.47.1</code> for AP mode, or your LAN IP for home network use.</p>
@@ -238,11 +243,40 @@
 <strong>Note:</strong> Bluetooth Classic (SPP) is not available on iPhone due to Apple platform restrictions. iPhone users should connect via WiFi.
 </div>
 
+<h4>Serial / USB (Windows desktop only)</h4>
+<p>Connect directly to the PMC-Eight Propeller board via USB cable. This provides the most reliable connection with zero WiFi latency.</p>
+<ol>
+  <li>Connect the PMC-Eight to your PC via USB.</li>
+  <li>In the app, select <strong>Serial (COM Port)</strong> from the Connection dropdown.</li>
+  <li>Select the COM port from the dropdown. Click <strong>Refresh ports</strong> if the port doesn't appear.</li>
+  <li>Click <strong>CONNECT</strong>.</li>
+</ol>
+
+<h4>Serial / Bluetooth (Windows desktop)</h4>
+<p>You can also connect to the PMC-Eight wirelessly from Windows using Bluetooth over a virtual COM port. Windows creates serial COM ports for paired Bluetooth SPP devices.</p>
+<ol>
+  <li>Open <strong>Bluetooth settings</strong> from the system tray.</li>
+  <li>Click <strong>Add device</strong>, then select <strong>Mice, keyboards, &amp; more</strong> (not Audio).</li>
+  <li>Click <strong>Show all devices</strong> to ensure Bluetooth Classic devices appear.</li>
+  <li>Select <strong>PMC-Eight <em>xxxx</em></strong> (the same identifier as your WiFi PMC-Eight network name).</li>
+  <li>Open <strong>Device Manager &rarr; Ports (COM &amp; LPT)</strong> to see which two COM ports Windows assigned.</li>
+  <li>In the app, select <strong>Serial (COM Port)</strong> and try one of the two ports. If it doesn't connect, try the other.</li>
+</ol>
+
+<div class="note">
+<strong>Note:</strong> Disconnect the PMC-Eight from your phone's Bluetooth first &mdash; Bluetooth Classic SPP supports only one connection at a time.
+</div>
+
+<div class="note">
+<strong>Note:</strong> Make sure no other application (e.g., Alpaca server, terminal program) is using the COM port. Only one application can use a serial port at a time.
+</div>
+
 <table>
   <tr><th>Field</th><th>Default</th><th>Description</th></tr>
-  <tr><td>Connection</td><td>WiFi</td><td>WiFi or Bluetooth (Android only). Bluetooth dropdown appears only on devices with Bluetooth support.</td></tr>
+  <tr><td>Connection</td><td>WiFi</td><td>WiFi, Bluetooth (Android), or Serial (Windows). Options appear based on platform capabilities. Selection is saved.</td></tr>
   <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the PMC-Eight WiFi interface. Only shown when WiFi is selected.</td></tr>
   <tr><td>PMC-Eight Bluetooth</td><td>&mdash;</td><td>Paired Bluetooth device. Only shown when Bluetooth is selected. Tap Refresh if the mount was recently paired.</td></tr>
+  <tr><td>COM Port</td><td>&mdash;</td><td>Serial port for USB connection. Only shown when Serial is selected on Windows. Tap Refresh ports to rescan.</td></tr>
   <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: Losmandy G-11, iExos-100, EXOS-2.</td></tr>
 </table>
 
@@ -266,7 +300,8 @@
 <ul>
   <li><strong>Firmware Config</strong> &mdash; read/write PMC-Eight firmware settings (requires connection). See <a href="#firmware">Section 9</a>.</li>
   <li><strong>Calculators</strong> &mdash; 12 astronomy calculators. See <a href="#calculators">Section 8</a>.</li>
-  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 10</a>.</li>
+  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 11</a>.</li>
+  <li><strong>Star Alignment</strong> &mdash; multi-star pointing model for GoTo accuracy (requires connection). See <a href="#staralign">Section 10</a>.</li>
 </ul>
 
 <!-- ======================= TARGET ======================= -->
@@ -469,8 +504,53 @@
 <strong>Caution:</strong> Incorrect motor current or mount type settings can damage your mount. Only change settings you understand.
 </div>
 
+<!-- ======================= STAR ALIGNMENT ======================= -->
+<h2 id="staralign">10. Star Alignment</h2>
+<p>Build a multi-star pointing model that corrects GoTo accuracy for polar alignment error, home position offsets, east-west level error, and cone error. Access from Setup &rarr; <strong>Star Alignment</strong> (requires connection).</p>
+
+<h3>How It Works</h3>
+<ol>
+  <li>The app presents a list of bright alignment stars currently visible, graded by geometric value:
+    <ul>
+      <li><span style="color:#4caf50;">&#x2605;</span> <strong>Green star</strong> &mdash; nearest acceptable star to current mount position (best first pick)</li>
+      <li><span style="color:#4caf50;">&#x25CF;</span> <strong>Green dot</strong> &mdash; high geometric value</li>
+      <li><span style="color:#ff9800;">&#x25CF;</span> <strong>Yellow dot</strong> &mdash; moderate value</li>
+      <li><span style="color:#f44336;">&#x25CF;</span> <strong>Red dot</strong> &mdash; low added value</li>
+    </ul>
+  </li>
+  <li>Each star shows magnitude, altitude, and azimuth to help you judge visibility from your site.</li>
+  <li>Tap a star &mdash; the mount slews to it.</li>
+  <li>Center the star precisely in the eyepiece using the thumb pad (Control page).</li>
+  <li>Return to the alignment page and tap <strong>Commit</strong>.</li>
+  <li>Repeat with additional stars. The model improves with each star.</li>
+</ol>
+
+<h3>Model Tiers</h3>
+<table>
+  <tr><th>Stars</th><th>Parameters Solved</th><th>What It Corrects</th></tr>
+  <tr><td>2</td><td>PA (polar alignment tilt)</td><td>Polar axis misalignment</td></tr>
+  <tr><td>3</td><td>+ RA Home, Dec Home</td><td>Encoder home position offsets</td></tr>
+  <tr><td>4</td><td>+ Level</td><td>East-west mount leveling error</td></tr>
+  <tr><td>5+</td><td>+ Cone</td><td>Optical/mechanical axis misalignment</td></tr>
+</table>
+
+<p>After 2 or more stars, the model is automatically applied to all subsequent GoTo commands. You can stop at any time &mdash; even a 2-star alignment significantly improves pointing.</p>
+
+<h3>Tips</h3>
+<ul>
+  <li>Pick <strong>green-rated</strong> stars for the best geometric coverage.</li>
+  <li>Stars on <strong>opposite sides of the meridian</strong> give the strongest solution.</li>
+  <li>If all visible candidates are obstructed, tap <strong>Different stars</strong> to see alternatives.</li>
+  <li>If a star gives a bad residual (shown in red), tap the <span style="color:#f44336;">&#x25CF;</span> remove button to delete it. The model re-solves from scratch.</li>
+  <li>The quality badge shows <strong>GOOD</strong> (&le;25&Prime;), <strong>FAIR</strong> (25&ndash;60&Prime;), or <strong>POOR</strong> (&gt;60&Prime;) based on RMS residual.</li>
+</ul>
+
+<div class="note">
+<strong>Note:</strong> The alignment model is kept in memory and applied to all GoTo commands during the session. It is cleared when the app is reloaded.
+</div>
+
 <!-- ======================= POLAR ALIGNMENT ======================= -->
-<h2 id="polar">10. Daylight Polar Alignment</h2>
+<h2 id="polar">11. Daylight Polar Alignment</h2>
 <p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>.</p>
 
 <h4>How It Works</h4>
@@ -496,12 +576,12 @@
 </div>
 
 <!-- ======================= NIGHT VISION ======================= -->
-<h2 id="nightvision">11. Night Vision Mode</h2>
+<h2 id="nightvision">12. Night Vision Mode</h2>
 <p>Tap the <strong>moon icon</strong> in the app bar to toggle night vision mode. The screen shifts to deep red tones to preserve your dark adaptation while observing.</p>
 <p>The mode uses a CSS filter that converts all colors to red and reduces brightness. Tap the moon icon again to return to normal mode.</p>
 
 <!-- ======================= NETWORKING ======================= -->
-<h2 id="networking">12. Networking</h2>
+<h2 id="networking">13. Networking</h2>
 
 <h3 id="apmode">12.1 AP Mode (Field Use)</h3>
 <p>The default configuration for field use. The PMC-Eight creates its own WiFi network.</p>
