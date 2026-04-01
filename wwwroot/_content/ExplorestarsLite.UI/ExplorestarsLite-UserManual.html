@@ -100,9 +100,10 @@
   </li>
   <li><a href="#calculators">8. Calculators</a></li>
   <li><a href="#firmware">9. Firmware Config</a></li>
-  <li><a href="#polar">10. Daylight Polar Alignment</a></li>
-  <li><a href="#nightvision">11. Night Vision Mode</a></li>
-  <li><a href="#networking">12. Networking</a>
+  <li><a href="#staralign">10. Star Alignment</a></li>
+  <li><a href="#polar">11. Daylight Polar Alignment</a></li>
+  <li><a href="#nightvision">12. Night Vision Mode</a></li>
+  <li><a href="#networking">13. Networking</a>
     <ul>
       <li><a href="#apmode">12.1 AP Mode (Field Use)</a></li>
       <li><a href="#lanmode">12.2 LAN Mode (Home Use)</a></li>
@@ -118,7 +119,7 @@
 
 <h1>ExplorestarsLite User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 1.2.8</strong> &bull; March 2026</p>
+<p><strong>Version 1.3.0</strong> &bull; March 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -138,6 +139,8 @@
   <li>Meridian flip with auto-flip option</li>
   <li>12 astronomy calculators</li>
   <li>Night vision mode for dark adaptation</li>
+  <li>Multi-star alignment with 7-parameter mount model (PA, home offsets, level, cone)</li>
+  <li>Geometry-graded star selection with nearest-star indicator</li>
   <li>Firmware configuration reader/writer</li>
   <li>Daylight polar alignment using phone compass and accelerometer</li>
   <li>Bluetooth Classic (SPP) connection on Android &mdash; no WiFi needed in the field</li>
@@ -297,7 +300,8 @@
 <ul>
   <li><strong>Firmware Config</strong> &mdash; read/write PMC-Eight firmware settings (requires connection). See <a href="#firmware">Section 9</a>.</li>
   <li><strong>Calculators</strong> &mdash; 12 astronomy calculators. See <a href="#calculators">Section 8</a>.</li>
-  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 10</a>.</li>
+  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 11</a>.</li>
+  <li><strong>Star Alignment</strong> &mdash; multi-star pointing model for GoTo accuracy (requires connection). See <a href="#staralign">Section 10</a>.</li>
 </ul>
 
 <!-- ======================= TARGET ======================= -->
@@ -500,8 +504,53 @@
 <strong>Caution:</strong> Incorrect motor current or mount type settings can damage your mount. Only change settings you understand.
 </div>
 
+<!-- ======================= STAR ALIGNMENT ======================= -->
+<h2 id="staralign">10. Star Alignment</h2>
+<p>Build a multi-star pointing model that corrects GoTo accuracy for polar alignment error, home position offsets, east-west level error, and cone error. Access from Setup &rarr; <strong>Star Alignment</strong> (requires connection).</p>
+
+<h3>How It Works</h3>
+<ol>
+  <li>The app presents a list of bright alignment stars currently visible, graded by geometric value:
+    <ul>
+      <li><span style="color:#4caf50;">&#x2605;</span> <strong>Green star</strong> &mdash; nearest acceptable star to current mount position (best first pick)</li>
+      <li><span style="color:#4caf50;">&#x25CF;</span> <strong>Green dot</strong> &mdash; high geometric value</li>
+      <li><span style="color:#ff9800;">&#x25CF;</span> <strong>Yellow dot</strong> &mdash; moderate value</li>
+      <li><span style="color:#f44336;">&#x25CF;</span> <strong>Red dot</strong> &mdash; low added value</li>
+    </ul>
+  </li>
+  <li>Each star shows magnitude, altitude, and azimuth to help you judge visibility from your site.</li>
+  <li>Tap a star &mdash; the mount slews to it.</li>
+  <li>Center the star precisely in the eyepiece using the thumb pad (Control page).</li>
+  <li>Return to the alignment page and tap <strong>Commit</strong>.</li>
+  <li>Repeat with additional stars. The model improves with each star.</li>
+</ol>
+
+<h3>Model Tiers</h3>
+<table>
+  <tr><th>Stars</th><th>Parameters Solved</th><th>What It Corrects</th></tr>
+  <tr><td>2</td><td>PA (polar alignment tilt)</td><td>Polar axis misalignment</td></tr>
+  <tr><td>3</td><td>+ RA Home, Dec Home</td><td>Encoder home position offsets</td></tr>
+  <tr><td>4</td><td>+ Level</td><td>East-west mount leveling error</td></tr>
+  <tr><td>5+</td><td>+ Cone</td><td>Optical/mechanical axis misalignment</td></tr>
+</table>
+
+<p>After 2 or more stars, the model is automatically applied to all subsequent GoTo commands. You can stop at any time &mdash; even a 2-star alignment significantly improves pointing.</p>
+
+<h3>Tips</h3>
+<ul>
+  <li>Pick <strong>green-rated</strong> stars for the best geometric coverage.</li>
+  <li>Stars on <strong>opposite sides of the meridian</strong> give the strongest solution.</li>
+  <li>If all visible candidates are obstructed, tap <strong>Different stars</strong> to see alternatives.</li>
+  <li>If a star gives a bad residual (shown in red), tap the <span style="color:#f44336;">&#x25CF;</span> remove button to delete it. The model re-solves from scratch.</li>
+  <li>The quality badge shows <strong>GOOD</strong> (&le;25&Prime;), <strong>FAIR</strong> (25&ndash;60&Prime;), or <strong>POOR</strong> (&gt;60&Prime;) based on RMS residual.</li>
+</ul>
+
+<div class="note">
+<strong>Note:</strong> The alignment model is kept in memory and applied to all GoTo commands during the session. It is cleared when the app is reloaded.
+</div>
+
 <!-- ======================= POLAR ALIGNMENT ======================= -->
-<h2 id="polar">10. Daylight Polar Alignment</h2>
+<h2 id="polar">11. Daylight Polar Alignment</h2>
 <p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>.</p>
 
 <h4>How It Works</h4>
@@ -527,12 +576,12 @@
 </div>
 
 <!-- ======================= NIGHT VISION ======================= -->
-<h2 id="nightvision">11. Night Vision Mode</h2>
+<h2 id="nightvision">12. Night Vision Mode</h2>
 <p>Tap the <strong>moon icon</strong> in the app bar to toggle night vision mode. The screen shifts to deep red tones to preserve your dark adaptation while observing.</p>
 <p>The mode uses a CSS filter that converts all colors to red and reduces brightness. Tap the moon icon again to return to normal mode.</p>
 
 <!-- ======================= NETWORKING ======================= -->
-<h2 id="networking">12. Networking</h2>
+<h2 id="networking">13. Networking</h2>
 
 <h3 id="apmode">12.1 AP Mode (Field Use)</h3>
 <p>The default configuration for field use. The PMC-Eight creates its own WiFi network.</p>
