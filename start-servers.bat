@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 title ExplorestarsLite Server
 
 :: Set working directory to wherever this bat file lives
@@ -40,12 +41,14 @@ if not exist "wwwroot\index.html" (
     exit /b 1
 )
 
-:: Get PC IP address
+:: Get PC IP address (skip virtual adapters like WSL, Hyper-V, Docker)
 set PC_IP=unknown
-for /f "tokens=2 delims=:" %%a in ('ipconfig ^| findstr /c:"IPv4 Address" ^| findstr /v "127.0.0"') do (
-    set PC_IP=%%a
+for /f "tokens=2 delims=:" %%a in ('ipconfig ^| findstr /c:"IPv4 Address" ^| findstr /v "127.0.0 172.1 172.2 192.168.0.1$"') do (
+    set _TMP_IP=%%a
+    set _TMP_IP=!_TMP_IP: =!
+    if "!_TMP_IP:~0,4!"=="192." set PC_IP=!_TMP_IP!
+    if "!_TMP_IP:~0,3!"=="10." if "!PC_IP!"=="unknown" set PC_IP=!_TMP_IP!
 )
-set PC_IP=%PC_IP: =%
 
 echo  Prerequisites OK
 echo.
