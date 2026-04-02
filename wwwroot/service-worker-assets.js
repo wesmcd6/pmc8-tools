@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "Hft10iwl",
+  "version": "ILEIoB96",
   "assets": [
     {
-      "hash": "sha256-AY9UWuEe55WjN2hJJiI5AxXWM9n9f51pi6YImACVkPo=",
+      "hash": "sha256-irl2LR28fayS204tInl5p9YgfKEpA3hSCzRJjN3rlQY=",
       "url": "_content/ExplorestarsLite.UI/ExplorestarsLite-UserManual.html"
     },
     {
@@ -770,19 +770,19 @@ self.assetsManifest = {
       "url": "_content/MudBlazor/MudBlazor.min.js.map"
     },
     {
-      "hash": "sha256-8+OtQ+vi2VN40g8HJaICiOdbQwoCC1NohfjO6T44tw4=",
+      "hash": "sha256-fUnui3+yWyVM4JrILSUJkx3xol5Ooi1VaLsyI+qbSPM=",
       "url": "_framework/ExplorestarsLite.Core.wasm"
     },
     {
-      "hash": "sha256-mt2Ifo1vJ+NROR6ZDBR9draPo8/NUHSI1ducMXaUaqc=",
+      "hash": "sha256-JilGBRSOJBxqwQEqlo/bwvNqa9ICZAATjZrif91+zgQ=",
       "url": "_framework/ExplorestarsLite.Http.wasm"
     },
     {
-      "hash": "sha256-p1A9aOvoRBriLBN8ybH2EuBX0pgCN3FerPt1w7pDiTI=",
+      "hash": "sha256-0jPDQlxn8SbJXbhxsNGToqGLscgp3DwkRb8+V37QV0M=",
       "url": "_framework/ExplorestarsLite.Pwa.wasm"
     },
     {
-      "hash": "sha256-SPIqG8UfnnuLl3+/1bGFWHXNu65xsFPaBClZ96TrlSQ=",
+      "hash": "sha256-///Z94Jm1sM6FeW0hyePz8KcLvGor9Ku+4uMHjHis3U=",
       "url": "_framework/ExplorestarsLite.UI.wasm"
     },
     {
@@ -946,7 +946,7 @@ self.assetsManifest = {
       "url": "_framework/System.Threading.wasm"
     },
     {
-      "hash": "sha256-XDxA6JBLbhx9NMpi/5ms3houUTuhuNECatBUwQDftCk=",
+      "hash": "sha256-+MaSpxhdXzOmArg3qDe2HBNR245zgx/Mxih69PPSkKA=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -990,11 +990,15 @@ self.assetsManifest = {
       "url": "caddy-trust.mobileconfig"
     },
     {
-      "hash": "sha256-A0rvCM6ZMHACASKzCSK9NlczP3C/rgy/5FWULc/yMJI=",
+      "hash": "sha256-MIcsU4nWEFhhr3o2bructzRlNEId58w3zHF9C+Ro5is=",
       "url": "catalog.csv"
     },
     {
       "hash": "sha256-A0rvCM6ZMHACASKzCSK9NlczP3C/rgy/5FWULc/yMJI=",
+      "url": "catalog_original.csv"
+    },
+    {
+      "hash": "sha256-MIcsU4nWEFhhr3o2bructzRlNEId58w3zHF9C+Ro5is=",
       "url": "catalog_updated.csv"
     },
     {
@@ -1010,7 +1014,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-TNTkrdZ9JWZn+t2rNtXKXuI6m9zn6TxLxuaBNUKEe+I=",
+      "hash": "sha256-nP5Rf1pe7Z9DJEEELverVUJMv253qY7A6pWzWtCaQ2Y=",
       "url": "index.html"
     },
     {
