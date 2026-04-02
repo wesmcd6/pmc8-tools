@@ -1,4 +1,9 @@
 http://:5257 {
+	# Proxy mount commands to Node.js mount-proxy
+	handle /mount-proxy/* {
+		reverse_proxy localhost:5258
+	}
+
 	root * wwwroot
 	file_server
 	try_files {path} /index.html
