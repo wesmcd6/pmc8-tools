@@ -11,6 +11,10 @@ window.thumbPadInit = function (element, dotnetRef) {
     let activeDir = -1;
     let touching = false;
 
+    // Clean up any previous global listeners from a prior init
+    if (element._thumbPadCleanup) element._thumbPadCleanup();
+
+
     function updateDirection(tx, ty) {
         const dx = tx - centerX;
         const dy = centerY - ty; // invert Y: up = positive
@@ -55,51 +59,33 @@ window.thumbPadInit = function (element, dotnetRef) {
         return { x: t.clientX, y: t.clientY };
     }
 
-    let holdTimer = null;
-    let activated = false;
-
     element.addEventListener('touchstart', function (e) {
+        e.preventDefault();
         const rect = element.getBoundingClientRect();
         centerX = rect.left + rect.width / 2;
         centerY = rect.top + rect.height / 2;
         touching = true;
-        activated = false;
-
-        // Require 150ms hold before activating — prevents scroll-through
-        holdTimer = setTimeout(function () {
-            activated = true;
-            const t = getTouch(e);
-            updateDirection(t.x, t.y);
-        }, 150);
-    }, { passive: true });
+        const t = getTouch(e);
+        updateDirection(t.x, t.y);
+    }, { passive: false });
 
     element.addEventListener('touchmove', function (e) {
         if (!touching) return;
-        if (!activated) {
-            // If moved before hold timer, cancel — it's a scroll
-            clearTimeout(holdTimer);
-            touching = false;
-            return;
-        }
         e.preventDefault();
         const t = getTouch(e);
         updateDirection(t.x, t.y);
     }, { passive: false });
 
     function endTouch() {
-        clearTimeout(holdTimer);
         if (!touching) return;
         touching = false;
-        if (activated) {
-            activeAxis = -1;
-            activeDir = -1;
-            dotnetRef.invokeMethodAsync('OnPadDirection', -1, -1);
-        }
-        activated = false;
+        activeAxis = -1;
+        activeDir = -1;
+        dotnetRef.invokeMethodAsync('OnPadDirection', -1, -1);
     }
 
     element.addEventListener('touchend', function (e) { e.preventDefault(); endTouch(); }, { passive: false });
-    element.addEventListener('touchcancel', function (e) { endTouch(); }, { passive: false });
+    element.addEventListener('touchcancel', function () { endTouch(); }, { passive: false });
 
     // Mouse support for desktop testing
     let mouseDown = false;
@@ -112,13 +98,21 @@ window.thumbPadInit = function (element, dotnetRef) {
         centerY = rect.top + rect.height / 2;
         updateDirection(e.clientX, e.clientY);
     });
-    window.addEventListener('mousemove', function (e) {
+    function onMouseMove(e) {
         if (!mouseDown) return;
         updateDirection(e.clientX, e.clientY);
-    });
-    window.addEventListener('mouseup', function () {
+    }
+    function onMouseUp() {
         if (!mouseDown) return;
         mouseDown = false;
         endTouch();
-    });
+    }
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    // Store cleanup so re-init can remove old global listeners
+    element._thumbPadCleanup = function () {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+    };
 };

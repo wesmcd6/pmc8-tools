@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "pteqsJ4t",
+  "version": "VFoyxrWd",
   "assets": [
     {
-      "hash": "sha256-u0uMkA5cdZzq4orfTlEAHkrx3/+D3Fn02Tsm2Sq6uA8=",
+      "hash": "sha256-AY9UWuEe55WjN2hJJiI5AxXWM9n9f51pi6YImACVkPo=",
       "url": "_content/ExplorestarsLite.UI/ExplorestarsLite-UserManual.html"
     },
     {
@@ -742,7 +742,7 @@ self.assetsManifest = {
       "url": "_content/ExplorestarsLite.UI/js/polar.js"
     },
     {
-      "hash": "sha256-LNJI4iD+MQ9VaWyZ33wYfl9CECpwDItPJvbHGCwXbPk=",
+      "hash": "sha256-+f8V0N4gxjTIjtWZA4gUlaOqcYA/10vNu2LPeWpqrmE=",
       "url": "_content/ExplorestarsLite.UI/js/thumbpad.js"
     },
     {
@@ -770,19 +770,19 @@ self.assetsManifest = {
       "url": "_content/MudBlazor/MudBlazor.min.js.map"
     },
     {
-      "hash": "sha256-nFjPxEAeksDhk9PXmaFDch5yraPK4Z7J46s30xQrQ0I=",
+      "hash": "sha256-e07yppAPtm5LLQpaptHseZH8hlAlYKnBNZTMddg1rng=",
       "url": "_framework/ExplorestarsLite.Core.wasm"
     },
     {
-      "hash": "sha256-GLGQLI63wK39E4nOGajtS0yxru8bC7cb3s/yivNbnV8=",
+      "hash": "sha256-AN11l9rj013tXpzoKJxauWRqKyg+E4OYkVfN8sjg7i8=",
       "url": "_framework/ExplorestarsLite.Http.wasm"
     },
     {
-      "hash": "sha256-ZI2L9nYdBCrWEsoOuZ93DZfgPPdrDjfiSUozaEzO3Ec=",
+      "hash": "sha256-EdJsZfJW0qX7YFBdvHt1B0mmtwgGSB863XzNHiFAj/c=",
       "url": "_framework/ExplorestarsLite.Pwa.wasm"
     },
     {
-      "hash": "sha256-cA221CxVjDLiI0WI7ZtqQktGwxeJcPeWAWlrfGVW4Qo=",
+      "hash": "sha256-0Jp8tQ1ac8vMmCR/SZgJvcerj+rbcrByOd9sNPynPzs=",
       "url": "_framework/ExplorestarsLite.UI.wasm"
     },
     {
@@ -946,7 +946,7 @@ self.assetsManifest = {
       "url": "_framework/System.Threading.wasm"
     },
     {
-      "hash": "sha256-z2Ci51jE53d1yytDpgueIRzGVNbo0q+LetC3WaijH0M=",
+      "hash": "sha256-eAywlUYSFPpVxZkvHfGLtSWTuJcb67acHfIvmTJTJeo=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -1006,7 +1006,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-fxGH2WA8N4ZCCx/4RG4pK5C398xZA1t8XcIynqOFNyY=",
+      "hash": "sha256-TNTkrdZ9JWZn+t2rNtXKXuI6m9zn6TxLxuaBNUKEe+I=",
       "url": "index.html"
     },
     {
