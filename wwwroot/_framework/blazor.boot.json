@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "ExplorestarsLite.Pwa",
   "resources": {
-    "hash": "sha256-LPni5gw/BaGtwbNonziKcxa7UzfBnxY9MQErbqhkzMo=",
+    "hash": "sha256-A+xe1kfTRIWda6MmMIex3NSCxV2N6mgW+u5abJHyERc=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-O/NCYcAN9uPocD7ns7AzF/cqx7f5vL1PTJCQs0vEXyk="
     },
@@ -58,10 +58,10 @@
       "System.Text.RegularExpressions.wasm": "sha256-4UNPowwmxHH/BJ7Vq2SDHl6fbQeEcSSQF9O3QtBSf8Q=",
       "System.Threading.wasm": "sha256-E/FnIJx6bWXYSc/F4dIg95zp/Etk64ne1m68YT4FOLE=",
       "System.Private.CoreLib.wasm": "sha256-BPjI8BClS/wZq9XUep/48omD/1LA5+dnE1mvtUeYs0w=",
-      "ExplorestarsLite.Core.wasm": "sha256-fUnui3+yWyVM4JrILSUJkx3xol5Ooi1VaLsyI+qbSPM=",
-      "ExplorestarsLite.Http.wasm": "sha256-JilGBRSOJBxqwQEqlo/bwvNqa9ICZAATjZrif91+zgQ=",
-      "ExplorestarsLite.UI.wasm": "sha256-///Z94Jm1sM6FeW0hyePz8KcLvGor9Ku+4uMHjHis3U=",
-      "ExplorestarsLite.Pwa.wasm": "sha256-0jPDQlxn8SbJXbhxsNGToqGLscgp3DwkRb8+V37QV0M="
+      "ExplorestarsLite.Core.wasm": "sha256-j10jNf9aK+BFD4v8+H3eSlKRRmHRYF8n48Qb+zAb0c0=",
+      "ExplorestarsLite.Http.wasm": "sha256-dGcPZosXtqgwYDVeBtmGqzg+mL7LG7iz1T9jdZS0vFI=",
+      "ExplorestarsLite.UI.wasm": "sha256-62MzLijmD4j9Rna5G4PV3LrRIo88YLRRTaqvQb49UoE=",
+      "ExplorestarsLite.Pwa.wasm": "sha256-K/Ii0KOnfHygszi40cBFnQ8buFaTd884fe1VMVY/pqs="
     }
   },
   "cacheBootResources": true,
