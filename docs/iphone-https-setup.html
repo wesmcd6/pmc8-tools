@@ -82,11 +82,18 @@
 </div>
 
 <h2>Troubleshooting</h2>
+
 <h3>"Cannot connect to server"</h3>
 <ul>
   <li>Make sure the server is running on the PC</li>
   <li>Make sure iPhone and PC are on the same WiFi network</li>
   <li>Try the HTTP version first: <code>http://&lt;computer-ip&gt;:5257</code> — if that doesn't work, it's a network issue, not a certificate issue</li>
+</ul>
+
+<h3>"This Connection Is Not Private" or certificate warning on :5256</h3>
+<ul>
+  <li>You skipped Step 3 — you installed the profile but did not <strong>trust</strong> the certificate. Go to Settings &rarr; General &rarr; About &rarr; Certificate Trust Settings and toggle it on.</li>
+  <li>If the certificate name does not match (e.g., year is different), the server generated a new certificate. Remove the old profile and repeat from Step 1.</li>
 </ul>
 
 <h3>Certificate not appearing in Trust Settings</h3>
@@ -95,12 +102,38 @@
   <li>Make sure Step 2 completed fully (profile shows as "Installed" under VPN &amp; Device Management)</li>
 </ul>
 
-<h3>Still getting certificate warnings</h3>
+<h3>Profile download fails or nothing happens</h3>
 <ul>
-  <li>Remove the old profile (Settings &rarr; General &rarr; VPN &amp; Device Management &rarr; tap profile &rarr; Remove)</li>
-  <li>Restart iPhone</li>
+  <li><strong>Must use Safari</strong> — Chrome and other browsers cannot install profiles on iOS</li>
+  <li>If Safari asks to allow the download and you tap <strong>Cancel</strong>, just go to the URL again and tap <strong>Allow</strong></li>
+  <li>If the <code>caddy-trust.mobileconfig</code> file does not exist, stop the server, delete the file <code>wwwroot/caddy-trust.mobileconfig</code> if it exists, and restart — the server will regenerate it on startup</li>
+</ul>
+
+<h3>Accidentally denied GPS / location permission</h3>
+<ul>
+  <li>If you added ExplorestarsLite to your home screen: go to <strong>Settings &rarr; ExplorestarsLite &rarr; Location</strong> and change to <strong>While Using</strong></li>
+  <li>If using Safari directly: go to <strong>Settings &rarr; Safari &rarr; Location</strong> and change to <strong>Ask</strong> or <strong>While Using</strong></li>
+</ul>
+
+<h3>Compass not working even on HTTPS</h3>
+<ul>
+  <li>Make sure you are on <code>https://:5256</code> (not <code>http://:5257</code>) — compass requires HTTPS</li>
+  <li>The first time, the app will ask for compass/motion permission — tap <strong>Allow</strong></li>
+  <li>If you denied it: go to <strong>Settings &rarr; Safari &rarr; Motion &amp; Orientation Access</strong> and toggle it on. Then reload the page.</li>
+</ul>
+
+<h3>Still getting certificate warnings after doing everything</h3>
+<ul>
+  <li>Remove the old profile: Settings &rarr; General &rarr; VPN &amp; Device Management &rarr; tap the profile &rarr; <strong>Remove Profile</strong></li>
+  <li>Restart your iPhone</li>
+  <li>Clear Safari cache: Settings &rarr; Safari &rarr; Clear History and Website Data</li>
   <li>Repeat from Step 1</li>
 </ul>
+
+<h3>Do I need HTTPS?</h3>
+<div class="note">
+<strong>No — HTTPS is optional.</strong> The app works fully on HTTP (<code>:5257</code>) for GoTo, tracking, alignment, and all other features. HTTPS (<code>:5256</code>) is only needed for <strong>polar alignment</strong> on iPhone, because Apple requires HTTPS for compass access. If you do not need polar alignment, skip this entire guide.
+</div>
 
 </body>
 </html>
