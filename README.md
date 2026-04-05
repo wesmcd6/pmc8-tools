@@ -19,4 +19,4 @@ Latest PMC-Eight Propeller firmware binary for use with the UFCT (Universal Firm
 
 - iExos-100
 - EXOS-2
-- Losmandy G-11
+- Losmandy ES G-11
