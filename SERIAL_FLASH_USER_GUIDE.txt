@@ -1,0 +1,330 @@
+================================================================================
+  PMC8 ESP32 Serial Flash -- User Guide (DRAFT)
+================================================================================
+
+This guide explains how to reflash the ESP32 firmware on your PMC8 telescope
+mount controller over USB when OTA update is not possible. Use this method
+when the ESP32 has no firmware, has corrupted firmware, or has firmware too
+old to support OTA.
+
+Most of the work is automated by the `serial_flash.py` script. Your only
+manual steps are:
+  - Opening the iEXOS-100 enclosure and installing a jumper on the ESP32
+    BOOT_OPT pins before the flash.
+  - Removing the jumper and closing the enclosure after the flash.
+
+
+!!  TRY OTA UPDATE FIRST -- SERIAL FLASH IS A LAST RESORT  !!
+==========================================================
+
+OTA update (ota_update_v2.py in the esp32-ota distribution) is much simpler:
+no opening the enclosure, no hex wrench, no jumper, no risk to the fragile
+Wi-Fi antenna cable. If OTA works, use it.
+
+STEP 0 -- CONFIRM OTA IS NOT POSSIBLE
+------------------------------------
+
+The easiest check is to run `serial_flash.py` and let Phase 0 probe the
+mount for OTA feasibility:
+
+    python serial_flash.py
+
+Phase 0 will connect over serial, enter pass-through mode, and probe
+AT+USEROTA. If OTA is supported, it will strongly recommend exiting this
+script and running `ota_update_v2.py` instead (which you should do).
+
+Only proceed past Phase 0 if:
+  - OTA is genuinely NOT supported (firmware too old -- no AT+USEROTA)
+  - The ESP32 is not responding at all (brand new / wiped / dead firmware)
+  - The ESP32 firmware is so corrupted the serial pass-through doesn't work
+
+In any other case, use OTA. See OTA_QUICK_START_V2.txt.
+
+
+WHAT YOU NEED
+-------------
+Hardware:
+  - PMC8-based mount (this guide shows the iEXOS-100 -- other PMC8 mounts
+    use the same ESP32 and BOOT_OPT pin concept, but enclosure access may
+    differ).
+  - USB cable between PC and PMC8.
+  - 5/64" or 2 mm hex wrench -- for the four lid bolts on the iEXOS-100
+    circuit board enclosure. The official ES Bluetooth upgrade kit includes
+    a 5/64" wrench.
+  - A jumper / shorting block -- to short the two BOOT_OPT pins on the ESP32
+    Wi-Fi module during the flash, then removed afterwards.
+  - A small piece of tape (recommended) -- to hold the enclosure lid aside
+    while open, so the fragile Wi-Fi antenna cable isn't stressed.
+
+Software on the PC:
+  - Windows 10 or 11.
+  - Python 3.x (with "Add to PATH" during install).
+  - esptool (the script will offer to `pip install` it if missing).
+  - pyserial (the script will offer to `pip install` it if missing).
+  - Everything else -- including proploader.exe and all three firmware
+    binaries -- comes bundled in the zip distribution. No separate
+    downloads needed.
+
+Files (bundled in the zip):
+  - serial_flash.py                    (the walkthrough script)
+  - SERIAL_FLASH_USER_GUIDE.txt        (this guide)
+  - firmware/factory_WROOM-32.bin      (4 MB ESP32 flash image)
+  - firmware/ESPLoad1.binary           (Propeller transparent UART bridge)
+  - firmware/pmc8_normal_firmware.binary  (normal PMC8 Propeller firmware)
+  - tools/proploader.exe               (David Betz's P1 loader, MIT)
+  - tools/proploader-LICENSE.txt
+  - MANIFEST.txt                       (build provenance)
+
+
+INSTALLING PYTHON
+-----------------
+If you don't already have Python 3:
+
+  Option A: Microsoft Store -- search "Python 3" -> Install.
+  Option B: python.org -- download, CHECK "Add python.exe to PATH" during
+            install.
+
+Verify in a Command Prompt:
+  python --version
+
+
+FINDING YOUR COM PORT
+---------------------
+1. Connect the USB cable from your PC to the PMC8.
+2. Open Device Manager:
+     - Press Windows key + X, then click "Device Manager"
+3. Expand "Ports (COM & LPT)".
+4. Look for your USB-serial adapter (e.g., "USB Serial Port (COM3)").
+5. Note the COM port number.
+
+If you don't see a COM port, install the driver for your USB-serial adapter
+(FTDI, CH340, or CP210x -- check a label on the adapter).
+
+
+RUNNING THE UPDATE
+==================
+
+The script walks you through six phases. Four are fully automatic; two
+need your physical intervention (installing and removing the boot jumper).
+
+
+STEP 1 -- Unzip and Launch
+--------------------------
+
+1. Unzip the distribution into a working folder, e.g. C:\PMC8_Flash\.
+2. Open Command Prompt and change to that folder:
+     cd C:\PMC8_Flash
+3. Make sure the PMC8 is connected via USB and fully booted (wait ~15 s
+   after power-on).
+4. Close any program using the COM port (ExploreStars, SkySafari, etc.).
+5. Run:
+     python serial_flash.py
+
+
+STEP 2 -- What Each Phase Does
+------------------------------
+
+Phase 0: OTA FEASIBILITY CHECK  (automatic)
+  The script offers to probe the mount for OTA support. If OTA would work,
+  it exits and points you at ota_update_v2.py (much easier).
+
+Phase 1: PRE-FLIGHT VALIDATION  (automatic)
+  Checks that all required files are present and reasonably sized.
+  Auto-installs pyserial and esptool if missing.
+
+Phase 2: INSTALL THE BOOT JUMPER  (manual -- you open the enclosure)
+  The mount stays powered and USB stays connected throughout the entire
+  procedure. You don't need to power-cycle between phases.
+
+  The script prints these instructions and waits for you to confirm:
+
+    1. Open the iEXOS-100 circuit board enclosure lid:
+         - Remove the four bolts with a 5/64" or 2 mm hex wrench.
+         - *** CAREFUL *** -- the Wi-Fi antenna is adhered to the inside
+           of the lid and connected to the circuit board by a short,
+           fragile cable. Lift the lid SLOWLY.
+         - Secure the lid aside with a piece of tape so it doesn't hang
+           on the antenna cable.
+
+    2. Locate the BOOT_OPT pin header on the ESP32 Wi-Fi module:
+         - Pair of pins next to the antenna connector.
+         - RIGHT side of the Wi-Fi module (viewed from behind the mount).
+         - Silkscreen label: BOOT_OPT.
+
+    3. Install a jumper across the two BOOT_OPT pins to short them
+       together.
+
+  Press Enter in the script when done.
+
+Phase 3: LOAD ESP_LOADER TO PROPELLER  (automatic via proploader.exe)
+  The script runs:
+     tools\proploader.exe -p COMx -e -r firmware\ESPLoad1.binary
+  This resets the Propeller and loads the ESPLoad1 binary into its EEPROM.
+  On completion, the mount reboots and the GREEN status light will be
+  flashing SLOWLY -- that means ESP_Loader is running and idle, ready to
+  act as a transparent USB-to-ESP32 bridge.
+
+Phase 4: FLASH THE ESP32  (automatic via esptool)
+  The script runs:
+     python -m esptool --chip esp32 --port COMx --baud 115200 \
+         --before no-reset --after no-reset write-flash 0x0 \
+         firmware\factory_WROOM-32.bin
+  Watch the mount's green status light:
+     - Slow flashing before esptool starts  = ESP_Loader idle
+     - Rapid flashing while data is flowing = flash in progress (1-2 minutes)
+     - Returns to slow flashing afterwards  = flash complete
+  The script verifies "Hash of data verified" in esptool's output.
+
+Phase 5: REMOVE JUMPER + RESTORE NORMAL FIRMWARE  (manual + automatic)
+  Mount still stays powered and USB still connected. Handle the hardware:
+
+    1. Remove the jumper from the BOOT_OPT pins.
+
+    2. Close the enclosure lid:
+         - Remove the tape holding the lid aside.
+         - Guide the Wi-Fi antenna cable back into its routing position so
+           it isn't pinched when the lid closes.
+         - Replace the four bolts with the 5/64" or 2 mm hex wrench.
+
+  Press Enter in the script. Then the script automatically runs:
+     tools\proploader.exe -p COMx -e -r firmware\pmc8_normal_firmware.binary
+  This overwrites ESP_Loader with the normal PMC8 Propeller firmware,
+  restoring full mount functionality.
+
+Phase 6: VERIFY  (fully automatic)
+  The script waits ~15 seconds for the mount to finish booting, then
+  does three checks in sequence:
+
+    (a) ESGp0!  -- does the PMC8 Propeller respond?
+        Confirms the normal PMC8 Propeller firmware (loaded in Phase 5)
+        is actually running.
+
+    (b) ESGv!   -- what Propeller firmware version is running?
+        Reports the installed PMC8 firmware version for the record.
+
+    (c) Enter pass-through, send AT+GMR, exit.
+        Reads the ESP32's reported firmware version post-flash, then
+        compares three values:
+
+     Expected (from binary)  <- captured in Phase 1
+     Before the update       <- captured in Phase 0 (if you ran it)
+     Now installed (AT+GMR)  <- just read
+
+  Outcomes:
+     SUCCESS             -- the newly-installed version matches the
+                            binary. Done.
+     FAILED (unchanged)  -- the installed version is exactly what was
+                            there before. The update did not take
+                            effect. Re-run the procedure.
+     UNEXPECTED          -- the ESP32 responded but with a version that
+                            matches neither the binary nor the old
+                            firmware. Investigate.
+     UNKNOWN             -- no AT+GMR response. The ESP32 may still be
+                            booting, or it may not have reset after the
+                            Propeller firmware load. Power-cycle the
+                            mount and verify manually.
+
+  Optional cross-checks if the automatic check is ambiguous:
+     - Open UFCT, click "Get Configuration", and check the MODEM TYPE
+       displayed in the TOP RIGHT.
+     - On your PC or phone, verify the PMC8_xxxx WiFi network is visible.
+     - Connect to PMC8 WiFi, visit http://192.168.47.1/cmd?q=ESGv! in a
+       browser. Expect: ESGvES20A02.1.8.2...!
+     - Launch ExploreStars / SkySafari / ExploreStars Lite -- normal
+       operation should resume.
+
+
+TROUBLESHOOTING
+===============
+
+Phase 0 reports "PMC8 Propeller firmware is older than 20A02.0":
+  - The Propeller firmware predates the pass-through bridge (added in
+    20A02.0). Any 20A01.x version is old and should be replaced.
+  - The script offers to load the current Propeller firmware (bundled in
+    this distribution) for you, then re-probe. This is the easiest path --
+    answer 'y' at the prompt and wait a minute.
+  - If you prefer, answer 'n' to exit and install the Propeller firmware
+    yourself via UFCT, then re-run serial_flash.py.
+  - If you believe the Propeller is actually fine and this is a false
+    positive, re-run with --skip-ota-check to bypass Phase 0 entirely.
+
+Phase 0 probe times out or returns garbage:
+  - Is the PMC8 fully booted? Wait 15 s after power-on and retry.
+  - Is the mount running its NORMAL firmware? (If you've already done an
+    earlier serial-flash attempt, the Propeller may be running ESP_Loader,
+    which doesn't respond to ESPw42! the same way.) In that case, power-
+    cycle and pass through Phase 0 manually.
+
+Phase 1 says "ESP32 is already running the version in the flash binary":
+  - The ESP32's current firmware matches the binary about to be flashed.
+    The re-flash is apparently not necessary. You can answer 'n' to skip
+    the flash, or 'y' to proceed anyway (e.g., if you suspect the current
+    firmware is corrupted even though it reports the expected version).
+
+proploader reports "Failed to connect" or times out (Phase 3 or 5):
+  - Is the mount powered on and USB connected?
+  - Is the COM port correct?
+  - Is another program using the COM port? Close it.
+
+esptool reports "Failed to connect" (Phase 4):
+  - Is the green status light flashing SLOWLY? If not flashing at all,
+    ESP_Loader isn't running -- re-run Phase 3 (exit and start over).
+  - Is the BOOT_OPT jumper firmly installed across BOTH pins? Without it,
+    the ESP32 doesn't enter bootloader mode and esptool can't talk to it.
+  - Is another program using the COM port? Close it.
+
+esptool starts but fails mid-flash:
+  - The bridge may have hit a serial buffer overrun. Try a shorter USB cable
+    or a different USB port, then re-run from Phase 3.
+
+Green status light is solid ON (fatal overrun error):
+  - ESP_Loader's serial buffer overflowed. This is a fatal condition in
+    the ESPLoader code -- the bridge cogs have stopped. Power-cycle the
+    mount and re-run the script from the start. If this repeats, try a
+    shorter USB cable or a different USB port.
+
+Phase 5 proploader call fails:
+  - The Propeller is still running ESP_Loader -- the mount won't function
+    normally until the regular firmware is loaded.
+  - Power-cycle the mount, re-run the script with --skip-ota-check to get
+    back to Phase 5 more quickly.
+
+UFCT modem type (Phase 6) doesn't reflect the ESP32:
+  - The ESP32 flash may not have taken. Repeat the full procedure.
+  - Make sure the boot jumper was seated correctly during Phase 4 and that
+    "Hash of data verified" was reported.
+
+Flash completes but the mount doesn't work afterward:
+  - Did Phase 5 succeed? If the Propeller is still running ESP_Loader, the
+    mount will appear dead.
+  - Did you remove the boot jumper before the final power-on? With it still
+    installed, the ESP32 stays in bootloader mode and won't run the new
+    firmware.
+
+"python is not recognized" or "pip is not recognized":
+  - Python isn't on your PATH. Reinstall with "Add python.exe to PATH"
+    checked.
+
+"No module named esptool" or "pyserial is required":
+  - The script will offer to install them. Or manually:
+      pip install pyserial esptool
+
+
+SAFETY NOTES
+============
+
+- A failed ESP32 flash (Phase 4) can be retried -- just re-run the script.
+- A failed Propeller load (Phase 3 or 5) can also be retried the same way.
+- The mount's motors, encoders, and mechanical parts are not affected by
+  this procedure -- only the electronic control firmware.
+- Do NOT unplug the USB cable or power off the mount during an automated
+  phase. Wait for the script to report completion before doing anything.
+- The mount can stay powered and USB connected throughout the whole
+  procedure -- the BOOT_OPT jumper can be installed and removed on a
+  live board. If you're not comfortable working on live electronics,
+  you can still power off between phases at your discretion.
+- If you're uncomfortable opening the enclosure, handling the Wi-Fi
+  antenna cable, or identifying the BOOT_OPT pins, stop and contact
+  Explore Scientific support rather than risking damage.
+
+================================================================================
