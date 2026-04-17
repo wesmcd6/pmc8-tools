@@ -25,6 +25,7 @@ Switch to the **[windows](../../tree/windows)** branch. Download the zip, extrac
 |------|--------|-------------|
 | PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware (flash via UFCT) |
 | ESP32 OTA Update | [`esp32-ota`](../../tree/esp32-ota) | WiFi firmware update script + binary |
+| ESP32 Serial Flash | [`esp32-serial-flash`](../../tree/esp32-serial-flash) | Fallback when OTA isn't possible — self-contained zip with ESPLoader + esptool |
 
 ---
 
