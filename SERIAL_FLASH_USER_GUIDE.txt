@@ -76,45 +76,43 @@ Files (bundled in the zip):
   - MANIFEST.txt                       (build provenance)
 
 
-INSTALLING PYTHON
------------------
-If you don't already have Python 3:
+ONE-TIME PC SETUP: Python and required packages
+------------------------------------------------
+This is a single-time setup. Once it's done, re-running the flash
+procedure in the future is just "run the script."
 
-  Option A: Microsoft Store -- search "Python 3" -> Install.
-  Option B: python.org -- download, CHECK "Add python.exe to PATH" during
-            install.
+STEP 1 -- Install Python 3
+   If you don't already have Python 3 on this PC:
 
-Verify in a Command Prompt:
-  python --version
+     Option A: Microsoft Store -- search "Python 3" -> Install. Python
+               and pip get added to PATH automatically.
+     Option B: python.org -- download the Windows installer, and CHECK
+               "Add python.exe to PATH" during install.
 
+   Verify in a Command Prompt:
+     python --version
+     pip --version
 
-INSTALLING esptool AND pyserial  (Python packages)
---------------------------------------------------
-The script needs two add-on Python packages:
+   Both should print a version and exit.
 
-  - pyserial  -- lets Python talk to the mount over the USB COM port
-  - esptool   -- flashes the ESP32 chip in Phase 4
+STEP 2 -- Install pyserial and esptool
+   The script needs two add-on Python packages. Install both in one go:
 
-Easiest: let the script install them for you. The first time you run
-`python serial_flash.py`, if either package is missing the script
-prompts "Install pyserial now? (y/n)" and "Install esptool now? (y/n)".
-Answer "y" and it'll run the pip install for you. This is all most users
-will need to do.
+     pip install pyserial esptool
 
-If auto-install fails (corporate firewall, no internet on the PC, Python
-permission issue, etc.), install them manually BEFORE running the script
-by opening Command Prompt and running:
+   If `pip` isn't found but Python is, use the module form:
 
-  pip install pyserial esptool
+     python -m pip install pyserial esptool
 
-Verify (both should print a version and exit without errors):
+   Verify (both should print a version and exit without errors):
 
-  python -m esptool version
-  python -c "import serial; print(serial.VERSION)"
+     python -m esptool version
+     python -c "import serial; print(serial.VERSION)"
 
-If `pip` isn't found but Python is, use the module form:
-
-  python -m pip install pyserial esptool
+   If you skipped this step, the script will notice the missing packages
+   the first time you run it and ask "Install <package> now? (y/n)" --
+   answer y and it'll pip-install for you. That's a convenience; doing
+   it up-front is cleaner.
 
 
 FINDING YOUR COM PORT
