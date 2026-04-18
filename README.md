@@ -17,7 +17,7 @@ walks you through the serial flash procedure.
 
 | File | Contents |
 |------|----------|
-| `pmc8-esp32-serial-flash-20260417-d73bb9f.zip` | Full distribution (1.4 MB) |
+| `pmc8-esp32-serial-flash-20260418-0954459.zip` | Full distribution (1.4 MB) |
 | [`SERIAL_FLASH_USER_GUIDE.txt`](SERIAL_FLASH_USER_GUIDE.txt) | Read the manual here before you download |
 
 Click the zip filename above → click **Download raw file** (the small download

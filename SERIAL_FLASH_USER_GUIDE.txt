@@ -88,6 +88,35 @@ Verify in a Command Prompt:
   python --version
 
 
+INSTALLING esptool AND pyserial  (Python packages)
+--------------------------------------------------
+The script needs two add-on Python packages:
+
+  - pyserial  -- lets Python talk to the mount over the USB COM port
+  - esptool   -- flashes the ESP32 chip in Phase 4
+
+Easiest: let the script install them for you. The first time you run
+`python serial_flash.py`, if either package is missing the script
+prompts "Install pyserial now? (y/n)" and "Install esptool now? (y/n)".
+Answer "y" and it'll run the pip install for you. This is all most users
+will need to do.
+
+If auto-install fails (corporate firewall, no internet on the PC, Python
+permission issue, etc.), install them manually BEFORE running the script
+by opening Command Prompt and running:
+
+  pip install pyserial esptool
+
+Verify (both should print a version and exit without errors):
+
+  python -m esptool version
+  python -c "import serial; print(serial.VERSION)"
+
+If `pip` isn't found but Python is, use the module form:
+
+  python -m pip install pyserial esptool
+
+
 FINDING YOUR COM PORT
 ---------------------
 1. Connect the USB cable from your PC to the PMC8.
