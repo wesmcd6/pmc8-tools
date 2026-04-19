@@ -1,0 +1,316 @@
+PMC-8 TOOLS — FIRST-TIME AND REFERENCE USER GUIDE  
+Firmware, Wi-Fi Updates, and ExploreStarsLite  
+START HERE
+
+--------------------------------------------------------------------
+
+EXECUTIVE SUMMARY
+
+This document is a complete, step-by-step guide for BOTH NEW USERS and
+EXPERIENCED USERS of the Explore Scientific PMC-8 mount control system.
+It explains what PMC-8 tools are available, what each tool does, why the
+tools exist, and how to use them safely and correctly.
+
+For new users, this guide provides a clear, end-to-end path for setting
+up Wi-Fi, updating firmware, and installing ExploreStarsLite without
+making common mistakes.
+
+For experienced users, this guide serves as a current reference that
+clarifies tool selection, update order, recovery options, and safe
+firmware practices. All officially supported tools are consolidated into
+a single GitHub repository, with guidance on when updates are recommended,
+optional, or unnecessary.
+
+If you follow this guide from top to bottom, you will be able to:
+- Safely update PMC-8 firmware
+- Enable or recover Wi-Fi functionality
+- Install and run ExploreStarsLite on Android or Windows
+- Avoid unnecessary enclosure opening or incorrect update paths
+- Know when NOT to update and when to ask for help
+
+--------------------------------------------------------------------
+
+WHO THIS GUIDE IS FOR
+
+This guide is intended for:
+
+- NEW PMC-8 users setting up their system for the first time
+- EXPERIENCED PMC-8 users updating firmware or adding new capabilities
+- Users enabling or troubleshooting Wi-Fi
+- Users installing or upgrading ExploreStarsLite
+- Users who want a single, authoritative reference for PMC-8 tools
+
+No assumptions are made about prior firmware-update experience.
+Experienced users may skip directly to the sections they need.
+
+--------------------------------------------------------------------
+
+IMPORTANT SAFETY AND READ-FIRST NOTES
+
+- Do NOT power off the mount during any firmware update.
+- Use a stable power supply (not a low or unknown battery).
+- Read each step fully before performing it.
+- Firmware updates are safe to retry if something goes wrong.
+- The PMC-8 keeps its existing firmware unless flashing completes.
+- Do NOT attempt updates while actively imaging or observing.
+
+--------------------------------------------------------------------
+
+WHAT IS PMC-8?
+
+PMC-8 is the controller used in Explore Scientific mounts, including the
+iEXOS-100, EXOS-2, and Losmandy ES G-11. The tools in this guide apply
+to all PMC-8-equipped mounts; the iEXOS-100 is called out where the
+enclosure access (for serial flash) is specific to that model.
+
+It contains TWO independent components:
+
+1) Propeller processor
+   - Controls mount motion, tracking, and GoTo accuracy
+
+2) ESP32 Wi-Fi module
+   - Handles wireless networking, ExploreStarsLite, and Alpaca/ASCOM access
+
+These components are updated separately using different tools.
+
+--------------------------------------------------------------------
+
+WHAT YOU NEED BEFORE STARTING
+
+Hardware:
+- iEXOS-100 mount with PMC-8 controller
+- Stable DC power supply
+- (Serial flash only) small hex wrench and jumper
+
+Computer / Devices:
+- Windows PC -- primary supported platform for the firmware tools.
+  macOS / Linux users can run the OTA update (Python + esptool are
+  cross-platform) but the serial-flash path bundles proploader.exe,
+  which is Windows-only.
+- Android phone or tablet (optional, ExploreStarsLite Android)
+- Windows PC (optional, ExploreStarsLite Windows)
+
+Software:
+- Python 3 (required for ESP32 update tools)
+  Install from python.org or the Microsoft Store
+  Each tool includes installation guidance
+
+--------------------------------------------------------------------
+
+WHERE TO GET THE OFFICIAL TOOLS
+
+All official PMC-8 tools are located in ONE GitHub repository:
+
+https://github.com/wesmcd6/pmc8-tools
+
+No GitHub account is required.
+
+How to use the repository:
+- Open the link above in a web browser
+- Locate the branch drop-down near the top left ("master" by default)
+- Each tool exists on its own branch
+- Select the branch you need
+- Read the README on that branch
+- Download ONLY the file recommended there
+
+--------------------------------------------------------------------
+
+DIRECT LINKS TO EACH TOOL
+
+PMC-8 Propeller firmware:
+https://github.com/wesmcd6/pmc8-tools/tree/pmc8-firmware
+
+ESP32 OTA Wi-Fi update (recommended):
+https://github.com/wesmcd6/pmc8-tools/tree/esp32-ota
+
+ESP32 serial flash (fallback method):
+https://github.com/wesmcd6/pmc8-tools/tree/esp32-serial-flash
+
+ExploreStarsLite for Android:
+https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite
+
+ExploreStarsLite for Windows:
+https://github.com/wesmcd6/pmc8-tools/tree/windows
+
+--------------------------------------------------------------------
+
+WHICH TOOL DO I USE?
+
+Use this decision guide:
+
+- Want to use ExploreStarsLite?
+  -> You MUST update ESP32 Wi-Fi firmware first
+
+- Does Wi-Fi already work?
+  -> YES: ESP32 OTA Update
+  -> NO or UNKNOWN: ESP32 Serial Flash
+
+- Want improved tracking or GoTo accuracy?
+  -> Update PMC-8 Propeller firmware
+
+--------------------------------------------------------------------
+
+QUICK REFERENCE FOR EXPERIENCED USERS
+
+This section is for users already familiar with PMC-8 operation who want
+a fast reference for updates, recovery, and tool usage.
+
+OFFICIAL TOOL REPOSITORY
+https://github.com/wesmcd6/pmc8-tools
+
+COMMON TASKS AND TOOLS
+
+Enable ExploreStarsLite:
+- Update ESP32 Wi-Fi firmware FIRST
+- Use OTA if Wi-Fi works
+- Use Serial Flash only if OTA is not possible
+
+Restore missing or corrupted Wi-Fi:
+- ESP32 Serial Flash
+
+Routine Wi-Fi firmware update:
+- ESP32 OTA Update
+
+Improve GoTo or tracking behavior:
+- PMC-8 Propeller firmware update
+
+USB-only operation with reduced RF noise:
+- Use *.no_wifi.binary Propeller firmware
+
+UPDATE ORDER (IMPORTANT)
+
+Correct order:
+1) ESP32 Wi-Fi firmware
+2) Verify Wi-Fi
+3) ExploreStarsLite (optional)
+4) PMC-8 Propeller firmware
+
+ESP32 METHODS SUMMARY
+
+OTA Update:
+- No enclosure opening
+- Preferred method
+
+Serial Flash:
+- Requires enclosure opening
+- Use only when OTA fails
+
+WI-FI QUICK CHECK
+
+AP mode:
+- Look for PMC8 or PMC-Eight SSID
+- IP typically 192.168.47.1
+
+LAN mode:
+- Find mount in router device list
+- Use assigned IP
+
+ONE working mode is sufficient.
+
+SAFE PRACTICES
+
+- Do not power off during flashing
+- Use stable power
+- Read README before running tools
+- Failed updates are safe to retry
+
+WHEN NOT TO UPDATE
+
+- System is stable and meets needs
+- Actively imaging or observing
+- Power is unreliable
+- Unsure which tool applies
+
+END OF QUICK REFERENCE FOR EXPERIENCED USERS
+
+--------------------------------------------------------------------
+
+STEP 1: UPDATE ESP32 WI-FI FIRMWARE  
+(REQUIRED FOR EXPLORESTARSLITE)
+
+There are two update methods. Use OTA whenever possible.
+
+METHOD A: ESP32 OTA UPDATE (RECOMMENDED)
+
+Branch:
+https://github.com/wesmcd6/pmc8-tools/tree/esp32-ota
+
+Steps:
+1) Download the OTA update zip
+2) Extract the files
+3) Open a terminal or command prompt in the folder
+4) Run:
+   python ota_update_v2.py
+5) Follow on-screen instructions
+
+METHOD B: ESP32 SERIAL FLASH (FALLBACK ONLY)
+
+Branch:
+https://github.com/wesmcd6/pmc8-tools/tree/esp32-serial-flash
+
+Use ONLY if Wi-Fi does not work or OTA fails.
+Follow the included guide exactly.
+
+--------------------------------------------------------------------
+
+STEP 2: VERIFY WI-FI OPERATION
+
+After updating ESP32 firmware, confirm Wi-Fi works before proceeding.
+
+AP MODE CHECK
+- Power on mount
+- Look for PMC8 / PMC-Eight Wi-Fi network
+- Connect (no internet is normal)
+
+LAN MODE CHECK
+- Check router device list
+- Look for PMC8 / ESP32
+- Note assigned IP address
+
+OPTIONAL CHECK
+- Enter IP address in a web browser
+
+DO NOT proceed until Wi-Fi is verified.
+
+--------------------------------------------------------------------
+
+STEP 3: INSTALL AND RUN EXPLORESTARSLITE  
+(OPTIONAL BUT RECOMMENDED)
+
+Android:
+https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite
+
+Windows:
+https://github.com/wesmcd6/pmc8-tools/tree/windows
+
+--------------------------------------------------------------------
+
+STEP 4: UPDATE PMC-8 PROPELLER FIRMWARE  
+(OPTIONAL BUT RECOMMENDED)
+
+Branch:
+https://github.com/wesmcd6/pmc8-tools/tree/pmc8-firmware
+
+Use UFCT.
+Follow README exactly.
+
+--------------------------------------------------------------------
+
+HELP AND SUPPORT
+
+When asking for help, include:
+- Tool used
+- Full file name
+- Commit ID
+- Error messages
+
+--------------------------------------------------------------------
+
+FINAL NOTE
+
+If you are unsure at any step:
+STOP and ask before proceeding.
+
+--------------------------------------------------------------------
+END OF GUIDE
+--------------------------------------------------------------------

@@ -2,6 +2,12 @@
 
 Downloads for Explore Scientific PMC-Eight™ telescope mount users.
 
+> 📖 **New here?** Start with [**GETTING_STARTED.txt**](GETTING_STARTED.txt) —
+> a step-by-step guide that walks you through choosing the right tool,
+> updating firmware, and installing ExplorestarsLite in the correct order.
+> First-time users should read this before anything else. Experienced
+> users can jump to its "Quick Reference" section.
+
 ## ExplorestarsLite App
 
 | Platform | Branch | Status |
