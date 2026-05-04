@@ -4,11 +4,15 @@ Native Windows desktop app for controlling Explore Scientific&trade; PMC-Eight&t
 
 ## Download
 
-The current build lives on the [GitHub Releases page](../../releases/latest). Download the asset named:
+📦 **[Get the latest Windows zip from the Releases page →](../../releases/latest)**
+
+Look for the asset named:
 
 > `ExploreStars-Envision-vX.Y.Z.W-windows.zip`
 
-This branch hosts a copy of the same zip for users who prefer to grab it directly from the branch.
+The Releases page also keeps every prior version available, so if you need a specific older build you can pick it from the [release list](../../releases).
+
+> **Note:** This branch used to ship a copy of the Windows zip directly. As of v2.1.0.2 it's a thin pointer — binaries live on the GitHub Releases page where versioning, changelogs, download counts, and historical builds are handled natively.
 
 ## Requirements
 
