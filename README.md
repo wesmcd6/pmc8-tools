@@ -1,6 +1,14 @@
-# ExplorestarsLite — Android
+# ExplorestarsLite — Android (legacy, end of line)
 
-Standalone Android app for controlling Explore Scientific PMC-Eight™ telescope mounts. No PC needed.
+> ## ⚠️ This is the legacy ExplorestarsLite branch. Development continues as ExploreStars Envision™.
+>
+> **You probably want the [`explorestars-envision`](../../tree/explorestars-envision) branch and the latest [Release](../../releases) instead.**
+>
+> ExplorestarsLite v1.3.3.1 (this branch's APK) was the last release before the AstroHopper iframe-based sky chart was retired in favor of the in-house Star Seeker chart and the broader rebrand to ExploreStars Envision™. This branch is kept frozen as a permanent record of that release; it will not receive further updates.
+>
+> --- Wes McDonald, 2026-05-04
+
+Standalone Android app for controlling Explore Scientific™ PMC-Eight™ telescope mounts. No PC needed.
 
 ## Download
 
