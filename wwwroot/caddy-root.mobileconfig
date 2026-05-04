@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>PayloadCertificateFileName</key>
+            <string>caddy-root.pem</string>
+            <key>PayloadContent</key>
+            <data>
+LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJwVENDQVVxZ0F3SUJBZ0lSQUpzV3RGYnVEVUtFRHBqSHJSUjFBNmN3Q2dZSUtvWkl6ajBFQXdJd01ERXUKTUN3R0ExVUVBeE1sUTJGa1pIa2dURzlqWVd3Z1FYVjBhRzl5YVhSNUlDMGdNakF5TlNCRlEwTWdVbTl2ZERBZQpGdzB5TlRBNE1Ea3lNVEF5TVRCYUZ3MHpOVEEyTVRneU1UQXlNVEJhTURBeExqQXNCZ05WQkFNVEpVTmhaR1I1CklFeHZZMkZzSUVGMWRHaHZjbWwwZVNBdElESXdNalVnUlVORElGSnZiM1F3V1RBVEJnY3Foa2pPUFFJQkJnZ3EKaGtqT1BRTUJCd05DQUFUQ05pUHJuN1BwUDd2aFhaV0JFb0hFckUxUWE1VzFLaDFFWFpvYlA2UVZsc2NXZjNwcwo0Wm40ME1iV1AvNGpwYnhGQ3hYdkVvZjVFT0p1aVNQMVladE9vMFV3UXpBT0JnTlZIUThCQWY4RUJBTUNBUVl3CkVnWURWUjBUQVFIL0JBZ3dCZ0VCL3dJQkFUQWRCZ05WSFE0RUZnUVU4b0RvdktNbUtpRGFPY1BaSU4wRGI0Zi8KcHBRd0NnWUlLb1pJemowRUF3SURTUUF3UmdJaEFJc0pNUmR6ZER3dVVlem5UVUtVaW1Qc2dObWdhZVViMzJUVwpZc2R6UEVTV0FpRUE2S2ZiNHJZNjRQcEluZnEwYkZ1SDVIdHdTajdjdTNEdTBjQjkvY0xyelpNPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+            </data>
+            <key>PayloadDescription</key>
+            <string>Caddy local development root CA</string>
+            <key>PayloadDisplayName</key>
+            <string>Caddy Local Authority</string>
+            <key>PayloadIdentifier</key>
+            <string>com.wesmcd6.explorestarslite.caddyca.0391E5CC-B739-4935-BC0E-859C863A0EE4</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.pem</string>
+            <key>PayloadUUID</key>
+            <string>0391E5CC-B739-4935-BC0E-859C863A0EE4</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>Installs the Caddy local development root CA so iOS trusts HTTPS from Explorestars Lite.</string>
+    <key>PayloadDisplayName</key>
+    <string>Explorestars Lite Caddy Dev CA</string>
+    <key>PayloadIdentifier</key>
+    <string>com.wesmcd6.explorestarslite.caddyca.profile.935BC1C1-0A2C-4C30-B090-BE112CB21C9C</string>
+    <key>PayloadOrganization</key>
+    <string>ExplorestarsLite</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>935BC1C1-0A2C-4C30-B090-BE112CB21C9C</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ExplorestarsLite User Manual</title>
+<title>ExploreStars Envision User Manual</title>
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; color: #222; line-height: 1.6; }
   #content { max-width: 900px; margin: 0 auto; padding: 20px; }
@@ -77,6 +77,7 @@
       <li><a href="#connection">5.1 Connection</a></li>
       <li><a href="#location">5.2 Site Location &amp; Time</a></li>
       <li><a href="#tools">5.3 Tools</a></li>
+      <li><a href="#language">5.4 Display Language</a></li>
     </ul>
   </li>
   <li><a href="#target">6. Target Page</a>
@@ -87,6 +88,7 @@
       <li><a href="#custom">6.4 Custom Coordinates &amp; Saved Targets</a></li>
       <li><a href="#goto">6.5 GoTo &amp; Sync</a></li>
       <li><a href="#altaz-goto">6.6 Alt/Az GoTo</a></li>
+      <li><a href="#target-wiki">6.7 Wikipedia Lookup</a></li>
     </ul>
   </li>
   <li><a href="#control">7. Control Page</a>
@@ -98,32 +100,65 @@
       <li><a href="#slew">7.5 Slew Speed</a></li>
     </ul>
   </li>
-  <li><a href="#calculators">8. Calculators</a></li>
-  <li><a href="#firmware">9. Firmware Config</a></li>
-  <li><a href="#staralign">10. Star Alignment</a></li>
-  <li><a href="#polar">11. Daylight Polar Alignment</a></li>
-  <li><a href="#nightvision">12. Night Vision Mode</a></li>
-  <li><a href="#networking">13. Networking</a>
+  <li><a href="#starseeker">8. Star Seeker</a>
     <ul>
-      <li><a href="#apmode">12.1 AP Mode (Field Use)</a></li>
-      <li><a href="#lanmode">12.2 LAN Mode (Home Use)</a></li>
-      <li><a href="#alpaca">12.3 Alpaca Server Compatibility</a></li>
+      <li><a href="#ss-overview">8.1 Overview</a></li>
+      <li><a href="#ss-launch">8.2 Opening Star Seeker</a></li>
+      <li><a href="#ss-free">8.3 FREE Mode</a></li>
+      <li><a href="#ss-live">8.4 LIVE Mode</a></li>
+      <li><a href="#ss-pushto">8.5 Push-To Mode</a></li>
+      <li><a href="#ss-mount">8.6 Mount Marker, Telrad &amp; Lock</a></li>
+      <li><a href="#ss-planets">8.7 Solar-System Bodies</a></li>
+      <li><a href="#ss-mag">8.8 Magnitude Slider</a></li>
+      <li><a href="#ss-lines">8.9 Reference Lines &amp; Zenith</a></li>
+      <li><a href="#ss-goto">8.10 Identifying Objects</a></li>
+      <li><a href="#ss-mirror">8.11 Mirror Mode (Star Diagonal)</a></li>
+      <li><a href="#ss-projection">8.12 Equatorial vs Alt-Az</a></li>
+      <li><a href="#ss-grids">8.13 Coordinate Grids</a></li>
+      <li><a href="#ss-settings">8.14 Chart Settings</a></li>
+      <li><a href="#ss-offline">8.15 Data &amp; Offline</a></li>
+      <li><a href="#ss-wiki">8.16 Wikipedia Lookup</a></li>
     </ul>
   </li>
-  <li><a href="#mounts">13. Supported Mounts</a></li>
-  <li><a href="#troubleshooting">14. Troubleshooting</a></li>
+  <li><a href="#calculators">9. Calculators</a></li>
+  <li><a href="#firmware">10. Firmware Config</a></li>
+  <li><a href="#staralign">11. Star Alignment</a></li>
+  <li><a href="#polar">12. Daylight Polar Alignment</a></li>
+  <li><a href="#nightvision">13. Night Vision Mode</a></li>
+  <li><a href="#networking">14. Networking</a>
+    <ul>
+      <li><a href="#apmode">14.1 AP Mode (Field Use)</a></li>
+      <li><a href="#lanmode">14.2 LAN Mode (Home Use)</a></li>
+      <li><a href="#alpaca">14.3 Alpaca Server Compatibility</a></li>
+    </ul>
+  </li>
+  <li><a href="#mounts">15. Supported Mounts</a></li>
+  <li><a href="#troubleshooting">16. Troubleshooting</a></li>
+  <li><a href="#credits">17. Credits &amp; Data Sources</a></li>
+  <li><a href="#trademarks">18. Trademarks, Copyright &amp; Disclaimer</a></li>
 </ul>
+<!-- Invisible white-on-white filler so iOS PWA's rubber-band scroll
+     has somewhere to settle past the last TOC item — without this,
+     the bounce-back snaps to a position where the last visible item
+     is partly clipped behind the bottom nav. The filler is the only
+     thing that ends up clipped, which is harmless. -->
+<div style="color:#f5f5fa;background:#f5f5fa;font-size:0.85rem;line-height:1.6;user-select:text;-webkit-user-select:text;padding:8px 0 24px 0;">
+  end of toc<br>
+  end of toc<br>
+  end of toc<br>
+  end of toc
+</div>
 </div>
 
 <div id="content">
 
-<h1>ExplorestarsLite User Manual</h1>
+<h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 1.3.3.1</strong> &bull; April 2026</p>
+<p><strong>Version 2.1.0.0</strong> &bull; May 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
-<p>ExplorestarsLite controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). No internet connection is required.</p>
+<p>ExploreStars Envision controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). No internet connection is required.</p>
 <p>The app communicates with the PMC-Eight through the ESP32 WiFi module (WiFi), Bluetooth Classic SPP (Android), or directly via USB serial (Windows desktop). Your commands are forwarded to the PMC-Eight's Propeller processor.</p>
 
 <div class="note">
@@ -134,6 +169,7 @@
 <ul>
   <li>10,900+ object catalog with altitude-based visibility coloring</li>
   <li>GoTo, Sync, Tracking (Sidereal, Solar, Lunar)</li>
+  <li><strong>Star Seeker</strong> &mdash; offline live sky chart with FREE (drag/zoom) and LIVE (point-the-phone) modes, mount reticle, true-scale Telrad, planets, constellation lines and labels, four reference great circles, and tap-to-GoTo (see <a href="#starseeker">Section 8</a>)</li>
   <li>Spiral search with video-remote-style transport controls</li>
   <li>Solar system targets: planets, Moon, Sun, and minor planets (Ceres, Vesta, Pallas, Juno)</li>
   <li>Meridian flip with auto-flip option</li>
@@ -143,6 +179,7 @@
   <li>Geometry-graded star selection with nearest-star indicator</li>
   <li>Firmware configuration reader/writer</li>
   <li>Daylight polar alignment using phone compass and accelerometer</li>
+  <li>Phone GPS auto-fills latitude and longitude on the Setup page</li>
   <li>Bluetooth Classic (SPP) connection on Android &mdash; no WiFi needed in the field</li>
   <li>Serial (USB COM port) connection on Windows desktop &mdash; direct to Propeller</li>
   <li>Connection settings remembered across sessions</li>
@@ -175,7 +212,7 @@
 <ol>
   <li>Power on your PMC-Eight mount and wait for WiFi to start (~10 seconds).</li>
   <li>Connect your phone to the mount's WiFi network (default SSID: <code>PMC-Eight</code>, default IP: <code>192.168.47.1</code>).</li>
-  <li>Open ExplorestarsLite.</li>
+  <li>Open ExploreStars Envision.</li>
   <li>On the <strong>Setup</strong> page, verify the IP address and tap <strong>CONNECT</strong>.</li>
   <li>Enter your <strong>latitude</strong> and <strong>longitude</strong> (required for accurate pointing).</li>
   <li>Go to the <strong>Target</strong> page, search for an object, and tap <strong>GOTO</strong>.</li>
@@ -189,7 +226,7 @@
 <p>The top bar shows:</p>
 <ul>
   <li><strong>App icon</strong> (yellow ES swirl) &mdash; tap to open the <a href="https://www.explorescientific.com" target="_blank">Explore Scientific</a> website</li>
-  <li><strong>Title</strong> &mdash; "ExplorestarsLite"</li>
+  <li><strong>Title</strong> &mdash; "ExploreStars Envision"</li>
   <li><strong>Help</strong> (? icon) &mdash; tap to open the built-in user manual</li>
   <li><strong>Night vision toggle</strong> (moon icon) &mdash; tap to enter/exit <a href="#nightvision">night vision mode</a></li>
   <li><strong>Connection indicator</strong> &mdash; green circle = connected, red circle = disconnected, plus status text</li>
@@ -210,7 +247,7 @@
 </table>
 
 <h3 id="navbar">4.3 Navigation Bar</h3>
-<p>The bottom navigation bar has five tabs:</p>
+<p>The bottom navigation bar has six tabs:</p>
 
 <table>
   <tr><th>Icon</th><th>Page</th><th>Purpose</th></tr>
@@ -219,6 +256,7 @@
   <tr><td>Chart</td><td>Visibility</td><td>Altitude vs. time chart</td></tr>
   <tr><td>Gamepad</td><td><a href="#control">Control</a></td><td>Tracking, slewing, spiral search</td></tr>
   <tr><td>List</td><td>Log</td><td>Command/response log</td></tr>
+  <tr><td>Compass</td><td><a href="#starseeker">Star Seeker</a></td><td>Live sky chart with mount reticle; tap a star to GoTo</td></tr>
 </table>
 
 <!-- ======================= SETUP ======================= -->
@@ -290,6 +328,7 @@
   <li><strong>Latitude</strong> &mdash; positive = North. Enter as decimal degrees (<code>32.881</code>) or DMS (<code>32:52:52</code>).</li>
   <li><strong>Longitude</strong> &mdash; positive = East. Enter as decimal degrees (<code>-97.123</code>) or DMS (<code>-97:07:23</code>).</li>
 </ul>
+<p><strong>Get GPS Location</strong> &mdash; tap this button to auto-fill latitude and longitude from your phone's GPS. The first time you tap it the browser or operating system will ask for location permission; allow it. If permission is denied or no fix is available, the fields stay as you last entered them and you can type the coordinates manually. The values are written immediately and saved like any other setting.</p>
 <p>Local time and UTC are displayed for reference. Time comes from your phone's clock.</p>
 
 <div class="tip">
@@ -298,11 +337,25 @@
 
 <h3 id="tools">5.3 Tools</h3>
 <ul>
-  <li><strong>Firmware Config</strong> &mdash; read/write PMC-Eight firmware settings (requires connection). See <a href="#firmware">Section 9</a>.</li>
-  <li><strong>Calculators</strong> &mdash; 12 astronomy calculators. See <a href="#calculators">Section 8</a>.</li>
-  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 11</a>.</li>
-  <li><strong>Star Alignment</strong> &mdash; multi-star pointing model for GoTo accuracy (requires connection). See <a href="#staralign">Section 10</a>.</li>
+  <li><strong>Firmware Config</strong> &mdash; read/write PMC-Eight firmware settings (requires connection). See <a href="#firmware">Section 10</a>.</li>
+  <li><strong>Calculators</strong> &mdash; 12 astronomy calculators. See <a href="#calculators">Section 9</a>.</li>
+  <li><strong>Polar Alignment</strong> &mdash; daylight polar alignment using your phone's compass and accelerometer. See <a href="#polar">Section 12</a>.</li>
+  <li><strong>Star Alignment</strong> &mdash; multi-star pointing model for GoTo accuracy (requires connection). See <a href="#staralign">Section 11</a>.</li>
 </ul>
+
+<h3 id="language">5.4 Display Language</h3>
+<p>ExploreStars Envision can show its interface in several languages. To switch:</p>
+<ol>
+  <li>On the <strong>Setup</strong> page, find the <strong>Language</strong> panel.</li>
+  <li>Tap the dropdown and pick a language. The UI updates immediately.</li>
+</ol>
+<p>Currently shipped: <strong>English</strong>, <strong>简体中文</strong> (Simplified Chinese), <strong>Français</strong>, <strong>Italiano</strong>, <strong>Español</strong>.</p>
+<p>Phrases that haven't been translated for the chosen language stay in English &mdash; nothing breaks, you just see a mix while a translation is in progress. Astronomy abbreviations (<code>RA</code>, <code>Dec</code>, <code>Alt</code>, <code>Az</code>, <code>LST</code>), catalog identifiers (M42, NGC 224, HIP 91262, etc.), and tech protocols (TCP, UDP, WiFi, Bluetooth) stay in their international Latin forms in every language.</p>
+<p><strong>Wikipedia links follow your language.</strong> Tap the Wikipedia button on a target and you'll land on the corresponding Wikipedia language edition: in Spanish that's <code>es.wikipedia.org</code>, in Chinese <code>zh.wikipedia.org</code>, etc. If your language's Wikipedia doesn't have an article for the target (more common for obscure stars in smaller-language wikis), the modal falls back to English Wikipedia.</p>
+
+<div class="note">
+<strong>Note:</strong> Your language choice is saved on the device and persists across app restarts. If you sideload a new APK, the saved choice is preserved.
+</div>
 
 <!-- ======================= TARGET ======================= -->
 <h2 id="target">6. Target Page</h2>
@@ -361,12 +414,37 @@
   <li><strong>SYNC</strong> &mdash; tell the mount that it is currently pointed at the selected target (corrects pointing model).</li>
 </ul>
 
+<h4>Follow</h4>
+<p>For solar-system targets (Sun, Moon, planets, Pluto), a <strong>Follow</strong> switch appears below the GOTO/SYNC buttons. When enabled, the mount automatically re-GoTos at the body's recomputed position on a body-specific cadence. The mount's sidereal tracking rate is correct for stars and DSOs but is slightly off for solar-system bodies — they have their own apparent motion across the sky relative to the stars, so without Follow they slowly drift out of the eyepiece. The required re-GoTo cadence depends on how fast each body moves: the Moon at ~0.5°/hr is the fastest, the outer planets are nearly stationary against the stars at any given hour. Follow uses a per-body interval table so the slewer doesn't waste time on outer planets that haven't visibly moved or starve the Moon, which needs frequent corrections.</p>
+
+<table>
+  <tr><th>Body</th><th>Re-GoTo interval</th><th>Approx. apparent motion</th></tr>
+  <tr><td>Moon</td><td>7 seconds</td><td>~0.5°/hr — fastest non-trivial body in the sky</td></tr>
+  <tr><td>Mercury</td><td>25 seconds</td><td>fast near elongation; varies with orbital phase</td></tr>
+  <tr><td>Venus</td><td>45 seconds</td><td>slower than Mercury; well within finder field at low power</td></tr>
+  <tr><td>Mars</td><td>2 minutes</td><td>retrograde near opposition; slow otherwise</td></tr>
+  <tr><td>Sun</td><td>10 minutes</td><td>~15°/hr azimuthal but RA drift is small (0.04°/hr against stars)</td></tr>
+  <tr><td>Jupiter</td><td>5 minutes</td><td>nearly stationary at high power timescales</td></tr>
+  <tr><td>Saturn</td><td>8 minutes</td><td>slow; effectively held by sidereal tracking for short visual sessions</td></tr>
+  <tr><td>Uranus</td><td>15 minutes</td><td>essentially stationary</td></tr>
+  <tr><td>Neptune</td><td>20 minutes</td><td>essentially stationary</td></tr>
+  <tr><td>Pluto</td><td>20 minutes</td><td>essentially stationary</td></tr>
+</table>
+
+<p>Follow stays on across page navigations: turn it on for the Moon, then go to Star Seeker or Control, and the mount keeps re-acquiring. It pauses while you slew the thumb pad and resumes on release. It also requires the mount to be tracking; if you stop tracking, Follow waits.</p>
+<p>Follow remembers your intent across target changes. If you have Follow on for the Moon and then pick Mars, Follow stays enabled but won't auto-slew until you press <strong>GOTO</strong> on Mars (so you don't get a surprise slew the moment you tap a new target).</p>
+
 <div class="warning">
 <strong>Cross-meridian guard:</strong> Sync is blocked when the mount's pier side does not match the target's expected pier side. This prevents sync errors that could cause pointing failures.
 </div>
 
 <h3 id="altaz-goto">6.6 Alt/Az GoTo</h3>
 <p>Enter altitude and azimuth in degrees and tap <strong>GOTO Alt/Az</strong> to slew the mount to those coordinates. Useful for terrestrial targets or manual positioning.</p>
+
+<h3 id="target-wiki">6.7 Wikipedia Lookup</h3>
+<p>Once a target is selected, a <strong>Wikipedia ↗</strong> button next to its name opens the Wikipedia article for that object inside the app. Tap → a full-screen overlay loads the mobile-Wikipedia page. The header has a red <strong>✕ CLOSE</strong> to dismiss the overlay and a <strong>browser ↗</strong> button to hand the article off to your default browser if you want to keep it open after closing the overlay.</p>
+<p>The button is gated on internet availability. ExploreStars Envision otherwise works fully offline; this is the only feature that needs the internet. Without a working connection (probed at app start and on each foreground/online event), the button shows <strong>Wikipedia (offline)</strong> and is disabled.</p>
+<p>The Star Seeker chart has the same Wikipedia affordance for selected chart objects &mdash; see <a href="#ss-wiki">Section 8.16</a> for the chart-side details and how the lookup resolves catalog identifiers like <code>HIP 91262</code> or <code>HR 2491</code>.</p>
 
 <!-- ======================= CONTROL ======================= -->
 <h2 id="control">7. Control Page</h2>
@@ -455,8 +533,250 @@
 <strong>Tip:</strong> Fine 1&times; is ideal for precise centering at the eyepiece. The object drifts at sidereal rate in one direction and stops in the other. Fine 3&ndash;4&times; is good for faster centering. Coarse is for larger corrections.
 </div>
 
+<!-- ======================= STAR SEEKER ======================= -->
+<h2 id="starseeker">8. Star Seeker</h2>
+
+<h3 id="ss-overview">8.1 Overview</h3>
+<p>Star Seeker is the offline live sky chart built into ExploreStars Envision. Point-and-tap target selection, planet positions, alignment overlays, and a real-time mount marker.</p>
+<p>The chart has two camera modes &mdash; <strong>FREE</strong> (finger drag and pinch zoom; ignores phone orientation) and <strong>LIVE</strong> (the chart rotates to match where the phone is pointing) &mdash; and one orthogonal interaction mode, <strong>Push-To</strong> (the chart's mount pip is driven by phone sensors instead of motor counts, for non-motorized mounts or motorized mounts with the clutches released; see <a href="#ss-pushto">§8.5</a>).</p>
+<p>The chart ships with about 5,000 stars (Hipparcos through magnitude 6), 10,800 deep-sky objects, all 88 IAU constellation outlines, plus the eight planets, Sun, Moon, and Pluto computed locally. No internet connection required at any point.</p>
+
+<h3 id="ss-launch">8.2 Opening Star Seeker</h3>
+<p>Tap the <strong>compass icon</strong> (rightmost) on the bottom nav bar.</p>
+<p><strong>First open after app launch:</strong></p>
+<ul>
+  <li>If the mount is connected, the chart centers on the mount's current sky position.</li>
+  <li>If not connected, the chart centers on the visible celestial pole (NCP from northern latitudes, SCP from southern, NCP if no location is set).</li>
+</ul>
+<p><strong>Returning to the tab:</strong> the chart restores to wherever you left it &mdash; same camera position, same zoom, same mode (FREE or LIVE).</p>
+
+<h3 id="ss-free">8.3 FREE Mode</h3>
+<p>The default. One-finger drag pans the chart. Two-finger pinch zooms in or out (FOV range 2&deg;&ndash;160&deg;). Tap an object to select it.</p>
+<p>The bottom-left readout shows what's at the chart's current center: alt, az, RA, Dec, FOV, and the magnitude filter range.</p>
+
+<h3 id="ss-live">8.4 LIVE Mode</h3>
+<p>Tap the top-right <strong>FREE</strong> button to switch to <strong>LIVE</strong>. On iPhone, accept the device-orientation permission prompt the first time. The chart rotates to match where the phone is pointing &mdash; aim the phone at the sky (or down the OTA), and the chart shows what's in that direction.</p>
+<p>A complementary filter blends compass (long-term truth) with gyro (frame-to-frame stability). Filter stiffness adapts to motion and field of view: at rest zoomed in, the chart settles still; on the move zoomed out, it tracks freely.</p>
+
+<h4>ALIGN in LIVE</h4>
+<p>Phone compasses are imprecise, especially indoors and near metal. Aim the chart's screen-center reticle at a bright named star, tap <strong>ALIGN</strong>, confirm the candidate sheet (e.g. "Align on Capella? 3.2&deg; from reticle &middot; mag 0.1 &middot; HIP 24608"), and the chart pins to truth at that star. The offset persists across app restarts. A red <strong>cal</strong> badge at the top of the chart shows what star you aligned on and how long ago.</p>
+<p>What ALIGN does mathematically: it stores a single scalar <em>azimuth offset</em> &mdash; the difference between the phone's reported compass heading and the calibration star's true azimuth at the moment of confirmation. Every subsequent heading readout has that offset added. Tilt (altitude) comes from the phone's accelerometer / gravity vector and is trusted as-is, so ALIGN does <em>not</em> correct altitude errors. If the chart is consistently off in altitude, the cause is usually a phone-bracket pitch relative to the OTA tube; the fix is mechanical (re-clamp the phone parallel to the tube), not in software.</p>
+<p><strong>Note:</strong> chart ALIGN only adjusts the phone-sensor heading. It does <em>not</em> issue a PMC-Eight Sync, modify the mount alignment model, or move the motors. For mount-side accuracy, see Star Alignment (<a href="#staralign">Section 11</a>) and Daylight Polar Alignment (<a href="#polar">Section 12</a>).</p>
+<p><strong>Is chart ALIGN important on a motorized mount?</strong> No, not critical. With a working motorized GoTo, the mount drives the OTA to a sky position; the chart is largely a planetarium for picking targets and reading off coordinates. The chart can be off by several degrees in LIVE mode and the mount still slews accurately. ALIGN is a quality-of-life affordance &mdash; if the LIVE chart is way off and you'd rather have it match the sky, tap ALIGN; if it's good enough for browsing, ignore it. (In <a href="#ss-pushto">Push-To Mode</a>, by contrast, ALIGN is essential &mdash; the phone <em>is</em> the pointing reference.)</p>
+
+<h4>Sensor-Sign Flips (&beta;, &gamma;, &alpha;)</h4>
+<p>Below the ALIGN button, three small buttons flip the sign of each sensor axis (&beta;&plusmn;, &gamma;&plusmn;, &alpha;&plusmn;). Defaults are correct for all tested iPhones and most Android phones. Only touch these if the chart appears mirrored on one axis.</p>
+
+<h3 id="ss-pushto">8.5 Push-To Mode</h3>
+<p>Push-To turns the Star Seeker chart into a manual pointing guide. Phone orientation drives a live <em>aim marker</em> for where the optical tube is pointed; you pick a target (on the chart or on the Target page), the chart shows an arrow from your aim to the target with a live distance readout, and you physically push the telescope until the aim marker reaches the target. Designed for non-motorized mounts (Dobsonians, alt-az manuals, push-to-converted equatorials) and for motorized mounts with the clutches released for visual sweeping.</p>
+
+<h4>Boot Default and the Connect Switchover</h4>
+<p>Push-To is <strong>on at app start</strong>. The first launch of the day, before you've connected the mount, the app assumes you might be aiming a non-motorized scope &mdash; chart in push-to, sensor-driven aim marker, all motor GoTo buttons disabled and labeled <code>GOTO (push-to)</code> as a reminder.</p>
+<p><strong>Connecting the mount automatically turns Push-To off.</strong> Once a mount session is established the app assumes you're motorized; chart pip switches to motor counts, GoTo buttons enable. You can re-enable Push-To from Chart Settings any time &mdash; common reason: clutches released for finder-style sweeping with a connected mount.</p>
+
+<h4>Sensor Permission (iPhone)</h4>
+<p>iOS gates orientation sensors behind a permission dialog that requires a user gesture. Because Push-To boots on but the chart loads without a tap, the iPhone path needs one explicit user action to grant access. Two ways to do that:</p>
+<ul>
+  <li><strong>Tap ALIGN.</strong> ALIGN button always shows in Push-To. On the first tap from a cold-boot iPhone state, instead of opening the calibrate dialog, ALIGN triggers the iOS "Motion &amp; Orientation Access" prompt. Tap Allow, and ALIGN reverts to its normal calibrate-on-target behavior on subsequent taps.</li>
+  <li><strong>Toggle Push-to in Chart Settings (gear icon).</strong> Toggling it off then on again also fires the permission prompt.</li>
+</ul>
+<p>Android phones that support orientation events grant access transparently &mdash; no prompt; sensors flow as soon as the chart opens.</p>
+<p>If your device has no orientation sensors at all (desktop browser, no-magnetometer Android tablet), the Push-to toggle in Chart Settings shows <em>No motion sensors detected</em> and stays disabled. The chart works as a planetarium.</p>
+
+<h4>How Push-To Works</h4>
+<p>With Push-To on and sensors flowing, the chart's <strong>orange Mount marker</strong> shows the phone's current aim direction (interpreted as where the OTA is pointed, assuming the phone is mounted parallel to the tube). The mount marker tracks live as you swing the telescope.</p>
+<p>Tap any object on the chart &mdash; star, DSO, planet &mdash; and three things happen at once:</p>
+<ul>
+  <li>The tapped object becomes the <strong>active push-to target</strong>. A green target glyph anchors at its sky position.</li>
+  <li>The chart camera <strong>snaps back to follow your aim marker</strong>. As you push the telescope toward the target, the chart re-centers on the aim marker each tick; the target glyph stays anchored at its sky position so the relative geometry between aim and target stays visible.</li>
+  <li>A yellow <strong>navigation arrow</strong> draws from the aim marker to the target, with a distance label (e.g. <code>&Delta; 12.3&deg;</code>, or <code>&Delta; 18'</code> at fine separation, or <code>on target</code> below 12 arcminutes).</li>
+</ul>
+<p>Push the OTA in the indicated direction. As the aim marker reaches the target glyph, the arrow shortens and finally collapses to <em>on target</em> with a green completion ring. The target object should now be in your finder / eyepiece.</p>
+<p>Tap a different object to replace the active target. Pan/zoom to browse without losing the active target &mdash; the camera-follow pauses while you pan, then re-engages on your next tap. Tapping empty sky does not replace the target.</p>
+<p>Turning Push-To off clears the active target. The chart reverts to motor-driven pip (or no pip if the mount isn't connected).</p>
+
+<h4>Picking Targets from the Target Page</h4>
+<p>You don't have to start from the chart. Picking a target on the <a href="#target">Target page</a> &mdash; via Find Target, Saved Targets, Solar System, Custom RA/Dec, or Nearby &mdash; sets it up for the chart automatically:</p>
+<ul>
+  <li><strong>Push-To on:</strong> the picked target becomes the <em>active push-to target</em> straight away. Open Star Seeker and you'll see the green target glyph at its sky position with the arrow drawing from your aim marker. No second tap on the chart needed &mdash; you already chose this target on the Target page, so the app skips the redundant confirmation step.</li>
+  <li><strong>Push-To off (planetarium / motorized GoTo use):</strong> the picked target appears as a yellow open ring on the chart. The chart centers on it. No vector arrow, no sensor follow &mdash; just a marker showing where your selection lives in the sky. Useful for orientation before a GoTo, or just to look around the field.</li>
+</ul>
+<p>The chart also auto-unlocks (releases lock-to-mount) when a fresh target is picked on the Target page, so the new target is actually visible. You can re-engage LOCK from the chart any time.</p>
+<p>The reverse flow works too: tap an object on the chart, switch to the Target page, and the picked target is already in the search box. The Nearby search there centers on it (instead of motor counts), so finding companions or related objects is one tap away.</p>
+
+<h4>ALIGN in Push-To</h4>
+<p>ALIGN in Push-To is <strong>essential</strong>, not optional. The phone's compass is the only thing telling the chart where the OTA is pointed; without calibration, the aim marker can be off by tens of degrees from sky reality and pushing toward the target arrow won't land on the actual target.</p>
+<p>The workflow:</p>
+<ol>
+  <li>Pick a bright star you can identify visually. Either pick it from the Target page (it'll be active immediately) or tap it on the chart.</li>
+  <li>Physically center it in your finder / low-power eyepiece.</li>
+  <li>Press <strong>ALIGN</strong> (top-right of the chart). Confirm "Calibrate push-to on [star]?".</li>
+  <li>The chart records the offset between where the phone says it's pointing and where the star actually is in the sky. The offset persists across app restarts; the red <strong>cal</strong> badge at the top of the chart shows what you calibrated on and how long ago.</li>
+</ol>
+<p>What ALIGN adjusts: a single azimuth (compass-heading) scalar. The phone's accelerometer-derived altitude is trusted as-is &mdash; gravity is an absolute physical reference and doesn't drift, while the magnetometer can be off by 10&deg;+ from local declination, hard-iron interference, or hand-held disturbance. ALIGN corrects the dominant error and trusts gravity for tilt.</p>
+<p>If the chart is also off in altitude after ALIGN, the cause is usually mechanical &mdash; the phone bracket isn't parallel to the OTA tube, so the phone's gravity-relative tilt doesn't match the OTA's tilt. The fix is to re-clamp the phone bracket parallel to the tube.</p>
+<p>ALIGN does <strong>not</strong> issue a PMC-Eight Sync, modify the mount alignment model, or move the motors. It only writes to the phone-sensor calibration in local storage. If a motorized mount is connected, its alignment is independent of push-to ALIGN.</p>
+<p>The ALIGN button is always visible while Push-To is on. It is greyed out until both sensors are confirmed working AND you have an active push-to target. The single exception is the cold-boot iPhone case described above, where ALIGN is tappable from the start (its first tap is the iOS permission gesture).</p>
+
+<h4>Push-To with a Motorized Mount Connected</h4>
+<p>If a motorized mount is connected and you re-enable Push-To from Chart Settings, the chart's Mount marker is sensor-driven (not motor-driven) so the chart reflects what your phone says, not what the motors say. Motor telemetry continues to run in the background (top app-bar RA/Dec strip still shows mount position).</p>
+<p>While Push-To is on, every motor GoTo button across the app is disabled and labeled <code>GOTO (push-to)</code> &mdash; on the Target page (main GoTo, Alt/Az GoTo, SYNC), on the Control page, and on the chart itself. Push-To is a manual-pointing UX; issuing a motor slew while in push-to would put the chart pip out of sync with the motors. Turn Push-To off in Chart Settings to re-enable motor GoTo.</p>
+
+<h3 id="ss-mount">8.6 Mount Marker, Telrad &amp; Lock</h3>
+
+<h4>Mount Marker</h4>
+<p>When the mount is connected, an <strong>orange marker</strong> sits at the mount's actual sky position regardless of mode &mdash; a single open ring with four short stub lines just outside it (no center crosshair, so the target object stays unobscured). The marker updates in real time as the mount slews and tracks. If it's off-screen, drag the chart to find it.</p>
+
+<h4>Telrad Reticle (screen center)</h4>
+<p>Three faint red rings at the screen center represent a real <strong>Telrad finder</strong> with rings at 0.5&deg;, 2&deg;, and 4&deg; radii (so 1&deg;, 4&deg;, 8&deg; in diameter). They scale with the chart's field of view, so what you see in the rings is what would land in the corresponding Telrad ring at the eyepiece. At extreme zoom-out the outer ring clamps to a minimum visible size while keeping the inner rings proportional.</p>
+<p>At narrow FOVs (15&deg; or less) each ring is also labeled at the top with its diameter (1&deg;, 4&deg;, 8&deg;) so you can quickly judge eyepiece-field comparisons against the catalog object sizes shown elsewhere in the app.</p>
+
+<h4>Lock to Mount</h4>
+<p>In FREE mode with the mount connected (and Push-To off), a small orange button appears top-right showing the chart's current lock state &mdash; <strong>UNLOCKED</strong> or <strong>LOCKED</strong>. Both labels are adjectives describing what the chart is doing right now; tapping the button toggles the state.</p>
+<p>When LOCKED, the chart's center is glued to the mount &mdash; the chart auto-pans as the mount tracks across the sky. Any finger drag or pinch automatically releases the lock; the label flips to UNLOCKED and you're back to free panning. Tap again any time to re-engage.</p>
+<p>LIVE mode and Push-To both hide the lock button (the camera is already driven by phone orientation in those cases; locking to the mount would conflict).</p>
+<p><strong>Lock state persists across app restarts.</strong> If you reopen the app while the mount is connected, the chart re-engages the lock automatically. If the mount isn't connected at launch, the flag is held and the lock engages as soon as the mount reconnects.</p>
+<p><strong>Picking a new target on the Target page auto-releases the lock.</strong> Without that, the chart would briefly show the new target during init then snap back to the mount, hiding what you picked. After picking, the chart starts unlocked so you can see the target marker; re-engage lock manually if you want to follow the mount again.</p>
+
+<h3 id="ss-planets">8.7 Solar-System Bodies</h3>
+<p>Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, and Pluto are drawn at their current sky positions, each as a colored filled disk with a name label:</p>
+<ul>
+  <li><strong>Sun</strong> bright yellow &nbsp;&middot;&nbsp; <strong>Moon</strong> light grey &nbsp;&middot;&nbsp; <strong>Mercury</strong> warm grey &nbsp;&middot;&nbsp; <strong>Venus</strong> cream-white</li>
+  <li><strong>Mars</strong> orange-red &nbsp;&middot;&nbsp; <strong>Jupiter</strong> tan &nbsp;&middot;&nbsp; <strong>Saturn</strong> pale gold</li>
+  <li><strong>Uranus</strong> pale cyan &nbsp;&middot;&nbsp; <strong>Neptune</strong> deep blue &nbsp;&middot;&nbsp; <strong>Pluto</strong> warm tan</li>
+</ul>
+<p>Tap any body to select it as a target &mdash; same as tapping a star or DSO.</p>
+
+<h3 id="ss-mag">8.8 Magnitude Slider</h3>
+<p>A small <strong>dual-thumb slider</strong> on the right edge of the chart filters what's shown by magnitude. Drag the <strong>top thumb</strong> down to hide faint stuff; drag the <strong>bottom thumb</strong> up to hide bright stuff. The shaded band between the thumbs is the visible range.</p>
+<ul>
+  <li>Range: &minus;3 (brighter than any catalog entry) to 14 (deeper than the catalog reaches).</li>
+  <li>Default: &minus;3 to 9 (everything brighter than mag 9 visible).</li>
+  <li>Step: 0.5 magnitudes.</li>
+  <li>Applies to <strong>both stars and DSOs</strong>. DSOs without a recorded magnitude in the catalog (often named objects with no integrated brightness listed) are treated as ~mag 8.5, so they're filtered out alongside stars when you drag the faint cap below 8.5.</li>
+  <li><strong>Solar-system bodies are exempt</strong> &mdash; Sun, Moon, and planets always show regardless of slider position.</li>
+</ul>
+<p>The bottom-left readout shows the current band. Stars and DSOs hidden by the slider are also un-tappable, so you can't accidentally select something you can't see.</p>
+
+<h3 id="ss-lines">8.9 Reference Lines &amp; Zenith</h3>
+<p>Beneath the stars, DSOs, and constellation stick figures, Star Seeker draws four reference great circles plus a zenith marker. Each great-circle line is self-labeled &mdash; an italic yellow text tag rotated to follow the line's local direction at the on-canvas point closest to chart center.</p>
+<ul>
+  <li><strong>Ecliptic</strong> &mdash; yellow short-dash. The Sun's apparent path through the sky over the year. Planets always sit close to it.</li>
+  <li><strong>Local meridian</strong> &mdash; yellow solid. The great circle through your zenith and the celestial poles, drawn continuously around the celestial sphere as two RA half-circles 12h apart. Objects on this line are "in transit" &mdash; at their highest right now.</li>
+  <li><strong>Celestial equator</strong> &mdash; yellow long-dash-dot. The great circle at Dec = 0&deg;, the natural reference line for any equatorial mount.</li>
+  <li><strong>Galactic equator</strong> &mdash; yellow dotted. The plane of the Milky Way disk transformed into J2000 equatorial coordinates. Useful for orientation when the Milky Way is overhead.</li>
+</ul>
+<p>All four lines are bright yellow, distinguished purely by dash pattern &mdash; the high luminance survives the night-vision hue shift toward red, and the dash pattern carries the identity even when colors collapse.</p>
+
+<h4>Constellation Lines &amp; Names</h4>
+<p>Soft blue stick figures connect the named stars of all 88 IAU constellations. Tap the yellow <strong>LINES</strong> button (top-right) to hide or show them. The four reference great circles above stay visible regardless of LINES state.</p>
+<p>When LINES is on AND the chart's field of view is wide enough (20&deg; or more), each constellation also gets an italic dim-blue name label drawn near its star-vertex centroid. At narrower FOVs the constellation names suppress themselves to keep zoomed-in views uncluttered.</p>
+
+<h4>Zenith Marker</h4>
+<p>A small yellow open ring with a "Z" letter sits at your local zenith &mdash; RA equal to local sidereal time, Dec equal to your latitude. It's a visual orientation anchor for the chart, not a clickable target.</p>
+
+<h3 id="ss-goto">8.10 Identifying Objects</h3>
+
+<h4>Center Label</h4>
+<p>When the chart's field of view is 60&deg; or less, whatever object sits closest to the chart center (within the inner Telrad ring &mdash; about 0.5&deg; of screen center) gets a small white-on-dark label drawn just to its right. Pan around with finger drag and the label hops to whichever object is now central. Pan past 60&deg; FOV and the label suppresses itself.</p>
+<p>Label format depends on the object type:</p>
+<ul>
+  <li><strong>Constellation-line node stars</strong> use Bayer designations when known (&alpha; CMa, &beta; Tri, &pi;&sup3; Cyg, ...), Flamsteed numbers when only those exist (38 Lyn, 7 Cam), or "HIP &lt;n&gt; ABBR" for catalog-faint nodes. Every constellation node has a label.</li>
+  <li><strong>Other named stars</strong> use their Bayer form if available (e.g. &alpha; CMa for Sirius), else a proper name, else "HIP &lt;n&gt;".</li>
+  <li><strong>DSOs</strong> use their catalog name (M31, NGC 2237, ...).</li>
+  <li><strong>Solar-system bodies</strong> use their body name (Mars, Jupiter, ...).</li>
+</ul>
+
+<h4>Tap to Select &amp; GoTo</h4>
+<p>Tap any object &mdash; star, DSO, or planet &mdash; and a panel slides up from the bottom with the name, RA / Dec (in JNow, matching the mount and telemetry frame), Alt / Az for your site at the current time, magnitude, and type. A small <strong>green marker</strong> (filled disk with four diagonal ticks) stamps the chart at the tapped position so you can confirm the tap landed on the intended object before slewing. The marker stays put while you pan or zoom; it clears when you dismiss the panel (the &times; button) or after GoTo. The selection also flows to the <strong>Target page</strong> automatically: when you navigate there, the same target is already selected with full RA / Dec / Alt / Az populated and ready for SYNC, custom edits, or saving.</p>
+<p>Tap <strong>GoTo</strong> in the chart panel to slew the mount to it; tracking starts automatically. The button is disabled when the mount isn't connected.</p>
+<div class="warning">
+<strong>Below-horizon gate:</strong> if the selected target is below 5&deg; altitude, GoTo is blocked with a red "below the horizon" warning. The mount won't slew into the ground or local clutter &mdash; pick something higher.
+</div>
+
+<h3 id="ss-mirror">8.11 Mirror Mode (Star Diagonal)</h3>
+<p>Tap the <strong>MIRROR</strong> button (cyan, top-right) to flip the chart left-right. Use this when observing through a star diagonal (SCT or refractor) &mdash; the eyepiece view is mirrored, and turning MIRROR on makes the chart match what you see in the eyepiece. Geometry mirrors uniformly: stars, DSOs, constellation lines, the Telrad reticle, the mount marker, and reference great circles all flip together. <strong>Text labels stay readable left-to-right</strong> at their mirrored positions, so identification still works normally.</p>
+<p>Pan and tap automatically compensate &mdash; dragging right still moves what you see right, and tapping a star still selects what's actually under your finger. <strong>The setting persists across app restarts</strong>: if you observe with a star diagonal regularly, turn MIRROR on once and it stays on.</p>
+
+<h3 id="ss-projection">8.12 Equatorial vs Alt-Az</h3>
+<p>Tap the <strong>EQ / ALTAZ</strong> button (white, top-right) to switch between two display frames:</p>
+<ul>
+  <li><strong>EQ (default)</strong> &mdash; celestial north is up. The local meridian is a roughly vertical line through chart center; the celestial equator is a fixed great circle. Stars stay put as time passes (the meridian line sweeps across them). This is the conventional astro-atlas view and matches how most planetarium software draws charts.</li>
+  <li><strong>ALTAZ</strong> &mdash; the <strong>zenith is up</strong>. The chart shows the sky the way you'd see it standing on the ground looking around: zenith overhead, horizon at the chart edge if FOV is wide enough. Stars sweep east-to-west across the chart at sidereal rate as time passes. Useful for naked-eye matching, alt-az mounts (Dobsonians, EXOS Nano AZ), and "what's overhead right now" planning.</li>
+</ul>
+<p>Switching modes is reversible and lossless &mdash; the camera stays pointed at the same sky position. In ALTAZ, dragging right pans west (drag-right shows what was to the right), and dragging down points the camera higher in altitude. Tap-to-select, the Telrad reticle, the mount marker, lock-to-mount, and MIRROR all work normally in both modes.</p>
+<p>In LIVE mode the projection toggle is mostly cosmetic: the camera basis is already driven by the phone's orientation (zenith-up by physics).</p>
+<p><strong>The setting persists across app restarts</strong>, so once you pick a frame you don't have to re-pick on next launch.</p>
+
+<h3 id="ss-grids">8.13 Coordinate Grids</h3>
+<p>Two optional grid overlays give the chart a positional context. Both are <strong>on by default</strong> and toggleable via the gear icon (<a href="#ss-settings">§8.14</a>). Both are FOV-adaptive — wide views show a coarse grid (e.g. 30° / 2 h spacing), narrow views show a fine grid (down to 5′ / 20 s spacing).</p>
+
+<h4>RA/Dec grid</h4>
+<p>Cool blue-white. Parallels of declination (small circles around the celestial poles) and half-meridians of right ascension. Drawn in the <strong>current-epoch (JNow) frame</strong> so the grid lines align with the local meridian and the bottom-left readout. Edge labels: declination at the left and right canvas edges, right ascension at the bottom edge. RA labels are formatted as hours-and-minutes (e.g. <code>0h&nbsp;40m</code>) so they read at a glance against the LST in the top telemetry strip.</p>
+
+<h4>Alt/Az grid</h4>
+<p>Warm tan. Parallels of altitude (rings around the zenith) and meridians of azimuth (great circles from horizon to zenith). The four cardinal directions get letter labels — <strong>N / E / S / W</strong> — instead of numeric azimuths. Alt labels at the left/right canvas edges, az labels at the bottom edge. In <strong>ALTAZ projection mode</strong> the alt parallels appear roughly horizontal and the az meridians vertical — this is the natural use case. In <strong>EQ mode</strong> the same lines appear as curves centered around the zenith (which moves through the equatorial frame as time passes).</p>
+
+<h4>Density management</h4>
+<ul>
+  <li><strong>Lines</strong> thin out automatically near the celestial poles (for the RA grid) and near the zenith (for the alt/az grid). At those geometric singularities the meridians converge — without thinning the chart would clutter into lines an arcminute apart. Thinning only kicks in when the visible line count exceeds ~7 across the chart.</li>
+  <li><strong>Labels</strong> follow the lines. At wide FOV (&gt; 30°) every line is labeled. At medium FOV (5°–30°) every other line is labeled. Labels are also suppressed in the upper third of the canvas where lines converge near a pole or zenith — that's the cluster zone where labels would overlap.</li>
+  <li>The right-side labels are suppressed where they would overlap the magnitude slider.</li>
+</ul>
+
+<p>If you find one grid distracting in a particular projection mode, turn it off in Chart Settings; the toggle persists.</p>
+
+<h4>Change grid with projection</h4>
+<p>An optional setting in Chart Settings (under <em>Coordinate Grids</em>) named <strong>Change grid with projection</strong> ties the active grid to the chart's projection mode automatically. With it on:</p>
+<ul>
+  <li>In <strong>EQ</strong> projection, only the RA/Dec grid renders &mdash; the Alt/Az grid is suppressed regardless of its individual toggle.</li>
+  <li>In <strong>ALTAZ</strong> projection, only the Alt/Az grid renders &mdash; RA/Dec is suppressed.</li>
+</ul>
+<p>The individual line/label toggles still act as filters within the chosen grid (e.g. you can keep RA/Dec lines but hide their labels). When the override is off, both grids honor their own toggles independently. Default is off, so the chart's existing behavior is preserved unless you opt in.</p>
+
+<h3 id="ss-settings">8.14 Chart Settings</h3>
+<p>Tap the <strong>gear icon (&#9881;)</strong> at the top-right of the chart to open the settings panel. Each row toggles one chart layer: tap <strong>ON / OFF</strong> and the chart redraws immediately.</p>
+<p>The panel is organized into one mode toggle and five layer sections:</p>
+<ul>
+  <li><strong>Mode</strong> &mdash; the <strong>Push-to</strong> toggle (see <a href="#ss-pushto">§8.5</a>). Distinct from the layer toggles below it because Push-To changes interaction behavior (tap path, ALIGN, camera follow), not just visibility. Disabled and labeled "Checking sensors&hellip;" or "No motion sensors detected" until the chart's sensor probe completes.</li>
+  <li><strong>Reference Lines</strong> &mdash; the four yellow great circles (ecliptic, celestial equator, galactic equator, local meridian) each with separate <em>line</em> and <em>label</em> toggles, plus the zenith marker (Z). Once you know the meridian by sight, turn its label off without losing the line.</li>
+  <li><strong>Coordinate Grids</strong> &mdash; RA/Dec grid + labels, Alt/Az grid + labels.</li>
+  <li><strong>Catalog</strong> &mdash; stars, DSOs, constellation lines + labels (the <strong>LINES</strong> top-right button toggles both as a unit), planets + labels.</li>
+  <li><strong>Reticle &amp; Markers</strong> &mdash; Telrad rings + diameter labels, mount marker, center-of-field label.</li>
+  <li><strong>Display</strong> &mdash; the bottom-left FOV/mag/alt/az/RA/Dec readout.</li>
+</ul>
+<p><strong>Reset</strong> restores every layer to its default-on state. <strong>Done</strong> dismisses the panel; tapping outside the panel also dismisses it.</p>
+<p><strong>All settings persist across app restarts</strong>, alongside mirror, projection mode, and lock-to-mount state. Configure once, and the chart looks the way you want it from then on.</p>
+
+<h3 id="ss-offline">8.15 Data &amp; Offline</h3>
+<p>All chart data &mdash; star catalog, DSO catalog, constellation lines, and the planetary ephemeris &mdash; is bundled with the app and cached by the service worker. Star Seeker works exactly the same on home WiFi, on the mount's AP network, or in airplane mode at a dark-sky site.</p>
+
+<h3 id="ss-wiki">8.16 Wikipedia Lookup</h3>
+<p>Star Seeker has two ways to open the Wikipedia article for a chart object:</p>
+<ul>
+  <li><strong>Selection panel</strong> &mdash; in FREE / LIVE mode, tapping an object pops a panel at the bottom of the chart with the object's name, RA / Dec (in JNow), Alt / Az, and a <strong>Wikipedia ↗</strong> button.</li>
+  <li><strong>Chart top-cluster button</strong> &mdash; the leftmost button on the second row of the top-right control cluster shows a small <strong>W</strong> icon. Visible whenever a chart target is in play (selected via tap, or active push-to target). This is the only Wikipedia entry point in <a href="#ss-pushto">push-to mode</a>, since push-to does not open the selection panel.</li>
+</ul>
+<p>Both buttons open the same full-screen modal as the <a href="#target-wiki">Target-page link</a>. An internet connection is required (the button shows <strong>Wikipedia (offline)</strong> when the connectivity probe has failed).</p>
+
+<h4>Catalog identifier resolution</h4>
+<p>Star objects are referenced by many overlapping catalog schemes &mdash; Hipparcos (HIP), Yale Bright Star (HR), Henry Draper (HD), Smithsonian (SAO), Gliese (GJ), Bayer letters, Flamsteed numbers, proper names. Wikipedia's article naming is inconsistent across these. ExploreStars Envision routes the lookup through several mechanisms so the modal lands on the right article whenever possible:</p>
+<table>
+  <tr><th>Input pattern</th><th>How it's resolved</th></tr>
+  <tr><td><code>M31</code>, <code>M42</code>, <code>M 042</code></td><td>Expanded to <code>Messier_31</code>, <code>Messier_42</code> &hellip; which Wikipedia auto-redirects to the proper article (Andromeda Galaxy, Orion Nebula).</td></tr>
+  <tr><td><code>NGC 224</code>, <code>IC 5070</code>, <code>NGC1039</code></td><td>Direct article path with normalized spacing.</td></tr>
+  <tr><td><code>HIP 91262</code>, <code>HR 2491</code>, <code>HD 172167</code>, <code>SAO 67174</code>, <code>GJ 411</code>, <code>BD&hellip;</code>, <code>TYC&hellip;</code>, <code>FK&hellip;</code>, <code>PPM&hellip;</code></td><td>Wikipedia's <em>I'm Feeling Lucky</em> search endpoint (uses Wikipedia's own redirect table). In parallel, Wikidata is queried for the catalog cross-reference; if Wikidata knows the code maps to a specific article, the modal upgrades to that article (you may briefly see the search page before it jumps).</td></tr>
+  <tr><td>Bare Bayer-letter forms like <code>i Persei</code>, <code>h Cas</code>, <code>k Per</code></td><td>Same path as HIP/HR/HD &mdash; Wikipedia's redirect table or Wikidata, whichever resolves first.</td></tr>
+  <tr><td>Proper names like <code>Vega</code>, <code>Sirius</code>, <code>Andromeda Galaxy</code>, <code>Iota Persei</code>, <code>Beta Persei</code></td><td>Direct article path. One fewer redirect than search.</td></tr>
+</table>
+<p>For obscure catalog codes Wikipedia and Wikidata both lack &mdash; most middling-bright stars don't have their own articles &mdash; the modal falls back gracefully to a Wikipedia search-results page rather than a 404. The article you want may be linked from the search results.</p>
+
+<div class="note">
+<strong>Note:</strong> Wikipedia titles its star articles by whichever designation it considers canonical, which isn't always what your input was. <code>HR 2491</code> resolves to "Sirius"; <code>HIP 91262</code> resolves to "Vega"; <code>i Persei</code> resolves to "9 Persei" (Wikipedia titles many lowercase-Latin Bayer-letter stars by their Flamsteed number). The modal's header shows what you searched for; the article body shows Wikipedia's chosen title.
+</div>
+
 <!-- ======================= CALCULATORS ======================= -->
-<h2 id="calculators">8. Calculators</h2>
+<h2 id="calculators">9. Calculators</h2>
 <p>Twelve astronomy calculators are available from the Setup page. Select a calculator from the dropdown, enter values, and tap <strong>Compute</strong>.</p>
 
 <table>
@@ -480,7 +800,7 @@
 </div>
 
 <!-- ======================= FIRMWARE ======================= -->
-<h2 id="firmware">9. Firmware Config</h2>
+<h2 id="firmware">10. Firmware Config</h2>
 <p>Read and write PMC-Eight Propeller firmware settings. Access from Setup &rarr; <strong>Firmware Config</strong> (requires connection).</p>
 <ol>
   <li>Tap <strong>Read Config from Mount</strong> to load current settings.</li>
@@ -505,8 +825,10 @@
 </div>
 
 <!-- ======================= STAR ALIGNMENT ======================= -->
-<h2 id="staralign">10. Star Alignment</h2>
+<h2 id="staralign">11. Star Alignment</h2>
 <p>Build a multi-star pointing model that corrects GoTo accuracy for polar alignment error, home position offsets, east-west level error, and cone error. Access from Setup &rarr; <strong>Star Alignment</strong> (requires connection).</p>
+<p><strong>How important is mount alignment?</strong> For ExploreStars Envision as typically used &mdash; a planetarium chart for picking targets and tapping GoTo &mdash; mount alignment is a nice-to-have, not a necessity. A GoTo with rough alignment usually lands the target inside a low-power eyepiece field, which is good enough to identify and center manually. The pointing model in this section becomes worth the time mainly when you're chaining many targets without re-centering between, doing astrophotography, or working at high power. For visual browsing, casual GoTo, or any session where you'll tweak the eyepiece position anyway, polar alignment alone (or even just a level mount and eyeballed home position) is often plenty.</p>
+<p>Push-To users (<a href="#ss-pushto">§8.5</a>) ignore this entirely &mdash; that workflow's accuracy comes from the phone-sensor ALIGN on the chart, not from any mount alignment.</p>
 
 <h3>How It Works</h3>
 <ol>
@@ -550,7 +872,7 @@
 </div>
 
 <!-- ======================= POLAR ALIGNMENT ======================= -->
-<h2 id="polar">11. Daylight Polar Alignment</h2>
+<h2 id="polar">12. Daylight Polar Alignment</h2>
 <p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>.</p>
 
 <h4>How It Works</h4>
@@ -576,14 +898,14 @@
 </div>
 
 <!-- ======================= NIGHT VISION ======================= -->
-<h2 id="nightvision">12. Night Vision Mode</h2>
+<h2 id="nightvision">13. Night Vision Mode</h2>
 <p>Tap the <strong>moon icon</strong> in the app bar to toggle night vision mode. The screen shifts to deep red tones to preserve your dark adaptation while observing.</p>
 <p>The mode uses a CSS filter that converts all colors to red and reduces brightness. Tap the moon icon again to return to normal mode.</p>
 
 <!-- ======================= NETWORKING ======================= -->
-<h2 id="networking">13. Networking</h2>
+<h2 id="networking">14. Networking</h2>
 
-<h3 id="apmode">12.1 AP Mode (Field Use)</h3>
+<h3 id="apmode">14.1 AP Mode (Field Use)</h3>
 <p>The default configuration for field use. The PMC-Eight creates its own WiFi network.</p>
 <ol>
   <li>Power on the PMC-Eight.</li>
@@ -592,7 +914,7 @@
 </ol>
 <p>Multiple devices may connect simultaneously &mdash; each will have full control and can display mount status. The mount responds to any command regardless of source, so users must coordinate to avoid sending conflicting commands.</p>
 
-<h3 id="lanmode">12.2 LAN Mode (Home Use)</h3>
+<h3 id="lanmode">14.2 LAN Mode (Home Use)</h3>
 <p>For home use, you can configure the PMC-Eight to join your home WiFi network. This allows the mount, your phone, and your PC to all be on the same network simultaneously.</p>
 <ol>
   <li>Configure the PMC-Eight to join your home WiFi (see OTA quick start guide).</li>
@@ -601,24 +923,24 @@
 </ol>
 
 <div class="tip">
-<strong>Multi-client:</strong> In LAN mode, ExplorestarsLite on your phone can run alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel) on your PC, all controlling the same mount.
+<strong>Multi-client:</strong> In LAN mode, ExploreStars Envision on your phone can run alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel) on your PC, all controlling the same mount.
 </div>
 
-<h3 id="alpaca">12.3 Alpaca Server Compatibility</h3>
-<p>ExplorestarsLite works seamlessly alongside the PMC-Eight ASCOM Alpaca telescope driver. The Alpaca server may connect to the PMC-Eight either serially (USB) or through WiFi, and may be configured to use either TCP or UDP &mdash; the PMC-Eight supports both simultaneously without specific configuration. The app and Alpaca can communicate with the mount at the same time.</p>
+<h3 id="alpaca">14.3 Alpaca Server Compatibility</h3>
+<p>ExploreStars Envision works seamlessly alongside the PMC-Eight ASCOM Alpaca telescope driver. The Alpaca server may connect to the PMC-Eight either serially (USB) or through WiFi, and may be configured to use either TCP or UDP &mdash; the PMC-Eight supports both simultaneously without specific configuration. The app and Alpaca can communicate with the mount at the same time.</p>
 
 <p>When running together:</p>
 <ul>
-  <li><strong>Either can control the mount</strong> &mdash; GoTo, tracking, slewing, and sync commands from ExplorestarsLite or any ASCOM Alpaca Server connected planetarium software (e.g., Cartes du Ciel, Stellarium, SkySafari) are accepted by the mount.</li>
-  <li><strong>Real-time status</strong> &mdash; ExplorestarsLite displays the mount's current position, tracking state, and slew status regardless of which client issued the command. If your planetarium software starts a GoTo, the app shows "Slewing" and updates the position in real time.</li>
-  <li><strong>Shared tracking</strong> &mdash; If Alpaca starts or stops tracking, ExplorestarsLite detects the rate change within a few seconds and updates its display.</li>
+  <li><strong>Either can control the mount</strong> &mdash; GoTo, tracking, slewing, and sync commands from ExploreStars Envision or any ASCOM Alpaca Server connected planetarium software (e.g., Cartes du Ciel, Stellarium, SkySafari) are accepted by the mount.</li>
+  <li><strong>Real-time status</strong> &mdash; ExploreStars Envision displays the mount's current position, tracking state, and slew status regardless of which client issued the command. If your planetarium software starts a GoTo, the app shows "Slewing" and updates the position in real time.</li>
+  <li><strong>Shared tracking</strong> &mdash; If Alpaca starts or stops tracking, ExploreStars Envision detects the rate change within a few seconds and updates its display.</li>
   <li><strong>Manual centering</strong> &mdash; Use the app's thumb pad for fine centering while your planetarium software maintains the target reference. This is especially useful for visual observing sessions where the PC handles planning and the phone handles eyepiece work.</li>
 </ul>
 
 <p>No special setup is required. Simply connect both the app and Alpaca to the same PMC-Eight, either in AP mode or on your home LAN.</p>
 
 <!-- ======================= MOUNTS ======================= -->
-<h2 id="mounts">13. Supported Mounts</h2>
+<h2 id="mounts">15. Supported Mounts</h2>
 
 <table>
   <tr><th>Mount</th><th>Encoder Counts</th><th>Notes</th></tr>
@@ -628,7 +950,7 @@
 </table>
 
 <!-- ======================= TROUBLESHOOTING ======================= -->
-<h2 id="troubleshooting">14. Troubleshooting</h2>
+<h2 id="troubleshooting">16. Troubleshooting</h2>
 
 <table>
   <tr><th>Problem</th><th>Solution</th></tr>
@@ -640,11 +962,73 @@
   <tr><td>Night vision mode too dark</td><td>This is by design for dark adaptation. Your eyes will adjust after a few minutes.</td></tr>
   <tr><td>App installed but won't open</td><td>Ensure you're running Android 7.0 (API 24) or later.</td></tr>
   <tr><td>Settings lost after reinstall</td><td>Settings are stored in the app's local storage. Reinstalling or clearing app data resets them. Re-enter your location and mount IP.</td></tr>
+  <tr><td>Star Seeker chart is way off in LIVE mode</td><td>Phone compass accuracy is limited. Tap <strong>ALIGN</strong>, aim the reticle at a bright named star, and tap <strong>Confirm</strong> on the candidate sheet. The chart re-snaps to truth and the offset persists across restarts.</td></tr>
+  <tr><td>Star Seeker won't follow the phone in LIVE</td><td>Your phone may lack a magnetometer (common on budget Android). Tap <strong>LIVE</strong> back to <strong>FREE</strong> and use finger-pan + pinch-zoom instead; tap-to-GoTo still works.</td></tr>
+  <tr><td>Star Seeker Telrad reticle not visible</td><td>Check that the mount is connected (green dot in app bar). If the reticle is far off the current view in FREE, drag with one finger to pan until you find it.</td></tr>
+  <tr><td>Star Seeker chart is mirrored on one axis</td><td>Some phone / OS combinations report sensor axes with opposite sign. In LIVE mode, tap the &beta;&plusmn;, &gamma;&plusmn;, or &alpha;&plusmn; button below ALIGN to flip the offending axis until the chart matches the sky.</td></tr>
+  <tr><td>iPhone won't let Star Seeker use sensors</td><td>iOS gates motion/orientation access behind a user prompt. Tap <strong>LIVE</strong> again to re-trigger the "Motion &amp; Orientation Access" dialog and accept it.</td></tr>
+  <tr><td>Push-to aim marker doesn't appear (iPhone)</td><td>Sensor permission hasn't been granted yet. Tap <strong>ALIGN</strong> on the chart &mdash; first tap on cold-boot iPhone triggers the iOS "Motion &amp; Orientation Access" prompt. Tap Allow and the aim marker should appear within a second. Alternative: open Chart Settings (gear icon) and toggle Push-to off then on to fire the same prompt.</td></tr>
+  <tr><td>Push-to toggle is greyed in Chart Settings</td><td>Either the chart is still probing for sensors at first open (label "Checking sensors&hellip;" &mdash; wait 1-2 seconds), or your device has no orientation sensors (desktop browser, no-magnetometer Android &mdash; label "No motion sensors detected"). The chart still works as a planetarium without push-to.</td></tr>
+  <tr><td>Push-to chart is way off</td><td>Phone compass needs calibration. Center a bright known star in the eyepiece, tap that star on the chart (or pick from the Target page) to make it the active push-to target, then tap <strong>ALIGN</strong> and confirm. Chart pins to truth at that star; offset persists across app restarts.</td></tr>
+  <tr><td>Push-to chart is consistently off in altitude</td><td>Likely a phone-bracket pitch error &mdash; the phone isn't mounted parallel to the OTA tube. ALIGN only corrects azimuth (the compass), not altitude (which the gravity sensor handles directly). Re-clamp the bracket so the phone face is parallel to the tube.</td></tr>
+  <tr><td>Push-to vector arrow won't disappear</td><td>The active target is sticky &mdash; pan/zoom won't clear it. Replace it by tapping a different object, or turn Push-To off in Chart Settings (which clears the active target).</td></tr>
+  <tr><td>GoTo button greyed out, says "GOTO (push-to)"</td><td>Push-To is on; motor GoTo is disabled while push-to is the active interaction mode. Open Chart Settings (gear icon) and toggle Push-to off to re-enable motor GoTo. Connecting the mount also clears push-to automatically.</td></tr>
+  <tr><td>Wikipedia button shows "(offline)"</td><td>The connectivity probe didn't reach the internet. Check WiFi / cellular. The probe re-runs on app open and on each foreground/online event; switching networks usually re-enables the button without reload.</td></tr>
+  <tr><td>Wikipedia article doesn't match the target</td><td>For obscure catalog codes (most HIP / HR / HD numbers), Wikipedia and Wikidata may not have a redirect or cross-reference and the modal lands on the search-results page. Use the search box at the top of that page, or close the modal and pick the target by its proper name on the Target or Star Seeker page.</td></tr>
+  <tr><td>Wikipedia modal flashes briefly to a search page, then jumps to the article</td><td>Expected. The modal opens immediately with Wikipedia's search-and-go URL while the Wikidata cross-reference query runs in parallel. When Wikidata returns the canonical article, the iframe upgrades. Total delay is usually under a second.</td></tr>
+  <tr><td>Picked a target on Target page but chart still shows mount position</td><td>Older builds let the lock-to-mount setting hide the new target. Recent builds auto-release lock when a new target is picked &mdash; if your build still shows this, tap the LOCKED button on the chart to release manually.</td></tr>
 </table>
 
+<!-- ======================= CREDITS ======================= -->
+<h2 id="credits">17. Credits &amp; Data Sources</h2>
+<p>ExploreStars Envision bundles several open data sources. The full attribution document is in <code>LICENSES.md</code> at the repository root and bundled with the app at <code>_content/ExplorestarsLite.UI/LICENSES.md</code>.</p>
+
+<h3>Constellation lines</h3>
+<p>Constellation stick-figure line data based on <strong>IAU / Sky &amp; Telescope figures</strong> created by Alan MacRobert et al.; machine-readable transcription by <strong>Dominic Ford</strong>, from <a href="https://github.com/dcf21/constellation-stick-figures" target="_blank">dcf21/constellation-stick-figures</a>, used under <strong>CC BY 4.0</strong> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">creativecommons.org/licenses/by/4.0/</a>). The original <code>.dat</code> file has been re-encoded into JSON form with HIP-pair endpoints for use by ExploreStars Envision. No intended changes were made to the underlying stick-figure line choices.</p>
+
+<h3>Object catalog provenance</h3>
+<p>Portions of the original object database were derived from the <strong>Explore Scientific ExploreStars</strong> database and are used with permission from Explore Scientific. The bundled ExploreStars Envision catalog has since been curated, normalized, corrected, and augmented using public astronomical catalogues and reference services, including ESA Hipparcos/Tycho, the Yale Bright Star Catalog where applicable, RNGC/IC, SIMBAD/CDS, and other public astronomical resources.</p>
+
+<h3>Star data</h3>
+<p>Stellar entries are derived from the <strong>ESA Hipparcos and Tycho-II catalogues</strong>, used in accordance with the ESA data policy. Cross-references to public-domain identifier systems &mdash; Bayer, Flamsteed, SAO, HD/Harvard, DM, BD/CD/CPD, GSC &mdash; are listed where available; these naming systems require no attribution beyond their long-established credit chain.</p>
+
+<h3>Deep-sky objects</h3>
+<p>Non-stellar entries originated with the legacy ExploreStars catalog and trace to the <strong>Revised NGC (RNGC)</strong> and <strong>Index Catalogue (IC)</strong>, both in the public domain.</p>
+
+<h3>Object thumbnails &mdash; astrophotography</h3>
+<p>Object thumbnail images shown on the Target page are sourced from <strong>Explore Scientific&trade;</strong> (original ExploreStars&trade; project images, used with permission), <strong>Jim McKee</strong> (astrophotographs marked "Jim McKee" in the Target-page caption, used with permission &mdash; see more of his work on <a href="https://app.astrobin.com/u/mckeejh" target="_blank">AstroBin</a>), and <strong>NASA / JPL</strong> (specific solar-system imagery, public domain).</p>
+
+<h3>Planetary, solar, and lunar positions</h3>
+<p>Computed from algorithms in Jean Meeus, <em>Astronomical Algorithms</em>, 2nd ed., Willmann-Bell, 1998. Public-domain mathematics; credit retained as a courtesy.</p>
+
+<h3>Acknowledgments</h3>
+<p>Catalog augmentations and cross-reference verification were assisted by <strong>SIMBAD</strong> (<a href="https://simbad.u-strasbg.fr/simbad/" target="_blank">simbad.u-strasbg.fr/simbad/</a>), operated at CDS, Strasbourg.</p>
+<p>Thanks to <strong>Jerry Hubbell</strong> of Explore Scientific, LLC, for fruitful discussions during development and assistance with field testing.</p>
+
+<h3>Software dependencies</h3>
+<p>ExploreStars Envision&trade; uses MudBlazor (MIT), .NET 9 / Blazor (MIT), and Microsoft.Maui.Controls (MIT). License texts ship with the .NET runtime and the corresponding NuGet packages.</p>
+
+<h2 id="trademarks">18. Trademarks, Copyright &amp; Disclaimer</h2>
+
+<h3>Copyright</h3>
+<p>Copyright &copy; 2026 Wes McDonald. All rights reserved.</p>
+<p>ExploreStars Envision&trade; is provided as a compiled binary for personal use with the Explore Scientific&trade; PMC-Eight&trade; mount. The source code is not publicly distributed. Redistribution of the unmodified binary is permitted; modification, reverse engineering, decompilation, and source extraction are not. The software is provided "as is," without warranty of any kind.</p>
+
+<h3>Trademarks</h3>
+<ul>
+  <li><strong>ExploreStars Envision&trade;</strong> is a trademark of Wes McDonald.</li>
+  <li><strong>Explore Scientific&trade;</strong>, <strong>ExploreStars&trade;</strong>, and <strong>PMC-Eight&trade;</strong> are trademarks of <a href="https://www.explorescientific.com" target="_blank">Explore Scientific, LLC</a>, and are used here with acknowledgement.</li>
+</ul>
+
+<h3>Independence disclaimer</h3>
+<p>ExploreStars Envision&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. It is not produced or endorsed by Explore Scientific, LLC.</p>
+
+<h3>Third-party data &amp; software</h3>
+<p>See section 17 above for credits to bundled data sources and open-source dependencies. The full attribution record is in <code>LICENSES.md</code>, available in the <a href="https://github.com/wesmcd6/pmc8-tools/blob/explorestars-envision/LICENSES.md" target="_blank">public ExploreStars Envision distribution repository</a> and bundled with this application.</p>
+
 <footer>
-<p>ExplorestarsLite &copy; 2026 &bull; <a href="https://github.com/wesmcd6/pmc8-tools" target="_blank">github.com/wesmcd6/pmc8-tools</a></p>
-<p>PMC-Eight&trade; is a trademark of <a href="https://www.explorescientific.com" target="_blank">Explore Scientific</a></p>
+<p>ExploreStars Envision&trade; &copy; 2026 Wes McDonald &bull; <a href="https://github.com/wesmcd6/pmc8-tools" target="_blank">github.com/wesmcd6/pmc8-tools</a></p>
+<p>See section 18 for trademarks and disclaimer.</p>
 </footer>
 
 </div><!-- end content -->

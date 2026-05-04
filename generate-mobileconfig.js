@@ -50,13 +50,13 @@ ${b64Lines}
         </dict>
     </array>
     <key>PayloadDisplayName</key>
-    <string>ExplorestarsLite HTTPS</string>
+    <string>ExploreStars Envision HTTPS</string>
     <key>PayloadDescription</key>
-    <string>Trust Caddy Local Authority for ExplorestarsLite LAN HTTPS access</string>
+    <string>Trust Caddy Local Authority for ExploreStars Envision LAN HTTPS access</string>
     <key>PayloadIdentifier</key>
     <string>com.explorestarlite.https-profile</string>
     <key>PayloadOrganization</key>
-    <string>ExplorestarsLite</string>
+    <string>ExploreStars Envision</string>
     <key>PayloadRemovalDisallowed</key>
     <false/>
     <key>PayloadType</key>

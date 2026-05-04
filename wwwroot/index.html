@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ExplorestarsLite</title>
+    <title>ExploreStars Envision</title>
     <base href="/" />
     <!-- Google Fonts removed — blocks page load when offline (field use) -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" /> -->
@@ -21,10 +21,14 @@
 <body>
     <div id="app">
         <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;color:#4dabf7;font-family:Roboto,sans-serif;background:#0d0d1a;">
-            <img src="_content/ExplorestarsLite.UI/splash-icon.png" alt="ExplorestarsLite" style="width:180px;height:180px;margin-bottom:24px;" />
-            <div style="font-size:1.4rem;font-weight:600;">ExplorestarsLite</div>
-            <div style="font-size:0.85rem;color:#666;margin-top:4px;">v1.3.3.1</div>
+            <img src="_content/ExplorestarsLite.UI/splash-icon-envision-twinkle-band-staggered-dots.gif" alt="ExploreStars Envision" style="width:180px;height:180px;margin-bottom:24px;" />
+            <div style="font-size:1.4rem;font-weight:600;">ExploreStars Envision&trade;</div>
+            <div style="font-size:0.85rem;color:#666;margin-top:4px;">v2.1.0.0</div>
             <div style="font-size:0.85rem;color:#888;margin-top:8px;">Loading...</div>
+            <div style="font-size:0.65rem;color:#555;margin-top:14px;text-align:center;max-width:280px;line-height:1.4;">
+                &copy; 2026 Wes McDonald<br/>
+                Stars: ESA Hipparcos · Constellation lines: IAU/Sky&amp;Tel via dcf21 (CC BY 4.0)
+            </div>
         </div>
     </div>
 
@@ -36,14 +40,56 @@
     <script src="_content/ExplorestarsLite.UI/js/altvstime.js"></script>
     <script src="_content/ExplorestarsLite.UI/js/thumbpad.js"></script>
     <script src="_content/ExplorestarsLite.UI/js/polar.js"></script>
+    <script src="_content/ExplorestarsLite.UI/js/connectivity.js"></script>
+    <script src="_content/ExplorestarsLite.UI/js/i18n.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+        navigator.serviceWorker.register('service-worker.js');
+        // Auto-apply the user's saved language as soon as Blazor's first
+        // render lands. The MutationObserver inside i18n.js will keep
+        // up with subsequent renders. Idempotent — safe to no-op when
+        // saved lang is 'en' (the source).
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.eslI18n && typeof window.eslI18n.init === 'function') {
+                window.eslI18n.init();
+            }
+        });
+    </script>
     <script>
         function saveSettings(json) { localStorage.setItem('eslite_settings', json); }
         function loadSettings() { return localStorage.getItem('eslite_settings'); }
         function saveCustomTargets(json) { localStorage.setItem('eslite_custom_targets', json); }
         function loadCustomTargets() { return localStorage.getItem('eslite_custom_targets'); }
+        // Returns a Promise resolving true if deviceorientation events with
+        // non-null α/β/γ arrive within timeoutMs. On iOS 13+ where
+        // DeviceOrientationEvent.requestPermission exists, the sensors are
+        // gated behind a user-gesture prompt — we can't probe without
+        // asking, so we optimistically assume sensors are present.
+        function probeSensors(timeoutMs) {
+            return new Promise(function (resolve) {
+                if (typeof DeviceOrientationEvent !== 'undefined'
+                    && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    resolve(true); return;
+                }
+                var done = false;
+                function handler(e) {
+                    if (done) return;
+                    if (e.alpha !== null || e.beta !== null || e.gamma !== null) {
+                        done = true;
+                        window.removeEventListener('deviceorientation', handler);
+                        resolve(true);
+                    }
+                }
+                window.addEventListener('deviceorientation', handler);
+                setTimeout(function () {
+                    if (done) return;
+                    done = true;
+                    window.removeEventListener('deviceorientation', handler);
+                    resolve(false);
+                }, timeoutMs);
+            });
+        }
         function getGpsPosition() {
             return new Promise((resolve, reject) => {
                 if (!navigator.geolocation) { reject(new Error('GPS unavailable')); return; }

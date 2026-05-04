@@ -1,4 +1,4 @@
-# ExplorestarsLite PWA Server
+# ExploreStars Envision&trade; PWA Server
 
 Control your Explore Scientific PMC-Eight telescope mount from your iPhone or Android phone — no app install needed. Just a PC on the same WiFi network.
 
@@ -8,7 +8,7 @@ Control your Explore Scientific PMC-Eight telescope mount from your iPhone or An
 
 **[Click here to download](https://github.com/wesmcd6/pmc8-tools/archive/refs/heads/pwa-server.zip)**
 
-After downloading, extract (unzip) it to a folder on your PC — for example, `C:\ExplorestarsLite`.
+After downloading, extract (unzip) it to a folder on your PC — for example, `C:\ExploreStars-Envision`.
 
 ### Step 2 — Open the Setup Guide and Follow It
 
@@ -28,7 +28,7 @@ This guide walks you through everything:
 | File | What it does |
 |------|-------------|
 | `start-servers.bat` | Double-click to start the server (after setup is complete) |
-| `wwwroot/` | The ExplorestarsLite app (pre-built, ready to serve) |
+| `wwwroot/` | The ExploreStars Envision app (pre-built, ready to serve) |
 | `mount-proxy.js` | Handles mount commands over HTTPS |
 | `Caddyfile` | Web server configuration |
 | `docs/` | Setup guides (open in your browser) |
