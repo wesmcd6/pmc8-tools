@@ -23,15 +23,19 @@
 <body>
 
 <h1>ExploreStars Envision&trade; Server Setup</h1>
-<p>This guide shows you how to run ExploreStars Envision on a Windows PC so you can control your PMC-Eight telescope mount from your iPhone or Android phone using a web browser.</p>
+<p>This guide shows you how to run ExploreStars Envision on a PC so you can control your PMC-Eight telescope mount from your iPhone or Android phone using a web browser.</p>
 
 <p><strong>What you will do:</strong></p>
 <ol>
   <li>Install two free programs on your PC (one time only)</li>
   <li>Download ExploreStars Envision</li>
-  <li>Double-click a file to start the server</li>
+  <li>Start the server</li>
   <li>Open a web address on your phone</li>
 </ol>
+
+<div class="note">
+<strong>Linux or macOS user?</strong> The same files work on Linux and macOS — just install Node.js and Caddy through your usual package manager and run <code>start-servers.sh</code> instead of <code>start-servers.bat</code>. Skim the Windows steps below for the general flow, then jump to <a href="#linux-macos" style="color:#4dabf7;">Linux / macOS — Alternate Setup</a> for the actual commands.
+</div>
 
 <!-- ==================== HOW TO OPEN COMMAND PROMPT ==================== -->
 
@@ -172,6 +176,98 @@ Press the <strong>Windows key</strong> on your keyboard (the key with the Window
 
 <div class="warn">
 <strong>Important:</strong> The phone, the PC, and the PMC-Eight mount must all be on the <strong>same WiFi network</strong>. If the mount is in "AP mode" (creating its own WiFi network called PMC-Eight_xxxx), the phone cannot reach both the mount and the PC at the same time. The mount needs to be connected to your home WiFi for this setup to work.
+</div>
+
+<!-- ==================== LINUX / MACOS ==================== -->
+
+<h2 id="linux-macos">Linux / macOS — Alternate Setup</h2>
+<p>The PWA server bundle works on Linux and macOS too. The general flow (Steps 4 and 5 above for connecting your phone and PMC-Eight) is identical — only Steps 1, 2, and 3 are different. Replace those three steps with the following.</p>
+
+<h3>1. Install Node.js</h3>
+<div class="step">
+<p><strong>Check if you already have it:</strong></p>
+<span class="cmd">node --version</span>
+<p>If you see a version number — skip to step 2. Otherwise install it:</p>
+<pre>
+# Ubuntu / Debian:
+sudo apt install nodejs npm
+
+# Fedora / RHEL:
+sudo dnf install nodejs npm
+
+# macOS (with Homebrew):
+brew install node
+
+# macOS (no Homebrew): download the .pkg installer from
+# https://nodejs.org/en/download
+</pre>
+</div>
+
+<h3>2. Install Caddy</h3>
+<div class="step">
+<p>Download the binary for your OS from <a href="https://caddyserver.com/download" style="color:#4dabf7;">caddyserver.com/download</a>:</p>
+<ul>
+  <li><strong>Linux x86_64</strong> (most desktops/laptops): <code>caddy_linux_amd64</code></li>
+  <li><strong>Linux ARM64</strong> (Raspberry Pi 4/5, Pi Zero 2): <code>caddy_linux_arm64</code></li>
+  <li><strong>macOS Apple Silicon</strong> (M1/M2/M3/M4): <code>caddy_darwin_arm64</code></li>
+  <li><strong>macOS Intel</strong>: <code>caddy_darwin_amd64</code></li>
+</ul>
+<p>Move it to a folder on your PATH, rename to <code>caddy</code>, and make it executable:</p>
+<pre>
+mkdir -p ~/bin
+mv ~/Downloads/caddy_* ~/bin/caddy
+chmod +x ~/bin/caddy
+</pre>
+<p>Then make sure <code>~/bin</code> is on your PATH (add to <code>~/.bashrc</code> or <code>~/.zshrc</code>):</p>
+<pre>
+export PATH="$HOME/bin:$PATH"
+</pre>
+<p><strong>Verify:</strong></p>
+<span class="cmd">caddy version</span>
+</div>
+
+<div class="note">
+<strong>macOS Gatekeeper:</strong> The first time you run a binary downloaded from the web, macOS may block it as "from an unidentified developer." Either right-click <code>caddy</code> in Finder and choose <strong>Open</strong> the first time, or run this in Terminal once:
+<span class="cmd">xattr -d com.apple.quarantine ~/bin/caddy</span>
+</div>
+
+<h3>3. Download ExploreStars Envision</h3>
+<div class="step">
+<ol>
+  <li>Open <a href="https://github.com/wesmcd6/pmc8-tools/tree/pwa-server" style="color:#4dabf7;">github.com/wesmcd6/pmc8-tools/tree/pwa-server</a> in your browser</li>
+  <li>Click the green <strong>Code</strong> button &rarr; <strong>Download ZIP</strong></li>
+  <li>Extract the zip into a folder of your choice — for example, <code>~/ExploreStars-Envision</code></li>
+</ol>
+</div>
+
+<h3>4. Start the Server</h3>
+<div class="step">
+<p>Open a terminal in the extracted folder and run:</p>
+<pre>
+cd ~/ExploreStars-Envision   # or wherever you extracted
+./start-servers.sh
+</pre>
+<p>The script will:</p>
+<ul>
+  <li>Check that Node.js, Caddy, and the <code>wwwroot/</code> folder are present</li>
+  <li>Detect your PC's LAN IP address (works on both Linux and macOS)</li>
+  <li>Start <code>mount-proxy.js</code> and Caddy in the background</li>
+  <li>Generate the iPhone HTTPS certificate profile on first run</li>
+  <li>Print the URLs to open on your phone</li>
+</ul>
+<p>Press <strong>Ctrl+C</strong> to stop the servers cleanly.</p>
+</div>
+
+<div class="warn">
+<strong>Permission denied on <code>./start-servers.sh</code>?</strong> Run <code>chmod +x start-servers.sh</code> once. (The script ships with the executable bit set in git, but extracting from a downloaded ZIP loses that on some systems.)
+</div>
+
+<div class="note">
+<strong>From here, follow Step 4 and Step 5 above</strong> (Open the App on Your Phone, Connect to Your PMC-Eight Mount) — those work the same on every OS. The Windows Firewall section is Windows-specific; on Linux/macOS your firewall is usually open for outbound LAN connections, but if a phone can't reach the server, check your distribution's firewall (e.g., <code>ufw status</code> on Ubuntu).
+</div>
+
+<div class="note">
+<strong>macOS is freshly supported.</strong> The script uses standard portable shell idioms but has not been bench-tested on every Mac configuration. If anything is rough, please report it.
 </div>
 
 <!-- ==================== ADD TO HOME SCREEN ==================== -->

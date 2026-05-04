@@ -1,5 +1,15 @@
 # Distributed Caddyfile — serves pre-built PWA from wwwroot (no Kestrel)
 # Mount commands route through Node mount-proxy on :5258
+#
+# auto_https disable_redirects: Caddy 2 by default sets up automatic
+# HTTP-to-HTTPS redirects on port 80. Port 80 is privileged on Linux
+# (requires root or cap_net_bind_service). Disabling those auto-redirects
+# avoids the bind error on Linux/macOS without affecting Windows. The
+# explicit :5256 / :5257 listeners below carry all the actual routing.
+
+{
+	auto_https disable_redirects
+}
 
 http://:5257 {
 	handle /mount-proxy/* {
