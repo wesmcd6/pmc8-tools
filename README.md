@@ -1,51 +1,39 @@
-# PMC-Eight Tools
+# ExploreStars Envision&trade;
 
-Downloads for Explore Scientific PMC-Eight™ telescope mount users.
+**Cross-platform telescope mount controller for Explore Scientific&trade; PMC-Eight&trade;.**
 
-> 📖 **New here?** Start with [**GETTING_STARTED.txt**](GETTING_STARTED.txt) —
-> a step-by-step guide that walks you through choosing the right tool,
-> updating firmware, and installing ExplorestarsLite in the correct order.
-> First-time users should read this before anything else. Experienced
-> users can jump to its "Quick Reference" section.
+Sky chart, GoTo, multi-star alignment, push-to identification — runs on Android, Windows, and as a self-hosted PWA accessible from any phone or tablet on your local network.
 
-## ExplorestarsLite App
+## Get the latest release
 
-| Platform | Branch | Status |
-|----------|--------|--------|
-| Android | [`explorestars-lite`](../../tree/explorestars-lite) | Available |
-| Windows | [`windows`](../../tree/windows) | Available |
-| iOS | — | Planned |
-| macOS | — | Planned |
+📦 **[Download the latest release →](../../releases/latest)**
 
-### Android
-Switch to the **[explorestars-lite](../../tree/explorestars-lite)** branch. Download the APK, tap to install.
+The Releases page carries pre-built binaries for each platform. Pick the asset that matches your device:
 
-### Windows
-Switch to the **[windows](../../tree/windows)** branch. Download the zip, extract, run `ExplorestarsLite.Maui.exe`.
+| Asset name | Platform |
+|---|---|
+| `ExploreStars-Envision-vX.Y.Z.W-android.apk` | Android (sideload) |
+| `ExploreStars-Envision-vX.Y.Z.W-windows.zip` | Windows desktop |
+| `ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA server |
 
----
+## Documentation
 
-## Firmware Tools
+- [`ExploreStars-Envision-UserManual.html`](ExploreStars-Envision-UserManual.html) — full user manual
+- [`LICENSES.md`](LICENSES.md) — attribution, trademarks, and license terms
 
-| Tool | Branch | Description |
-|------|--------|-------------|
-| PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware (flash via UFCT) |
-| ESP32 OTA Update | [`esp32-ota`](../../tree/esp32-ota) | WiFi firmware update script + binary |
-| ESP32 Serial Flash | [`esp32-serial-flash`](../../tree/esp32-serial-flash) | Fallback when OTA isn't possible — self-contained zip with ESPLoader + esptool |
+## Trademarks &amp; copyright
 
----
+ExploreStars Envision&trade; is a trademark of Wes McDonald. Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are trademarks of [Explore Scientific, LLC](https://www.explorescientific.com), and are used here with acknowledgement.
 
-## About ExplorestarsLite
+ExploreStars Envision&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. It is not produced or endorsed by Explore Scientific, LLC.
 
-Standalone telescope mount control — no PC needed (Android), or as a native desktop app (Windows).
+Copyright © 2026 Wes McDonald. All rights reserved.
 
-- 10,900+ object catalog with altitude-based visibility
-- GoTo, Sync, Tracking (Sidereal/Solar/Lunar), Meridian Flip
-- Spiral Search, Thumb Pad centering with Fine/Coarse rates
-- Solar system targets, Night vision mode
-- Works alongside Alpaca/ASCOM and planetarium software
-- Built-in user manual
+## Other branches in this repo
 
-## Support
-
-For questions about the PMC-Eight mount, visit [Explore Scientific](https://www.explorescientific.com).
+- [`pmc8-firmware`](../../tree/pmc8-firmware) — PMC-Eight Propeller firmware (`.binary`)
+- [`esp32-ota`](../../tree/esp32-ota) — ESP32 OTA flash tool
+- [`esp32-serial-flash`](../../tree/esp32-serial-flash) — ESP32 serial flash tool
+- [`pwa-server`](../../tree/pwa-server) — pre-built PWA server distribution (alternate to the Release zip)
+- [`windows`](../../tree/windows) — Windows desktop binary (alternate to the Release zip)
+- [`explorestars-lite`](../../tree/explorestars-lite) — **legacy** (end-of-line, predecessor to Envision)
