@@ -10,11 +10,11 @@ Sky chart, GoTo, multi-star alignment, push-to identification — runs on Androi
 
 The Releases page carries pre-built binaries for each platform. Pick the asset that matches your device:
 
-| Asset name | Platform |
-|---|---|
-| `ExploreStars-Envision-vX.Y.Z.W-android.apk` | Android (sideload) |
-| `ExploreStars-Envision-vX.Y.Z.W-windows.zip` | Windows desktop |
-| `ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA server |
+| Asset name | Platform | Notes |
+|---|---|---|
+| `ExploreStars-Envision-vX.Y.Z.W-android.apk` | Android | Sideload — tap to install |
+| `ExploreStars-Envision-vX.Y.Z.W-windows.zip` | Windows desktop | Extract, run the .exe |
+| `ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA | Runs on a Windows / macOS / Linux PC; phones connect via local Wi-Fi |
 
 ## Documentation
 
