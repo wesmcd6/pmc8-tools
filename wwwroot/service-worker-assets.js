@@ -1,12 +1,12 @@
 self.assetsManifest = {
-  "version": "8WYftAJ1",
+  "version": "AoUPZFE6",
   "assets": [
     {
-      "hash": "sha256-M65Z91FxI1p2NAFjTSeKek4XmpBsKKzbbzp0OPUnXWg=",
+      "hash": "sha256-ix5VuScLQs1qrrqtMMTCqH4afVdNe7rsKPxrpVG+BK0=",
       "url": "_content/ExplorestarsLite.UI/ExplorestarsLite-UserManual.html"
     },
     {
-      "hash": "sha256-6w3bvfwJcHrAWvoUjTdWOIkukgyAJULNsy1j8vEgI+o=",
+      "hash": "sha256-16byXWt+nnyJjAOOIrwS/ejVPFzEVnA5yyetfxW2YGc=",
       "url": "_content/ExplorestarsLite.UI/LICENSES.md"
     },
     {
@@ -734,7 +734,7 @@ self.assetsManifest = {
       "url": "_content/ExplorestarsLite.UI/images/jim_mckee_credits.txt"
     },
     {
-      "hash": "sha256-vXB4tHzSTBl4saDVxF18pUnqlLOEMnVCBjdte8HkUhk=",
+      "hash": "sha256-hvOId643vxzCKNCd9386V4CHs5YAt+Bh5G4EUfLyOoE=",
       "url": "_content/ExplorestarsLite.UI/images/pmc8-tools-qr.png"
     },
     {
@@ -838,19 +838,19 @@ self.assetsManifest = {
       "url": "_content/MudBlazor/MudBlazor.min.js.map"
     },
     {
-      "hash": "sha256-GGYxbNFIiuxtWbmzXsKZk2hKnYFtF0F1KZGF3Hy0AiA=",
+      "hash": "sha256-3EgVFubUB0bMHrISbAejA4ROuDc/GrYH54QCPWE8IDc=",
       "url": "_framework/ExplorestarsLite.Core.wasm"
     },
     {
-      "hash": "sha256-wFTwl2hMuzIfybp/1nXvPBQrws3RF69KauSXyLi2lys=",
+      "hash": "sha256-ifCscBKipmYEiu3RU0s+EyQnH0r3sCm3mYrjkjIhrus=",
       "url": "_framework/ExplorestarsLite.Http.wasm"
     },
     {
-      "hash": "sha256-W7tyzkR1g3uSTUsW6DsMTlcgCZnuUIPQiUN1Nk242eo=",
+      "hash": "sha256-KaEtmH6XLdtb2u0LyWn3dmRQadIUxDKmmKqDCdGuPaY=",
       "url": "_framework/ExplorestarsLite.Pwa.wasm"
     },
     {
-      "hash": "sha256-dL8p+52IhpL0+2Zs3wyWh1xR7c2TyQt1q+9r7VVTXnY=",
+      "hash": "sha256-aAKKnpt2WGiaVBj5SjK2z8Lt5eO04g6MBjN7jZdntvI=",
       "url": "_framework/ExplorestarsLite.UI.wasm"
     },
     {
@@ -1018,7 +1018,7 @@ self.assetsManifest = {
       "url": "_framework/System.Threading.wasm"
     },
     {
-      "hash": "sha256-/qDm8T/R8fACuD82vTkt0PfrQONPZLcBpy+URXko6zo=",
+      "hash": "sha256-sIJfQrtClfG8CnbKYQ1xqav7EKQWm6EbvPf4oY3EllA=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -1074,7 +1074,7 @@ self.assetsManifest = {
       "url": "caddy-trust.mobileconfig"
     },
     {
-      "hash": "sha256-MIcsU4nWEFhhr3o2bructzRlNEId58w3zHF9C+Ro5is=",
+      "hash": "sha256-WSQgsZTwy9eBJiUJAMbCmpTFTlgWarZy6S6i6a6dmp8=",
       "url": "catalog.csv"
     },
     {
@@ -1098,7 +1098,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-DZYeFWWnqwoGzq2eN1eK+nAUkRrf1ETinI7Zy5ur4fg=",
+      "hash": "sha256-XaL9Vuho4B9CGaIdFRvXSrAP0BUImRl4YJA8jucxkaU=",
       "url": "index.html"
     },
     {

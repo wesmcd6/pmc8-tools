@@ -136,6 +136,11 @@ about how the catalog was curated.
 Thanks to **Jerry Hubbell** of Explore Scientific, LLC, for fruitful
 discussions during development and assistance with field testing.
 
+Thanks to **Ignazio Pillitteri** for contributing the Linux/macOS PWA
+server bash script (`start-servers.sh`) and Caddyfile cross-platform
+improvements that enable ExploreStars Envision to run on Linux and
+macOS hosts in addition to Windows.
+
 ---
 
 ## Software dependencies

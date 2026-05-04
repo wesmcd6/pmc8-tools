@@ -154,11 +154,11 @@
 
 <h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.1.0.0</strong> &bull; May 2026</p>
+<p><strong>Version 2.1.0.1</strong> &bull; May 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
-<p>ExploreStars Envision controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). No internet connection is required.</p>
+<p>ExploreStars Envision controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). The companion <strong>Star Seeker</strong> sky chart is built in &mdash; a full offline planetarium-style view with sensor-driven push-to identification, tap-to-GoTo, and an integrated mount marker. No internet connection is required.</p>
 <p>The app communicates with the PMC-Eight through the ESP32 WiFi module (WiFi), Bluetooth Classic SPP (Android), or directly via USB serial (Windows desktop). Your commands are forwarded to the PMC-Eight's Propeller processor.</p>
 
 <div class="note">
@@ -167,7 +167,7 @@
 
 <p><strong>Key features:</strong></p>
 <ul>
-  <li>10,900+ object catalog with altitude-based visibility coloring</li>
+  <li>11,000+ object catalog with altitude-based visibility coloring</li>
   <li>GoTo, Sync, Tracking (Sidereal, Solar, Lunar)</li>
   <li><strong>Star Seeker</strong> &mdash; offline live sky chart with FREE (drag/zoom) and LIVE (point-the-phone) modes, mount reticle, true-scale Telrad, planets, constellation lines and labels, four reference great circles, and tap-to-GoTo (see <a href="#starseeker">Section 8</a>)</li>
   <li>Spiral search with video-remote-style transport controls</li>
@@ -190,16 +190,22 @@
 <h2 id="install">2. Installation</h2>
 <div style="text-align: center; margin: 16px 0;">
   <div style="position: relative; display: inline-block;">
-    <img src="images/pmc8-tools-qr.png" alt="Scan to download" style="width: 150px; height: 150px;" />
-    <a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank"
+    <img src="images/pmc8-tools-qr.png" alt="Scan to download ExploreStars Envision" style="width: 150px; height: 150px;" />
+    <a href="https://github.com/wesmcd6/pmc8-tools/releases/latest" target="_blank"
        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></a>
   </div>
-  <br><a href="https://github.com/wesmcd6/pmc8-tools/tree/explorestars-lite" target="_blank" style="font-size: 0.85em;">Tap QR or here to download latest APK</a>
+  <br><a href="https://github.com/wesmcd6/pmc8-tools/releases/latest" target="_blank" style="font-size: 0.85em;">Tap QR or here for the latest release</a>
 </div>
 <ol>
-  <li>Scan the QR code above or tap the download link (switch to the <strong>explorestars-lite</strong> branch).</li>
-  <li>Tap the APK file, then tap the three dots icon and select Download.</li>
-  <li>Tap the downloaded file to install. Allow <strong>"Install from unknown sources"</strong> if prompted.</li>
+  <li>Scan the QR code above or tap the download link &mdash; it lands on the <strong>latest GitHub Release</strong> page.</li>
+  <li>Pick the asset that matches your device:
+    <ul>
+      <li><code>ExploreStars-Envision-vX.Y.Z.W-android.apk</code> &mdash; Android (sideload)</li>
+      <li><code>ExploreStars-Envision-vX.Y.Z.W-windows.zip</code> &mdash; Windows desktop</li>
+      <li><code>ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip</code> &mdash; self-hosted PWA server (Win/macOS/Linux PC)</li>
+    </ul>
+  </li>
+  <li>For the APK: tap the file to install. Allow <strong>"Install from unknown sources"</strong> if prompted.</li>
   <li>If Google Play Protect warns you, tap <strong>"Install anyway"</strong>.</li>
 </ol>
 
@@ -1004,6 +1010,7 @@
 <h3>Acknowledgments</h3>
 <p>Catalog augmentations and cross-reference verification were assisted by <strong>SIMBAD</strong> (<a href="https://simbad.u-strasbg.fr/simbad/" target="_blank">simbad.u-strasbg.fr/simbad/</a>), operated at CDS, Strasbourg.</p>
 <p>Thanks to <strong>Jerry Hubbell</strong> of Explore Scientific, LLC, for fruitful discussions during development and assistance with field testing.</p>
+<p>Thanks to <strong>Ignazio Pillitteri</strong> for contributing the Linux/macOS PWA server bash script (<code>start-servers.sh</code>) and Caddyfile cross-platform improvements that enable ExploreStars Envision to run on Linux and macOS hosts in addition to Windows.</p>
 
 <h3>Software dependencies</h3>
 <p>ExploreStars Envision&trade; uses MudBlazor (MIT), .NET 9 / Blazor (MIT), and Microsoft.Maui.Controls (MIT). License texts ship with the .NET runtime and the corresponding NuGet packages.</p>
