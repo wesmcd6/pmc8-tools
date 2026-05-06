@@ -154,7 +154,7 @@
 
 <h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.1.0.3</strong> &bull; May 2026</p>
+<p><strong>Version 2.1.1.0</strong> &bull; May 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -368,13 +368,61 @@
 <p>Use this page to find celestial objects and send the mount to them.</p>
 
 <h3 id="catalog">6.1 Catalog Search</h3>
-<p>Type in the search field to filter the 10,900+ object catalog. Results appear in a scrollable list showing the first 50 matches.</p>
+<p>Type in the search field to filter the 13,500+ object catalog. Results appear in a scrollable list showing up to 200 matches.</p>
 <ul>
+  <li><strong>Class symbol</strong> at the start of each row &mdash; the same shape the Star Seeker chart uses to draw that class of object. Galaxy = dusty-red ellipse, globular cluster = amber circle-with-cross, open cluster = yellow dashed circle, emission nebula = orange dashed square, planetary nebula = teal disk-with-ticks, and so on. Seeing the symbol both on the chart and in the picker trains your eye on the chart vocabulary.</li>
   <li><strong>Green text</strong> &mdash; object is above 10&deg; altitude (good for observing)</li>
   <li><strong>Gray text</strong> &mdash; object is below 10&deg; altitude</li>
   <li><strong style="color:#4dabf7;">&#x25CF;</strong> <strong>Blue dot</strong> &mdash; object has a thumbnail image that will display when selected</li>
 </ul>
-<p>Tap any result to select it as your target. After selecting, a <strong>back arrow</strong> appears next to the search field &mdash; tap it to return to the previous search results and continue browsing.</p>
+<p>Tap any result to select it as your target. After selecting, a <strong>back arrow</strong> appears next to the search field &mdash; tap it to return to the previous search results <em>and</em> the same scroll position you left, no need to retype or clear the field.</p>
+
+<h4>Class filter chips</h4>
+<p>Below the search field is a row of toggle chips, each shown as the chart's symbol for that class. Tapping a chip filters the result list to that class; the status line below the chips always shows what's currently selected in plain text. Multiple chips combine with logical OR. Tap the same chip again to deselect.</p>
+<p>The available chips and their behaviors:</p>
+<ul>
+  <li><strong>Messier</strong> &mdash; the M1&ndash;M110 catalogue. Sorts in catalogue number order by default.</li>
+  <li><strong>Galaxies</strong> &mdash; every G-S / G-E / G-Ir / G-QSO row. Sorts by visibility (highest in sky first) by default since galaxies have weak magnitude data.</li>
+  <li><strong>Globular Clusters</strong> &mdash; sorts brightest first (GCs have meaningful magnitudes).</li>
+  <li><strong>Open Clusters</strong> &mdash; sorts brightest first.</li>
+  <li><strong>Nebulae</strong> &mdash; a hand-curated showpiece set with three difficulty tiers (see below). This chip is exclusive: tapping it deselects the others, and tapping any other chip turns it off.</li>
+  <li><strong>Asterisms</strong> &mdash; star patterns, sorts by visibility.</li>
+  <li><strong>Solar System</strong> &mdash; Sun, Moon, planets, asteroids; live ephemeris coordinates.</li>
+</ul>
+<p>To the right of the chip row is a small <strong>Sort</strong> column with three options: <strong>Brightness</strong>, <strong>Visibility</strong>, and <strong>Name</strong>. Visibility computes current altitude from your latitude/longitude and orders highest-in-sky first, continuing monotonically through below-horizon at the bottom. The first label adapts to the active chip &mdash; reads "Catalog #" when Messier is on, "Visibility" when Galaxies or Asterisms is on alone, "Brightness" otherwise. The center "Visibility" radio hides itself when the first label already means Visibility, since selecting either would do the same thing.</p>
+<p>Position-based deduplication is automatic when any chip is on. A galaxy with multiple alias rows (NGC primary plus Caldwell plus several Herschel-program entries) collapses to a single canonical row in the picker; type a query directly to see the individual alias rows when needed.</p>
+
+<h4>Nebulae chip &mdash; observing-guide tiers</h4>
+<p>The Nebulae chip filters to a hand-picked set of 31 visual showpieces &mdash; the nebulae amateur observers actually look at &mdash; sorted automatically by visibility. When the chip is on, the Sort column at the right swaps to three difficulty checkboxes (Easy, Moderate, Difficult). Each is independent; toggle any combination on.</p>
+
+<table>
+<tr><th>Tier</th><th>Scope</th><th>Filters</th><th>Notes</th></tr>
+<tr>
+  <td><strong>&#x1F7E2; Easy</strong><br/>Immediate visual success</td>
+  <td>60&ndash;100&nbsp;mm (2.5&Prime;&ndash;4&Prime;) minimum; improves with any aperture</td>
+  <td>None required; UHC or OIII enhances contrast</td>
+  <td>Bright, high-surface-brightness objects. Visible even in light pollution. Best for quick success after GoTo.</td>
+</tr>
+<tr>
+  <td><strong>&#x1F7E1; Moderate</strong><br/>Benefits from conditions or technique</td>
+  <td>150&ndash;250&nbsp;mm (6&Prime;&ndash;10&Prime;) recommended</td>
+  <td>UHC strongly recommended; OIII helpful on some targets</td>
+  <td>Lower contrast or larger objects. Darker skies and proper framing help. Filters often make the difference between &ldquo;seen&rdquo; and &ldquo;not seen.&rdquo;</td>
+</tr>
+<tr>
+  <td><strong>&#x1F534; Difficult</strong><br/>Challenging visual targets</td>
+  <td>250&nbsp;mm+ (10&Prime;+) preferred; larger aperture helps significantly</td>
+  <td>OIII often required; H-&beta; critical for Horsehead and California</td>
+  <td>Low surface brightness, very large, or contrast-limited objects. Need dark skies, experience, and sometimes specific techniques (averted vision, careful field identification).</td>
+</tr>
+</table>
+
+<p>The 31 curated targets:</p>
+<ul>
+  <li><strong>Easy (9):</strong> Orion (M&nbsp;42), Dumbbell (M&nbsp;27), Ring (M&nbsp;57), Lagoon (M&nbsp;8), Omega (M&nbsp;17), Trifid (M&nbsp;20), Saturn (NGC&nbsp;7009), Little Dumbbell (M&nbsp;76), Blinking Planetary (NGC&nbsp;6826).</li>
+  <li><strong>Moderate (11):</strong> Owl (M&nbsp;97), Eskimo (NGC&nbsp;2392), Crescent (NGC&nbsp;6888), Pacman (NGC&nbsp;281), Veil &mdash; Western (NGC&nbsp;6960), Pickering's Triangle (NGC&nbsp;6979), Eastern (NGC&nbsp;6992), Rosette (NGC&nbsp;2237), Helix (NGC&nbsp;7293), Eagle (M&nbsp;16), Crab (M&nbsp;1), M&nbsp;78 (reflection &mdash; optional).</li>
+  <li><strong>Difficult (11):</strong> Horsehead (B&nbsp;33), California (NGC&nbsp;1499), North America (NGC&nbsp;7000), Pelican (IC&nbsp;5070), Flame (NGC&nbsp;2024), Elephant Trunk region (IC&nbsp;1396), Heart (IC&nbsp;1805), Soul (IC&nbsp;1848), Jellyfish (IC&nbsp;443), Thor's Helmet (NGC&nbsp;2359), Flaming Star (IC&nbsp;405).</li>
+</ul>
 
 <div class="note">
 <strong>Coordinate system:</strong> All catalog positions are stored in J2000 and automatically precessed to JNOW (current equinox) for pointing.
