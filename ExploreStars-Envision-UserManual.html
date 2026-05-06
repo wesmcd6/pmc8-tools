@@ -21,6 +21,29 @@
   a { color: #1565c0; }
   .key { display: inline-block; background: #eee; border: 1px solid #ccc; border-radius: 4px; padding: 2px 8px; font-weight: bold; min-width: 30px; text-align: center; }
   img.icon { height: 1em; vertical-align: middle; }
+
+  /* Inline UI icons (Material) shown alongside button descriptions. */
+  .ui-icon { display: inline-block; vertical-align: middle; width: 1.15em; height: 1.15em; fill: #37474f; }
+  .ui-icon.blue { fill: #1976d2; }
+  .ui-icon.green { fill: #2e7d32; }
+  .ui-icon.red { fill: #c62828; }
+
+  /* Class-symbol badge — dark cell so the chart-color glyphs read the same
+     as they do in the app (several DSO_COLOR values are designed for a dark
+     background and don't have enough contrast against white). */
+  .cls-symbol {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    background: #0d0d1a; border-radius: 4px;
+    vertical-align: middle; margin: 0 4px;
+  }
+  .cls-symbol svg { display: block; }
+  .symbol-legend td:first-child { width: 48px; text-align: center; vertical-align: middle; padding: 6px; }
+
+  /* UI screenshots — centered, capped width, with caption. */
+  figure.ui-shot { margin: 16px auto; text-align: center; }
+  figure.ui-shot img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+  figure.ui-shot figcaption { margin-top: 6px; color: #666; font-size: 0.88rem; font-style: italic; }
   .subtitle { color: #666; font-size: 1.1em; margin-top: -8px; }
   footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; color: #888; font-size: 0.9em; }
 
@@ -154,7 +177,7 @@
 
 <h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.1.1.0</strong> &bull; May 2026</p>
+<p><strong>Version 2.1.1.1</strong> &bull; May 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -257,12 +280,36 @@
 
 <table>
   <tr><th>Icon</th><th>Page</th><th>Purpose</th></tr>
-  <tr><td>Settings</td><td><a href="#setup">Setup</a></td><td>Connection, location, tools</td></tr>
-  <tr><td>GPS</td><td><a href="#target">Target</a></td><td>Find and select objects</td></tr>
-  <tr><td>Chart</td><td>Visibility</td><td>Altitude vs. time chart</td></tr>
-  <tr><td>Gamepad</td><td><a href="#control">Control</a></td><td>Tracking, slewing, spiral search</td></tr>
-  <tr><td>List</td><td>Log</td><td>Command/response log</td></tr>
-  <tr><td>Compass</td><td><a href="#starseeker">Star Seeker</a></td><td>Live sky chart with mount reticle; tap a star to GoTo</td></tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg> Settings</td>
+    <td><a href="#setup">Setup</a></td>
+    <td>Connection, location, tools</td>
+  </tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg> GPS</td>
+    <td><a href="#target">Target</a></td>
+    <td>Find and select objects</td>
+  </tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M23 8c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2z"/></svg> Timeline</td>
+    <td>Visibility</td>
+    <td>Altitude vs. time chart</td>
+  </tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/></svg> Gamepad</td>
+    <td><a href="#control">Control</a></td>
+    <td>Tracking, slewing, spiral search</td>
+  </tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg> List</td>
+    <td>Log</td>
+    <td>Command/response log</td>
+  </tr>
+  <tr>
+    <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19z"/></svg> Compass</td>
+    <td><a href="#starseeker">Star Seeker</a></td>
+    <td>Live sky chart with mount reticle; tap a star to GoTo</td>
+  </tr>
 </table>
 
 <!-- ======================= SETUP ======================= -->
@@ -368,26 +415,96 @@
 <p>Use this page to find celestial objects and send the mount to them.</p>
 
 <h3 id="catalog">6.1 Catalog Search</h3>
-<p>Type in the search field to filter the 13,500+ object catalog. Results appear in a scrollable list showing up to 200 matches.</p>
+<p>Type in the <svg class="ui-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg> <strong>Search</strong> field to filter the 13,553-object catalog. Results appear in a scrollable list showing up to 200 matches.</p>
 <ul>
-  <li><strong>Class symbol</strong> at the start of each row &mdash; the same shape the Star Seeker chart uses to draw that class of object. Galaxy = dusty-red ellipse, globular cluster = amber circle-with-cross, open cluster = yellow dashed circle, emission nebula = orange dashed square, planetary nebula = teal disk-with-ticks, and so on. Seeing the symbol both on the chart and in the picker trains your eye on the chart vocabulary.</li>
+  <li><strong>Class symbol</strong> at the start of each row &mdash; the same shape the Star Seeker chart uses to draw that class of object. Seeing the symbol both on the chart and in the picker trains your eye on the chart vocabulary. See the legend below for all symbols.</li>
   <li><strong>Green text</strong> &mdash; object is above 10&deg; altitude (good for observing)</li>
   <li><strong>Gray text</strong> &mdash; object is below 10&deg; altitude</li>
   <li><strong style="color:#4dabf7;">&#x25CF;</strong> <strong>Blue dot</strong> &mdash; object has a thumbnail image that will display when selected</li>
 </ul>
-<p>Tap any result to select it as your target. After selecting, a <strong>back arrow</strong> appears next to the search field &mdash; tap it to return to the previous search results <em>and</em> the same scroll position you left, no need to retype or clear the field.</p>
+<p>Tap any result to select it as your target. After selecting, a <svg class="ui-icon blue" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg> <strong>back arrow</strong> appears next to the search field &mdash; tap it to return to the previous search results <em>and</em> the same scroll position you left, no need to retype or clear the field.</p>
+
+<h4>Class symbol legend</h4>
+<p>The same symbols are used on the Star Seeker chart and in the picker rows. The dark cell here mirrors the chart's sky background so colours match the in-app appearance.</p>
+<table class="symbol-legend">
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><ellipse cx="0" cy="0" rx="4.5" ry="2.5" fill="none" stroke="#b58080" stroke-width="1"/><circle cx="0" cy="0" r="0.7" fill="#b58080"/></svg></span></td>
+  <td><strong>Galaxy</strong> (G-S / G-E / G-Ir / G-QSO)</td>
+  <td>Spiral, elliptical, irregular, or quasar. Dusty-red ellipse with a center dot.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="4" fill="none" stroke="#ffaa55" stroke-width="1"/><line x1="-4" y1="0" x2="4" y2="0" stroke="#ffaa55" stroke-width="1"/><line x1="0" y1="-4" x2="0" y2="4" stroke="#ffaa55" stroke-width="1"/></svg></span></td>
+  <td><strong>Globular Cluster</strong> (GC)</td>
+  <td>Tightly bound spherical star clusters. Amber circle with cross.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="4" fill="none" stroke="#ffee66" stroke-width="1" stroke-dasharray="2,2"/></svg></span></td>
+  <td><strong>Open Cluster</strong> (OC)</td>
+  <td>Loose, gravitationally young clusters. Yellow dashed circle.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="2.2" fill="none" stroke="#66ccaa" stroke-width="1"/><line x1="3" y1="0" x2="5.5" y2="0" stroke="#66ccaa" stroke-width="1"/><line x1="-3" y1="0" x2="-5.5" y2="0" stroke="#66ccaa" stroke-width="1"/><line x1="0" y1="3" x2="0" y2="5.5" stroke="#66ccaa" stroke-width="1"/><line x1="0" y1="-3" x2="0" y2="-5.5" stroke="#66ccaa" stroke-width="1"/></svg></span></td>
+  <td><strong>Planetary Nebula</strong> (PN)</td>
+  <td>Shell ejected by a dying sun-like star. Teal disk with four external ticks.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#ffb066" stroke-width="1" stroke-dasharray="2,2"/></svg></span></td>
+  <td><strong>Emission Nebula</strong> (EN)</td>
+  <td>Glowing hydrogen / HII regions. Orange dashed square.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#8090ff" stroke-width="1" stroke-dasharray="2,2"/></svg></span></td>
+  <td><strong>Reflection Nebula</strong> (RN)</td>
+  <td>Dust scattering starlight. Blue dashed square.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/></svg></span></td>
+  <td><strong>Dark Nebula</strong> (DN)</td>
+  <td>Opaque dust silhouettes. Grey dashed square.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#ff6666" stroke-width="1" stroke-dasharray="2,2"/></svg></span></td>
+  <td><strong>Supernova Remnant</strong> (SNR)</td>
+  <td>Expanding shell from an exploded star. Red dashed square.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><line x1="0" y1="-5" x2="0" y2="5" stroke="#ffe080" stroke-width="1.2"/><line x1="-5" y1="0" x2="5" y2="0" stroke="#ffe080" stroke-width="1.2"/><line x1="-3.5" y1="-3.5" x2="3.5" y2="3.5" stroke="#ffe080" stroke-width="1.2"/><line x1="-3.5" y1="3.5" x2="3.5" y2="-3.5" stroke="#ffe080" stroke-width="1.2"/></svg></span></td>
+  <td><strong>Star</strong> (AS)</td>
+  <td>Named single stars. Picker-only glyph (chart draws stars as size-scaled points).</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="-1.8" cy="0" r="2" fill="#ffe080"/><circle cx="1.8" cy="0" r="2" fill="#ffe080"/></svg></span></td>
+  <td><strong>Double Star</strong> (DS)</td>
+  <td>Resolvable star pairs. Picker-only paired-dots glyph.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="2.5" fill="none" stroke="#aaa" stroke-width="1"/><circle cx="0" cy="0" r="0.6" fill="#aaa"/></svg></span></td>
+  <td><strong>Asterism</strong> (AST)</td>
+  <td>Recognizable star patterns (Big Dipper, Coathanger, etc.). Small grey ringed dot.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="3.5" fill="#dda060"/></svg></span></td>
+  <td><strong>Solar System</strong></td>
+  <td>Sun, Moon, planets, dwarf planets, asteroids. Filled amber disk.</td>
+</tr>
+<tr>
+  <td><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="5.5" fill="none" stroke="#9bd0ff" stroke-width="1"/><path d="M -2.4,2.4 L -2.4,-2.4 L 0,0.4 L 2.4,-2.4 L 2.4,2.4" fill="none" stroke="#9bd0ff" stroke-width="1.2" stroke-linejoin="miter"/></svg></span></td>
+  <td><strong>Messier</strong> (catalogue marker)</td>
+  <td>Picker-only marker for the Messier-chip filter (Messier objects are real galaxies / clusters / nebulae &mdash; this badge identifies the catalogue entry, not the underlying class).</td>
+</tr>
+</table>
 
 <h4>Class filter chips</h4>
 <p>Below the search field is a row of toggle chips, each shown as the chart's symbol for that class. Tapping a chip filters the result list to that class; the status line below the chips always shows what's currently selected in plain text. Multiple chips combine with logical OR. Tap the same chip again to deselect.</p>
 <p>The available chips and their behaviors:</p>
 <ul>
-  <li><strong>Messier</strong> &mdash; the M1&ndash;M110 catalogue. Sorts in catalogue number order by default.</li>
-  <li><strong>Galaxies</strong> &mdash; every G-S / G-E / G-Ir / G-QSO row. Sorts by visibility (highest in sky first) by default since galaxies have weak magnitude data.</li>
-  <li><strong>Globular Clusters</strong> &mdash; sorts brightest first (GCs have meaningful magnitudes).</li>
-  <li><strong>Open Clusters</strong> &mdash; sorts brightest first.</li>
-  <li><strong>Nebulae</strong> &mdash; a hand-curated showpiece set with three difficulty tiers (see below). This chip is exclusive: tapping it deselects the others, and tapping any other chip turns it off.</li>
-  <li><strong>Asterisms</strong> &mdash; star patterns, sorts by visibility.</li>
-  <li><strong>Solar System</strong> &mdash; Sun, Moon, planets, asteroids; live ephemeris coordinates.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="5.5" fill="none" stroke="#9bd0ff" stroke-width="1"/><path d="M -2.4,2.4 L -2.4,-2.4 L 0,0.4 L 2.4,-2.4 L 2.4,2.4" fill="none" stroke="#9bd0ff" stroke-width="1.2" stroke-linejoin="miter"/></svg></span> <strong>Messier</strong> &mdash; the M1&ndash;M110 catalogue. Sorts in catalogue number order by default.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><ellipse cx="0" cy="0" rx="4.5" ry="2.5" fill="none" stroke="#b58080" stroke-width="1"/><circle cx="0" cy="0" r="0.7" fill="#b58080"/></svg></span> <strong>Galaxies</strong> &mdash; every G-S / G-E / G-Ir / G-QSO row. Sorts by visibility (highest in sky first) by default since galaxies have weak magnitude data.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="4" fill="none" stroke="#ffaa55" stroke-width="1"/><line x1="-4" y1="0" x2="4" y2="0" stroke="#ffaa55" stroke-width="1"/><line x1="0" y1="-4" x2="0" y2="4" stroke="#ffaa55" stroke-width="1"/></svg></span> <strong>Globular Clusters</strong> &mdash; sorts brightest first (GCs have meaningful magnitudes).</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="4" fill="none" stroke="#ffee66" stroke-width="1" stroke-dasharray="2,2"/></svg></span> <strong>Open Clusters</strong> &mdash; sorts brightest first.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#ffb066" stroke-width="1" stroke-dasharray="2,2"/></svg></span> <strong>Nebulae</strong> &mdash; a hand-curated showpiece set with three difficulty tiers (see below). This chip is <em>exclusive</em>: tapping it deselects the others, and tapping any other chip turns it off.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="2.5" fill="none" stroke="#aaa" stroke-width="1"/><circle cx="0" cy="0" r="0.6" fill="#aaa"/></svg></span> <strong>Asterisms</strong> &mdash; star patterns, sorts by visibility.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="3.5" fill="#dda060"/></svg></span> <strong>Solar System</strong> &mdash; Sun, Moon, planets, asteroids; live ephemeris coordinates.</li>
 </ul>
 <p>To the right of the chip row is a small <strong>Sort</strong> column with three options: <strong>Brightness</strong>, <strong>Visibility</strong>, and <strong>Name</strong>. Visibility computes current altitude from your latitude/longitude and orders highest-in-sky first, continuing monotonically through below-horizon at the bottom. The first label adapts to the active chip &mdash; reads "Catalog #" when Messier is on, "Visibility" when Galaxies or Asterisms is on alone, "Brightness" otherwise. The center "Visibility" radio hides itself when the first label already means Visibility, since selecting either would do the same thing.</p>
 <p>Position-based deduplication is automatic when any chip is on. A galaxy with multiple alias rows (NGC primary plus Caldwell plus several Herschel-program entries) collapses to a single canonical row in the picker; type a query directly to see the individual alias rows when needed.</p>
@@ -429,7 +546,7 @@
 </div>
 
 <h3 id="nearby">6.2 Nearby Search</h3>
-<p>The <strong>Nearby</strong> button is a toggle &mdash; tap to search for catalog objects within the specified radius of the mount's current position, tap again to hide the list. The button outline turns green when the nearby list is showing. Useful for identifying what you're pointed at. Adjust the radius (1&ndash;90&deg;) with the spinner. Results also show blue dots for objects with images.</p>
+<p>The <svg class="ui-icon" viewBox="0 0 24 24"><path d="M21 3L3 10.53v.98l6.84 2.65L12.48 21h.98z"/></svg> <strong>Nearby</strong> button is a toggle &mdash; tap to search for catalog objects within the specified radius of the mount's current position, tap again to hide the list. The button outline turns green when the nearby list is showing. Useful for identifying what you're pointed at. Adjust the radius (1&ndash;90&deg;) with the spinner. Results also show blue dots for objects with images.</p>
 
 <div class="tip">
 <strong>Auto-detect on connect:</strong> When you connect and the mount is not parked, the app automatically searches for the nearest catalog object and selects it.
@@ -445,7 +562,7 @@
 <p>The tracking rate is set automatically: Solar rate for the Sun, Lunar rate for the Moon, Sidereal for everything else.</p>
 
 <h3 id="custom">6.4 Custom Coordinates &amp; Saved Targets</h3>
-<p>Tap the <strong>pencil icon</strong> next to the target heading to open the custom coordinate dialog. Enter RA and Dec manually in hours/degrees, minutes, seconds format.</p>
+<p>Tap the <svg class="ui-icon blue" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> <strong>pencil</strong> icon next to the target heading to open the custom coordinate dialog. Enter RA and Dec manually in hours/degrees, minutes, seconds format.</p>
 <ul>
   <li>Choose <strong>J2000</strong> if entering catalog coordinates (will be precessed to JNOW).</li>
   <li>Choose <strong>JNOW</strong> if entering current-epoch coordinates.</li>
@@ -457,8 +574,8 @@
 <p>To view your saved targets, clear the search field &mdash; the saved targets list appears automatically in the results area. Each entry has:</p>
 <ul>
   <li><strong>Tap</strong> &mdash; select the target for GoTo/Sync.</li>
-  <li><strong>Edit</strong> (pencil icon) &mdash; re-opens the custom coordinate dialog with the target's data pre-filled. Save with the same name to update it.</li>
-  <li><strong>Delete</strong> (trash icon) &mdash; permanently removes the target from saved storage.</li>
+  <li><svg class="ui-icon blue" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> <strong>Edit</strong> &mdash; re-opens the custom coordinate dialog with the target's data pre-filled. Save with the same name to update it.</li>
+  <li><svg class="ui-icon red" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> <strong>Delete</strong> &mdash; permanently removes the target from saved storage.</li>
 </ul>
 <p>Saved targets also appear in catalog search results when their name matches the search text. They are persisted across sessions and app restarts.</p>
 
@@ -548,11 +665,22 @@
 <p>Manual stepping auto-pauses a running search. The search center initializes from the selected target.</p>
 
 <h3 id="dpad">7.4 Thumb Pad &amp; Direction</h3>
-<p>The thumb pad is a large circular touch area for manual centering. Touch and drag in any direction to slew; release to stop. Only one axis moves at a time (the dominant direction).</p>
+
+<figure class="ui-shot">
+  <img src="images/ui/thumbpad.jpg" alt="Thumb pad with Target and Mount Alt/Az/HA readouts above the green ring." style="max-width: 480px;" />
+  <figcaption>Thumb pad on the Control page. The green ring is the touch area; grey dots mark the four cardinal stops; the centre crosshair is the deadband. Live Target Alt/Az (cyan) and Mount Alt/Az/HA (orange/blue) display above.</figcaption>
+</figure>
+
+<p>The thumb pad is a large circular touch area for manual centering. Two ways to use it:</p>
+<ol>
+  <li><strong>Touch and hold on a direction dot.</strong> Press near one of the four cardinal dots (N&nbsp;/&nbsp;S top and bottom, E&nbsp;/&nbsp;W left and right) and hold &mdash; the mount slews in that direction at the current Slew Rate. Lift your finger to stop.</li>
+  <li><strong>Place your thumb in the centre and slide.</strong> Touch the centre crosshair, then slide toward a direction dot &mdash; the mount slews in that direction. Slide back toward the centre to stop, or lift your finger entirely. Sliding past one direction and back is a smooth way to nudge a target across the eyepiece without having to reposition between presses.</li>
+</ol>
+<p>Only one axis moves at a time &mdash; the dominant direction wins. Lifting the finger always stops motion immediately.</p>
 <ul>
   <li><strong>Deadband</strong> &mdash; small area in the center where no motion occurs.</li>
-  <li><strong>N/S</strong> &mdash; DEC axis motion.</li>
-  <li><strong>E/W</strong> &mdash; RA axis motion, symmetric relative to tracking (see Slew Rate below).</li>
+  <li><strong>N&nbsp;/&nbsp;S</strong> &mdash; DEC axis motion.</li>
+  <li><strong>E&nbsp;/&nbsp;W</strong> &mdash; RA axis motion, symmetric relative to tracking (see Slew Rate below).</li>
   <li><strong>Release</strong> &mdash; DEC stops, RA returns to tracking rate (sidereal, solar, or lunar as appropriate).</li>
 </ul>
 
