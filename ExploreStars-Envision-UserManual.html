@@ -177,16 +177,12 @@
 
 <h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.1.1.2</strong> &bull; May 2026</p>
+<p><strong>Version 2.2.0.0</strong> &bull; May 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
 <p>ExploreStars Envision controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). The companion <strong>Star Seeker</strong> sky chart is built in &mdash; a full offline planetarium-style view with sensor-driven push-to identification, tap-to-GoTo, and an integrated mount marker. No internet connection is required.</p>
-<p>The app communicates with the PMC-Eight through the ESP32 WiFi module (WiFi), Bluetooth Classic SPP (Android), or directly via USB serial (Windows desktop). Your commands are forwarded to the PMC-Eight's Propeller processor.</p>
-
-<div class="note">
-<strong>Architecture:</strong> Phone &rarr; WiFi &rarr; ESP32 HTTP bridge (port 80) &rarr; TCP loopback &rarr; PMC-Eight Propeller firmware
-</div>
+<p>The app supports four ways of talking to your mount: two over WiFi (one for current ESP32 firmware, one for legacy modules), Bluetooth Classic on Android, and USB serial on Windows. Your commands are forwarded to the PMC-Eight's Propeller processor regardless of route. See <a href="#connection">Section 5.1</a> for picking the right one for your hardware.</p>
 
 <p><strong>Key features:</strong></p>
 <ul>
@@ -316,13 +312,46 @@
 <h2 id="setup">5. Setup Page</h2>
 
 <h3 id="connection">5.1 Connection</h3>
-<p>The app connects to the PMC-Eight via WiFi, Bluetooth, or Serial. Select your connection type, mount model, and tap <strong>CONNECT</strong>. Your connection type and device selection are remembered across sessions.</p>
+<p>The Connection dropdown picks how the app talks to your PMC-Eight. Choose the option that matches your hardware, fill in any fields it shows, and tap <strong>CONNECT</strong>. Your selection and field values are remembered across sessions.</p>
 
-<h4>WiFi (all platforms)</h4>
-<p>Enter the PMC-Eight's IP address. Use the default <code>192.168.47.1</code> for AP mode, or your LAN IP for home network use.</p>
+<h4>Which option should I pick?</h4>
+<table>
+  <tr><th>Pick this</th><th>If your setup is&hellip;</th></tr>
+  <tr>
+    <td><strong>WiFi (HTTP bridge)</strong></td>
+    <td>The standard option for current PMC-Eight units &mdash; the ESP32 daughter board running the modern HTTP-bridge firmware. Use this unless you know you have one of the older modules below.</td>
+  </tr>
+  <tr>
+    <td><strong>TCP (legacy mounts)</strong></td>
+    <td>Older PMC-Eight units that shipped with an <em>RN-131</em> WiFi module, an older <em>ESP8266</em> daughter board, or an older <em>ESP32</em> with firmware that predates the HTTP bridge. These all expose a raw-TCP serial bridge on port 54372. Also a valid choice on a modern ESP32 unit &mdash; raw TCP runs noticeably faster than the HTTP bridge.</td>
+  </tr>
+  <tr>
+    <td><strong>Bluetooth</strong></td>
+    <td>Android phone or tablet paired with the mount over Bluetooth Classic. No WiFi needed. Not available on iPhone (Apple restriction).</td>
+  </tr>
+  <tr>
+    <td><strong>Serial (COM Port)</strong></td>
+    <td>Windows PC connected to the mount with a USB-serial cable, or via a Bluetooth virtual COM port.</td>
+  </tr>
+</table>
+
+<h4>WiFi (HTTP bridge) &mdash; current ESP32 firmware</h4>
+<p>The default. Enter the PMC-Eight's IP address &mdash; <code>192.168.47.1</code> for the mount's own AP network, or its LAN address if it has joined your home WiFi.</p>
+
+<h4>TCP (legacy mounts)</h4>
+<p>Direct raw-TCP connection to the mount's WiFi module. Use this for RN-131, older ESP8266, and older ESP32 units, or any time you want a faster path on a modern ESP32.</p>
+<ol>
+  <li>Enter the mount's IP address.</li>
+  <li>Leave the port at <code>54372</code> &mdash; that's the standard for all PMC-Eight TCP connections, regardless of module type.</li>
+  <li>Tap <strong>CONNECT</strong>.</li>
+</ol>
+
+<div class="note">
+<strong>Older RN-131 units:</strong> if the module is holding a stale IP from a previous network and the app can't reach it, set it up for your current home network using the <strong>Configure PMC8 For Home Network</strong> app. To reset the RN-131 back to its default <code>192.168.47.1</code> AP-mode IP, use the <strong>UFCT RESET RN131</strong> function.
+</div>
 
 <h4>Bluetooth Classic (Android only)</h4>
-<p>Connect directly to the PMC-Eight via Bluetooth &mdash; no WiFi needed. This is ideal for field use where the phone connects to the mount over Bluetooth while WiFi remains free for other uses.</p>
+<p>Direct mount-to-phone Bluetooth &mdash; no WiFi needed. Ideal for field use where you want WiFi free for other things.</p>
 <ol>
   <li><strong>Pair first</strong> &mdash; in your Android Bluetooth settings, pair with the PMC-Eight (it appears as a Bluetooth device).</li>
   <li>In the app, select <strong>Bluetooth</strong> from the Connection dropdown.</li>
@@ -334,8 +363,8 @@
 <strong>Note:</strong> Bluetooth Classic (SPP) is not available on iPhone due to Apple platform restrictions. iPhone users should connect via WiFi.
 </div>
 
-<h4>Serial / USB (Windows desktop only)</h4>
-<p>Connect directly to the PMC-Eight Propeller board via USB cable. This provides the most reliable connection with zero WiFi latency.</p>
+<h4>Serial / USB (Windows only)</h4>
+<p>Direct USB cable to the PMC-Eight Propeller board. The most reliable connection &mdash; zero wireless involvement.</p>
 <ol>
   <li>Connect the PMC-Eight to your PC via USB.</li>
   <li>In the app, select <strong>Serial (COM Port)</strong> from the Connection dropdown.</li>
@@ -343,8 +372,8 @@
   <li>Click <strong>CONNECT</strong>.</li>
 </ol>
 
-<h4>Serial / Bluetooth (Windows desktop)</h4>
-<p>You can also connect to the PMC-Eight wirelessly from Windows using Bluetooth over a virtual COM port. Windows creates serial COM ports for paired Bluetooth SPP devices.</p>
+<h4>Serial via Bluetooth virtual COM port (Windows)</h4>
+<p>You can also reach the mount wirelessly from Windows by pairing the PMC-Eight as a Bluetooth device &mdash; Windows creates a pair of virtual COM ports for it. Useful when the mount is on a tripod across the room.</p>
 <ol>
   <li>Open <strong>Bluetooth settings</strong> from the system tray.</li>
   <li>Click <strong>Add device</strong>, then select <strong>Mice, keyboards, &amp; more</strong> (not Audio).</li>
@@ -364,8 +393,9 @@
 
 <table>
   <tr><th>Field</th><th>Default</th><th>Description</th></tr>
-  <tr><td>Connection</td><td>WiFi</td><td>WiFi, Bluetooth (Android), or Serial (Windows). Options appear based on platform capabilities. Selection is saved.</td></tr>
-  <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the PMC-Eight WiFi interface. Only shown when WiFi is selected.</td></tr>
+  <tr><td>Connection</td><td>WiFi (HTTP bridge)</td><td>Pick one of the four options described above. Options shown depend on platform: Bluetooth on Android, Serial on Windows, both WiFi options everywhere.</td></tr>
+  <tr><td>PMC-Eight IP Address</td><td><code>192.168.47.1</code></td><td>IP of the mount's WiFi interface. Shown for both WiFi options.</td></tr>
+  <tr><td>Port</td><td><code>54372</code></td><td>TCP port for the legacy-mount path. Standard PMC-Eight value &mdash; rarely needs changing. Only shown when <strong>TCP (legacy mounts)</strong> is selected.</td></tr>
   <tr><td>PMC-Eight Bluetooth</td><td>&mdash;</td><td>Paired Bluetooth device. Only shown when Bluetooth is selected. Tap Refresh if the mount was recently paired.</td></tr>
   <tr><td>COM Port</td><td>&mdash;</td><td>Serial port for USB connection. Only shown when Serial is selected on Windows. Tap Refresh ports to rescan.</td></tr>
   <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: Losmandy G-11, iExos-100, EXOS-2.</td></tr>
