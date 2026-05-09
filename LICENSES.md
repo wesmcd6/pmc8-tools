@@ -104,8 +104,16 @@ Object thumbnail images shown on the Target page are sourced from:
 - **Jim McKee** &mdash; astrophotographs marked "Jim McKee" in the
   Target-page caption, used with permission. See more of his work on
   AstroBin: <https://app.astrobin.com/u/mckeejh>
-- **NASA / JPL** &mdash; specific solar-system imagery (e.g., Pluto from
-  New Horizons, PIA19857), public domain.
+- **NASA / JPL** &mdash; specific solar-system and deep-sky imagery
+  (e.g., Pluto from New Horizons, PIA19857; Christmas Tree Cluster
+  wide-field), public domain.
+- **Chuck Ayoub** &mdash; Crescent Nebula (NGC 6888) photograph
+  obtained via Wikimedia Commons under the **Creative Commons CC0 1.0
+  Universal Public Domain Dedication**. The author has dedicated the
+  work to the public domain by waiving all copyright; no permission is
+  required to use, modify, or redistribute it. The photographer credit
+  is retained on the Target page as a courtesy.
+  CC0 1.0: <https://creativecommons.org/publicdomain/zero/1.0/>
 
 ---
 
