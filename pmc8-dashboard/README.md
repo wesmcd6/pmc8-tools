@@ -56,6 +56,6 @@ This project bundles and/or invokes `p1load`, a Propeller loader by dbetz, for f
 
 See `THIRD_PARTY_NOTICES.md` for the full third-party notice text.
 
-## Public downloads
+## Windows Python note
 
-For normal users, use the ZIP files attached to the `pmc8-dashboard-v0.1.0` release in the public `pmc8-tools` repository. The ZIPs are release assets rather than committed source files so the repository history stays small and readable.
+The Windows launcher does not require Administrator mode. It looks for `py`, then `python`, then `python3`. If none are found, install Python 3.10 or newer from python.org and enable **Add python.exe to PATH** during installation, then open a new Command Prompt.

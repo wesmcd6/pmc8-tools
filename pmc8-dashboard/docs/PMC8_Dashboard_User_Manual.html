@@ -32,6 +32,9 @@ cd D:\p1loader
 py PMC8_Dashboard.py</pre>
 <p>You can also run <code>run_dashboard_windows.bat</code> from the distribution folder.</p>
 
+<h2>Windows Python Note</h2>
+<p>The Windows launcher does not require Administrator mode. It looks for <code>py</code>, then <code>python</code>, then <code>python3</code>. If none are found, install Python 3.10 or newer from python.org and enable <strong>Add python.exe to PATH</strong> during installation, then open a new Command Prompt.</p>
+
 <h2>Install on macOS</h2>
 <pre>python3 -m pip install PyQt6 pyserial
 cd /path/to/p1loader
@@ -85,5 +88,6 @@ chmod +x run_dashboard_macos.command
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
 </body>
 </html>
+
 
 

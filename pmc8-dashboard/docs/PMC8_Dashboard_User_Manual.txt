@@ -17,6 +17,9 @@ Install and Run on Windows
    py PMC8_Dashboard.py
 3. In a packaged distribution, run run_dashboard_windows.bat.
 
+Windows Python Note
+The Windows launcher does not require Administrator mode. It looks for py, then python, then python3. If none are found, install Python 3.10 or newer from python.org and enable "Add python.exe to PATH" during installation, then open a new Command Prompt.
+
 Install and Run on macOS
 1. Install dependencies:
    python3 -m pip install PyQt6 pyserial
@@ -65,3 +68,4 @@ License: MIT License
 Copyright: Copyright (c) 2015 dbetz
 
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
+
