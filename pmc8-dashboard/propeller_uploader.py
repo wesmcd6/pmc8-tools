@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 """
 Parallax Propeller Loader
 
@@ -64,7 +64,7 @@ def serial_ports():
             s.port = port
             s.baudrate = 115200
             s.timeout = 0
-            s.write_timeout = 1
+            s.write_timeout = None
             s.xonxoff = False
             s.rtscts = False
             s.dsrdtr = False
@@ -87,7 +87,7 @@ class Loader(object):
     def __init__(self, port, reset_gpio=-1):
         self.serial = serial.Serial(baudrate=115200, timeout=0)
         self.serial.port = port
-        self.serial.write_timeout = 1
+        self.serial.write_timeout = None
         self.serial.xonxoff = False
         self.serial.rtscts = False
         self.serial.dsrdtr = False
@@ -211,8 +211,8 @@ class Loader(object):
         for (i, value) in zip(range(LFSR_REQUEST_LEN + LFSR_REPLY_LEN), self._lfsr(LFSR_SEED)):
             seq.append(value)
 
-        self.serial.write(bytes([each | 0xfe for each in seq[0:LFSR_REQUEST_LEN]]))
-        self.serial.write(bytes([0xf9] * (LFSR_REPLY_LEN + 8)))
+        self._write_all(bytes([each | 0xfe for each in seq[0:LFSR_REQUEST_LEN]]))
+        self._write_all(bytes([0xf9] * (LFSR_REPLY_LEN + 8)))
 
         for i in range(LFSR_REQUEST_LEN, LFSR_REQUEST_LEN + LFSR_REPLY_LEN):
             if self._read_bit(False, 0.200) != seq[i]:
@@ -265,7 +265,7 @@ class Loader(object):
             return
         self._write_long(code_length // 4)
         progress("Sending code ({} bytes) Please Wait".format(code_length))
-        self.serial.write(encoded_code)
+        self._write_all(encoded_code, chunk_size=1024)
         self.serial.flushInput()
         if self._read_bit(True, 12) == 1:
             raise LoaderError("RAM checksum error")
@@ -279,7 +279,12 @@ class Loader(object):
 
     def _write_long(self, value):
         encoded_value = self._encode_long(value)
-        self.serial.write(encoded_value)
+        self._write_all(encoded_value)
+
+    def _write_all(self, data, chunk_size=1024):
+        for offset in range(0, len(data), chunk_size):
+            self.serial.write(data[offset:offset + chunk_size])
+            self.serial.flush()
 
     def _encode_long(self, value):
         result = []
@@ -290,7 +295,7 @@ class Loader(object):
         return bytes(result)
 
     def _write_byte(self, value):
-        self.serial.write(bytes([value]))
+        self._write_all(bytes([value]))
 
     def _read_bit(self, echo, timeout):
         start = time.time()
