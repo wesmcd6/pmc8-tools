@@ -1,6 +1,8 @@
 import os
+import subprocess
 import sys
 import traceback
+from pathlib import Path
 
 def print_dependency_help(app_name, missing_package):
     print(f"{app_name} requires {missing_package}, but it is not installed in this Python environment.")
@@ -53,20 +55,57 @@ class UploadWorker(QObject):
 
     def run(self):
         try:
-            propeller_upload(
-                self.serial_port,
-                self.file_path,
-                eeprom=self.eeprom,
-                run=self.run_after,
-                gpio_pin=-1,
-                progress=self.progress.emit,
-                terminal=False,
-            )
+            if sys.platform == "darwin":
+                self._run_macos_p1load()
+            else:
+                propeller_upload(
+                    self.serial_port,
+                    self.file_path,
+                    eeprom=self.eeprom,
+                    run=self.run_after,
+                    gpio_pin=-1,
+                    progress=self.progress.emit,
+                    terminal=False,
+                )
             self.finished.emit()
         except LoaderError as exc:
             self.failed.emit(str(exc))
         except Exception:
             self.failed.emit(traceback.format_exc())
+
+    def _run_macos_p1load(self):
+        app_dir = Path(__file__).resolve().parent
+        p1load = app_dir / "p1load_package (1)" / "p1load"
+        if not p1load.is_file():
+            raise LoaderError(f"Bundled macOS p1load was not found: {p1load}")
+
+        try:
+            p1load.chmod(p1load.stat().st_mode | 0o755)
+        except OSError as exc:
+            self.progress.emit(f"Warning: could not mark p1load executable: {exc}")
+
+        cmd = [str(p1load), "-p", self.serial_port]
+        if self.eeprom:
+            cmd.append("-e")
+        cmd.append(self.file_path)
+        if self.run_after:
+            cmd.append("-r")
+
+        self.progress.emit("Using bundled macOS p1load.")
+        self.progress.emit("Command: " + " ".join(cmd))
+        proc = subprocess.run(
+            cmd,
+            cwd=str(p1load.parent),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+        output = proc.stdout.strip()
+        if output:
+            for line in output.splitlines():
+                self.progress.emit(line)
+        if proc.returncode != 0:
+            raise LoaderError(f"p1load failed with exit code {proc.returncode}")
 
 
 class UploadDialog(QDialog):
