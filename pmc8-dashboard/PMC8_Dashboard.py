@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import socket
 import time
 import os
@@ -744,6 +744,50 @@ class PMC8Configurator(QWidget):
         finally:
             self.scroll_response_to_bottom()
 
+    def _serial_send_command(self, cmd, timeout=3.0):
+        if not self.serial_port or not self.serial_port.is_open:
+            raise RuntimeError("Serial port not connected")
+
+        original_timeout = self.serial_port.timeout
+        try:
+            self.serial_port.timeout = 0.1
+            self.serial_port.reset_input_buffer()
+            self.serial_port.write(cmd.encode("ascii"))
+            self.serial_port.flush()
+
+            echo = cmd.strip()
+            frames = []
+            frame = bytearray()
+            deadline = time.time() + timeout
+            while time.time() < deadline:
+                data = self.serial_port.read(1)
+                if not data:
+                    continue
+                frame.extend(data)
+                if data != b"!":
+                    continue
+
+                response = bytes(frame).decode("ascii", errors="replace").strip()
+                es_idx = response.find("ES")
+                if es_idx > 0:
+                    response = response[es_idx:]
+                frames.append(response)
+                if response and response != echo:
+                    return response
+                frame.clear()
+
+            if frame:
+                response = bytes(frame).decode("ascii", errors="replace").strip()
+                es_idx = response.find("ES")
+                if es_idx > 0:
+                    response = response[es_idx:]
+                if response:
+                    return response
+            return frames[-1] if frames else ""
+        finally:
+            self.serial_port.timeout = original_timeout
+            self.serial_port.reset_input_buffer()
+
     def _wifi_send_command(self, cmd, timeout=3.0):
         if not self.connection_socket:
             raise RuntimeError("WiFi connection not established")
@@ -786,6 +830,7 @@ class PMC8Configurator(QWidget):
         if es_idx > 0:
             response = response[es_idx:]
         return response
+
     def update_command_dropdown(self):
         self.command_combo.clear()
         for key, info in COMMANDS.items():
@@ -830,10 +875,7 @@ class PMC8Configurator(QWidget):
                     cmd = self.build_config_command()
                     if not cmd:
                         return
-                    self.serial_port.write((cmd + "\r\n").encode())
-                    self.serial_port.flush()
-                    response = self.serial_port.readline().decode().strip()
-                    self.serial_port.reset_input_buffer()
+                    response = self._serial_send_command(cmd)
                     self.response_box.append(f"Sent: {cmd}\nReceived: {response}")
                     self.scroll_response_to_bottom()
                 else:
@@ -854,10 +896,7 @@ class PMC8Configurator(QWidget):
                         self.response_box.append(f"Missing parameter: {e}")
                         self.scroll_response_to_bottom()
                         return
-                    self.serial_port.write((command_to_send + "\r\n").encode())
-                    self.serial_port.flush()
-                    response = self.serial_port.readline().decode().strip()
-                    self.serial_port.reset_input_buffer()
+                    response = self._serial_send_command(command_to_send)
                     self.response_box.append(f"Sent: {command_to_send}\nReceived: {response}")
                     self.scroll_response_to_bottom()
                     if command_key == "ESGi!":
@@ -911,24 +950,7 @@ class PMC8Configurator(QWidget):
         conn_type = self.connection_type_combo.currentText()
         if conn_type == "Serial":
             if self.serial_port and self.serial_port.is_open:
-                self.serial_port.reset_input_buffer()
-                self.serial_port.write(("ESGi!" + "\r\n").encode())
-                self.serial_port.flush()
-
-               # Read response with timeout (5 seconds)
-                start_time = time.time()
-                response = ""
-                self.response_box.append("While loop....")
-                while time.time() - start_time < 5:
- 
-                   self.response_box.append("Reading for 1 sec")
-                   self.scroll_response_to_bottom()
- #                  line = self.serial_port.readline().decode().strip()
-                   line = self.serial_port.readline().decode(errors="replace").strip()
-                   if line:
-                       response = line
-                       break
-                self.serial_port.reset_input_buffer()
+                response = self._serial_send_command("ESGi!", timeout=5.0)
             
                 if not response:
                     #self.response_box.append("Connection failed, check PMC-Eight COM port selection")
@@ -943,17 +965,7 @@ class PMC8Configurator(QWidget):
                 self.save_config_button.setEnabled(True)
             
                 # Issue ESGv! for firmware version.
-                self.serial_port.reset_input_buffer()
-                self.serial_port.write(("ESGv!" + "\r\n").encode())
-                self.serial_port.flush()
-                start_time = time.time()
-                fw_response = ""
-                while time.time() - start_time < 5:
-                    line = self.serial_port.readline().decode().strip()
-                    if line:
-                        fw_response = line
-                        break
-                self.serial_port.reset_input_buffer()
+                fw_response = self._serial_send_command("ESGv!", timeout=5.0)
             
                 if not fw_response:
                     self.response_box.append("No reply received for ESGv! (timeout)")
@@ -1018,11 +1030,7 @@ class PMC8Configurator(QWidget):
                 cmd = self.build_config_command()
                 if not cmd:
                     return
-                self.serial_port.reset_input_buffer()
-                self.serial_port.write((cmd + "\r\n").encode())
-                self.serial_port.flush()
-                response = self.serial_port.readline().decode().strip()
-                self.serial_port.reset_input_buffer()
+                response = self._serial_send_command(cmd)
                 self.response_box.append(f"Sent: {cmd}\nReceived: {response}")
                 self.scroll_response_to_bottom()
             else:
@@ -1048,11 +1056,7 @@ class PMC8Configurator(QWidget):
         conn_type = self.connection_type_combo.currentText()
         if conn_type == "Serial":
             if self.serial_port and self.serial_port.is_open:
-                self.serial_port.reset_input_buffer()
-                self.serial_port.write(("ESB!" + "\r\n").encode())
-                self.serial_port.flush()
-                response = self.serial_port.readline().decode().strip()
-                self.serial_port.reset_input_buffer()
+                response = self._serial_send_command("ESB!")
                 self.response_box.append(f"Sent: ESB!\nReceived: {response}")
                 self.scroll_response_to_bottom()
             else:
