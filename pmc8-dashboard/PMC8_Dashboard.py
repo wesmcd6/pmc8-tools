@@ -752,42 +752,62 @@ class PMC8Configurator(QWidget):
         try:
             self.serial_port.timeout = 0.1
             self.serial_port.reset_input_buffer()
-            self.serial_port.write(cmd.encode("ascii"))
+
+            # Serial PMC-Eight command handling expects the command terminator
+            # plus CR/LF framing. WiFi uses raw commands; serial keeps CR/LF.
+            self.serial_port.write((cmd + "\r\n").encode("ascii"))
             self.serial_port.flush()
 
             echo = cmd.strip()
             frames = []
             frame = bytearray()
+            raw = bytearray()
             deadline = time.time() + timeout
+            last_data_time = None
+
             while time.time() < deadline:
                 data = self.serial_port.read(1)
                 if not data:
+                    if raw and last_data_time and time.time() - last_data_time > 0.35:
+                        break
                     continue
+
+                raw.extend(data)
                 frame.extend(data)
-                if data != b"!":
+                last_data_time = time.time()
+
+                if data not in (b"!", b"\n"):
                     continue
 
                 response = bytes(frame).decode("ascii", errors="replace").strip()
+                response = response.strip("\r\n")
                 es_idx = response.find("ES")
                 if es_idx > 0:
                     response = response[es_idx:]
-                frames.append(response)
-                if response and response != echo:
-                    return response
+                if response:
+                    frames.append(response)
+                    if response != echo:
+                        return response
                 frame.clear()
 
             if frame:
                 response = bytes(frame).decode("ascii", errors="replace").strip()
+                response = response.strip("\r\n")
                 es_idx = response.find("ES")
                 if es_idx > 0:
                     response = response[es_idx:]
                 if response:
                     return response
-            return frames[-1] if frames else ""
+
+            if frames:
+                return frames[-1]
+
+            # Last resort: show any raw bytes received so the transaction window
+            # is useful during hardware diagnosis.
+            return bytes(raw).decode("ascii", errors="replace").strip()
         finally:
             self.serial_port.timeout = original_timeout
             self.serial_port.reset_input_buffer()
-
     def _wifi_send_command(self, cmd, timeout=3.0):
         if not self.connection_socket:
             raise RuntimeError("WiFi connection not established")
