@@ -1,0 +1,18 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+
+# OS metadata
+.DS_Store
+._*
+Thumbs.db
+
+# Local/generated distribution archives
+*.zip
+
+# Local logs/temp
+*.log
+*.tmp

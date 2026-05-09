@@ -1,0 +1,67 @@
+﻿PMC8 DASHBOARD USER MANUAL
+
+Overview
+The PMC8 Dashboard is a desktop utility for configuring and testing an Explore Scientific PMC-Eight controller. It supports serial and WiFi command paths, configuration read/write, direct command testing, response logging, and firmware upload workflow access.
+
+Requirements
+- Python 3.10 or newer.
+- PyQt6 for the graphical interface.
+- pyserial for serial port access.
+- A PMC-Eight controller connected by USB serial or reachable over the local network.
+
+Install and Run on Windows
+1. Install dependencies:
+   py -m pip install PyQt6 pyserial
+2. Start the app:
+   cd D:\p1loader
+   py PMC8_Dashboard.py
+3. In a packaged distribution, run run_dashboard_windows.bat.
+
+Install and Run on macOS
+1. Install dependencies:
+   python3 -m pip install PyQt6 pyserial
+2. Start the app:
+   cd /path/to/p1loader
+   python3 PMC8_Dashboard.py
+3. In a packaged distribution, run run_dashboard_macos.command.
+4. If double-clicking does not work, run it from Terminal:
+   cd /path/to/p1loader
+   chmod +x run_dashboard_macos.command
+   ./run_dashboard_macos.command
+5. If macOS blocks downloaded files from a trusted distribution folder:
+   xattr -dr com.apple.quarantine /path/to/p1loader
+
+Startup Asset Check
+Before the interface opens, the dashboard checks that required local files are present and readable, including propeller_uploader.py, upload_dialog.py, and the bundled manuals. On macOS and Linux it attempts to mark bundled helper shell/binary files executable when present.
+
+Connection Controls
+- Connection Mode: Select Serial or WiFi.
+- Serial Port: Select the PMC-Eight COM or tty port.
+- WiFi Address / Port: Enter the controller IP address and command port for network configuration operations.
+- Connect: Opens the selected connection. The button turns green when connected.
+
+Configuration Actions
+- Get Configuration reads the PMC-Eight configuration block and populates editable fields.
+- Save Configuration builds and sends the PMC-Eight configuration save command from the displayed values.
+- Boot PMC8 sends the boot command after configuration or firmware operations when needed.
+
+Command Console
+The command console provides a list of PMC-Eight commands, parameter fields for commands that need values, and a send button. Responses appear in the response log.
+
+Firmware Upload
+The firmware upload dialog uses the selected serial port. Firmware loading may intentionally toggle reset control lines as part of the Propeller programming sequence. Ordinary serial connection for configuration keeps DTR and RTS low before opening the port.
+
+Notes
+- WiFi mode is intended for configuration commands over the controller network endpoint.
+- Serial mode should be used for firmware upload.
+- If Python reports that PyQt6 or pyserial is missing, install the packages shown in the console message and start the app again.
+
+
+THIRD-PARTY CREDITS
+This app bundles and/or invokes p1load, a Propeller loader by dbetz, for firmware loading support.
+
+Source: https://github.com/dbetz/p1load
+License: MIT License
+Copyright: Copyright (c) 2015 dbetz
+
+See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
