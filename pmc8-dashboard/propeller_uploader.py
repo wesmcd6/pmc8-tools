@@ -183,7 +183,7 @@ class Loader(object):
         self.serial.close()
         
     def reset(self):
-        """Reset the Propeller."""
+        """Reset into the Propeller loader."""
         self.serial.flushOutput()
         if self.reset_gpio > -1 and self.gpio is not None:
             self.gpio.output(self.reset_gpio, self.gpio.LOW)
@@ -191,9 +191,17 @@ class Loader(object):
             self.gpio.output(self.reset_gpio, self.gpio.HIGH)
             time.sleep(0.1)
         else:
+            # PMC-Eight boards expose RESET on DTR and BOOT on RTS. For normal
+            # dashboard serial use both lines are held low; for firmware upload
+            # hold BOOT active while pulsing RESET so the controller enters the
+            # loader instead of starting the PMC8 application firmware.
+            self.serial.setRTS(1)
+            time.sleep(0.05)
             self.serial.setDTR(1)
             time.sleep(0.1)
             self.serial.setDTR(0)
+            time.sleep(0.25)
+            self.serial.setRTS(0)
             time.sleep(0.1)
         self.serial.flushInput()
         
