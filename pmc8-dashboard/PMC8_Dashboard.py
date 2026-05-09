@@ -626,13 +626,19 @@ class PMC8Configurator(QWidget):
     def refresh_ports(self):
         try:
             self.port_combo.clear()
-            # Add a placeholder as the first item
-            self.port_combo.addItem("Select COM port", "")
-            for port in serial.tools.list_ports.comports():
-                # Exclude ports with "Bluetooth" in their description
-                if "Bluetooth" in port.description:
+            self.port_combo.addItem("Select serial port", "")
+            ports = list(serial.tools.list_ports.comports())
+            if sys.platform == "darwin":
+                # macOS provides both /dev/tty.* and /dev/cu.* entries. For an
+                # app initiating commands to the mount, /dev/cu.* is the right
+                # callout device; /dev/tty.* can open but not behave correctly.
+                ports = [port for port in ports if port.device.startswith("/dev/cu.")]
+            for port in ports:
+                description = port.description or "Serial device"
+                if "Bluetooth" in description:
                     continue
-                self.port_combo.addItem(port.device, port.device)
+                label = f"{port.device} - {description}"
+                self.port_combo.addItem(label, port.device)
             self.port_combo.setCurrentIndex(0)
         except Exception as e:
             print(f"Error refreshing ports: {e}")
@@ -804,7 +810,8 @@ class PMC8Configurator(QWidget):
 
             # Last resort: show any raw bytes received so the transaction window
             # is useful during hardware diagnosis.
-            return bytes(raw).decode("ascii", errors="replace").strip()
+            raw_text = bytes(raw).decode("ascii", errors="replace").strip()
+            return raw_text if raw_text else f"[no bytes received from {self.serial_port.port}]"
         finally:
             self.serial_port.timeout = original_timeout
             self.serial_port.reset_input_buffer()
@@ -974,7 +981,7 @@ class PMC8Configurator(QWidget):
             
                 if not response:
                     #self.response_box.append("Connection failed, check PMC-Eight COM port selection")
-                    self.response_box.append("PMC-Eight may be rebooting, or PMC-Eight COM port incorrect")
+                    self.response_box.append(f"No serial response from {self.serial_port.port}. On macOS select a /dev/cu.* port, not /dev/tty.*.")
                     self.scroll_response_to_bottom()
                     return
             
