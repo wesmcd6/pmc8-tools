@@ -59,3 +59,18 @@ See `THIRD_PARTY_NOTICES.md` for the full third-party notice text.
 ## Windows Python note
 
 The Windows launcher does not require Administrator mode. It looks for `py`, then `python`, then `python3`. If none are found, install Python 3.10 or newer from python.org and enable **Add python.exe to PATH** during installation, then open a new Command Prompt.
+
+
+## macOS Gatekeeper note
+
+The macOS launcher attempts to set executable permissions, but it cannot fully bypass Gatekeeper quarantine for the bundled `p1load` helper. After extracting the ZIP, run:
+
+```bash
+cd /path/to/PMC8_Dashboard_macOS
+xattr -dr com.apple.quarantine .
+chmod +x run_dashboard_macos.command
+chmod +x "p1load_package (1)/p1load"
+./run_dashboard_macos.command
+```
+
+On first firmware upload, macOS may still require manual approval. If the popup blocks `p1load`, go to System Settings > Privacy & Security, click Allow Anyway for `p1load`, then run the dashboard/upload again and approve the final popup.

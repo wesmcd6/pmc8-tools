@@ -42,10 +42,13 @@ python3 PMC8_Dashboard.py</pre>
 <p>If macOS blocks a downloaded script, remove quarantine from the folder you trust:</p>
 <pre>xattr -dr com.apple.quarantine /path/to/p1loader</pre>
 <p>You can also run <code>run_dashboard_macos.command</code> from the distribution folder. If double-clicking does not work, run it from Terminal:</p>
-<pre>cd /path/to/p1loader
+<pre>cd /path/to/PMC8_Dashboard_macOS
+xattr -dr com.apple.quarantine .
 chmod +x run_dashboard_macos.command
+chmod +x "p1load_package (1)/p1load"
 ./run_dashboard_macos.command</pre>
-<p>The dashboard preflight checks bundled assets and attempts to mark shell helpers executable when needed.</p>
+<p>On first firmware upload, macOS may still block the bundled <code>p1load</code> helper. If a security popup appears, choose the available allow/open option. If macOS says the helper cannot be opened, go to <strong>System Settings &gt; Privacy &amp; Security</strong>, find the blocked <code>p1load</code> message, and click <strong>Allow Anyway</strong>. Run the dashboard/upload again; macOS may show one more confirmation popup. Choose <strong>Open</strong> or <strong>Allow</strong>. After this one-time approval, the helper should run normally.</p>
+<p>The dashboard preflight checks bundled assets and attempts to mark shell helpers executable when needed, but it cannot fully bypass Gatekeeper quarantine or replace the manual Privacy &amp; Security approval step.</p>
 
 <h2>Startup Asset Check</h2>
 <p>Before the interface opens, the dashboard checks that required local files are present and readable, including the uploader module, upload dialog, and this manual in HTML and text form. On macOS and Linux it also checks executable permission for bundled shell/helper files when present.</p>
