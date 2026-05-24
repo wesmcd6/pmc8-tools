@@ -1,0 +1,41 @@
+PMC-Eight Universal Firmware Configuration Tool (UFCT)
+Copyright (c) 2022-2026 Explore Scientific, LLC. All rights reserved.
+
+PROPRIETARY SOFTWARE — PRIVATE DISTRIBUTION
+
+This software and its source code are the proprietary property of Explore
+Scientific, LLC. They are made available only to authorized collaborators,
+at Explore Scientific's discretion, for the purpose of configuring, testing,
+and maintaining Explore Scientific PMC-Eight mount controllers.
+
+Without the prior written permission of Explore Scientific, LLC, you may NOT:
+  - redistribute this software or its source code publicly,
+  - sublicense, sell, or commercially exploit it,
+  - remove or alter copyright, license, or attribution notices.
+
+As an authorized collaborator, you MAY:
+  - use the software to configure and service PMC-Eight controllers,
+  - build from source for that purpose,
+  - propose changes back to Explore Scientific, LLC.
+
+All rights not expressly granted are reserved by Explore Scientific, LLC.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+EXPLORE SCIENTIFIC, LLC BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. Loading firmware onto hardware carries inherent risk; the user
+assumes all responsibility for hardware outcomes.
+
+---
+
+THIRD-PARTY COMPONENTS
+
+This software incorporates third-party open-source code that remains under
+its own license, independent of the proprietary terms above. The Propeller
+P1 boot protocol in `Pmc8FirmwareLoader.vb` is derived from `p1load` by dbetz
+(MIT License, Copyright (c) 2015 dbetz). Full third-party license text is in
+THIRD_PARTY_NOTICES.md. Nothing in this proprietary license restricts your
+rights under those third-party licenses with respect to the third-party code.
