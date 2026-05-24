@@ -41,6 +41,7 @@ PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, co
 
 | Tool | Branch | Description |
 |------|--------|-------------|
+| PMC-Eight UFCT | [`pmc8-ufct`](../../tree/pmc8-ufct) | **Universal Firmware Configuration Tool** (Windows) — read/write config, send raw commands, serial firmware flash, RN-131 restore |
 | PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware (flash via UFCT) |
 | ESP32 OTA Update | [`esp32-ota`](../../tree/esp32-ota) | Wi-Fi firmware update script + binary |
 | ESP32 Serial Flash | [`esp32-serial-flash`](../../tree/esp32-serial-flash) | Fallback when OTA isn't possible — self-contained zip with ESPLoader + esptool |
