@@ -58,7 +58,9 @@ Cross-platform telescope mount control — runs on Android, Windows, and as a se
 
 - 11,000+ object catalog with altitude-based visibility coloring
 - GoTo, Sync, Tracking (Sidereal/Solar/Lunar), Meridian Flip, multi-star alignment
+- **Model-aware display** — chart marker and RA/Dec readouts can show the alignment-corrected "true sky" position
 - **Star Seeker** in-app sky chart with sensor-based push-to identification
+- **Camera field-of-view** overlay on the sky chart, with a calculator — sensor/camera presets, Barlow/reducer, and rotator-angle support
 - Spiral Search, Thumb Pad centering with Fine/Coarse rates
 - Solar system targets: planets, Moon, Sun, minor planets
 - Multi-language UI (English, 简体中文, Français, Italiano, Español, Deutsch, Português, 日本語, Nederlands, Polski, Українська)
