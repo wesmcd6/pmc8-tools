@@ -25,7 +25,7 @@ The Releases page carries pre-built binaries for each platform. Pick the asset t
 
 ExploreStars Envision&trade; is a trademark of Wes McDonald. Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are trademarks of [Explore Scientific, LLC](https://www.explorescientific.com), and are used here with acknowledgement.
 
-ExploreStars Envision&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. It is not produced or endorsed by Explore Scientific, LLC.
+ExploreStars Envision&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. The application code and project materials are authored and owned by Wes McDonald. If Explore Scientific, LLC recommends, endorses, promotes, or distributes the app, that should be understood as support for an independently authored application within the PMC-Eight&trade; ecosystem, not as Explore Scientific authorship or ownership of the app.
 
 Copyright © 2026 Wes McDonald. All rights reserved.
 
