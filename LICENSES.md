@@ -16,11 +16,16 @@ any kind.
   **PMC-Eight&trade;** are trademarks of Explore Scientific, LLC, and are
   used here with acknowledgement.
 
-## Independence disclaimer
+## Independence and endorsement
 
 ExploreStars Envision&trade; is an independent application that controls
-Explore Scientific&trade; PMC-Eight&trade; telescope mounts. It is not
-produced or endorsed by Explore Scientific, LLC.
+Explore Scientific&trade; PMC-Eight&trade; telescope mounts. The
+application code and project materials are authored and owned by Wes
+McDonald except where third-party credits are listed below. If Explore
+Scientific, LLC recommends, endorses, promotes, or distributes the app,
+that endorsement should be understood as support for use of an
+independently authored application within the PMC-Eight ecosystem, not as
+Explore Scientific authorship or ownership of the app.
 
 ## About this document
 
@@ -178,9 +183,11 @@ released under the all-rights-reserved binary terms stated at the top of
 this document.
 
 A separate private grant covers Explore Scientific, LLC's source-level
-rights of use, modification, and internal distribution; that grant is
-documented outside this file.
+rights of use, modification, internal distribution, binary distribution,
+endorsement / promotional use, and any ES-specific changes or ecosystem
+integration work; that grant is documented outside this file.
 
 ---
 
-*Document version: 2026-05-03 (ExploreStars Envision v2.1.0.0 release)*
+*Document version: 2026-05-23 (aligned with Explore Scientific licensing
+proposal draft)*
