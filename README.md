@@ -36,4 +36,3 @@ Copyright © 2026 Wes McDonald. All rights reserved.
 - [`esp32-serial-flash`](../../tree/esp32-serial-flash) — ESP32 serial flash tool
 - [`pwa-server`](../../tree/pwa-server) — pre-built PWA server distribution (alternate to the Release zip)
 - [`windows`](../../tree/windows) — Windows desktop binary (alternate to the Release zip)
-- [`explorestars-lite`](../../tree/explorestars-lite) — **legacy** (end-of-line, predecessor to Envision)
