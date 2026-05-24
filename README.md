@@ -8,7 +8,8 @@ the WiFi adapter to factory defaults.
 
 ## Download
 
-📦 **`PMC-Eight-UFCT-2.0.exe`** (above) — click it, then the download button.
+📦 **[Download `PMC-Eight-UFCT-2.0.exe`](PMC-Eight-UFCT-2.0.exe)** — on the file
+page that opens, click the **Download** button (top right).
 
 It's a **single executable, no installer**. Download it and run it.
 
