@@ -51,7 +51,6 @@ PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, co
 |---|---|
 | [`pwa-server`](../../tree/pwa-server) | Pre-built PWA server distribution (alternate to the Release zip — same content) |
 | [`windows`](../../tree/windows) | Windows desktop binary (alternate to the Release zip — same content) |
-| [`explorestars-lite`](../../tree/explorestars-lite) | **Legacy** — final v1.3.3.x release of the predecessor ExplorestarsLite app, kept frozen as a record. New users should install ExploreStars Envision instead. |
 
 ## About ExploreStars Envision&trade;
 
