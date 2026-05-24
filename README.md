@@ -31,6 +31,7 @@ Copyright © 2026 Wes McDonald. All rights reserved.
 
 ## Other branches in this repo
 
+- [`pmc8-ufct`](../../tree/pmc8-ufct) — PMC-Eight Universal Firmware Configuration Tool (Windows config / diagnostics / serial firmware flash)
 - [`pmc8-firmware`](../../tree/pmc8-firmware) — PMC-Eight Propeller firmware (`.binary`)
 - [`esp32-ota`](../../tree/esp32-ota) — ESP32 OTA flash tool
 - [`esp32-serial-flash`](../../tree/esp32-serial-flash) — ESP32 serial flash tool
