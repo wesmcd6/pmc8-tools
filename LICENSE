@@ -1,0 +1,45 @@
+Configure PMC8 for Home Network Connection
+Copyright (c) 2023-2026 Wes McDonald. All rights reserved.
+
+FREE TO USE — SOURCE NOT INCLUDED
+
+This program (the compiled executable) is provided free of charge to owners and
+users of Explore Scientific(TM) PMC-Eight(TM) telescope mounts, for the purpose
+of configuring a PMC-Eight WiFi module (ESP32, ESP8266, or RN-131) to join a
+home network.
+
+You MAY, at no cost:
+  - download, install, and use this program for that purpose;
+  - share the unmodified official release executable with other PMC-Eight
+    users.
+
+Without the prior written permission of Wes McDonald, you may NOT:
+  - sell or commercially exploit this program;
+  - modify, decompile, reverse engineer, or create derivative works of it;
+  - remove or alter copyright, license, or attribution notices.
+
+The source code is NOT included with this distribution and remains the private
+property of Wes McDonald. It is not released as open source at this time. The
+copyright holder may, at his sole discretion, release the source code under an
+open-source license at a future date; until any such release, the source
+remains private and all rights in it are reserved.
+
+TRADEMARKS & INDEPENDENCE
+Explore Scientific(TM), ExploreStars(TM), and PMC-Eight(TM) are trademarks of
+Explore Scientific, LLC (https://www.explorescientific.com), and are used here
+with acknowledgement. This is an independent utility that configures Explore
+Scientific PMC-Eight mounts; it is authored and owned by Wes McDonald, not by
+Explore Scientific, LLC. If Explore Scientific recommends, endorses, or
+distributes this program, that is support for an independently authored utility
+within the PMC-Eight ecosystem, not Explore Scientific authorship or ownership
+of the program.
+
+NO WARRANTY
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL WES
+MCDONALD BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. Configuring
+mount hardware carries inherent risk; the user assumes all responsibility for
+hardware outcomes.

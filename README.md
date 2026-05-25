@@ -58,8 +58,18 @@ seconds instead of hanging.
 - **[ExploreStars Envision](https://github.com/wesmcd6/pmc8-tools/releases/latest)**
   — the mount-control app that connects to the mount once it's on your network.
 
-## Trademarks
+## License & trademarks
 
-Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are
-trademarks of [Explore Scientific, LLC](https://www.explorescientific.com), and
-are used here with acknowledgement.
+**Free to use.** The executable is provided free of charge for configuring
+Explore Scientific PMC-Eight mounts; you may use it and share the unmodified
+official release. The source code is not included and is not open source at
+this time (the author may choose to open it in the future). See [`LICENSE`](LICENSE)
+for full terms.
+
+This is an independent utility **authored and owned by Wes McDonald**, not by
+Explore Scientific, LLC. Explore Scientific&trade;, ExploreStars&trade;, and
+PMC-Eight&trade; are trademarks of
+[Explore Scientific, LLC](https://www.explorescientific.com), used here with
+acknowledgement.
+
+Copyright © 2023-2026 Wes McDonald. All rights reserved.
