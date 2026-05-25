@@ -8,8 +8,8 @@ the WiFi adapter to factory defaults.
 
 ## Download
 
-📦 **[Download `PMC-Eight-UFCT-2.0.exe`](PMC-Eight-UFCT-2.0.exe)** — on the file
-page that opens, click the **Download** button (top right).
+📦 **[Download from the v2.1 release](https://github.com/wesmcd6/pmc8-tools/releases/tag/pmc8-ufct-v2.1)** — on the release
+page, under **Assets**, click **`PMC-Eight-UFCT-2.1.exe`**.
 
 It's a **single executable, no installer**. Download it and run it.
 
@@ -73,7 +73,7 @@ or **WiFi/TCP** (any PMC-Eight WiFi module exposing the protocol on a socket).
 
 ## Version
 
-**v2.0** (May 2026) — full refactor on .NET Framework 4.8 with typed
+**v2.1** (May 2026) — full refactor on .NET Framework 4.8 with typed
 protocol/transport/config layers and WiFi connectivity working end-to-end
 across all PMC-Eight WiFi modules (RN-131 / ESP8266 / ESP32), single
 Connect/Disconnect with Mount IP entry, fast-fail WiFi connect, and a built-in
