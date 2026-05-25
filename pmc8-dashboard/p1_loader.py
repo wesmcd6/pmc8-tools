@@ -2,12 +2,14 @@
 """
 p1_loader.py - Propeller P1 boot-protocol loader (pure Python).
 
-Python port of the Propeller P1 boot protocol logic from `p1load` by dbetz
-(https://github.com/dbetz/p1load), MIT-licensed (c) 2015 dbetz. This module is
-a derivative work re-implementing the documented protocol for direct in-process
-use; the original MIT notice is reproduced in THIRD_PARTY_NOTICES.md. The
-protocol logic mirrors p1load's ploader.c and the Windows transport mirrors its
-osint_mingw.c. No GPL code, no external binaries, and no Parallax tools.
+Derived from `p1load` (https://github.com/dbetz/p1load), MIT-licensed. Both
+sources below are MIT; this module is offered under the same MIT terms and the
+original notices are reproduced in THIRD_PARTY_NOTICES.md:
+  - boot protocol (handshake/version/encoding/ACK) ported from ploader.c,
+    Copyright (c) 2015 dbetz (adapted from Chip Gracey's PNut IDE);
+  - Windows raw-Win32 serial transport mirrors osint_mingw.c,
+    Copyright (c) 2011 by Steve Denson.
+No GPL code, no external binaries, and no Parallax tools.
 
 What it does: opens the serial port to the PMC-Eight, pulses DTR to reset the
 Propeller P1, performs the LFSR handshake, transmits a .binary firmware image
