@@ -38,7 +38,7 @@ except ModuleNotFoundError as exc:
         sys.exit(1)
     raise
 
-from propeller_uploader import LoaderError, upload as propeller_upload
+from p1_loader import LoaderError, upload as propeller_upload
 
 
 class UploadWorker(QObject):

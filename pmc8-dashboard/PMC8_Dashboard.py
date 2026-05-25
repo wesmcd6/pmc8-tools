@@ -43,7 +43,7 @@ def preflight_assets():
             errors.append(f"Expected a folder but found a file: {folder}")
 
     required_files = [
-        APP_DIR / "propeller_uploader.py",
+        APP_DIR / "p1_loader.py",
         APP_DIR / "upload_dialog.py",
         MANUAL_HTML,
         MANUAL_TXT,
@@ -113,7 +113,6 @@ except ModuleNotFoundError as exc:
         print_dependency_help("PMC8 Dashboard", "PyQt6")
         sys.exit(1)
     raise
-from propeller_uploader import upload
 from upload_dialog import UploadDialog
 
 

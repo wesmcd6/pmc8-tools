@@ -4,7 +4,7 @@ Required app files:
 - PMC8_Dashboard.py
 - PMC8_Configurator.py
 - upload_dialog.py
-- propeller_uploader.py
+- p1_loader.py
 - requirements.txt
 - docs\PMC8_Dashboard_User_Manual.html
 - docs\PMC8_Dashboard_User_Manual.txt

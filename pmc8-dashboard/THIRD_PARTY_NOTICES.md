@@ -8,7 +8,7 @@ This project bundles and/or invokes `p1load`, a Propeller loader by dbetz.
 - License: MIT License
 - Copyright: Copyright (c) 2015 dbetz
 
-The bundled `p1load` helper is used for Propeller firmware loading support. It is not authored by this project.
+The bundled `p1load` helper is used for Propeller firmware loading support on macOS. It is not authored by this project. The Windows/Linux loader (`p1_loader.py`, below) is an independent Python re-implementation of the same protocol, also derived from this MIT-licensed source.
 
 MIT License notice from the upstream project:
 
@@ -36,6 +36,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## Python Propeller uploader module
+## p1_loader.py (Python Propeller loader)
 
-This project also includes `propeller_uploader.py`, a modified Python Propeller loader module. Its source header identifies it as GPL-2.0, with original copyright and modification notes retained in the file header.
+This project includes `p1_loader.py`, a pure-Python implementation of the
+Propeller P1 boot protocol used to upload firmware on Windows and Linux. It is
+a derivative work of `p1load` by dbetz (MIT License, Copyright (c) 2015 dbetz;
+see above) — it re-implements the same documented boot protocol and carries no
+other third-party code. It is licensed under the same MIT terms.

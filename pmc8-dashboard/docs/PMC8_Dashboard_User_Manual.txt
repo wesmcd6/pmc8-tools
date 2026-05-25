@@ -36,7 +36,7 @@ Install and Run on macOS
 5. First firmware upload may still trigger macOS Gatekeeper for the bundled p1load helper. If a popup appears, choose the available allow/open option. If macOS says p1load cannot be opened, go to System Settings > Privacy & Security, find the blocked p1load message, and click Allow Anyway. Run the dashboard/upload again; macOS may show one more confirmation popup. Choose Open or Allow. This is normally a one-time approval.
 
 Startup Asset Check
-Before the interface opens, the dashboard checks that required local files are present and readable, including propeller_uploader.py, upload_dialog.py, and the bundled manuals. On macOS and Linux it attempts to mark bundled helper shell/binary files executable when present.
+Before the interface opens, the dashboard checks that required local files are present and readable, including p1_loader.py, upload_dialog.py, and the bundled manuals. On macOS and Linux it attempts to mark bundled helper shell/binary files executable when present.
 
 Connection Controls
 - Connection Mode: Select Serial or WiFi.
