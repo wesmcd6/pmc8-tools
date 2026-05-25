@@ -37,6 +37,15 @@ PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, co
 | Windows ZIP | [`PMC8_Dashboard_Windows.zip`](../../releases/tag/pmc8-dashboard-v0.1.0) | Extract and run `run_dashboard_windows.bat` |
 | macOS ZIP | [`PMC8_Dashboard_macOS.zip`](../../releases/tag/pmc8-dashboard-v0.1.0) | Extract, `chmod +x run_dashboard_macos.command`, then `./run_dashboard_macos.command` if needed |
 
+## Network Configuration
+
+**[Configure PMC8 for Home Network Connection](../../tree/home-network-config)** — a
+Windows utility that puts a PMC-Eight WiFi module (**ESP32 / ESP8266 / RN-131**)
+onto your home network over USB serial, so the mount joins your router and gets
+a LAN IP. 📦 **[Download the v1.0 release](../../releases/tag/home-network-config-v1.0)**
+— `Configure-PMC8-Home-Network-v1.0.exe`, a single self-contained executable
+(no installer, no .NET install needed).
+
 ## Firmware Tools
 
 | Tool | Branch | Description |
