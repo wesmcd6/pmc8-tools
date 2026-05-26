@@ -46,6 +46,20 @@ a LAN IP. 📦 **[Download the v1.0 release](../../releases/tag/home-network-con
 — `Configure-PMC8-Home-Network-v1.0.exe`, a single self-contained executable
 (no installer, no .NET install needed).
 
+## Spiral Search Bridge
+
+Cross-platform spiral-search automation for **ASCOM Alpaca**–compatible mounts. Point at the expected coordinates, press **Start**, and the mount runs an expanding spiral search pattern until your target appears. Browser-based UI with phone **tilt-to-steer** for fine centering. 📦 **[Download the v2.0 release →](../../releases/tag/spiralsearch-v2.0)**
+
+| Item | Link | Notes |
+|---|---|---|
+| README and User Manual | [`spiral-search`](../../tree/spiral-search) | Setup, FOV calculators, tilt steering, REST API, troubleshooting |
+| Windows ZIP | [`SpiralSearch-Bridge-v2.0-win-x86.zip`](../../releases/tag/spiralsearch-v2.0) | 32- and 64-bit; extract and run `SpiralSearch.Bridge.exe` |
+| macOS ZIP (Apple Silicon) | [`SpiralSearch-Bridge-v2.0-macos-arm64.zip`](../../releases/tag/spiralsearch-v2.0) | M1–M4; ad-hoc codesign on first run (see manual) |
+| macOS ZIP (Intel) | [`SpiralSearch-Bridge-v2.0-macos-x64.zip`](../../releases/tag/spiralsearch-v2.0) | Intel Macs |
+| Linux ARM64 ZIP | [`SpiralSearch-Bridge-v2.0-linux-arm64.zip`](../../releases/tag/spiralsearch-v2.0) | Raspberry Pi 4/5 |
+
+Each zip is a self-contained single-file executable plus the User Manual — no .NET runtime or installer required.
+
 ## Firmware Tools
 
 | Tool | Branch | Description |
