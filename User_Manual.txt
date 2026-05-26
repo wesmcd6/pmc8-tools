@@ -1,0 +1,1062 @@
+
+SPIRAL SEARCH BRIDGE
+By Wes McDonald
+User Manual - Version 2.0
+
+
+========================================================================
+TABLE OF CONTENTS
+========================================================================
+
+ 1. Overview
+ 2. What's New in Version 2.0
+ 3. System Requirements
+ 4. Installation & Running
+    4.1 Windows (x86)
+    4.2 macOS - Apple Silicon (arm64)
+    4.3 macOS - Intel (x64)
+    4.4 Linux - ARM64 (Raspberry Pi, etc.)
+    4.5 Startup Output
+ 5. Connecting to Your Mount (ASCOM Alpaca)
+    5.1 What is ASCOM Alpaca?
+    5.2 Setting Up an Alpaca Server
+    5.3 Configuring the Endpoint in Spiral Search
+    5.4 Auto-Discovery
+ 6. Mount Controls (Park / Unpark / Tracking)
+ 7. Field of View (FOV) Configuration
+    7.1 Telescope Parameters
+    7.2 Visual Mode
+    7.3 Imaging Mode
+    7.4 Camera Presets
+ 8. Search Controls
+    8.1 Dwell Time
+    8.2 Step Fraction
+    8.3 Control Buttons (Start / Stop / Pause / Resume / Restart Origin)
+ 9. Spiral Search Pattern
+10. Safety Guards
+    10.1 Meridian Guard
+    10.2 Pole Guard
+11. Centering Controls (Manual D-Pad)
+12. Tilt Steering (iPhone / Android)
+    12.1 Overview
+    12.2 HTTPS Certificate Setup
+    12.3 Installing the Certificate on iPhone
+    12.4 Enabling Tilt Mode
+    12.5 Dead-Man's Switch (HOLD TO STEER)
+    12.6 Tilt Configuration
+    12.7 Roll Deadband Auto-Scaling
+13. Status Display
+14. REST API
+15. Configuration Persistence
+16. Tips & Best Practices
+17. Troubleshooting
+18. Version History
+
+
+========================================================================
+1. OVERVIEW
+========================================================================
+
+Spiral Search Bridge is a cross-platform application that controls an
+ASCOM Alpaca-compatible telescope mount to execute an expanding spiral
+search pattern centered on the telescope's current pointing position.
+
+This is particularly useful for locating objects that are slightly
+offset from their predicted coordinates -- a common situation after
+a meridian flip, alignment drift, or when working from imprecise
+catalog positions.
+
+The application runs as a local web server and presents its user
+interface through any modern web browser using the MudBlazor UI
+framework. This means you can control the search from any device on
+your local network -- a laptop, tablet, or phone.
+
+Key capabilities:
+  - Expanding spiral search with configurable FOV and dwell time
+  - Visual and imaging FOV calculators with camera presets
+  - Manual centering via on-screen D-pad
+  - Tilt-to-steer using your phone's gyroscope
+  - Meridian and pole safety guards
+  - Cross-platform: Windows, macOS (Intel & Apple Silicon), Linux ARM64
+  - REST API for automation and integration
+  - Persistent configuration across restarts
+
+
+========================================================================
+2. WHAT'S NEW IN VERSION 2.0
+========================================================================
+
+Version 2.0 is a complete rewrite of the original Windows-only WinForms
+application. The core spiral search algorithm is preserved, but the
+application is now cross-platform and browser-based.
+
+Major changes from Version 1.x:
+
+  ARCHITECTURE
+  - Replaced direct ASCOM COM driver with ASCOM Alpaca (HTTP/REST)
+  - Replaced WinForms UI with MudBlazor browser-based UI (dark theme)
+  - Runs as a self-hosted web server on ports 5055 (HTTP) and 5056 (HTTPS)
+  - Cross-platform: Windows, macOS, Linux (Raspberry Pi)
+
+  NEW FEATURES
+  - Manual centering D-pad with ramping speed control
+  - Tilt-to-steer: use your phone's gyroscope to slew the mount
+  - Dead-man's switch for safe tilt steering
+  - Mount controls: Park/Unpark and Track On/Off via Alpaca
+  - ASCOM Alpaca auto-discovery (finds servers on LAN automatically)
+  - Roll deadband auto-scaling (compensates for phone orientation)
+  - HTTPS with auto-generated CA + server certificate chain
+  - iPhone certificate installation via .mobileconfig profile
+  - REST API (8 endpoints) for external automation
+  - Configuration persistence to JSON file
+  - Camera presets (ZWO, QHY, Canon, Nikon, Sony)
+  - Multiplier presets (0.5x through 3.0x)
+  - Auto-reconnect when returning from phone background
+
+  SAFETY
+  - Meridian guard (ported from v1.1)
+  - Pole guard at +/- 89.567 degrees (ported from v1.1)
+  - Tilt watchdog: auto-stops if phone disconnects for 3 seconds
+  - STOP ALL emergency button halts all motion instantly
+  - Blazor circuit disconnect triggers automatic motion stop
+
+
+========================================================================
+3. SYSTEM REQUIREMENTS
+========================================================================
+
+  TELESCOPE MOUNT
+  - Any ASCOM Alpaca-compatible mount, OR
+  - Any ASCOM COM mount with an Alpaca bridge/server running
+    (e.g., ASCOM Remote, Alpaca Simulator, or the ASCOM
+    Platform's built-in Alpaca support)
+
+  NETWORK
+  - The computer running Spiral Search and the Alpaca server must
+    be reachable on the same network
+  - For tilt steering: the phone must be on the same LAN/Wi-Fi
+
+  HOST PLATFORMS (see Section 4 for details)
+  - Windows x86 (32-bit) or x64 -- self-contained, no runtime needed
+  - macOS Apple Silicon (M1/M2/M3/M4) -- self-contained
+  - macOS Intel (x64) -- self-contained
+  - Linux ARM64 (Raspberry Pi 4/5, etc.) -- self-contained
+
+  BROWSER
+  - Any modern browser: Chrome, Edge, Firefox, Safari
+  - For tilt steering on iPhone: Safari (requires HTTPS)
+
+
+========================================================================
+4. INSTALLATION & RUNNING
+========================================================================
+
+Spiral Search Bridge is published as self-contained single-file
+executables. No .NET runtime installation is required on the target
+machine.
+
+  IMPORTANT — HTTPS REQUIRED FOR PHONE ACCESS (iPHONE AND ANDROID)
+    The app listens on two ports:
+      HTTP  port 5055 — cert install page only (see Section 12.3)
+      HTTPS port 5056 — required for all phone access and tilt
+                         steering
+
+    Both iOS and Android require HTTPS ("secure context") to access
+    motion sensors over a LAN connection. If you access the app from
+    any phone, you MUST use https://<server-ip>:5056. This applies
+    regardless of which platform the server runs on (Windows, macOS,
+    or Linux). See Section 12 for certificate setup.
+
+------------------------------------------------------------------------
+4.1 Windows (x86)
+------------------------------------------------------------------------
+
+  Files:    publish/win-x86-single/
+
+  To run:
+    1. Copy the entire folder to your desired location
+    2. Double-click SpiralSearch.Bridge.exe
+       - Or run from a command prompt:
+         SpiralSearch.Bridge.exe
+    3. Open a browser:
+       - Same machine:  https://localhost:5056
+       - From a phone or another device on the LAN:
+                        https://<server-ip>:5056
+         (The server IP is shown in the console at startup)
+
+  Firewall:
+    Windows may prompt to allow network access on first run.
+    Allow access on "Private networks" so other devices on your
+    LAN can reach the UI and so the app can reach Alpaca servers.
+
+  Notes:
+    - The x86 (32-bit) build runs on both 32-bit and 64-bit Windows
+    - Tested on Windows 10 and Windows 11
+
+------------------------------------------------------------------------
+4.2 macOS - Apple Silicon (arm64)
+------------------------------------------------------------------------
+
+  Files:    publish/osx-arm64-single/
+
+  FIRST-TIME SETUP (one time only):
+
+    macOS blocks unsigned applications by default (Gatekeeper). Because
+    Spiral Search is not signed with an Apple Developer certificate,
+    you must remove the quarantine attribute before it will run.
+
+    Open Terminal, cd into the publish folder, and run these commands:
+
+        sudo xattr -cr .
+        chmod +x SpiralSearch.Bridge
+        codesign --force --deep --sign - SpiralSearch.Bridge
+        ./SpiralSearch.Bridge
+
+    NOTE: The period at the end of the xattr command is required --
+    it means "current directory".
+
+    What each command does:
+
+      sudo xattr -cr .
+        Clears ALL extended attributes (quarantine and others)
+        recursively from every file in the folder. The sudo is
+        needed because some attributes require elevated permissions
+        to remove.
+
+      chmod +x SpiralSearch.Bridge
+        Makes the binary executable.
+
+      codesign --force --deep --sign - SpiralSearch.Bridge
+        Ad-hoc code signs the binary. This is REQUIRED on Apple
+        Silicon Macs (M1/M2/M3/M4) -- the hardware will not
+        execute unsigned code. The "-" means ad-hoc (no Apple
+        Developer certificate needed).
+
+    After this one-time setup, the app will run without prompts
+    going forward.
+
+  FIREWALL:
+    On the first run, macOS will prompt:
+      "Do you want the application SpiralSearch.Bridge to accept
+       incoming network connections?"
+    Click "Allow". This is required for the web UI and for other
+    devices on the LAN to reach the application.
+
+  TO RUN (after first-time setup):
+    cd /path/to/osx-arm64-single
+    ./SpiralSearch.Bridge
+    # Same machine:  open browser to https://localhost:5056
+    # From a phone or another device: https://<server-ip>:5056
+
+------------------------------------------------------------------------
+4.3 macOS - Intel (x64)
+------------------------------------------------------------------------
+
+  Files:    publish/osx-x64-single/
+
+  To run:
+    Same first-time setup and run steps as Section 4.2 (Apple Silicon).
+    The Gatekeeper/quarantine procedure is identical.
+
+------------------------------------------------------------------------
+4.4 Linux - ARM64 (Raspberry Pi, etc.)
+------------------------------------------------------------------------
+
+  Files:    publish/linux-arm64-single/
+
+  To run:
+    1. Copy the folder to your desired location
+    2. Make the binary executable (first time only):
+         chmod +x SpiralSearch.Bridge
+    3. Run it:
+         ./SpiralSearch.Bridge
+    4. Open a browser:
+       - Same machine:  https://localhost:5056
+       - From a phone or another device: https://<server-ip>:5056
+
+  Notes:
+    - Tested on Raspberry Pi 4/5 with 64-bit Raspberry Pi OS
+    - If running headless (no local display), access the UI from
+      another device using https://<pi-ip>:5056
+
+------------------------------------------------------------------------
+4.5 Startup Output
+------------------------------------------------------------------------
+
+  When the application starts, you will see output similar to:
+
+    ===========================================
+      Spiral Search Bridge
+      HTTP  -> http://localhost:5055
+      HTTPS -> https://localhost:5056
+      LAN   -> https://192.168.1.165:5056
+      Install cert on iPhone (open in Safari!):
+        http://192.168.1.165:5055/install
+    ===========================================
+
+  The LAN IP address shown is what other devices on your network
+  should use to access the UI.
+
+
+========================================================================
+5. CONNECTING TO YOUR MOUNT (ASCOM ALPACA)
+========================================================================
+
+------------------------------------------------------------------------
+5.1 What is ASCOM Alpaca?
+------------------------------------------------------------------------
+
+  ASCOM Alpaca is the HTTP/REST version of the ASCOM telescope control
+  standard. Instead of Windows-only COM drivers, Alpaca exposes mount
+  control over HTTP, making it accessible from any platform.
+
+  Spiral Search Bridge communicates with your mount entirely through
+  Alpaca HTTP calls. It does NOT use COM drivers directly.
+
+------------------------------------------------------------------------
+5.2 Setting Up an Alpaca Server
+------------------------------------------------------------------------
+
+  You need an Alpaca server running that is connected to your mount.
+  Common options:
+
+  a) ASCOM Platform (Windows)
+     - If you have ASCOM Platform 6.6+ installed, it includes a
+       built-in Alpaca server. Enable it in the ASCOM Diagnostics
+       tool or ASCOM Server tray application.
+     - Default port: 11111
+
+  b) ASCOM Remote Server (Windows)
+     - A standalone application that bridges COM drivers to Alpaca
+     - Download from the ASCOM website
+     - Default port: 11111
+
+  c) Alpaca-native drivers
+     - Some mount vendors provide native Alpaca drivers that run
+       directly without COM (e.g., on macOS or Linux)
+
+  d) Simulators
+     - The ASCOM Telescope Simulator works well for testing
+     - Enable Alpaca in the simulator's settings
+
+------------------------------------------------------------------------
+5.3 Configuring the Endpoint in Spiral Search
+------------------------------------------------------------------------
+
+  The "Alpaca Server" panel at the top of the UI has two rows:
+
+    Row 1:  Host / IP    The IP address or hostname of the Alpaca server
+            Port         Port number (default: 11111)
+
+    Row 2:  Protocol     http (default) or https — this is the protocol
+                         used to connect to the Alpaca server, NOT the
+                         app's own HTTPS. Almost all Alpaca servers use
+                         plain http.
+            Apply        Sends the endpoint to the search engine
+            Discover     Auto-finds Alpaca servers on the network
+                         (see Section 5.4)
+
+  The Apply button shows "Applied" (dimmed) once the endpoint is set.
+  If you change any field, it returns to "Apply" (lit blue) to remind
+  you to apply the new settings.
+
+  Examples:
+    - Alpaca running on the same machine: http://localhost:11111
+    - Alpaca on another PC on the LAN:    http://192.168.1.100:11111
+
+  The endpoint is saved and restored automatically on restart.
+
+------------------------------------------------------------------------
+5.4 Auto-Discovery
+------------------------------------------------------------------------
+
+  ASCOM Alpaca servers advertise their presence on the network via UDP
+  broadcast on port 32227. Spiral Search can listen for these broadcasts
+  to automatically find and configure the Alpaca endpoint.
+
+  To use auto-discovery:
+    1. Click the "Discover" button next to the Apply button
+    2. The app sends a UDP broadcast ("alpacadiscovery1") on port 32227
+    3. Any Alpaca server on the LAN responds with its port number
+    4. The first server found is automatically populated in the Host
+       and Port fields, and the endpoint is applied
+
+  If multiple Alpaca servers are found, the first one is used and a
+  notification shows how many were detected.
+
+  If no servers respond within 2 seconds, a warning is displayed.
+
+  NOTE: Auto-discovery requires that the Alpaca server has its
+  discovery service enabled. Most ASCOM Alpaca implementations
+  (including the ASCOM Platform and Remote Server) enable this by
+  default.
+
+
+========================================================================
+6. MOUNT CONTROLS (PARK / UNPARK / TRACKING)
+========================================================================
+
+  The Mount Controls panel provides direct access to essential mount
+  functions via the ASCOM Alpaca protocol.
+
+  PARK
+    Sends a Park command to the mount. The mount will slew to its
+    park position and stop tracking. The button is disabled when the
+    mount is already parked.
+
+  UNPARK
+    Unparks the mount so it can accept slew commands. The button is
+    disabled when the mount is already unparked.
+
+  TRACK ON
+    Enables sidereal tracking. Required before starting a spiral
+    search or using centering controls. Disabled when the mount is
+    parked (must Unpark first).
+
+  TRACK OFF
+    Disables sidereal tracking. Disabled when the mount is parked.
+
+  STATUS LINE
+    Below the buttons, the current park and tracking state is shown:
+      Parked: Yes/No | Tracking: On/Off
+
+    Mount state is polled every ~2.5 seconds and updates automatically.
+
+  NOTE: You must Unpark and enable Tracking before starting a spiral
+  search. If the mount is parked, the search engine's slew commands
+  will be rejected by the Alpaca server.
+
+
+========================================================================
+7. FIELD OF VIEW (FOV) CONFIGURATION
+========================================================================
+
+The Field of View determines the angular distance between successive
+search positions. Getting this right is important for efficient
+coverage without gaps.
+
+------------------------------------------------------------------------
+7.1 Telescope Parameters
+------------------------------------------------------------------------
+
+  Scope Focal Length (mm)
+    Enter the telescope's native focal length in millimeters.
+    Example: 1000 mm for a typical SCT, 714 mm for 80mm f/6 refractor
+
+  Multiplier (Barlow / Reducer)
+    Presets: 0.5x, 0.63x, 0.73x, 1.0x (None), 1.5x, 2.0x, 3.0x
+    Select "Custom" to enter your own value.
+
+    The effective focal length = Scope FL x Multiplier
+
+------------------------------------------------------------------------
+7.2 Visual Mode
+------------------------------------------------------------------------
+
+  Select "Visual" and enter:
+    - Eyepiece focal length (mm)
+    - Eyepiece apparent field of view (degrees)
+
+  The True FOV is calculated automatically:
+    True FOV = Eyepiece AFOV / (Effective FL / Eyepiece FL)
+
+------------------------------------------------------------------------
+7.3 Imaging Mode
+------------------------------------------------------------------------
+
+  Select "Imaging" and choose a camera preset or "Custom".
+
+  The FOV is calculated for both axes:
+    FOV (degrees) = (Sensor dimension mm / Effective FL mm) x 57.296
+
+  The SMALLER of the two axes is used as the search step FOV.
+  This ensures full coverage in both dimensions.
+
+------------------------------------------------------------------------
+7.4 Camera Presets
+------------------------------------------------------------------------
+
+  Built-in presets with sensor dimensions:
+
+    Camera                  Width (mm)   Height (mm)
+    -----------------------------------------------
+    ZWO ASI294MC              19.1         13.0
+    ZWO ASI533MC              11.3         11.3
+    ZWO ASI585MC              12.8          9.6
+    ZWO ASI2600MC             23.5         15.7
+    ZWO ASI071MC              23.6         15.6
+    QHY268C                   23.5         15.7
+    QHY600M                   36.0         24.0
+    Canon APS-C               22.3         14.9
+    Canon Full Frame          36.0         24.0
+    Nikon DX APS-C            23.5         15.7
+    Nikon FX Full Frame       35.9         23.9
+    Sony APS-C                23.5         15.6
+    Sony Full Frame           35.6         23.8
+    Custom                   (user entry)
+
+  Select "Custom" to enter sensor dimensions manually.
+
+
+========================================================================
+8. SEARCH CONTROLS
+========================================================================
+
+------------------------------------------------------------------------
+8.1 Dwell Time (seconds)
+------------------------------------------------------------------------
+
+  Time the telescope remains at each position before moving to the next.
+    Range: 0.5 - 60 seconds
+    Default: 2.0 seconds
+
+  Guidelines:
+    - Quick scan:  1-2 s
+    - Visual:      5-10 s (time to look through the eyepiece)
+    - Imaging:     Match your exposure + download time
+
+------------------------------------------------------------------------
+8.2 Step Fraction (x FOV)
+------------------------------------------------------------------------
+
+  Multiplier applied to the FOV to determine the actual step size.
+
+    Value     Effect
+    -----     ------
+    < 1.0     Overlapping coverage (recommended)
+    = 1.0     Edge-to-edge coverage
+    > 1.0     Faster search with gaps between fields
+
+  Example: If FOV = 1.0 deg and Step Fraction = 0.5, each step is
+  0.5 deg (50% overlap between adjacent fields).
+
+  Recommended values:
+    Visual:      0.5 - 0.7
+    Imaging:     0.3 - 0.5
+    Fast survey: 0.8 - 1.0
+
+------------------------------------------------------------------------
+8.3 Control Buttons
+------------------------------------------------------------------------
+
+  START
+    - Begins a new spiral search from the current telescope position
+    - Saves this position as the origin
+    - Pushes current UI settings to the search engine
+
+  STOP
+    - Stops the search after the current slew completes
+    - Does not abort mid-slew (safe for the mount)
+    - Also stops any centering/tilt motion
+
+  PAUSE / RESUME
+    - Pause: temporarily halts the search at the current position
+    - Resume: continues from where it paused
+    - Sidereal tracking remains active while paused
+
+  RESTART ORIGIN
+    - Slews back to the original start position
+    - Restarts the spiral from Ring 0
+    - Enabled only after a search has been started at least once
+
+
+========================================================================
+9. SPIRAL SEARCH PATTERN
+========================================================================
+
+  The search follows an expanding spiral pattern:
+
+    Ring 0:  Center position (the starting point). One dwell.
+    Ring 1:  ~6 points arranged in a circle at radius = 1 x Step Size
+    Ring 2:  ~12 points at radius = 2 x Step Size
+    Ring N:  ~2*pi*N points at radius = N x Step Size
+
+  The number of loci per ring is calculated as:
+    max(6, round(2 * pi * N))
+
+  This ensures roughly uniform angular spacing between points on
+  each ring, providing consistent coverage as the spiral expands.
+
+  The search continues outward indefinitely until Stop is pressed.
+
+  At each locus, the engine:
+    1. Checks the meridian guard
+    2. Checks the pole guard
+    3. Issues a slew command to the mount
+    4. Waits for the slew to complete (polls every 2 seconds)
+    5. Dwells for the configured time
+    6. Moves to the next locus
+
+
+========================================================================
+10. SAFETY GUARDS
+========================================================================
+
+------------------------------------------------------------------------
+10.1 Meridian Guard
+------------------------------------------------------------------------
+
+  Before each slew, the engine checks whether the target position
+  would require the mount to cross the meridian (the line where
+  Hour Angle = 0). If a meridian crossing is detected, that locus
+  is silently skipped and the search continues to the next point.
+
+  This prevents unintended meridian flips that could cause cable
+  wraps or collisions on German Equatorial Mounts.
+
+------------------------------------------------------------------------
+10.2 Pole Guard
+------------------------------------------------------------------------
+
+  Loci with declination beyond +/- 89 deg 34' (89.567 deg) are
+  skipped. This avoids problematic slews near the celestial poles
+  where RA motion becomes unpredictable.
+
+
+========================================================================
+11. CENTERING CONTROLS (MANUAL D-PAD)
+========================================================================
+
+  The Centering Controls panel provides a four-directional D-pad
+  (North, South, East, West) for manually nudging the telescope.
+
+  HOW TO USE:
+    1. Press and hold a direction button
+    2. The mount begins moving in that direction
+    3. Speed ramps up the longer you hold (see Ramp below)
+    4. Release the button to stop
+
+  RAMP BEHAVIOR:
+    The slew rate increases over time while a button is held:
+
+    Phase 1 - Preset walk:
+      Steps through rate presets starting from the configured
+      base rate: 5, 10, 15, 30, 60, 100 arcsec/sec
+
+    Phase 2 - Linear acceleration:
+      After 100"/s: adds 100"/s per step (200, 300, 400"/s)
+
+    Phase 3 - Fast acceleration:
+      After 400"/s: either doubles each step (Octaves mode)
+      or adds 200"/s per step (Linear mode)
+
+    Maximum rate is capped at 2.0 deg/sec.
+    Ramp interval is configurable (default: 1 second per step).
+
+  AUTO-PAUSE:
+    If a spiral search is running when you press a D-pad button,
+    the search is automatically paused. Press "Resume Search" to
+    return to the spiral when done centering.
+
+  CONFIGURATION:
+    - Base Rate: starting slew rate (5 to 100 arcsec/sec)
+    - Deadband: tilt angle threshold (used for tilt mode)
+    - Interval: seconds between ramp steps
+    - Ramp Mode: Linear or Octaves after phase 2
+    - RA Sidereal Sign (Ds): +1 or -1 to match your mount's
+      convention for East/West motion
+
+
+========================================================================
+12. TILT STEERING (iPHONE / ANDROID)
+========================================================================
+
+------------------------------------------------------------------------
+12.1 Overview
+------------------------------------------------------------------------
+
+  Tilt steering lets you physically tilt your phone to slew the
+  telescope mount. Tilt forward/back for North/South, left/right
+  for East/West.
+
+  This is ideal for centering objects at the eyepiece -- hold your
+  phone in one hand while looking through the telescope, and tilt
+  to nudge the mount.
+
+  Requirements:
+    - A phone with a gyroscope (most modern smartphones)
+    - HTTPS connection (required for sensor access, especially iOS)
+    - Same Wi-Fi network as the Spiral Search computer
+
+------------------------------------------------------------------------
+12.2 HTTPS Certificate Setup
+------------------------------------------------------------------------
+
+  Phone browsers require HTTPS to access motion sensors. Spiral
+  Search automatically generates a trusted certificate chain at
+  startup:
+
+    CA Certificate (SpiralSearch CA)
+      - Self-signed root, 10-year validity
+      - Installed once on the phone; survives IP changes
+
+    Server Certificate (SpiralSearch)
+      - Signed by the CA above
+      - 397-day validity (Apple's TLS limit)
+      - Includes your computer's LAN IP address(es)
+      - Auto-regenerated if the IP changes
+
+  The certificates are generated automatically on first run. If your
+  computer's IP address changes, only the server certificate is
+  regenerated -- the phone continues to trust it because the CA
+  certificate (which the phone has installed) hasn't changed.
+
+------------------------------------------------------------------------
+12.3 Installing the Certificate on iPhone
+------------------------------------------------------------------------
+
+  This is a one-time setup (unless the CA is regenerated):
+
+  1. Ensure your iPhone is on the same Wi-Fi as the computer
+
+  2. Open Safari on the iPhone and go to:
+       http://<your-computer-ip>:5055/install
+
+     (The exact URL is printed at startup in the console output)
+
+  3. Tap "Tap here to install certificate"
+     - Safari will say "This website is trying to download a
+       configuration profile. Do you want to allow this?"
+     - Tap "Allow"
+
+  4. Open the Settings app on the iPhone:
+     Settings > General > VPN & Device Management
+     - Tap "SpiralSearch CA"
+     - Tap "Install" (enter passcode if prompted)
+     - Tap "Install" again to confirm
+
+  5. Enable full trust for the certificate:
+     Settings > General > About > Certificate Trust Settings
+     - Toggle ON "Enable full trust for root certificates"
+       for "SpiralSearch CA"
+
+  6. Now open Safari and go to:
+       https://<your-computer-ip>:5056
+
+     The page should load without certificate warnings.
+
+  IMPORTANT: You MUST use Safari for step 2 (the certificate download).
+  Chrome on iOS does not handle .mobileconfig profile installation.
+
+------------------------------------------------------------------------
+12.4 Enabling Tilt Mode
+------------------------------------------------------------------------
+
+  1. Open the Spiral Search UI in Safari on your phone:
+       https://<computer-ip>:5056
+
+  2. Scroll to the Centering Controls section
+
+  3. Tap "Tilt OFF" to enable tilt mode
+     - On iOS: Safari will ask for motion sensor permission.
+       Tap "Allow".
+     - The button changes to "Tilt ON"
+
+  4. The D-pad buttons will light up green to show which direction
+     the phone's tilt is being detected (even before you start
+     steering)
+
+  5. Hold your phone in a comfortable position and tap "Set Neutral"
+     to calibrate the current orientation as the zero point
+
+------------------------------------------------------------------------
+12.5 Dead-Man's Switch (HOLD TO STEER)
+------------------------------------------------------------------------
+
+  When tilt mode is active, a large "HOLD TO STEER" button appears.
+
+  This is a safety feature -- the mount will ONLY move when your
+  finger is held down on this button. This prevents accidental
+  slews if you set the phone down or look away.
+
+  Button states:
+    Blue    "HOLD TO STEER"     Not held -- tilt is detected but
+                                 mount is stationary
+    Yellow  "IN DEADBAND"       Held, but phone is within the
+                                 deadband angle -- no motion
+    Green   "STEERING NORTH"    Held, past deadband -- mount is
+            (or S/E/W)           moving in the indicated direction
+
+  The ramp behavior is the same as the D-pad: speed increases the
+  longer you hold in one direction.
+
+------------------------------------------------------------------------
+12.6 Tilt Configuration
+------------------------------------------------------------------------
+
+  Deadband (degrees): The tilt angle the phone must exceed before
+    motion begins. Higher = less sensitive. Range: 4-20 degrees.
+    Default: 8 degrees.
+
+  Invert Pitch: Reverses the North/South tilt direction.
+
+  Invert Roll: Reverses the East/West tilt direction.
+
+  Set Neutral: Recalibrates the phone's current position as the
+    zero-tilt reference. Use this if you change how you're holding
+    the phone.
+
+  RA Sidereal Sign (Ds): +1 or -1. If East/West feel reversed
+    relative to the sky, flip this setting.
+
+------------------------------------------------------------------------
+12.7 Roll Deadband Auto-Scaling
+------------------------------------------------------------------------
+
+  When holding a phone upright (beta angle near 90 degrees), the
+  roll axis (gamma / East-West) becomes geometrically more sensitive
+  than the pitch axis (beta / North-South). This is a property of
+  Euler angle math: gamma sensitivity scales as 1/cos(beta).
+
+  Spiral Search automatically compensates for this. When the neutral
+  position is set, the app computes a roll deadband scale factor:
+
+    rollDeadbandScale = 1 / cos(neutralBeta)
+
+  This widens the East/West deadband proportionally so that both
+  axes feel equally responsive regardless of how you hold the phone.
+
+  The scale factor is clamped to a maximum of 3.0x (at about 70
+  degrees from horizontal) to prevent instability at extreme angles.
+
+  Examples:
+    Phone held flat (beta ~0):     scale = 1.0 (no correction)
+    Phone at 45 degrees:           scale = 1.4
+    Phone held upright (beta ~70): scale = 3.0 (clamped max)
+
+  This correction is applied silently -- no user configuration is
+  needed. The scale resets whenever you tap "Set Neutral".
+
+
+========================================================================
+13. STATUS DISPLAY
+========================================================================
+
+  The Status panel shows real-time information updated every 500ms:
+
+    Field            Description
+    -----            -----------
+    State            Idle, Searching, Paused, Stopping, or Error
+    Ring             Current spiral ring (Ring 0 = center)
+    Locus            Position index within current ring
+    Total Visited    Cumulative positions visited
+    Target RA        Right Ascension of current target (HHh MMm SS.Ss)
+    Target Dec       Declination of current target (+/-DD deg MM' SS.S")
+    Step FOV         Computed angular step size (degrees)
+    Effective Step   Step FOV x Step Fraction (actual distance between points)
+
+  Messages and errors are displayed in colored alert bars below
+  the status table.
+
+  The Centering Controls panel has its own status table showing:
+    Ramp Step        Current position in the speed ramp
+    Commanded Rate   Current slew rate (arcsec/sec)
+    RA Rate          Rate being sent to the RA axis (arcsec/sec)
+    Dec Rate         Rate being sent to the Dec axis (arcsec/sec)
+
+
+========================================================================
+14. REST API
+========================================================================
+
+  Spiral Search exposes a REST API for integration with other
+  software or scripts. All endpoints are available on both HTTP
+  (port 5055) and HTTPS (port 5056).
+
+  BASE URL: http://<host>:5055/api
+
+  ENDPOINTS:
+
+    POST /api/endpoint
+      Set the Alpaca server connection.
+      Body (JSON): { "host": "localhost", "port": 11111, "scheme": "http" }
+
+    POST /api/search/start
+      Start the spiral search.
+
+    POST /api/search/stop
+      Stop the search (finishes current slew).
+
+    POST /api/search/pause
+      Pause the search.
+
+    POST /api/search/resume
+      Resume a paused search.
+
+    POST /api/search/restart-origin
+      Return to origin and restart from Ring 0.
+
+    GET /api/search/status
+      Returns current search status as JSON.
+
+    GET /api/search/config
+      Returns current configuration as JSON.
+
+    POST /api/search/config
+      Update configuration.
+      Body (JSON): Full SearchConfig object.
+
+  Example (curl):
+    curl -X POST http://localhost:5055/api/search/start
+    curl http://localhost:5055/api/search/status
+
+
+========================================================================
+15. CONFIGURATION PERSISTENCE
+========================================================================
+
+  All settings (Alpaca endpoint, FOV, dwell, step fraction, camera
+  preset, multiplier preset, centering/tilt config) are automatically
+  saved to a JSON file and restored on restart.
+
+  Config file locations:
+    Windows:  %APPDATA%\SpiralSearchBridge\config.json
+    macOS:    ~/Library/Application Support/SpiralSearchBridge/config.json
+    Linux:    ~/.config/SpiralSearchBridge/config.json
+
+  The config file is human-readable JSON and can be edited manually
+  if needed, though this is not normally necessary.
+
+
+========================================================================
+16. TIPS & BEST PRACTICES
+========================================================================
+
+  CENTER FIRST
+    Slew to the expected target coordinates before starting the
+    search. The spiral expands from wherever the telescope is
+    currently pointing.
+
+  STEP FRACTION GUIDANCE
+    Visual:      0.5 - 0.7 (generous overlap for the eye)
+    Imaging:     0.3 - 0.5 (ensures no gaps in coverage)
+    Fast survey: 0.8 - 1.0 (edge-to-edge, minimal overlap)
+
+  DWELL TIME
+    Quick scan:  1-2 s
+    Visual:      5-10 s
+    Imaging:     Match your exposure + download time
+
+  RESTART ORIGIN
+    Use this to test different parameters (step fraction, dwell)
+    without manually re-slewing to the start position.
+
+  ALTITUDE AWARENESS
+    The application does not enforce horizon limits. Monitor your
+    mount's altitude and cable wrap limits manually.
+
+  TILT STEERING TIPS
+    - Lock your phone's screen rotation (iOS Control Center) before
+      enabling tilt mode, so the display doesn't rotate as you tilt
+    - Set a comfortable neutral position before starting
+    - Start with a larger deadband (10-14 deg) until you get a feel
+      for the sensitivity, then decrease if desired
+    - The dead-man's switch prevents accidental slews -- use it!
+
+  ACCESSING FROM MULTIPLE DEVICES
+    The UI can be opened simultaneously from multiple browsers/devices.
+    They all share the same search state and configuration.
+
+  PHONE RECONNECTION
+    If the phone browser loses connection (screen off, tab switch),
+    the app automatically attempts to reconnect when you return.
+    The Blazor circuit stays alive for up to 10 minutes in background.
+
+
+========================================================================
+17. TROUBLESHOOTING
+========================================================================
+
+  CANNOT CONNECT TO ALPACA SERVER
+    - Verify the Alpaca server is running and the port is correct
+    - Check that the host IP/hostname is reachable from the Spiral
+      Search computer (try pinging it)
+    - Ensure firewalls allow the Alpaca port (default 11111)
+    - Try http://localhost:11111/api/v1/telescope/0/rightascension
+      in a browser to test the Alpaca connection directly
+
+  SEARCH WON'T START
+    - Confirm the Alpaca endpoint is configured and responding
+    - Ensure FOV values are valid (all fields > 0)
+    - Check the Step FOV display -- it must be > 0
+    - Look for error messages in the Status panel
+
+  UI NOT LOADING IN BROWSER
+    - Confirm the application is running (check console output)
+    - Try http://localhost:5055 (not https) from the same machine
+    - Check that no other application is using port 5055 or 5056
+    - On macOS/Linux, ensure you allowed the app through the firewall
+
+  TILT NOT WORKING ON iPHONE
+    - You MUST use https://<ip>:5056 (not http)
+    - The CA certificate must be installed AND trusted (Section 11.3)
+    - Safari must have Motion & Orientation Access enabled:
+      Settings > Safari (or Settings > Apps > Safari) >
+      Motion & Orientation Access > ON
+    - Try tapping "Tilt OFF" again -- iOS may re-prompt for permission
+
+  TILT DIRECTION FEELS WRONG
+    - Use "Invert Pitch" or "Invert Roll" toggles
+    - Try "RA Sidereal Sign" = -1 if East/West are reversed
+    - Tap "Set Neutral" to recalibrate your holding position
+
+  CERTIFICATE WARNINGS IN BROWSER
+    - The CA certificate may not be installed or trusted
+    - If the computer's IP changed, restart the app (the server
+      cert auto-regenerates for the new IP, but the CA stays the same)
+    - On iPhone, re-check Certificate Trust Settings (Section 11.3)
+
+  ERRATIC MOUNT MOTION
+    - Check FOV and multiplier values -- incorrect values cause
+      unexpectedly large or small steps
+    - Verify the optical train configuration matches reality
+    - Ensure only one application is sending commands to the mount
+
+  "RECONNECTING..." IN BROWSER
+    - This appears when the Blazor Server circuit is lost
+    - Usually resolves automatically within a few seconds
+    - If persistent, refresh the page (F5)
+    - For phones: the circuit survives up to 10 minutes in background
+
+
+========================================================================
+18. VERSION HISTORY
+========================================================================
+
+  Version 1.0
+    - Initial release (Windows WinForms application)
+    - Direct ASCOM COM driver support
+    - Visual and imaging FOV calculators
+    - Expanding spiral search pattern
+    - Start / Stop / Pause / Resume / Restart Origin
+    - Configurable step fraction and dwell time
+    - Real-time status display
+
+  Version 1.1
+    - Added meridian guard (skips loci that would cross the meridian)
+    - Added pole guard (skips loci near Dec +/- 90 degrees)
+
+  Version 2.0 (current)
+    - Complete rewrite: WinForms -> ASP.NET + MudBlazor browser UI
+    - Replaced ASCOM COM with ASCOM Alpaca (HTTP/REST) protocol
+    - Cross-platform support: Windows, macOS (Intel & Apple Silicon),
+      Linux ARM64 (Raspberry Pi)
+    - Self-contained executables (no .NET runtime required on host)
+    - Added manual centering D-pad with ramping speed control
+    - Added tilt-to-steer using phone gyroscope (iOS and Android)
+    - Added dead-man's switch (HOLD TO STEER) for safe tilt control
+    - Added HTTPS with auto-generated CA + server certificate chain
+    - Added iPhone certificate installation via .mobileconfig profile
+    - Added REST API (8 endpoints) for external automation
+    - Added configuration persistence to JSON file
+    - Added camera presets (ZWO, QHY, Canon, Nikon, Sony)
+    - Added multiplier presets (0.5x through 3.0x)
+    - Added tilt watchdog (auto-stop on phone disconnect)
+    - Added emergency STOP ALL button
+    - Added auto-reconnect on phone tab switch (10-minute circuit)
+    - Added mount controls: Park/Unpark and Track On/Off buttons
+    - Added ASCOM Alpaca auto-discovery (UDP broadcast on port 32227)
+    - Added roll deadband auto-scaling based on phone orientation
+      (compensates for Euler angle geometry when phone held upright)
+    - Dark theme UI
+    - Published builds: win-x86, osx-arm64, osx-x64, linux-arm64
