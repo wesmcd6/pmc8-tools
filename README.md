@@ -10,7 +10,7 @@ Downloads for **Explore Scientific&trade; PMC-Eight&trade;** telescope mount use
 
 ## ExploreStars Envision&trade; — current
 
-📦 **[Get the latest release →](../../releases/latest)**
+📦 **[Get the v2.4.0.0 release →](../../releases/tag/v2.4.0.0)**
 
 The Releases page carries pre-built binaries for every platform. Pick the asset that matches your device:
 
