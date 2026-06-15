@@ -14,7 +14,7 @@ has firmware too old to support OTA), fall back to the
 
 | File | Contents |
 |------|----------|
-| `pmc8-esp32-ota-20260418-6523c90.zip` | Full distribution (~1 MB) |
+| `pmc8-esp32-ota-20260615-8a0910f.zip` | Full distribution (~1 MB) |
 | [`OTA_QUICK_START_V2.txt`](OTA_QUICK_START_V2.txt) | Read the manual here before you download |
 
 Click the zip filename above → click **Download raw file** (the small
@@ -31,8 +31,7 @@ pmc8-esp32-ota-YYYYMMDD-<sha>\
     ota_update_v2.py                 <- the walkthrough script
     OTA_QUICK_START_V2.txt           <- written instructions
     MANIFEST.txt                     <- build provenance
-    firmware\
-        esp-at.bin                   <- ESP32 OTA firmware payload (~1.5 MB)
+    esp-at.bin                       <- ESP32 OTA firmware payload (~1.5 MB)
 ```
 
 ## Prerequisites
