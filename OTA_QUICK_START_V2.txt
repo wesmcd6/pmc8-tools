@@ -176,14 +176,14 @@ The script prints status messages as it works. A typical DIRECT mode run:
     ...
 
   [Phase 1] DIRECT mode detected — PC is at 192.168.47.11
-  [Phase 1] Firmware: esp-at.bin (1,561,264 bytes)
-  [Phase 1] Firmware binary version: ES4.2.0(WROOM-32)
+  [Phase 1] Firmware: esp-at.bin (1,565,904 bytes)
+  [Phase 1] Firmware binary version: ES4.2.27(WROOM-32)
   [Phase 2] Entering ESP32 pass-through mode
   [Phase 2] ESP32 responding OK
-  [Phase 2] Current ESP32 firmware: ES4.2.0(WROOM-32)
+  [Phase 2] Current ESP32 firmware: ES4.2.3(WROOM-32)
 
-    Installed:  ES4.2.0(WROOM-32)
-    Update to:  ES4.2.0(WROOM-32)
+    Installed:  ES4.2.3(WROOM-32)
+    Update to:  ES4.2.27(WROOM-32)
 
   Do you want to update the firmware? (y/n): y
 
@@ -192,7 +192,7 @@ The script prints status messages as it works. A typical DIRECT mode run:
   [Phase 5] OTA transfer in progress...
     (you may see progress data scrolling by)
   [Phase 5] OTA complete — ESP32 rebooted and re-initialized
-  [Phase 6] Bin version: ES4.2.0(WROOM-32)
+  [Phase 6] Bin version: ES4.2.27(WROOM-32)
   [Phase 8] PMC8 responding: ESGp0001F22!
   [Phase 8] PMC8 Propeller firmware: 20A02.1.8.2
   [Phase 9] HTTP bridge verified OK

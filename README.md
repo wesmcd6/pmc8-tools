@@ -4,9 +4,34 @@ Update your PMC-Eight's ESP32 firmware **over-the-air** — no opening the
 enclosure, no hex wrench, no jumper, no risk to the fragile Wi-Fi antenna
 cable. This is the **simplest** way to update the ESP32 firmware.
 
+**This release: ES4.2.27 (June 2026).** See *What's new* below.
+
 If OTA isn't possible (ESP32 has no firmware, has corrupted firmware, or
 has firmware too old to support OTA), fall back to the
 [`esp32-serial-flash`](../../tree/esp32-serial-flash) branch.
+
+---
+
+## What's new in this update
+
+This release upgrades the Wi-Fi adapter so it can **handle more than one
+connection at a time** and talk to the mount with **much less overhead** —
+a faster, leaner conversation.
+
+- **You'll see it today with ExploreStars Envision**, which already uses the
+  upgraded adapter: more responsive, smoother control and live position
+  display, and a steadier connection that holds up better when other tools
+  are also in use.
+- **Your other apps keep working — unchanged.** This update won't break
+  anything you already use.
+- **The best is still ahead.** Further Envision updates will continue to
+  improve performance by using this firmware to its fullest extent, and other
+  Explore Scientific apps will gain the same as they adopt it. Updating the
+  adapter now means you're ready — you get each improvement the moment the
+  apps ship it, with no second firmware update needed.
+
+It updates **only the Wi-Fi adapter** — it does not change your mount's
+motor/control firmware or how the mount itself behaves.
 
 ---
 
@@ -14,20 +39,22 @@ has firmware too old to support OTA), fall back to the
 
 | File | Contents |
 |------|----------|
-| `pmc8-esp32-ota-20260615-8a0910f.zip` | Full distribution (~1 MB) |
+| `pmc8-esp32-ota-20260627-483fd19.zip` | ✅ **NEW — download this** · ES4.2.27 firmware (~1 MB) |
+| `pmc8-esp32-ota-20260615-8a0910f.zip` | Older — ES4.2.3 firmware (previous version, for rollback) |
 | [`OTA_QUICK_START_V2.txt`](OTA_QUICK_START_V2.txt) | Read the manual here before you download |
 
-Click the zip filename above → click **Download raw file** (the small
-download arrow in GitHub's file view) to save it to your PC. The user
-guide is the same file bundled inside the zip, posted here so you can
-read it in your browser before committing to the procedure.
+Most people want the one marked **NEW** (top row). Click a zip filename above → click
+**Download raw file** (the small download arrow in GitHub's file view) to
+save it to your PC. The user guide is the same file bundled inside the zip,
+posted here so you can read it in your browser before committing to the
+procedure.
 
 ## What's in the zip
 
 After extracting you'll have:
 
 ```
-pmc8-esp32-ota-YYYYMMDD-<sha>\
+pmc8-esp32-ota-20260627-483fd19\
     ota_update_v2.py                 <- the walkthrough script
     OTA_QUICK_START_V2.txt           <- written instructions
     MANIFEST.txt                     <- build provenance
