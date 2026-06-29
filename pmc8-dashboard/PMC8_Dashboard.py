@@ -10,6 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
+APP_VERSION = "0.2.0"
 
 
 def _is_readable_file(path):
@@ -105,7 +106,7 @@ try:
     from PyQt6.QtWidgets import (
         QApplication, QWidget, QVBoxLayout, QLabel, QPushButton,
         QComboBox, QTextEdit, QFormLayout, QLineEdit, QHBoxLayout, QGridLayout, QSpacerItem, QSizePolicy,
-        QGridLayout, QDialog, QFileDialog, QCheckBox, QScrollArea
+        QGridLayout, QDialog, QFileDialog, QCheckBox, QScrollArea, QTabWidget
     )
     from PyQt6.QtGui import QTextCursor
 except ModuleNotFoundError as exc:
@@ -113,7 +114,9 @@ except ModuleNotFoundError as exc:
         print_dependency_help("PMC8 Dashboard", "PyQt6")
         sys.exit(1)
     raise
+from p1_loader import upload
 from upload_dialog import UploadDialog
+from network_management import NetworkManagementMixin
 
 
 
@@ -289,7 +292,7 @@ COMMANDS = {
     }
 }
 
-class PMC8Configurator(QWidget):
+class PMC8Configurator(NetworkManagementMixin, QWidget):
     def __init__(self):
         super().__init__()
         self.param_widgets = {}      # For command parameters.
@@ -300,7 +303,7 @@ class PMC8Configurator(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("PMC-Eight Dashboard")
+        self.setWindowTitle(f"PMC-Eight Dashboard v{APP_VERSION}")
         self.resize(960, 820)
         self.setMinimumSize(820, 680)
 
@@ -315,9 +318,9 @@ class PMC8Configurator(QWidget):
         main_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.setSpacing(18)
 
-        title = QLabel("PMC-Eight Dashboard")
+        title = QLabel(f"PMC-Eight Dashboard v{APP_VERSION}")
         title.setObjectName("TitleLabel")
-        subtitle = QLabel("Configuration, command console, and Propeller firmware upload")
+        subtitle = QLabel("Configuration, command console, Network tools, and Propeller firmware upload")
         subtitle.setObjectName("SubtitleLabel")
         main_layout.addWidget(title)
         main_layout.addWidget(subtitle)
@@ -507,7 +510,12 @@ class PMC8Configurator(QWidget):
 
         main_layout.addStretch(1)
         scroll.setWidget(page)
-        outer_layout.addWidget(scroll)
+
+        # Tabs: existing UI becomes the "Configurator" tab; add the "Network" tab.
+        self.tabs = QTabWidget()
+        self.tabs.addTab(scroll, "Configurator")
+        self.tabs.addTab(self.build_network_tab(), "Network")
+        outer_layout.addWidget(self.tabs)
         self.setLayout(outer_layout)
         self.update_param_fields(self.command_combo.currentData())
         self.update_connection_ui()

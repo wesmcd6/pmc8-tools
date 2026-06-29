@@ -1,87 +1,293 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMC8 Dashboard User Manual</title>
+  <title>PMC8 Dashboard v0.2.0 User Manual</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; line-height: 1.5; max-width: 980px; margin: 2rem auto; padding: 0 1rem; color: #172033; }
-    h1, h2 { color: #0f2742; }
-    code, pre { background: #f3f5f8; padding: 0.1rem 0.25rem; border-radius: 4px; }
-    pre { padding: 1rem; overflow-x: auto; }
+    :root { --ink:#172033; --head:#0f2742; --line:#d6dde8; --soft:#f3f5f8; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.6; max-width: 980px; margin: 2rem auto; padding: 0 1.1rem 4rem; color: var(--ink); }
+    h1 { color: var(--head); margin-bottom: 0.2rem; }
+    h2 { color: var(--head); margin-top: 2.4rem; padding-top: 0.6rem; border-top: 2px solid var(--line); }
+    h3 { color: var(--head); margin-top: 1.6rem; }
+    .lede { font-size: 1.08rem; color: #33415c; }
+    code, pre { background: var(--soft); border-radius: 4px; font-family: "SF Mono", Consolas, "Liberation Mono", monospace; }
+    code { padding: 0.08rem 0.3rem; font-size: 0.92em; }
+    pre { padding: 0.9rem 1rem; overflow-x: auto; border: 1px solid var(--line); }
     table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-    th, td { border: 1px solid #d6dde8; padding: 0.55rem; text-align: left; }
+    th, td { border: 1px solid var(--line); padding: 0.55rem 0.65rem; text-align: left; vertical-align: top; }
     th { background: #eef3f8; }
+    ol li, ul li { margin: 0.3rem 0; }
+    ol { padding-left: 1.3rem; }
+    a { color: #1763c7; }
+    /* callouts */
+    .box { border-radius: 8px; padding: 0.7rem 1rem; margin: 1rem 0; border: 1px solid; }
+    .tip   { background: #eefaf0; border-color: #b7e3c0; }
+    .warn  { background: #fff6e8; border-color: #f0cf94; }
+    .note  { background: #eef3fb; border-color: #c2d4ef; }
+    .box .label { font-weight: 700; display: block; margin-bottom: 0.2rem; }
+    .tip  .label { color: #1f7a3a; }
+    .warn .label { color: #9a6400; }
+    .note .label { color: #1b4f9c; }
+    /* table of contents */
+    nav.toc { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem 1.2rem; margin: 1.4rem 0 0; }
+    nav.toc strong { display: block; margin-bottom: 0.3rem; color: var(--head); }
+    nav.toc ol { margin: 0.2rem 0; }
+    .kbd { display:inline-block; background:#fff; border:1px solid #bcc6d4; border-bottom-width:2px; border-radius:4px; padding:0 0.35rem; font-size:0.85em; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); color: #5a6678; font-size: 0.9rem; }
   </style>
 </head>
 <body>
-<h1>PMC8 Dashboard User Manual</h1>
-<p>The PMC8 Dashboard is a desktop utility for configuring and testing an Explore Scientific PMC-Eight controller. It supports serial and WiFi command paths, configuration read/write, direct command testing, response logging, and firmware upload workflow access.</p>
+<h1>PMC8 Dashboard</h1>
+<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.0.</em></p>
 
-<h2>Requirements</h2>
+<div class="box note">
+  <span class="label">New to the dashboard?</span>
+  Jump straight to the <a href="#quickstart">Quick Start</a> for a 5&#8209;minute walkthrough, then come back to the task guides when you need them.
+</div>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#what">What this app does</a></li>
+    <li><a href="#install">Installing &amp; starting the app</a></li>
+    <li><a href="#quickstart">Quick Start (first connection)</a></li>
+    <li><a href="#connect">Connecting to your mount</a></li>
+    <li><a href="#tasks">Common tasks, step by step</a>
+      <ol>
+        <li><a href="#task-wifi">Put my mount on my home WiFi</a></li>
+        <li><a href="#task-ip">Find my mount's WiFi address</a></li>
+        <li><a href="#task-restore">Reset the WiFi back to factory default</a></li>
+        <li><a href="#task-config">Read or change configuration</a></li>
+        <li><a href="#task-firmware">Update the firmware</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Screen-by-screen reference</a></li>
+    <li><a href="#trouble">Troubleshooting</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#credits">Credits &amp; license</a></li>
+  </ol>
+</nav>
+
+<h2 id="what">1. What this app does</h2>
+<p>The PMC8 Dashboard talks to your PMC&#8209;Eight mount controller so you can:</p>
 <ul>
-  <li>Python 3.10 or newer.</li>
-  <li>PyQt6 for the graphical interface.</li>
-  <li>pyserial for serial port access.</li>
-  <li>A PMC-Eight controller connected by USB serial or reachable over the local network.</li>
+  <li><strong>Put the mount on your home WiFi</strong> so it no longer makes its own network &mdash; and read back the address it was given.</li>
+  <li><strong>Read and change the mount's configuration</strong> (the settings stored inside the controller).</li>
+  <li><strong>Send individual commands</strong> and watch the replies, for testing.</li>
+  <li><strong>Update the controller firmware</strong> using the built&#8209;in uploader.</li>
 </ul>
+<p>You connect to the mount one of two ways: over a <strong>USB serial cable</strong>, or over your <strong>local network (WiFi)</strong>. Each task below tells you which one it needs.</p>
 
-<h2>Install on Windows</h2>
+<div class="box tip">
+  <span class="label">The one rule to remember</span>
+  Anything that <em>sets up</em> the WiFi module, or <em>uploads firmware</em>, must be done over a <strong>USB serial</strong> connection &mdash; not over WiFi. (The app sends those commands to the Propeller chip inside the mount, which then relays them to the WiFi module. That only works over the cable.)
+</div>
+
+<h2 id="install">2. Installing &amp; starting the app</h2>
+<p>The dashboard needs <strong>Python 3.10 or newer</strong> plus two add&#8209;on packages, <code>PyQt6</code> (the windows and buttons) and <code>pyserial</code> (the serial port). The steps below install everything.</p>
+
+<h3>Windows</h3>
+<p>The easy way: double&#8209;click <code>run_dashboard_windows.bat</code> in the dashboard folder. It finds Python and starts the app for you. No Administrator rights are needed.</p>
+<p>To do it by hand, open a Command Prompt and run:</p>
 <pre>py -m pip install PyQt6 pyserial
-cd D:\p1loader
+cd path\to\PMC8_Dashboard_Windows
 py PMC8_Dashboard.py</pre>
-<p>You can also run <code>run_dashboard_windows.bat</code> from the distribution folder.</p>
+<div class="box note">
+  <span class="label">"Python is not recognized"</span>
+  Install Python 3.10+ from <a href="https://python.org">python.org</a> and tick <strong>Add python.exe to PATH</strong> during installation. Close the Command Prompt, open a new one, and try again. The launcher looks for <code>py</code>, then <code>python</code>, then <code>python3</code>.
+</div>
 
-<h2>Windows Python Note</h2>
-<p>The Windows launcher does not require Administrator mode. It looks for <code>py</code>, then <code>python</code>, then <code>python3</code>. If none are found, install Python 3.10 or newer from python.org and enable <strong>Add python.exe to PATH</strong> during installation, then open a new Command Prompt.</p>
+<h3>macOS</h3>
+<ol>
+  <li>Extract <code>PMC8_Dashboard_macOS.zip</code>.</li>
+  <li>Open the extracted <code>PMC8_Dashboard_macOS</code> folder.</li>
+  <li>Double&#8209;click <code>setup_macos.command</code>. It clears macOS "quarantine" where it can, sets file permissions, checks that all needed files are present, installs the Python packages, and starts the app.</li>
+</ol>
+<p>After that first successful setup, just double&#8209;click <code>run_PMC8-Dashboard.command</code> any time you want to launch the dashboard.</p>
+<div class="box note">
+  <span class="label">If a .command file won't open</span>
+  If double&#8209;clicking opens a text editor or does nothing, the file doesn't have its "executable" bit yet. Open Terminal in the extracted folder and run <code>sh setup_macos.command</code>. To make the files clickable afterward: <code>chmod +x setup_macos.command run_PMC8-Dashboard.command</code>.
+</div>
+<div class="box warn">
+  <span class="label">macOS may block the firmware helper once</span>
+  The first time you upload firmware, macOS may block the bundled <code>p1load</code> helper. Go to <strong>System Settings &rarr; Privacy &amp; Security</strong>, find the blocked&nbsp;<code>p1load</code> message, click <strong>Allow Anyway</strong>, then run the upload again and approve the popup. This is a one&#8209;time approval.
+</div>
 
-<h2>Install on macOS</h2>
+<h3>Linux / running from source</h3>
 <pre>python3 -m pip install PyQt6 pyserial
 cd /path/to/p1loader
 python3 PMC8_Dashboard.py</pre>
-<p>If macOS blocks a downloaded script, remove quarantine from the folder you trust:</p>
-<pre>xattr -dr com.apple.quarantine /path/to/p1loader</pre>
-<p>You can also run <code>run_dashboard_macos.command</code> from the distribution folder. If double-clicking does not work, run it from Terminal:</p>
-<pre>cd /path/to/PMC8_Dashboard_macOS
-xattr -dr com.apple.quarantine .
-chmod +x run_dashboard_macos.command
-chmod +x "p1load_package (1)/p1load"
-./run_dashboard_macos.command</pre>
-<p>On first firmware upload, macOS may still block the bundled <code>p1load</code> helper. If a security popup appears, choose the available allow/open option. If macOS says the helper cannot be opened, go to <strong>System Settings &gt; Privacy &amp; Security</strong>, find the blocked <code>p1load</code> message, and click <strong>Allow Anyway</strong>. Run the dashboard/upload again; macOS may show one more confirmation popup. Choose <strong>Open</strong> or <strong>Allow</strong>. After this one-time approval, the helper should run normally.</p>
-<p>The dashboard preflight checks bundled assets and attempts to mark shell helpers executable when needed, but it cannot fully bypass Gatekeeper quarantine or replace the manual Privacy &amp; Security approval step.</p>
 
-<h2>Startup Asset Check</h2>
-<p>Before the interface opens, the dashboard checks that required local files are present and readable, including the uploader module, upload dialog, and this manual in HTML and text form. On macOS and Linux it also checks executable permission for bundled shell/helper files when present.</p>
+<div class="box note">
+  <span class="label">Startup check</span>
+  Each time it starts, the dashboard quietly confirms that its required files (the uploader, the upload dialog, and this manual) are present and readable before the window opens. If something is missing it tells you which file, which usually means the download wasn't fully extracted &mdash; extract the ZIP again.
+</div>
 
-<h2>Connection Controls</h2>
+<h2 id="quickstart">3. Quick Start &mdash; your first connection</h2>
+<p>This gets you connected and confirms everything works. You'll need a USB cable between your computer and the PMC&#8209;Eight.</p>
+<ol>
+  <li>Plug the PMC&#8209;Eight into your computer with the USB cable and power on the mount.</li>
+  <li>Start the dashboard (see <a href="#install">section&nbsp;2</a>).</li>
+  <li>At the top, set <strong>Connection Mode</strong> to <strong>Serial</strong>.</li>
+  <li>Open the <strong>Serial Port</strong> list and pick the mount's port. On Windows it looks like <code>COM5</code>; on macOS/Linux like <code>/dev/tty.usbserial-XXXX</code>. If you're not sure which one, see the <a href="#trouble">Troubleshooting</a> tip below.</li>
+  <li>Click <strong>Connect</strong>. The button turns <strong>green</strong> when the connection is open.</li>
+  <li>Go to the <strong>Configuration</strong> tab and click <strong>Get Configuration</strong>. If the fields fill in with values, you're talking to the mount &mdash; you're all set.</li>
+</ol>
+<div class="box tip">
+  <span class="label">That's it</span>
+  Once <strong>Get Configuration</strong> returns values, every task in this manual will work. If it didn't, jump to <a href="#trouble">Troubleshooting</a>.
+</div>
+
+<h2 id="connect">4. Connecting to your mount</h2>
 <table>
-<tr><th>Control</th><th>Purpose</th></tr>
-<tr><td>Connection Mode</td><td>Select Serial or WiFi.</td></tr>
-<tr><td>Serial Port</td><td>Select the PMC-Eight COM or tty port.</td></tr>
-<tr><td>WiFi Address / Port</td><td>Enter the controller IP address and command port for network configuration operations.</td></tr>
-<tr><td>Connect</td><td>Opens the selected connection. The button turns green when connected.</td></tr>
+  <tr><th>Control</th><th>What it's for</th></tr>
+  <tr><td><strong>Connection Mode</strong></td><td>Choose <strong>Serial</strong> (USB cable) or <strong>WiFi</strong> (network). Use <strong>Serial</strong> for WiFi setup and firmware uploads; <strong>WiFi</strong> is for sending configuration commands once the mount is already on your network.</td></tr>
+  <tr><td><strong>Serial Port</strong></td><td>The mount's COM port (Windows) or tty device (macOS/Linux). If your port isn't listed, plug the cable in first, then reopen the app or the list.</td></tr>
+  <tr><td><strong>WiFi Address / Port</strong></td><td>The mount's IP address and command port, used in WiFi mode. You can discover the address with <strong>Get WiFi Address</strong> on the Network tab.</td></tr>
+  <tr><td><strong>Connect</strong></td><td>Opens the connection. Turns <strong>green</strong> when connected. Click again to disconnect.</td></tr>
 </table>
 
-<h2>Configuration Actions</h2>
+<h2 id="tasks">5. Common tasks, step by step</h2>
+
+<h3 id="task-wifi">5.1 Put my mount on my home WiFi</h3>
+<p><strong>Connection needed:</strong> Serial (USB). <strong>Tab:</strong> Network.</p>
+<ol>
+  <li>Connect over <strong>Serial</strong> (see <a href="#quickstart">Quick Start</a>).</li>
+  <li>Open the <strong>Network</strong> tab.</li>
+  <li>Set <strong>WiFi module</strong> to match the module inside your mount: <strong>ESP32</strong>, <strong>ESP8266</strong>, or <strong>RN131</strong>. If you're unsure, ask your supplier or check the mount documentation &mdash; choosing the wrong one is the most common reason setup fails.</li>
+  <li>Type your home network's <strong>SSID</strong> (network name) and <strong>Password</strong>. These are remembered for next time (see the note below).</li>
+  <li>Click <strong>Configure for Home Network</strong>.</li>
+  <li>Watch the log at the bottom. It reports each step, and on success shows the <strong>Assigned IP</strong> &mdash; the address your router gave the mount. Write this down; you'll use it to connect over WiFi later.</li>
+</ol>
+<div class="box note">
+  <span class="label">Your WiFi details are saved</span>
+  The SSID, password, and module choice are stored in a file named <code>pmc8_network_credentials.json</code> in the folder you started the app from. The Network tab fills them in automatically next time. Delete that file if you want to clear saved credentials.
+</div>
+<div class="box tip">
+  <span class="label">Joining can take several seconds</span>
+  After "Joining home network&hellip;" appears, give it time &mdash; connecting to a router and getting an address isn't instant. The log will say <strong>Joined home network</strong> when it sees the address. If it warns it didn't see an address, see <a href="#trouble">Troubleshooting</a>.
+</div>
+
+<h3 id="task-ip">5.2 Find my mount's WiFi address</h3>
+<p><strong>Connection needed:</strong> Serial (USB). <strong>Tab:</strong> Network.</p>
+<p>Use this any time you need the mount's current network address &mdash; it only <em>reads</em> the address, it doesn't change any settings.</p>
+<ol>
+  <li>Connect over <strong>Serial</strong>.</li>
+  <li>On the <strong>Network</strong> tab, set <strong>WiFi module</strong> to your module type.</li>
+  <li>Click <strong>Get WiFi Address</strong>.</li>
+  <li>The current address appears in the <strong>Assigned IP</strong> box and in the log.</li>
+</ol>
+<div class="box note">
+  <span class="label">Behind the scenes</span>
+  Different modules answer differently, so the app picks the right question for you: ESP32 uses <code>AT+CIPSTA?</code>, ESP8266 uses <code>AT+CIFSR</code>, and RN131 uses <code>get ip&nbsp;a</code>. You don't need to type any of these.
+</div>
+
+<h3 id="task-restore">5.3 Reset the WiFi back to factory default</h3>
+<p><strong>Connection needed:</strong> Serial (USB). <strong>Tab:</strong> Network.</p>
+<p>This returns the mount to its own built&#8209;in access&#8209;point network &mdash; useful if it can't reach your home network or you're starting over.</p>
 <ul>
-  <li><strong>Get Configuration</strong> reads the PMC-Eight configuration block and populates editable fields.</li>
-  <li><strong>Save Configuration</strong> builds and sends the PMC-Eight configuration save command from the displayed values.</li>
-  <li><strong>Boot PMC8</strong> sends the boot command after configuration or firmware operations when needed.</li>
+  <li><strong>RN131 modules:</strong> select <strong>RN131</strong>, then click <strong>Restore to Default</strong>. The mount is rewritten to its access&#8209;point defaults (address <code>192.168.47.1</code>, network name and password <code>PMC-Eight</code>). This takes a little while &mdash; let it finish.</li>
+  <li><strong>ESP32 / ESP8266 modules:</strong> there's nothing to restore here. These modules return to default on the next mount reboot &mdash; use <strong>Boot PMC8</strong> on the Configuration tab, or power&#8209;cycle the mount. The <strong>Restore to Default</strong> button is disabled for these on purpose, and the tab explains this.</li>
 </ul>
 
-<h2>Command Console</h2>
-<p>The command console provides a list of PMC-Eight commands, parameter fields for commands that need values, and a send button. Responses appear in the response log.</p>
+<h3 id="task-config">5.4 Read or change configuration</h3>
+<p><strong>Connection needed:</strong> Serial or WiFi. <strong>Tab:</strong> Configuration.</p>
+<ol>
+  <li>Click <strong>Get Configuration</strong> to read the current settings into the editable fields.</li>
+  <li>Edit the fields you want to change.</li>
+  <li>Click <strong>Save Configuration</strong> to send the new values to the mount.</li>
+  <li>If prompted or needed after changes, click <strong>Boot PMC8</strong> to restart the controller so the settings take effect.</li>
+</ol>
+<div class="box warn">
+  <span class="label">Read before you write</span>
+  Always <strong>Get Configuration</strong> first so the fields reflect what's actually on the mount. Saving from blank or stale fields can write values you didn't intend.
+</div>
 
-<h2>Firmware Upload</h2>
-<p>The firmware upload dialog uses the selected serial port. Firmware loading may intentionally toggle reset control lines as part of the Propeller programming sequence. Ordinary serial connection for configuration keeps DTR and RTS low before opening the port.</p>
+<h3 id="task-firmware">5.5 Update the firmware</h3>
+<p><strong>Connection needed:</strong> Serial (USB). <strong>Tab:</strong> Firmware / upload dialog.</p>
+<ol>
+  <li>Connect over <strong>Serial</strong> &mdash; firmware upload does not work over WiFi.</li>
+  <li>Open the firmware upload dialog and choose the firmware file.</li>
+  <li>Start the upload and let it run to completion without unplugging or powering off.</li>
+</ol>
+<div class="box note">
+  <span class="label">The reset lines toggle &mdash; that's normal</span>
+  During upload the app deliberately toggles the serial reset lines (DTR/RTS) as part of programming the Propeller chip. For ordinary configuration connections it keeps those lines low instead, so it doesn't reset the mount unexpectedly.
+</div>
 
-<h2>Notes</h2>
+<h2 id="reference">6. Screen-by-screen reference</h2>
+
+<h3>Network tab</h3>
 <ul>
-  <li>WiFi mode is intended for configuration commands over the controller network endpoint.</li>
-  <li>Serial mode should be used for firmware upload.</li>
-  <li>If Python reports that PyQt6 or pyserial is missing, install the packages shown in the console message and start the app again.</li>
+  <li>Requires a <strong>serial</strong> connection to the mount.</li>
+  <li><strong>WiFi module</strong> &mdash; ESP32, ESP8266, or RN131. Must match your hardware.</li>
+  <li><strong>Configure for Home Network</strong> &mdash; sends the right sequence for your module to join the SSID you entered.</li>
+  <li><strong>Get WiFi Address</strong> &mdash; reads the current address without changing anything.</li>
+  <li><strong>Restore to Default</strong> &mdash; RN131 only; rewrites the module to PMC&#8209;Eight access&#8209;point defaults.</li>
+  <li><strong>Assigned IP</strong> &mdash; shows the address found by Configure or Get WiFi Address.</li>
+  <li><strong>Log</strong> &mdash; a timestamped record of every step and reply. This is your first stop when something doesn't work.</li>
 </ul>
-<h2>Third-Party Credits</h2>
+
+<h3>Configuration tab</h3>
+<ul>
+  <li><strong>Get Configuration</strong> &mdash; reads the controller's settings into editable fields.</li>
+  <li><strong>Save Configuration</strong> &mdash; sends the displayed values back to the controller.</li>
+  <li><strong>Boot PMC8</strong> &mdash; restarts the controller after configuration or firmware operations.</li>
+</ul>
+
+<h3>Command Console</h3>
+<p>For testing and advanced use: pick a PMC&#8209;Eight command from the list, fill in any parameter fields it needs, and click send. The reply appears in the response log.</p>
+
+<h2 id="trouble">7. Troubleshooting</h2>
+
+<table>
+  <tr><th>Symptom</th><th>What to try</th></tr>
+  <tr>
+    <td>My serial port isn't in the list</td>
+    <td>Plug in the USB cable <em>before</em> opening the list, then reopen it (or restart the app). On Windows, a missing port often means the USB&#8209;serial driver (FTDI / CP210x / CH340) isn't installed. To identify the right port, unplug the mount, note which entries disappear, plug it back in, and pick the one that returns.</td>
+  </tr>
+  <tr>
+    <td>Connect button won't turn green</td>
+    <td>Make sure no other program (another dashboard window, a planetarium app, Arduino IDE) has the port open &mdash; only one program can use a serial port at a time. Confirm the mount is powered on and you selected the correct port.</td>
+  </tr>
+  <tr>
+    <td>The log shows <code>busy p...</code></td>
+    <td>That's the WiFi module saying "I'm still working on the last command." The dashboard already paces itself for this and reads replies patiently. If you still see it occasionally on an ESP32 (which answers more slowly than an ESP8266), simply run the action again &mdash; it's harmless. Persistent "busy" usually means the wrong <strong>WiFi module</strong> type is selected.</td>
+  </tr>
+  <tr>
+    <td>"Could not read WiFi address"</td>
+    <td>Confirm the <strong>WiFi module</strong> selection matches your hardware, that you're on a <strong>serial</strong> connection, and that the mount has actually joined a network. Try <strong>Get WiFi Address</strong> again; the mount may have been mid&#8209;reply the first time.</td>
+  </tr>
+  <tr>
+    <td>"Did not see WIFI GOT IP" after Configure</td>
+    <td>Double&#8209;check the SSID and password (the password field is case&#8209;sensitive). Make sure the network is in range and is a 2.4&nbsp;GHz network &mdash; many of these modules don't support 5&nbsp;GHz. Then try again.</td>
+  </tr>
+  <tr>
+    <td>The mount seems "stuck" after a WiFi step</td>
+    <td>The app always sends the exit command (<code>###</code>) to leave the mount's pass&#8209;through mode, even if an error happened &mdash; so this is rare. If it persists, power&#8209;cycle the mount and reconnect.</td>
+  </tr>
+  <tr>
+    <td>PyQt6 or pyserial "not found" at startup</td>
+    <td>Install them with the command shown in the console message (<code>pip install PyQt6 pyserial</code>), then start the app again.</td>
+  </tr>
+</table>
+
+<h2 id="glossary">8. Glossary</h2>
+<table>
+  <tr><th>Term</th><th>Meaning</th></tr>
+  <tr><td>PMC&#8209;Eight</td><td>The Explore Scientific mount controller this app configures.</td></tr>
+  <tr><td>WiFi module</td><td>The wireless chip inside the mount &mdash; an ESP32, ESP8266, or RN131. Different modules speak slightly different command languages, which is why you select the type.</td></tr>
+  <tr><td>Serial / COM port</td><td>The connection over the USB cable. Shows as <code>COMx</code> on Windows or <code>/dev/tty...</code> on macOS/Linux.</td></tr>
+  <tr><td>SSID</td><td>The name (Service Set Identifier) of a WiFi network.</td></tr>
+  <tr><td>IP address</td><td>The mount's numeric Internet Protocol address on your network, e.g. <code>192.168.1.50</code>. You need it to connect over WiFi.</td></tr>
+  <tr><td>Access point (AP) mode</td><td>When the mount makes its <em>own</em> WiFi network instead of joining yours. "Restore to Default" returns an RN131 to this mode.</td></tr>
+  <tr><td>Pass&#8209;through mode</td><td>A temporary state where the mount relays your commands straight to the WiFi module. The app enters and exits it for you.</td></tr>
+  <tr><td>Firmware</td><td>The software that runs inside the controller itself, which you can update from the Firmware screen.</td></tr>
+</table>
+
+<h2 id="credits">9. Credits &amp; license</h2>
 <p>This app bundles and/or invokes <code>p1load</code>, a Propeller loader by dbetz, for firmware loading support.</p>
 <ul>
   <li>Source: <a href="https://github.com/dbetz/p1load">https://github.com/dbetz/p1load</a></li>
@@ -89,8 +295,9 @@ chmod +x "p1load_package (1)/p1load"
   <li>Copyright: Copyright (c) 2015 dbetz</li>
 </ul>
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
+
+<footer>
+  PMC8 Dashboard v0.2.0 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
+</footer>
 </body>
 </html>
-
-
-

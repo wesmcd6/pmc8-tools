@@ -1,8 +1,9 @@
-﻿PMC8 Dashboard Distribution Notes
+PMC8 Dashboard v0.2.0 Distribution Notes
 
 Required app files:
 - PMC8_Dashboard.py
 - PMC8_Configurator.py
+- network_management.py
 - upload_dialog.py
 - p1_loader.py
 - requirements.txt
@@ -12,27 +13,21 @@ Required app files:
 - p1load_package (1)\, when distributing the macOS helper package
 
 Windows:
-- Run dist_bundle\run_dashboard_windows.bat, or run:
+- Run run_dashboard_windows.bat from the extracted Windows folder.
+- If running manually:
   py -m pip install -r requirements.txt
   py PMC8_Dashboard.py
 
 macOS:
-- Run dist_bundle/run_dashboard_macos.command, or run:
-  python3 -m pip install -r requirements.txt
-  python3 PMC8_Dashboard.py
-- If needed after download, run:
-  chmod +x dist_bundle/run_dashboard_macos.command
-  xattr -dr com.apple.quarantine /path/to/p1loader
+- Extract PMC8_Dashboard_macOS.zip.
+- Open the extracted PMC8_Dashboard_macOS folder.
+- Double-click setup_macos.command first. It clears quarantine where possible, sets executable bits, verifies required Python app files, installs Python requirements, and launches the dashboard through run_PMC8-Dashboard.command.
+- After setup succeeds once, double-click run_PMC8-Dashboard.command for normal launches.
+- If either .command file is not clickable, open Terminal in the extracted folder and run:
+  sh setup_macos.command
+- To make both command files clickable afterward, run:
+  chmod +x setup_macos.command run_PMC8-Dashboard.command
+- If setup reports a missing file, re-extract the ZIP and run setup from the complete extracted folder.
+- If macOS blocks p1load on first firmware upload, open System Settings > Privacy & Security, choose Allow Anyway for p1load, run the upload again, and approve the final popup.
 
 The dashboard performs an asset preflight before opening the GUI. If the preflight reports missing assets, run from the complete distribution folder.
-
-
-macOS Gatekeeper / p1load approval:
-- After extracting the macOS ZIP, run:
-  cd /path/to/PMC8_Dashboard_macOS
-  xattr -dr com.apple.quarantine .
-  chmod +x run_dashboard_macos.command
-  chmod +x "p1load_package (1)/p1load"
-  ./run_dashboard_macos.command
-- On first firmware upload, macOS may still block p1load.
-- Open System Settings > Privacy & Security, choose Allow Anyway for p1load, then run the upload again and approve the final popup.

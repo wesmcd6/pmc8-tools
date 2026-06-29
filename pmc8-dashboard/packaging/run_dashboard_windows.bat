@@ -1,6 +1,6 @@
 @echo off
 setlocal
-cd /d "%~dp0\PMC8_Dashboard_Windows"
+cd /d "%~dp0"
 
 set "PYTHON_CMD="
 where py >nul 2>nul
