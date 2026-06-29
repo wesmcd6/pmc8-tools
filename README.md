@@ -27,15 +27,15 @@ iOS and macOS app-store builds are planned.
 
 ## PMC8 Dashboard
 
-**Downloads:** use the `pmc8-dashboard-v0.1.0` release assets when available.
+**Downloads:** get the latest assets from the [`pmc8-dashboard-v0.2.0`](../../releases/tag/pmc8-dashboard-v0.2.0) release.
 
-PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, command testing, response logging, and firmware upload workflow support.
+PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, WiFi/home-network setup, command testing, response logging, and firmware upload workflow support.
 
 | Item | Link | Notes |
 |---|---|---|
 | Source and manual | [`pmc8-dashboard`](../../tree/pmc8-dashboard/pmc8-dashboard) | Public source, docs, and third-party notices |
-| Windows ZIP | [`PMC8_Dashboard_Windows.zip`](../../releases/tag/pmc8-dashboard-v0.1.0) | Extract and run `run_dashboard_windows.bat` |
-| macOS ZIP | [`PMC8_Dashboard_macOS.zip`](../../releases/tag/pmc8-dashboard-v0.1.0) | Extract, `chmod +x run_dashboard_macos.command`, then `./run_dashboard_macos.command` if needed |
+| Windows ZIP | [`PMC8_Dashboard_Windows.zip`](../../releases/tag/pmc8-dashboard-v0.2.0) | Extract and run `run_dashboard_windows.bat` |
+| macOS ZIP | [`PMC8_Dashboard_macOS.zip`](../../releases/tag/pmc8-dashboard-v0.2.0) | Extract, double-click `setup_macos.command` (first run), then `run_PMC8-Dashboard.command` |
 
 ## Network Configuration
 
