@@ -43,7 +43,7 @@ if [ -f "$P1LOAD_SCRIPT" ]; then
     chmod +x "$P1LOAD_SCRIPT" 2>/dev/null || true
 fi
 
-REQUIRED_PY_FILES="PMC8_Dashboard.py upload_dialog.py propeller_uploader.py network_management.py"
+REQUIRED_PY_FILES="PMC8_Dashboard.py upload_dialog.py p1_loader.py network_management.py"
 for file in $REQUIRED_PY_FILES; do
     if [ ! -f "$APP_DIR/$file" ]; then
         if [ -f "$SCRIPT_DIR/$file" ]; then
