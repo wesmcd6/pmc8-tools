@@ -106,9 +106,17 @@ py PMC8_Dashboard.py</pre>
   <li>Double&#8209;click <code>setup_macos.command</code>. It clears macOS "quarantine" where it can, sets file permissions, checks that all needed files are present, installs the Python packages, and starts the app.</li>
 </ol>
 <p>After that first successful setup, just double&#8209;click <code>run_PMC8-Dashboard.command</code> any time you want to launch the dashboard.</p>
-<div class="box note">
-  <span class="label">If a .command file won't open</span>
-  If double&#8209;clicking opens a text editor or does nothing, the file doesn't have its "executable" bit yet. Open Terminal in the extracted folder and run <code>sh setup_macos.command</code>. To make the files clickable afterward: <code>chmod +x setup_macos.command run_PMC8-Dashboard.command</code>.
+<div class="box warn">
+  <span class="label">If macOS blocks setup on first run (most common snag)</span>
+  <p>Because the app is downloaded from the internet, macOS may refuse to run <code>setup_macos.command</code> on a double&#8209;click &mdash; you might see <em>"insufficient privileges,"</em> <em>"unidentified developer,"</em> <em>"Apple could not verify&hellip;,"</em> or it just opens in a text editor. This is normal for any downloaded script. <strong>Running <code>chmod</code> will not fix it</strong> &mdash; that's a separate macOS security tag called <em>quarantine</em>.</p>
+  <p>The reliable one&#8209;time fix runs the file through the <code>sh</code> program, which sidesteps both barriers:</p>
+  <ol>
+    <li>Open <strong>Terminal</strong> (press <span class="kbd">&#8984;</span>&#8209;<span class="kbd">Space</span>, type <code>Terminal</code>, press Return).</li>
+    <li>Type <code>sh</code> followed by a space &mdash; but <strong>don't</strong> press Return yet.</li>
+    <li><strong>Drag</strong> the <code>setup_macos.command</code> file from Finder into the Terminal window (this fills in its location for you).</li>
+    <li>Press <strong>Return</strong>.</li>
+  </ol>
+  <p>Setup then removes the quarantine tag from the whole folder, finishes installing, and launches the app. From then on, double&#8209;clicking <code>run_PMC8-Dashboard.command</code> works normally.</p>
 </div>
 <div class="box warn">
   <span class="label">macOS may block the firmware helper once</span>

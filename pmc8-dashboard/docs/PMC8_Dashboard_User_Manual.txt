@@ -87,12 +87,22 @@ Packaged ZIP (recommended):
 After that first successful setup, just double-click run_PMC8-Dashboard.command
 any time you want to launch the dashboard.
 
-  >> If a .command file won't open: If double-clicking opens a text editor or
-     does nothing, the file doesn't have its "executable" bit yet. Open
-     Terminal in the extracted folder and run:
-         sh setup_macos.command
-     To make the files clickable afterward:
-         chmod +x setup_macos.command run_PMC8-Dashboard.command
+  >> If macOS blocks setup on first run (most common snag): Because the app is
+     downloaded from the internet, macOS may refuse to run setup_macos.command
+     on a double-click - you might see "insufficient privileges", "unidentified
+     developer", "Apple could not verify...", or it just opens in a text
+     editor. This is normal for any downloaded script. Running chmod will NOT
+     fix it - that's a separate macOS security tag called "quarantine". The
+     reliable one-time fix runs the file through the "sh" program, which
+     sidesteps both barriers:
+       1. Open Terminal (press Cmd-Space, type Terminal, press Return).
+       2. Type  sh  followed by a space - but do NOT press Return yet.
+       3. Drag the setup_macos.command file from Finder into the Terminal
+          window (this fills in its location for you).
+       4. Press Return.
+     Setup then removes the quarantine tag from the whole folder, finishes
+     installing, and launches the app. From then on, double-clicking
+     run_PMC8-Dashboard.command works normally.
 
   >> macOS may block the firmware helper once: The first time you upload
      firmware, macOS may block the bundled p1load helper. Go to System Settings
