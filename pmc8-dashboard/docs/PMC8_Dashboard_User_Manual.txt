@@ -78,31 +78,30 @@ To do it by hand, open a Command Prompt and run:
 macOS
 -----
 Packaged ZIP (recommended):
-  1. Extract PMC8_Dashboard_macOS.zip.
-  2. Open the extracted PMC8_Dashboard_macOS folder.
-  3. Double-click setup_macos.command. It clears macOS "quarantine" where it
-     can, sets file permissions, checks that all needed files are present,
-     installs the Python packages, and starts the app.
+  1. Extract PMC8_Dashboard_macOS.zip and open the extracted
+     PMC8_Dashboard_macOS folder.
+  2. FIRST LAUNCH - run setup through Terminal (recommended). macOS normally
+     blocks a freshly downloaded script on a plain double-click, so run it
+     through the "sh" program the first time, which avoids that:
+       a. Open Terminal (press Cmd-Space, type Terminal, press Return).
+       b. Type  sh  followed by a space - but do NOT press Return yet.
+       c. Drag the setup_macos.command file from Finder into the Terminal
+          window (this fills in its location for you). The line should read
+          sh /.../setup_macos.command
+       d. Press Return.
+     Setup clears macOS's download protection ("quarantine") on the whole
+     folder, sets permissions, installs the Python packages, and starts the app.
 
 After that first successful setup, just double-click run_PMC8-Dashboard.command
-any time you want to launch the dashboard.
+any time you want to launch the dashboard - the download protection is already
+cleared, so it opens normally.
 
-  >> If macOS blocks setup on first run (most common snag): Because the app is
-     downloaded from the internet, macOS may refuse to run setup_macos.command
-     on a double-click - you might see "insufficient privileges", "unidentified
-     developer", "Apple could not verify...", or it just opens in a text
-     editor. This is normal for any downloaded script. Running chmod will NOT
-     fix it - that's a separate macOS security tag called "quarantine". The
-     reliable one-time fix runs the file through the "sh" program, which
-     sidesteps both barriers:
-       1. Open Terminal (press Cmd-Space, type Terminal, press Return).
-       2. Type  sh  followed by a space - but do NOT press Return yet.
-       3. Drag the setup_macos.command file from Finder into the Terminal
-          window (this fills in its location for you).
-       4. Press Return.
-     Setup then removes the quarantine tag from the whole folder, finishes
-     installing, and launches the app. From then on, double-clicking
-     run_PMC8-Dashboard.command works normally.
+  >> Why not just double-click the first time? You can try double-clicking
+     setup_macos.command, but on a fresh download macOS usually blocks it - you
+     might see "insufficient privileges", "unidentified developer", or "Apple
+     could not verify...". Running chmod does NOT fix this (it's a separate
+     security tag called "quarantine"). The Terminal "sh" method above
+     sidesteps it - that's why it's the recommended first step.
 
   >> macOS may block the firmware helper once: The first time you upload
      firmware, macOS may block the bundled p1load helper. Go to System Settings
@@ -299,6 +298,12 @@ COMMAND CONSOLE
 ==============================================================================
 7. TROUBLESHOOTING
 ==============================================================================
+
+The Configuration tab is blank after "Get Configuration"
+  An occasional serial read drops or truncates the first reply (the log shows
+  "Unexpected ESGi! response length"). This is harmless - the app rejects a
+  garbled reply rather than showing wrong values. Just click Get Configuration
+  again; the second read almost always succeeds.
 
 My serial port isn't in the list
   Plug in the USB cable BEFORE opening the list, then reopen it (or restart the

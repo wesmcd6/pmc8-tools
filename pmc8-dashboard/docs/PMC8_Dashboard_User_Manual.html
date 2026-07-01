@@ -101,22 +101,20 @@ py PMC8_Dashboard.py</pre>
 
 <h3>macOS</h3>
 <ol>
-  <li>Extract <code>PMC8_Dashboard_macOS.zip</code>.</li>
-  <li>Open the extracted <code>PMC8_Dashboard_macOS</code> folder.</li>
-  <li>Double&#8209;click <code>setup_macos.command</code>. It clears macOS "quarantine" where it can, sets file permissions, checks that all needed files are present, installs the Python packages, and starts the app.</li>
+  <li>Extract <code>PMC8_Dashboard_macOS.zip</code> and open the extracted <code>PMC8_Dashboard_macOS</code> folder.</li>
+  <li><strong>First launch &mdash; run setup through Terminal (recommended).</strong> macOS normally blocks a freshly downloaded script on a plain double&#8209;click, so run it through the <code>sh</code> program the first time, which avoids that:
+    <ol type="a">
+      <li>Open <strong>Terminal</strong> (press <span class="kbd">&#8984;</span>&#8209;<span class="kbd">Space</span>, type <code>Terminal</code>, press Return).</li>
+      <li>Type <code>sh</code> followed by a space &mdash; but <strong>don't</strong> press Return yet.</li>
+      <li><strong>Drag</strong> the <code>setup_macos.command</code> file from Finder into the Terminal window (this fills in its location for you). The line should read <code>sh /&hellip;/setup_macos.command</code>.</li>
+      <li>Press <strong>Return</strong>.</li>
+    </ol>
+    Setup clears macOS's download protection ("quarantine") on the whole folder, sets permissions, installs the Python packages, and starts the app.</li>
 </ol>
-<p>After that first successful setup, just double&#8209;click <code>run_PMC8-Dashboard.command</code> any time you want to launch the dashboard.</p>
-<div class="box warn">
-  <span class="label">If macOS blocks setup on first run (most common snag)</span>
-  <p>Because the app is downloaded from the internet, macOS may refuse to run <code>setup_macos.command</code> on a double&#8209;click &mdash; you might see <em>"insufficient privileges,"</em> <em>"unidentified developer,"</em> <em>"Apple could not verify&hellip;,"</em> or it just opens in a text editor. This is normal for any downloaded script. <strong>Running <code>chmod</code> will not fix it</strong> &mdash; that's a separate macOS security tag called <em>quarantine</em>.</p>
-  <p>The reliable one&#8209;time fix runs the file through the <code>sh</code> program, which sidesteps both barriers:</p>
-  <ol>
-    <li>Open <strong>Terminal</strong> (press <span class="kbd">&#8984;</span>&#8209;<span class="kbd">Space</span>, type <code>Terminal</code>, press Return).</li>
-    <li>Type <code>sh</code> followed by a space &mdash; but <strong>don't</strong> press Return yet.</li>
-    <li><strong>Drag</strong> the <code>setup_macos.command</code> file from Finder into the Terminal window (this fills in its location for you).</li>
-    <li>Press <strong>Return</strong>.</li>
-  </ol>
-  <p>Setup then removes the quarantine tag from the whole folder, finishes installing, and launches the app. From then on, double&#8209;clicking <code>run_PMC8-Dashboard.command</code> works normally.</p>
+<p>After that first successful setup, just double&#8209;click <code>run_PMC8-Dashboard.command</code> any time you want to launch the dashboard &mdash; the download protection is already cleared, so it opens normally.</p>
+<div class="box note">
+  <span class="label">Why not just double-click the first time?</span>
+  You can try double&#8209;clicking <code>setup_macos.command</code>, but on a fresh download macOS usually blocks it &mdash; you might see <em>"insufficient privileges,"</em> <em>"unidentified developer,"</em> or <em>"Apple could not verify&hellip;."</em> <strong>Running <code>chmod</code> does not fix this</strong> (it's a separate security tag called <em>quarantine</em>). The Terminal <code>sh</code> method above sidesteps it &mdash; that's why it's the recommended first step.
 </div>
 <div class="box warn">
   <span class="label">macOS may block the firmware helper once</span>
@@ -252,6 +250,10 @@ python3 PMC8_Dashboard.py</pre>
 
 <table>
   <tr><th>Symptom</th><th>What to try</th></tr>
+  <tr>
+    <td>The Configuration tab is blank after "Get Configuration"</td>
+    <td>An occasional serial read drops or truncates the first reply (the log shows <em>"Unexpected ESGi! response length"</em>). This is harmless &mdash; the app rejects a garbled reply rather than showing wrong values. Just click <strong>Get Configuration</strong> again; the second read almost always succeeds.</td>
+  </tr>
   <tr>
     <td>My serial port isn't in the list</td>
     <td>Plug in the USB cable <em>before</em> opening the list, then reopen it (or restart the app). On Windows, a missing port often means the USB&#8209;serial driver (FTDI / CP210x / CH340) isn't installed. To identify the right port, unplug the mount, note which entries disappear, plug it back in, and pick the one that returns.</td>
