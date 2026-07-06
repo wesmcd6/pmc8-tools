@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.0"
+APP_VERSION = "0.2.1"
 
 
 def _is_readable_file(path):
@@ -389,6 +389,7 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         self.connect_button.clicked.connect(self.connect_device)
         self.disconnect_button = QPushButton("Disconnect")
         self.disconnect_button.clicked.connect(self.disconnect_device)
+        self.disconnect_button.setEnabled(False)   # nothing connected at startup
         self.refresh_button = QPushButton("Refresh Ports")
         self.refresh_button.clicked.connect(self.refresh_ports)
         button_row.addWidget(self.connect_button)
@@ -591,7 +592,6 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             QPushButton#PrimaryButton:hover {
                 background: #2c7cc7;
             }
-            QPushButton#DangerButton {
             QPushButton#ConnectedButton {
                 background: #1f8a4c;
                 border-color: #33b86b;
@@ -599,11 +599,37 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             QPushButton#ConnectedButton:hover {
                 background: #27a85d;
             }
+            QPushButton#DangerButton {
                 background: #7d3440;
                 border-color: #a84a5a;
             }
             QPushButton#DangerButton:hover {
                 background: #963f4d;
+            }
+            QTabWidget::pane {
+                background: #0f1720;
+                border: 1px solid #27384a;
+                border-radius: 6px;
+                top: -1px;
+            }
+            QTabBar::tab {
+                background: #15202b;
+                color: #cfe2f5;
+                border: 1px solid #27384a;
+                border-bottom: none;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                padding: 8px 18px;
+                margin-right: 2px;
+                min-width: 90px;
+            }
+            QTabBar::tab:selected {
+                background: #2166a8;
+                color: #ffffff;
+                border-color: #3986d1;
+            }
+            QTabBar::tab:hover:!selected {
+                background: #1d2c3b;
             }
         """)
     def update_connection_ui(self):
@@ -621,6 +647,20 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         self.protocol_label.setVisible(wifi_visible)
         self.protocol_combo.setVisible(wifi_visible)
 
+        # When switching to WiFi, pre-fill the IP field if the user hasn't
+        # already typed one. Prefer the module's last-known address (captured
+        # when they got/set it on the Network tab); otherwise fall back to the
+        # ESP boot default. RN131 (or an unknown module) is left blank so its
+        # greyed placeholder example shows, as before.
+        if wifi_visible and not self.ip_edit.text().strip():
+            last_ip = getattr(self, "_net_last_ip", "")
+            module = self.net_module_combo.currentText() \
+                if getattr(self, "net_module_combo", None) else ""
+            if last_ip:
+                self.ip_edit.setText(last_ip)
+            elif module in ("ESP32", "ESP8266"):
+                self.ip_edit.setText("192.168.47.1")
+
 
     def set_connection_indicator(self, connected):
         self.connect_button.setObjectName("ConnectedButton" if connected else "PrimaryButton")
@@ -628,6 +668,9 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         self.connect_button.style().unpolish(self.connect_button)
         self.connect_button.style().polish(self.connect_button)
         self.connect_button.update()
+        # Disconnect is only meaningful when a link is live — grey it out
+        # otherwise. Every connect/disconnect path routes through here.
+        self.disconnect_button.setEnabled(connected)
 
 
     def refresh_ports(self):
@@ -659,11 +702,21 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             self.connect_wifi()
 
     def disconnect_device(self):
-        conn_type = self.connection_type_combo.currentText()
-        if conn_type == "Serial":
+        # Disconnect whichever transport is actually open, regardless of the
+        # connection-type dropdown. The user may switch the dropdown to WiFi
+        # (e.g. to see an IP fetched on the Network tab) while still connected
+        # over Serial; Disconnect must still tear down the live Serial link —
+        # and vice versa. So we key off the real connection state, not the combo.
+        disconnected = False
+        if self.serial_port and self.serial_port.is_open:
             self.disconnect_serial()
-        else:
+            disconnected = True
+        if self.connection_socket:
             self.disconnect_wifi()
+            disconnected = True
+        if not disconnected:
+            self.response_box.append("Not connected.")
+            self.scroll_response_to_bottom()
 
     def connect_serial(self):
         port = (self.port_combo.currentData() or "").strip()

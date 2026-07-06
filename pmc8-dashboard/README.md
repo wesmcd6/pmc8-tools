@@ -1,6 +1,16 @@
-# PMC8 Dashboard v0.2.0
+# PMC8 Dashboard v0.2.1
 
-PMC8 Dashboard v0.2.0 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.1 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+
+## Downloads
+
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.1):
+
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+
+For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
 
 ## Features
 
@@ -71,6 +81,65 @@ On the first firmware upload, macOS may still block the bundled `p1load` helper.
 python3 -m pip install -r requirements.txt
 python3 PMC8_Dashboard.py
 ```
+
+## Linux / Raspberry Pi (including 64-bit ARM)
+
+The dashboard is pure Python and runs on Linux, including a **64-bit Raspberry
+Pi** (Raspberry Pi OS 64-bit / `aarch64`). **No separate compiled build is
+needed** — there is nothing platform-specific to recompile, and the macOS-only
+bundled `p1load` binary is not used here. On Linux, firmware upload is handled
+by the built-in Python uploader (`p1_loader.py`), so the ARM Pi needs no extra
+loader.
+
+### Packaged ZIP (recommended)
+
+Extract `PMC8_Dashboard_Linux.zip`, open the extracted folder in a terminal,
+and run the one-time setup:
+
+```bash
+./setup_linux.sh
+```
+
+Setup installs PyQt6 + pyserial (via `apt` on Raspberry Pi OS, otherwise pip),
+adds you to the `dialout` group for serial-port access, then launches the
+dashboard. After setup succeeds once, the normal day-to-day launcher is:
+
+```bash
+./run_dashboard_linux.sh
+```
+
+If a `.sh` file isn't executable (for example the folder was copied instead of
+extracted), make them clickable first with
+`chmod +x setup_linux.sh run_dashboard_linux.sh`.
+
+### Source / manual run
+
+On Raspberry Pi OS (Bookworm) the system packages avoid building Qt from source:
+
+```bash
+sudo apt install python3-pyqt6 python3-serial
+python3 PMC8_Dashboard.py
+```
+
+Or, on other Linux distros (or in a virtual environment):
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 PMC8_Dashboard.py
+```
+
+Notes:
+
+- **Use a 64-bit OS.** PyQt6 ships wheels/packages for 64-bit ARM (`aarch64`)
+  only; 32-bit Raspberry Pi OS is not recommended because PyQt6 is hard to
+  install there. `plain pip install PyQt6` may lack a wheel for your Python
+  version and try to compile Qt — prefer `apt install python3-pyqt6` on the Pi.
+- **Serial port & permissions.** The mount usually appears as `/dev/ttyUSB0`
+  (FTDI/CP210x/CH340 adapters) or `/dev/ttyACM0`. Add your user to the
+  `dialout` group once so you can open the port without root, then log out and
+  back in: `sudo usermod -aG dialout $USER`.
+- **This is a desktop (GUI) app.** Run it on the Pi desktop or over VNC/X — not
+  from a headless SSH session with no display.
 
 ## User Manual
 

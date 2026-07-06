@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.0  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.1  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -118,11 +118,55 @@ cleared, so it opens normally.
        - PyQt6 or pyserial fails to install: check the Mac has internet access
          and that python3 -m pip works, then run setup again.
 
-LINUX / RUNNING FROM SOURCE
----------------------------
+LINUX / RASPBERRY PI (64-bit)
+-----------------------------
+The dashboard is pure Python and runs on Linux, including a 64-bit Raspberry Pi
+(Raspberry Pi OS 64-bit / aarch64). There is NO separate compiled build to
+download for the Pi - the same source runs everywhere, and firmware upload on
+Linux uses the built-in Python uploader (the Mac-only p1load helper is not used
+here).
+
+Packaged ZIP (recommended):
+  1. Extract PMC8_Dashboard_Linux.zip and open the extracted folder in a
+     terminal.
+  2. FIRST RUN - one-time setup:
+       ./setup_linux.sh
+     Setup installs PyQt6 + pyserial (via apt on Raspberry Pi OS, otherwise
+     pip), adds you to the "dialout" group for serial-port access, and then
+     launches the dashboard.
+  3. After setup succeeds once, launch day-to-day with:
+       ./run_dashboard_linux.sh
+
+  >> If a .sh file isn't executable (for example the folder was copied instead
+     of extracted), make them clickable first:
+       chmod +x setup_linux.sh run_dashboard_linux.sh
+
+Source / manual run (any Linux):
+  On a Raspberry Pi, the easiest install uses the system packages (this avoids
+  building Qt from source):
+
+    sudo apt install python3-pyqt6 python3-serial
+    cd /path/to/p1loader
+    python3 PMC8_Dashboard.py
+
+  On other Linux systems, or in a virtual environment:
+
     python3 -m pip install PyQt6 pyserial
     cd /path/to/p1loader
     python3 PMC8_Dashboard.py
+
+  >> Use a 64-bit OS on the Pi: PyQt6 is available for 64-bit ARM (aarch64)
+     only, so run 64-bit Raspberry Pi OS. On the Pi, prefer
+     "apt install python3-pyqt6" over "pip install PyQt6" - plain pip may not
+     have a matching wheel and can try to compile Qt.
+
+  >> Serial port & permissions: On the Pi the mount usually appears as
+     /dev/ttyUSB0 (FTDI/CP210x/CH340 adapters) or /dev/ttyACM0. Add your user
+     to the "dialout" group once so you can open the port without root, then log
+     out and back in:  sudo usermod -aG dialout $USER
+
+  >> It's a desktop app: run it on the Pi desktop or over VNC/X, not from a
+     headless SSH session with no display.
 
   >> Startup check: Each time it starts, the dashboard quietly confirms that
      its required files (the uploader, the upload dialog, and this manual) are
@@ -308,9 +352,11 @@ The Configuration tab is blank after "Get Configuration"
 My serial port isn't in the list
   Plug in the USB cable BEFORE opening the list, then reopen it (or restart the
   app). On Windows, a missing port often means the USB-serial driver (FTDI /
-  CP210x / CH340) isn't installed. To identify the right port, unplug the
-  mount, note which entries disappear, plug it back in, and pick the one that
-  returns.
+  CP210x / CH340) isn't installed. On Linux / Raspberry Pi, the mount shows as
+  /dev/ttyUSB0 or /dev/ttyACM0; if it's listed but won't open, add yourself to
+  the "dialout" group (sudo usermod -aG dialout $USER) and log out and back in.
+  To identify the right port, unplug the mount, note which entries disappear,
+  plug it back in, and pick the one that returns.
 
 Connect button won't turn green
   Make sure no other program (another dashboard window, a planetarium app,
@@ -383,6 +429,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.0 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.1 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMC8 Dashboard v0.2.0 User Manual</title>
+  <title>PMC8 Dashboard v0.2.1 User Manual</title>
   <style>
     :root { --ink:#172033; --head:#0f2742; --line:#d6dde8; --soft:#f3f5f8; }
     * { box-sizing: border-box; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1>PMC8 Dashboard</h1>
-<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.0.</em></p>
+<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.1.</em></p>
 
 <div class="box note">
   <span class="label">New to the dashboard?</span>
@@ -121,10 +121,30 @@ py PMC8_Dashboard.py</pre>
   The first time you upload firmware, macOS may block the bundled <code>p1load</code> helper. Go to <strong>System Settings &rarr; Privacy &amp; Security</strong>, find the blocked&nbsp;<code>p1load</code> message, click <strong>Allow Anyway</strong>, then run the upload again and approve the popup. This is a one&#8209;time approval.
 </div>
 
-<h3>Linux / running from source</h3>
+<h3>Linux / Raspberry Pi (64-bit)</h3>
+<p>The dashboard is pure Python and runs on Linux, including a <strong>64&#8209;bit Raspberry Pi</strong> (Raspberry Pi OS 64&#8209;bit / <code>aarch64</code>). There is <strong>no separate compiled build</strong> to download for the Pi &mdash; the same source runs everywhere, and firmware upload on Linux uses the built&#8209;in Python uploader (the macOS&#8209;only <code>p1load</code> helper is not used here).</p>
+<p><strong>Packaged ZIP (recommended).</strong> Extract <code>PMC8_Dashboard_Linux.zip</code>, open the extracted folder in a terminal, and run the one&#8209;time setup:</p>
+<pre>./setup_linux.sh</pre>
+<p>Setup installs PyQt6 + pyserial (via <code>apt</code> on Raspberry Pi OS, otherwise pip), adds you to the <code>dialout</code> group for serial&#8209;port access, then launches the dashboard. After setup succeeds once, the normal day&#8209;to&#8209;day launcher is:</p>
+<pre>./run_dashboard_linux.sh</pre>
+<p>If a <code>.sh</code> file isn't executable (for example the folder was copied instead of extracted), make them clickable first with <code>chmod +x setup_linux.sh run_dashboard_linux.sh</code>.</p>
+<p><strong>Source / manual run.</strong> On a Raspberry Pi, the easiest install uses the system packages (this avoids building Qt from source):</p>
+<pre>sudo apt install python3-pyqt6 python3-serial
+cd /path/to/p1loader
+python3 PMC8_Dashboard.py</pre>
+<p>On other Linux systems, or in a virtual environment:</p>
 <pre>python3 -m pip install PyQt6 pyserial
 cd /path/to/p1loader
 python3 PMC8_Dashboard.py</pre>
+
+<div class="box note">
+  <span class="label">Use a 64-bit OS on the Pi</span>
+  PyQt6 is available for 64&#8209;bit ARM (<code>aarch64</code>) only, so run 64&#8209;bit Raspberry Pi OS. On the Pi, prefer <code>apt install python3-pyqt6</code> over <code>pip install PyQt6</code> &mdash; plain pip may not have a matching wheel and can try to compile Qt.
+</div>
+<div class="box note">
+  <span class="label">Serial port &amp; permissions</span>
+  On the Pi the mount usually appears as <code>/dev/ttyUSB0</code> (FTDI/CP210x/CH340 adapters) or <code>/dev/ttyACM0</code>. Add your user to the <code>dialout</code> group once so you can open the port without root, then log out and back in: <code>sudo usermod -aG dialout $USER</code>. It's a desktop app, so run it on the Pi desktop or over VNC/X, not from a headless SSH session.
+</div>
 
 <div class="box note">
   <span class="label">Startup check</span>
@@ -256,7 +276,7 @@ python3 PMC8_Dashboard.py</pre>
   </tr>
   <tr>
     <td>My serial port isn't in the list</td>
-    <td>Plug in the USB cable <em>before</em> opening the list, then reopen it (or restart the app). On Windows, a missing port often means the USB&#8209;serial driver (FTDI / CP210x / CH340) isn't installed. To identify the right port, unplug the mount, note which entries disappear, plug it back in, and pick the one that returns.</td>
+    <td>Plug in the USB cable <em>before</em> opening the list, then reopen it (or restart the app). On Windows, a missing port often means the USB&#8209;serial driver (FTDI / CP210x / CH340) isn't installed. On Linux / Raspberry Pi, the mount shows as <code>/dev/ttyUSB0</code> or <code>/dev/ttyACM0</code>; if it's listed but won't open, add yourself to the <code>dialout</code> group (<code>sudo usermod -aG dialout $USER</code>) and log out and back in. To identify the right port, unplug the mount, note which entries disappear, plug it back in, and pick the one that returns.</td>
   </tr>
   <tr>
     <td>Connect button won't turn green</td>
@@ -307,7 +327,7 @@ python3 PMC8_Dashboard.py</pre>
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
 
 <footer>
-  PMC8 Dashboard v0.2.0 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
+  PMC8 Dashboard v0.2.1 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
 </footer>
 </body>
 </html>

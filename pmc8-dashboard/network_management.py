@@ -234,13 +234,35 @@ class NetworkManagementMixin:
 
     @staticmethod
     def _net_extract_ip(text):
-        m = re.search(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", text or "")
-        return m.group(1) if m else ""
+        # Return the first *routable* address. A booted-but-unjoined module
+        # reports 0.0.0.0 on interfaces that aren't up (e.g. the station
+        # interface before it joins a home network); those are not real
+        # addresses, so skip them and only fall back to 0.0.0.0 if nothing
+        # else is present.
+        ips = re.findall(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", text or "")
+        for ip in ips:
+            if ip != "0.0.0.0":
+                return ip
+        return ips[0] if ips else ""
+
+    def _net_apply_known_ip(self, ip):
+        """Remember the module's last-known IP and surface it in both places:
+        the Network tab's read-only display, and the Configurator tab's WiFi IP
+        field — so a later 'Connect via WiFi' is pre-filled with the address we
+        just read or assigned. Called from every get/set path that yields a
+        real address."""
+        if not ip:
+            return
+        self._net_last_ip = ip
+        self.net_ip_edit.setText(ip)
+        field = getattr(self, "ip_edit", None)   # Configurator-tab WiFi field
+        if field is not None:
+            field.setText(ip)
 
     def _net_report_ip(self, module, resp):
         ip = self._net_extract_ip(resp)
         if ip:
-            self.net_ip_edit.setText(ip)
+            self._net_apply_known_ip(ip)
             self._net_log(f"Current {module} WiFi address: {ip}")
         else:
             raw = (resp or "").replace("\r", " ").replace("\n", " ").strip()
@@ -281,15 +303,30 @@ class NetworkManagementMixin:
         if not found:
             self._net_log("WARNING: no AT OK - check module selection / connection.")
 
-        ip_cmd = "AT+CIFSR@" if module == "ESP8266" else "AT+CIPSTA?@"
         # Wait for the actual address line, not just the first burst: a slow
-        # ESP32 may echo the command, pause, then send the +CIPSTA/+CIFSR reply.
-        # The marker is subnet-independent (unlike matching "192"); if it never
+        # ESP32 may echo the command, pause, then send the reply. The markers
+        # below are subnet-independent (unlike matching "192"); if one never
         # arrives, _net_read still polls the full window and the regex extracts
         # whatever address is present.
-        ip_token = "+CIFSR" if module == "ESP8266" else "+CIPSTA"
-        self._net_write(ip_cmd)
-        resp = self._net_read(want=ip_token, tries=12, per_read=0.4)
+        if module == "ESP8266":
+            # AT+CIFSR reports both the SoftAP IP (APIP) and the station IP
+            # (STAIP) in one reply. On a freshly-booted PMC-Eight the module is
+            # in AP mode at 192.168.47.1 and STAIP is 0.0.0.0; after joining a
+            # home network STAIP holds the DHCP address. _net_extract_ip skips
+            # 0.0.0.0, so the right one is reported in either state.
+            self._net_write("AT+CIFSR@")
+            resp = self._net_read(want="+CIFSR", tries=12, per_read=0.4)
+        else:
+            # ESP32: CIPSTA? is the *station* interface, which stays 0.0.0.0
+            # until the module joins a home network — that is why "Get WiFi
+            # Address" returned 0.0.0.0 on a fresh boot. The default 192.168.47.1
+            # lives on the SoftAP interface (CIPAP?), so read both and let
+            # _net_extract_ip pick the first routable address: the station IP if
+            # joined, otherwise the AP IP.
+            self._net_write("AT+CIPSTA?@")
+            resp = self._net_read(want="+CIPSTA", tries=12, per_read=0.4)
+            self._net_write("AT+CIPAP?@")
+            resp += self._net_read(want="+CIPAP", tries=12, per_read=0.4)
         self._net_report_ip(module, resp)
 
     def _net_read_rn131_ip(self):
@@ -368,7 +405,7 @@ class NetworkManagementMixin:
         resp = self._net_read(want="192", tries=12, per_read=0.4)
         ip = self._net_extract_ip(resp)
         if ip:
-            self.net_ip_edit.setText(ip)
+            self._net_apply_known_ip(ip)
             self._net_log(f"Assigned IP: {ip}")
         else:
             self._net_log("Could not read assigned IP. Raw: "
@@ -406,7 +443,7 @@ class NetworkManagementMixin:
         resp = self._net_read(want="192", tries=12, per_read=0.4)
         ip = self._net_extract_ip(resp)
         if ip:
-            self.net_ip_edit.setText(ip)
+            self._net_apply_known_ip(ip)
             self._net_log(f"Assigned IP: {ip}")
         else:
             self._net_log("Could not read RN131 IP. Raw: " + resp.strip())
