@@ -68,26 +68,51 @@ pmc8-esp32-ota-YYYYMMDD-<sha>\
 
 ## Prerequisites
 
-- Windows 10 or 11
+- **Any desktop OS:** Windows 10/11, **macOS**, or **Linux — including Raspberry Pi.**
+  The tool is pure Python + `pyserial` with no OS-specific dependencies.
 - Python 3.x (the script will offer to `pip install` pyserial if missing)
-- USB cable from PC to the PMC-Eight
+- USB cable from your computer to the PMC-Eight
 - Either **direct access** to the PMC-8's own Wi-Fi network (AP mode) OR
-  **a home Wi-Fi network** that both your PC and the PMC-8 can join
+  **a home Wi-Fi network** that both your computer and the PMC-8 can join
 
 ## Quick Start
 
-1. Download the zip above and extract it somewhere easy like `C:\PMC8_OTA\`.
-2. Open a Command Prompt in the extracted folder.
-3. Run:
+1. Download the zip above and extract it somewhere easy (`C:\PMC8_OTA\` on
+   Windows; `~/pmc8-ota/` on macOS / Linux / Raspberry Pi).
+2. Open a terminal in the extracted folder — **Command Prompt / PowerShell** on
+   Windows, **Terminal** on macOS / Linux / Raspberry Pi.
+3. Run it, passing your serial port (see the table below):
    ```
-   python ota_update_v2.py
+   # Windows
+   python  ota_update_v2.py --port COM3
+   # macOS / Linux / Raspberry Pi
+   python3 ota_update_v2.py --port /dev/ttyUSB0
    ```
+   Omit `--port` and it will prompt you for the port.
 4. Follow the prompts. The script supports two modes:
-   - **Direct (AP mode)** — your PC is connected to the PMC-8's own Wi-Fi
+   - **Direct (AP mode)** — your computer is connected to the PMC-8's own Wi-Fi
      network (`PMC8_xxxx`). Simplest; no home Wi-Fi needed.
-   - **LAN mode** — your PC and the PMC-8 are both on your home Wi-Fi
+   - **LAN mode** — your computer and the PMC-8 are both on your home Wi-Fi
      network. The script connects the ESP32 to your SSID for the
      duration of the update, then returns to AP mode on next power cycle.
+
+### Which serial port?
+| OS | Typical port | How to find it |
+|----|--------------|----------------|
+| Windows | `COM3`, `COM11`, … | Device Manager → *Ports (COM & LPT)* |
+| Linux / Raspberry Pi | `/dev/ttyUSB0` or `/dev/ttyACM0` | `ls /dev/ttyUSB* /dev/ttyACM*` |
+| macOS | `/dev/cu.usbserial-XXXX` | `ls /dev/cu.usbserial-*` |
+
+### Platform notes
+- **Linux / Raspberry Pi:** grant serial access once — `sudo usermod -aG dialout $USER`,
+  then log out/in (or run with `sudo`). If you run a firewall (`ufw`), allow the
+  update server's port: `sudo ufw allow 8000/tcp`. (Stock Raspberry Pi OS has no
+  blocking firewall, so usually nothing to do.)
+- **macOS:** the first run may pop *"Do you want the application 'Python' to accept
+  incoming network connections?"* — click **Allow** (the ESP has to reach the tool's
+  built-in web server to pull the firmware).
+- **Windows:** the tool adds its own temporary firewall rule automatically; on
+  macOS / Linux that step simply self-skips (nothing to add).
 
 The full step-by-step procedure, troubleshooting, and safety notes are in
 `OTA_QUICK_START_V2.txt` inside the zip (also previewable above).
