@@ -1,16 +1,20 @@
-# PMC8 Dashboard v0.2.1
+# PMC8 Dashboard v0.2.2
 
-PMC8 Dashboard v0.2.1 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.2 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
 
 ## Downloads
 
-Grab the ZIP for your platform (PMC8 Dashboard v0.2.1):
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.2):
 
-- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
-- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
-- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.1/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
 
 For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
+
+## What's new in v0.2.2
+
+- **Consistent rendering across Windows and Qt versions.** The app now pins Qt's "Fusion" widget style at startup, so the interface paints the same on every machine regardless of Windows version or Qt build. This removes the native-style variability that could leave the **Network tab blank** for some Windows users. There are no changes to mount control or configuration behavior — if you ever see a display oddity, re-download this version and replace your folder.
 
 ## Features
 

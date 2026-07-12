@@ -1,4 +1,4 @@
-PMC8 Dashboard v0.2.1 Distribution Notes
+PMC8 Dashboard v0.2.2 Distribution Notes
 
 Required app files:
 - PMC8_Dashboard.py

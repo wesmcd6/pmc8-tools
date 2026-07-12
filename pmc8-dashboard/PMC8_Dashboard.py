@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.1"
+APP_VERSION = "0.2.2"
 
 
 def _is_readable_file(path):
@@ -1419,6 +1419,11 @@ if __name__ == '__main__':
         sys.exit(1)
     try:
         app = QApplication(sys.argv)
+        # Pin the Fusion style so widgets render identically across every Windows
+        # version / Qt build. The native "windowsvista" style paints QTabBar (and
+        # other sub-controls) inconsistently under a global QWidget QSS rule, which
+        # is what made the Network tab render blank for some users in v0.2.0.
+        app.setStyle("Fusion")
         window = PMC8Configurator()
         window.show()
         sys.exit(app.exec())
