@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.2  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.3  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -332,11 +332,30 @@ CONFIGURATION TAB
   - Save Configuration - sends the displayed values back to the controller.
   - Boot PMC8 - restarts the controller after configuration or firmware
     operations.
+  - Fast Server Status - whether Fast Server (Envision) is installed on your
+    WiFi module and whether it is running right now. Filled in by Get
+    Configuration.
+  - Boot into Fast Server - tick to have the WiFi module start in Fast Server
+    mode from now on, untick to have it start normally. Click Save
+    Configuration to apply the change. The box is greyed out when the option
+    isn't available, and the status line says why.
+
+  >> Fast Server needs an ESP32 or ESP8266 on current firmware: Fast Server
+     mode is only available on ESP32 and ESP8266 WiFi modules, and only once
+     the module has been updated to the latest firmware build. If your module
+     is on an older build, the status line reads "Not installed" and the
+     checkbox stays greyed out - update the module's firmware and click Get
+     Configuration again.
+
+     RN131 modules do not support Fast Server mode at all. There is no
+     firmware update that adds it; the status line says it isn't available and
+     the checkbox stays greyed out.
 
 COMMAND CONSOLE
   For testing and advanced use: pick a PMC-Eight command from the list, fill in
-  any parameter fields it needs, and click send. The reply appears in the
-  response log.
+  any parameter fields it needs, and click send. You can also type a command
+  in yourself instead of picking one - useful for commands the list doesn't
+  carry. The reply appears in the response log.
 
 
 ==============================================================================
@@ -429,6 +448,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.2 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.3 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================

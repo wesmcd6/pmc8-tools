@@ -7,7 +7,7 @@ factory default — for all three module types, over the existing serial link:
 
   * ESP32   : ESPw42!  + AT+CWMODE=1 / AT+CWJAP / AT+CIPSTA?  (IP via CIPSTA?)
   * ESP8266 : ESPw42!  + AT+CWMODE=1 / AT+CWJAP / AT+CIFSR    (IP via CIFSR)
-  * RN131   : ESPw42   + set wlan ... / save / reboot         (IP via get ip a)
+  * RN131   : ESPw42 then '$$$' + set wlan ... / save / reboot (IP via get ip a)
 
 Restore-to-default:
   * ESP32 / ESP8266 : nothing to do — the module reverts on the next PMC-Eight
@@ -16,10 +16,20 @@ Restore-to-default:
     "PMC-Eight", TCP+UDP 54372) — ported from the UFCT "Restore RN131" routine.
 
 Framing: the PMC-Eight serial passthrough uses '@' as the AT line terminator, so
-commands carry their own '@'. The mode-enter tokens (ESPw42! / ESPw42 /
-ESPw42!$$$) and the passthrough-exit (###@) are sent verbatim. This mirrors the
-Windows VB tools byte-for-byte; only the WinForms shell is replaced by Qt, so it
-runs unchanged on Windows / macOS / Linux.
+commands carry their own '@'. The mode-enter tokens (ESPw42! for the ESP modules,
+ESPw42 for the RN131) and the passthrough-exit (###) are sent verbatim.
+
+The RN131 needs a SECOND step the ESP modules don't. ESPw42 only opens the
+PMC-Eight passthrough; the module itself is still in *data* mode, where it
+forwards received bytes to the TCP link instead of parsing them as commands. A
+bare '$$$' (no '@' terminator, no '!') is the WiFly escape into command mode, and
+the module answers 'CMD'. Leave command mode with 'exit@' when done — '###' only
+closes the PMC-Eight passthrough, and a module left in command mode has no data
+link until it reboots.
+
+The RN131 flows mirror the "Configure PMC8 for Home Network Connection" VB tool;
+the restore mirrors the UFCT "Restore RN131" routine. Only the WinForms shell is
+replaced by Qt, so this runs unchanged on Windows / macOS / Linux.
 
 Requires a SERIAL connection (these commands go to the Propeller, which relays
 them to the WiFi module — not over WiFi).
@@ -268,9 +278,66 @@ class NetworkManagementMixin:
             raw = (resp or "").replace("\r", " ").replace("\n", " ").strip()
             self._net_log(f"Could not read {module} WiFi address. Raw: {raw}")
 
+    def _net_wait(self, seconds, label):
+        """Responsive wait (keeps the GUI alive) with start/done log notes."""
+        from PyQt6.QtWidgets import QApplication
+        self._net_log(f"{label} — waiting {seconds}s...")
+        end = time.time() + seconds
+        while time.time() < end:
+            QApplication.processEvents()
+            time.sleep(0.05)
+        self._net_log(f"{label} — done.")
+
+    def _envision_suspend_for_at(self, wait_s=5):
+        """Envision (Fast Server) mode takes over the AT command processor, so
+        WiFi-address / home-network operations fail while it is running. Query
+        ESGe!; if the 'currently on' bit is set (value >= 4), send ESSe0! to
+        stop it and wait `wait_s` for the module. Returns True if Envision was
+        active (caller MUST restore with _envision_restore_after_at)."""
+        if not self.serial_port or not self.serial_port.is_open:
+            return False
+        try:
+            reply = self._raw_serial_query(self.serial_port, "ESGe!", timeout=3.0)
+        except Exception as e:  # noqa: BLE001
+            self._net_log(f"Envision pre-check skipped: {e}")
+            return False
+        self._net_log(f"Envision check — ESGe! -> {reply or '(no reply)'}")
+        state = self._parse_esge(reply)
+        if state is None or state < 4:
+            return False
+        self._net_log("Envision (Fast Server) is ACTIVE — stopping it (ESSe0!) so the "
+                      "AT command processor is free.")
+        try:
+            self._raw_serial_command(self.serial_port, "ESSe0!")
+        except Exception as e:  # noqa: BLE001
+            self._net_log(f"Could not send ESSe0!: {e}")
+            return False
+        self._net_wait(wait_s, "WiFi module rebooting")
+        try:
+            self.serial_port.reset_input_buffer()
+        except Exception:  # noqa: BLE001
+            pass
+        return True
+
+    def _envision_restore_after_at(self, was_active):
+        """Re-enable Envision (Fast Server) with ESSe1! if it was active before
+        we suspended it for the AT operation."""
+        if not was_active:
+            return
+        if not self.serial_port or not self.serial_port.is_open:
+            self._net_log("NOTE: Envision not restored (serial not open); it returns "
+                          "on the next PMC-Eight reboot.")
+            return
+        try:
+            self._raw_serial_command(self.serial_port, "ESSe1!")
+            self._net_log("Restored Envision (Fast Server) to active (ESSe1!).")
+        except Exception as e:  # noqa: BLE001
+            self._net_log(f"Could not restore Envision (ESSe1!): {e}")
+
     def get_wifi_address(self):
         if not self._net_require_serial():
             return
+        was_active = self._envision_suspend_for_at(5)
         module = self.net_module_combo.currentText()
         try:
             self.serial_port.reset_input_buffer()
@@ -286,6 +353,7 @@ class NetworkManagementMixin:
                 self._net_log("Exited passthrough mode (###).")
             except Exception:  # noqa: BLE001
                 pass
+            self._envision_restore_after_at(was_active)
 
     def _net_read_esp_ip(self, module):
         self._net_settle = 0.6 if module == "ESP32" else 0.35
@@ -329,18 +397,102 @@ class NetworkManagementMixin:
             resp += self._net_read(want="+CIPAP", tries=12, per_read=0.4)
         self._net_report_ip(module, resp)
 
+    def _net_discard_buffers(self):
+        """Drop anything queued in both directions (the VB tool's DiscardIn/Out
+        before each RN131 step) so a reply can't be read as the previous one."""
+        for reset in (self.serial_port.reset_output_buffer,
+                      self.serial_port.reset_input_buffer):
+            try:
+                reset()
+            except Exception:  # noqa: BLE001 - buffer resets are best-effort
+                pass
+
+    def _net_rn131_escape(self, wait_s):
+        """Send the bare '$$$' WiFly escape and return the reply.
+
+        '$$$' takes NO '@' terminator — it is not a passthrough AT line, it is
+        the module's own escape sequence — and WiFly wants a quiet guard time
+        either side of it, so nothing is appended and nothing follows until the
+        wait elapses."""
+        self._net_write("$$$", settle=0)
+        time.sleep(wait_s)
+        return self._net_read(want="CMD", tries=4, per_read=0.3)
+
+    def _net_rn131_command_mode(self, passthrough=True, wait_s=2.0):
+        """Put the RN131 into command mode; return True once it answers 'CMD'.
+
+        Two steps, and the second is the one that was missing: ESPw42 opens the
+        PMC-Eight passthrough (no '!' — unlike the ESP modules), then a separate
+        bare '$$$' escapes the module itself into command mode. Without the
+        '$$$' the module stays in data mode and silently forwards 'get ip a@' to
+        the TCP link instead of answering it.
+
+        `wait_s` mirrors the VB GET IP routine's 2 s pause after '$$$' (its v1.1
+        notes tie the GET IP fix to this step); the config routine used 300 ms.
+        A longer guard time is never harmful, only slower.
+
+        Pass passthrough=False after a module reboot: the reboot drops the
+        module's command mode but NOT the PMC-Eight passthrough, which is a
+        Propeller state — so only the '$$$' needs re-sending."""
+        if passthrough:
+            self._net_write("ESPw42")                   # RN131 enter (no '!')
+            time.sleep(0.2)
+            self._net_read(tries=2)                     # drain the banner
+        self._net_discard_buffers()
+        reply = self._net_rn131_escape(wait_s)
+        if "Auto-" in reply:
+            # Module was mid-association and answered with its Auto-Assoc notice
+            # instead of taking the escape. The VB tool re-sends once here.
+            self._net_log("RN131 is still associating — re-sending $$$...")
+            reply = self._net_rn131_escape(wait_s)
+        if "CMD" in reply:
+            self._net_log("RN131 in command mode (CMD).")
+            return True
+        self._net_log("Failed to enter RN131 command mode — check the module type. "
+                      f"Reply: {reply.strip() or '(no reply)'}")
+        return False
+
+    def _net_rn131_exit_command_mode(self):
+        """Return the RN131 to data mode. MUST run once command mode is entered:
+        '###' only closes the PMC-Eight passthrough, so a module left in command
+        mode keeps its data link dead until it reboots."""
+        try:
+            self._net_write("exit@")
+            time.sleep(0.1)
+            self._net_log("Left RN131 command mode (exit).")
+        except Exception as e:  # noqa: BLE001 - never mask the original error
+            self._net_log(f"WARNING: could not leave RN131 command mode: {e}")
+
+    def _net_rn131_get_ip(self):
+        """Query the module's address (requires command mode). The RN131 echoes
+        the command before answering; _net_read accumulates the whole window and
+        _net_extract_ip picks the address out, so the echo is harmless — it
+        carries no digits.
+
+        A '?-' reply means the module lost the command's first character. The VB
+        tool retries by re-sending it split after the 'g', which is mirrored
+        here rather than tidied away — it reads like a real field workaround."""
+        self._net_discard_buffers()
+        self._net_write("get ip a@")
+        resp = self._net_read(want="IP=", tries=12, per_read=0.4)
+        if "?-" in resp:
+            self._net_log("RN131 garbled the command (?-) — retrying...")
+            self._net_write("g")
+            self._net_discard_buffers()
+            self._net_write("et ip a@")
+            resp = self._net_read(want="IP=", tries=12, per_read=0.4)
+        return resp
+
     def _net_read_rn131_ip(self):
         self._net_settle = 0.3
         module = "RN131"
         self._net_log("Reading current RN131 WiFi address...")
-        self._net_write("ESPw42")                       # RN131 enter (no '!')
-        time.sleep(0.2)
-        self.serial_port.reset_input_buffer()
-        self._net_write("get ip a@")
-        # Same idea: keep polling across gaps for the IP= line; falls through to
-        # the full window if the marker never appears, then the regex extracts.
-        resp = self._net_read(want="IP=", tries=12, per_read=0.4)
-        self._net_report_ip(module, resp)
+        if not self._net_rn131_command_mode():
+            return
+        try:
+            self._net_report_ip(module, self._net_rn131_get_ip())
+        finally:
+            self._net_rn131_exit_command_mode()
 
     # ── forward: configure for home network ──────────────────────────
     def configure_home_network(self):
@@ -353,6 +505,7 @@ class NetworkManagementMixin:
             self._net_log("ERROR: enter the home WiFi SSID.")
             return
         self._net_save_credentials()
+        was_active = self._envision_suspend_for_at(5)
         try:
             self.serial_port.reset_input_buffer()
             if module in ("ESP32", "ESP8266"):
@@ -370,6 +523,7 @@ class NetworkManagementMixin:
                 self._net_log("Exited passthrough mode (###).")
             except Exception:  # noqa: BLE001
                 pass
+            self._envision_restore_after_at(was_active)
 
     def _net_configure_esp(self, module, ssid, pwd):
         # Settle delay after each command before reading the reply. The ESP32 is
@@ -414,39 +568,52 @@ class NetworkManagementMixin:
     def _net_configure_rn131(self, ssid, pwd):
         self._net_settle = 0.3                          # RN131 settle per command
         self._net_log(f"Configuring RN131 for home network '{ssid}'...")
-        self._net_write("ESPw42")                       # RN131 enter (no '!')
-        time.sleep(0.2)
-        self.serial_port.reset_input_buffer()
-        for cmd in (
-            f"set wlan ssid {ssid}@",
-            f"set wlan pass {pwd}@",
-            "set wlan join 1@",
-            "set wlan chan 0@",
-            "set ip dhcp 1@",
-            "set ip host 0.0.0.0@",
-            "set comm remote 1@",
-            "set ip remote 0@",
-            "save@",
-        ):
-            self._net_write(cmd)
-            self._net_read(tries=4)
-            self._net_log(cmd)
-            time.sleep(0.1)
-        self._net_write("reboot@")
-        self._net_log("reboot — RN131 joining home network (waiting ~8 s)...")
-        time.sleep(8)
+        if not self._net_rn131_command_mode():
+            return
+        in_command_mode = True
+        try:
+            for cmd in (
+                f"set wlan ssid {ssid}@",
+                f"set wlan pass {pwd}@",
+                "set wlan join 1@",
+                "set wlan chan 0@",
+                "set ip dhcp 1@",
+                "set ip host 0.0.0.0@",
+                "set comm remote 1@",
+                "set ip remote 0@",
+                "save@",
+            ):
+                self._net_write(cmd)
+                self._net_read(tries=4)
+                self._net_log(cmd)
+                time.sleep(0.1)
 
-        self._net_write("ESPw42")                       # re-enter to read IP
-        time.sleep(0.2)
-        self.serial_port.reset_input_buffer()
-        self._net_write("get ip a@")
-        resp = self._net_read(want="192", tries=12, per_read=0.4)
-        ip = self._net_extract_ip(resp)
-        if ip:
-            self._net_apply_known_ip(ip)
-            self._net_log(f"Assigned IP: {ip}")
-        else:
-            self._net_log("Could not read RN131 IP. Raw: " + resp.strip())
+            # The reboot drops command mode (and the module comes back in data
+            # mode), so there is nothing to exit until we re-enter below.
+            self._net_write("reboot@")
+            in_command_mode = False
+            self._net_wait(8, "RN131 rebooting and joining home network")
+
+            # Re-enter command mode to read the assigned address. The passthrough
+            # survives the module reboot, so only the '$$$' is re-sent — and the
+            # module may still be associating, which _net_rn131_command_mode
+            # retries past.
+            if not self._net_rn131_command_mode(passthrough=False):
+                self._net_log("Could not re-enter command mode to read the IP — "
+                              "the module may still be joining. Use Get WiFi "
+                              "Address in a moment to read it.")
+                return
+            in_command_mode = True
+            resp = self._net_rn131_get_ip()
+            ip = self._net_extract_ip(resp)
+            if ip:
+                self._net_apply_known_ip(ip)
+                self._net_log(f"Assigned IP: {ip}")
+            else:
+                self._net_log("Could not read RN131 IP. Raw: " + resp.strip())
+        finally:
+            if in_command_mode:
+                self._net_rn131_exit_command_mode()
 
     # ── reverse: restore to default ──────────────────────────────────
     def restore_network_default(self):

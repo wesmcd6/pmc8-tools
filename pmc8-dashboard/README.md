@@ -1,20 +1,28 @@
-# PMC8 Dashboard v0.2.2
+# PMC8 Dashboard v0.2.3
 
-PMC8 Dashboard v0.2.2 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.3 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
 
 ## Downloads
 
-Grab the ZIP for your platform (PMC8 Dashboard v0.2.2):
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.3):
 
-- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
-- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
-- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.2/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
 
 For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
 
-## What's new in v0.2.2
+## What's new in v0.2.3
 
-- **Consistent rendering across Windows and Qt versions.** The app now pins Qt's "Fusion" widget style at startup, so the interface paints the same on every machine regardless of Windows version or Qt build. This removes the native-style variability that could leave the **Network tab blank** for some Windows users. There are no changes to mount control or configuration behavior — if you ever see a display oddity, re-download this version and replace your folder.
+- **RN131: Get WiFi Address and home-network setup now work.** On RN131 modules these never completed — the app opened the pass-through to the module but never switched the module itself into command mode, so it quietly ignored the request and no address came back. Both now work, and the module is returned to its normal mode afterwards. ESP32 and ESP8266 users are unaffected.
+- **Fast Server (Envision) boot control.** The Configuration tab now shows whether Fast Server is installed and running on your WiFi module, and lets you choose whether the module boots into it. Read it with **Get Configuration**, change it with **Save Configuration**. Fast Server requires an **ESP32 or ESP8266 updated to the latest firmware build** — on an older build the control stays greyed out until you update the module. **RN131 modules do not support Fast Server at all.** The status line tells you which case you're in.
+- **Fast Server no longer interferes with firmware uploads or network setup.** While Fast Server is running it holds the module's serial line, which could corrupt a Propeller firmware upload or block WiFi configuration. The app now detects it, stops it for the duration, and restores it afterwards.
+- **Type commands directly in the Command Console.** Pick a command from the list as before, or type one in yourself (`ESGe!`, for example) and send it.
+- **Steadier connection handling.** Your serial port stays selected when the list refreshes or a connection attempt fails, Disconnect works reliably even if the cable was already pulled, and the app reconnects to the same port after a firmware upload rather than whichever port happens to be showing.
+
+### Earlier: v0.2.2
+
+- **Consistent rendering across Windows and Qt versions.** The app pins Qt's "Fusion" widget style at startup, so the interface paints the same on every machine regardless of Windows version or Qt build. This removes the native-style variability that could leave the **Network tab blank** for some Windows users.
 
 ## Features
 

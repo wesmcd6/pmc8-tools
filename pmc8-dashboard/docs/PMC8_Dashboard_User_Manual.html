@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMC8 Dashboard v0.2.2 User Manual</title>
+  <title>PMC8 Dashboard v0.2.3 User Manual</title>
   <style>
     :root { --ink:#172033; --head:#0f2742; --line:#d6dde8; --soft:#f3f5f8; }
     * { box-sizing: border-box; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1>PMC8 Dashboard</h1>
-<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.2.</em></p>
+<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.3.</em></p>
 
 <div class="box note">
   <span class="label">New to the dashboard?</span>
@@ -261,10 +261,18 @@ python3 PMC8_Dashboard.py</pre>
   <li><strong>Get Configuration</strong> &mdash; reads the controller's settings into editable fields.</li>
   <li><strong>Save Configuration</strong> &mdash; sends the displayed values back to the controller.</li>
   <li><strong>Boot PMC8</strong> &mdash; restarts the controller after configuration or firmware operations.</li>
+  <li><strong>Fast Server Status</strong> &mdash; whether Fast Server (Envision) is installed on your WiFi module, and whether it is running right now. Filled in by <strong>Get Configuration</strong>.</li>
+  <li><strong>Boot into Fast Server</strong> &mdash; tick to have the WiFi module start in Fast Server mode from now on, untick to have it start normally, then click <strong>Save Configuration</strong> to apply the change. The box is greyed out when the option isn't available, and the status line says why.</li>
 </ul>
+<div class="box note">
+  <span class="label">Fast Server needs an ESP32 or ESP8266 on current firmware</span>
+  Fast Server mode is only available on <strong>ESP32</strong> and <strong>ESP8266</strong> WiFi modules, and only once the module has been updated to the latest firmware build. If your module is on an older build, the status line reads &ldquo;Not installed&rdquo; and the checkbox stays greyed out &mdash; update the module's firmware and click <strong>Get Configuration</strong> again.
+  <br><br>
+  <strong>RN131 modules do not support Fast Server mode at all.</strong> There is no firmware update that adds it; the status line says it isn't available and the checkbox stays greyed out.
+</div>
 
 <h3>Command Console</h3>
-<p>For testing and advanced use: pick a PMC&#8209;Eight command from the list, fill in any parameter fields it needs, and click send. The reply appears in the response log.</p>
+<p>For testing and advanced use: pick a PMC&#8209;Eight command from the list, fill in any parameter fields it needs, and click send. You can also type a command in yourself instead of picking one &mdash; useful for commands the list doesn't carry. The reply appears in the response log.</p>
 
 <h2 id="trouble">7. Troubleshooting</h2>
 
@@ -327,7 +335,7 @@ python3 PMC8_Dashboard.py</pre>
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
 
 <footer>
-  PMC8 Dashboard v0.2.2 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
+  PMC8 Dashboard v0.2.3 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
 </footer>
 </body>
 </html>
