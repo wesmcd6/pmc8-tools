@@ -91,6 +91,7 @@ Cross-platform telescope mount control — runs on Android, Windows, and as a se
 - Multi-language UI (English, 简体中文, Français, Italiano, Español, Deutsch, Português, 日本語, Nederlands, Polski, Українська)
 - Night vision mode for dark adaptation
 - GPS location, firmware config reader/writer
+- **Envision Mode (Enhanced WiFi)** — optional faster, smoother multi-client operation where the WiFi-module firmware supports it
 - Works alongside Alpaca/ASCOM and planetarium software
 - Built-in user manual
 
