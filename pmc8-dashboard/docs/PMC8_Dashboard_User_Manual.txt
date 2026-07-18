@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.3  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.4  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -249,6 +249,21 @@ Connection needed: Serial (USB).   Tab: Network.
      instant. The log says "Joined home network" when it sees the address. If
      it warns it didn't see an address, see Troubleshooting.
 
+  >> RN131 modules and modern routers: RN131 modules (common on EXOS2 mounts)
+     are older 2.4 GHz radios that speak WPA and WPA2 only. They cannot join a
+     network that is WPA3-only, that runs WPA2/WPA3 "transition" mode, or that
+     requires Protected Management Frames (PMF / 802.11w) - all common on newer
+     WiFi 6 routers. When an RN131 can see such a network but can't complete the
+     login, the log shows an authentication error (AUTH-ERR) and the module
+     keeps retrying. If that happens, point the mount at a 2.4 GHz WPA2 network
+     - a guest or IoT SSID is ideal - rather than your main modern network. The
+     ESP32 and ESP8266 modules are newer and less fussy about this.
+
+     Passwords with spaces are fine: the app now encodes them correctly for the
+     RN131. (Earlier versions truncated an RN131 password at the first space,
+     which also showed up as AUTH-ERR - so if you saw that before, update and
+     try again.)
+
 5.2 FIND MY MOUNT'S WIFI ADDRESS
 --------------------------------
 Connection needed: Serial (USB).   Tab: Network.
@@ -399,6 +414,21 @@ The log shows "busy p..."
   Make sure the network is in range and is a 2.4 GHz network - many of these
   modules don't support 5 GHz. Then try again.
 
+RN131 shows "AUTH-ERR" or won't join, and keeps retrying
+  The RN131 reached your network but was refused at login. Two common causes:
+    - Wrong password. On an RN131 the module gets stuck retrying a failed
+      login, which also blocks the app from re-entering command mode. Click
+      Restore to Default first (this returns it to its own access point and
+      stops the retrying), then Configure for Home Network again with the
+      correct password.
+    - A network the RN131 can't use. RN131 modules are 2.4 GHz WPA/WPA2 only.
+      They cannot join a WPA3-only network, a WPA2/WPA3 "transition" network, or
+      one that requires Protected Management Frames (PMF) - increasingly common
+      on modern WiFi 6 routers. If the password is definitely right and it still
+      fails, join a 2.4 GHz WPA2 network instead (a guest or IoT SSID is ideal).
+  Spaces in the password are handled correctly now; an older version could
+  truncate them and cause the same AUTH-ERR, so update if you haven't.
+
 The mount seems "stuck" after a WiFi step
   The app always sends the exit command (###) to leave the mount's pass-through
   mode, even if an error happened - so this is rare. If it persists,
@@ -448,6 +478,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.3 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.4 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================

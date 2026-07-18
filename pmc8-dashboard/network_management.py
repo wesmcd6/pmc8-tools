@@ -213,15 +213,16 @@ class NetworkManagementMixin:
         if settle:
             time.sleep(settle)
 
-    def _net_read(self, want=None, tries=10, per_read=0.3):
-        """Read up to tries*per_read seconds; stop early once `want` is seen.
+    def _net_read(self, want=None, tries=10, per_read=0.3, stop=None):
+        """Read up to tries*per_read seconds; stop early once `want` is seen (or
+        the optional `stop(acc)` predicate returns True).
 
         The module often replies in bursts with gaps between them, and the
         ESP-AT firmware can interpose a 'busy p...' notice before the real
         result. So when we're waiting for a specific token we keep polling the
         full window across gaps instead of returning at the first pause — a gap
-        is not the end of a slow reply. Only when no token is wanted do we stop
-        at the first gap (read whatever came back).
+        is not the end of a slow reply. Only when neither `want` nor `stop` is
+        given do we stop at the first gap (read whatever came back).
         """
         acc = ""
         old = self.serial_port.timeout
@@ -233,14 +234,32 @@ class NetworkManagementMixin:
                     acc += chunk.decode("ascii", errors="replace")
                     if want and want in acc:
                         break
-                elif acc and not want:
-                    # Got data and weren't waiting for a specific token — done.
+                    if stop and stop(acc):
+                        break
+                elif acc and not want and not stop:
+                    # Got data and weren't waiting for anything specific — done.
                     break
                 # else: gap (or a 'busy' still in progress) while waiting for
-                # `want` — keep polling the rest of the window.
+                # `want`/`stop` — keep polling the rest of the window.
         finally:
             self.serial_port.timeout = old
         return acc
+
+    # A complete, delimited dotted quad. The lookbehind/lookahead require a
+    # non-digit boundary on both sides so a mid-arrival fragment (e.g. the
+    # '192.168.0.4' of an incoming '192.168.0.40') can't be mistaken for a whole
+    # address — we wait for the trailing delimiter before accepting it.
+    _IP_STOP_RE = re.compile(r"(?<![\d.])\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?=[\s:,])")
+
+    def _net_reply_has_ip(self, text):
+        """Stop condition for a 'get ip a' read: True once the reply carries the
+        address. Accepts an 'IP=' marker (firmware that prefixes it) OR a bare,
+        complete, routable dotted quad — WiFly 4.75 answers with just
+        '192.168.0.40', no 'IP='. Without this the read waits out the whole
+        window for an 'IP=' token that never comes."""
+        if "IP=" in text:
+            return True
+        return any(ip != "0.0.0.0" for ip in self._IP_STOP_RE.findall(text or ""))
 
     @staticmethod
     def _net_extract_ip(text):
@@ -288,12 +307,37 @@ class NetworkManagementMixin:
             time.sleep(0.05)
         self._net_log(f"{label} — done.")
 
+    def _module_is_rn131(self):
+        """True when the WiFi module is (or is selected as) an RN131. Fast
+        Server / Envision does not exist on RN131, so every ESGe!/ESSe* probe
+        must be skipped for it — on an RN131 those commands just time out with
+        no reply and waste seconds. Either the Network-tab selection or a module
+        type detected by Get Configuration being RN131 is enough."""
+        combo = getattr(self, "net_module_combo", None)
+        if combo is not None and combo.currentText() == "RN131":
+            return True
+        return getattr(self, "_wifi_type", None) == "RN131"
+
+    def _rn131_wlan_value(self, value):
+        """Encode an SSID or passphrase for a WiFly 'set wlan ...' command.
+
+        WiFly tokenises the command line on spaces, so 'set wlan pass a b c'
+        stores only 'a' — the module then fails authentication (AUTH-ERR) and
+        loops trying to join. WiFly's convention is to send each space as '$',
+        which it converts back to a real space when it stores the value. The
+        saved credential keeps the real spaces; only the on-wire value is
+        encoded. A literal '$' can't be represented (WiFly would read it as a
+        space), so the caller warns about that separately."""
+        return value.replace(" ", "$")
+
     def _envision_suspend_for_at(self, wait_s=5):
         """Envision (Fast Server) mode takes over the AT command processor, so
         WiFi-address / home-network operations fail while it is running. Query
         ESGe!; if the 'currently on' bit is set (value >= 4), send ESSe0! to
         stop it and wait `wait_s` for the module. Returns True if Envision was
         active (caller MUST restore with _envision_restore_after_at)."""
+        if self._module_is_rn131():
+            return False  # RN131 has no Fast Server/Envision — never probe ESGe!
         if not self.serial_port or not self.serial_port.is_open:
             return False
         try:
@@ -448,6 +492,20 @@ class NetworkManagementMixin:
         if "CMD" in reply:
             self._net_log("RN131 in command mode (CMD).")
             return True
+        if "AUTH-ERR" in reply or "Disconn" in reply:
+            # The module is looping on a failed join (usually a wrong/truncated
+            # passphrase saved earlier). The constant status spam violates the
+            # quiet guard time the '$$$' escape needs, so command mode can't be
+            # entered until the join storm stops.
+            self._net_log("RN131 is failing to authenticate to the saved network "
+                          "(AUTH-ERR) and is stuck retrying, which blocks command "
+                          "mode. Click 'Restore to Default' first, then 'Configure "
+                          "for Home Network' again with the correct password. If it "
+                          "still fails with the right password, note the RN131 is "
+                          "2.4GHz WPA/WPA2 only — it cannot join a WPA3-only network "
+                          "or one that requires protected management frames (PMF). "
+                          "A 2.4GHz WPA2 SSID (like a guest/IoT network) is safest.")
+            return False
         self._net_log("Failed to enter RN131 command mode — check the module type. "
                       f"Reply: {reply.strip() or '(no reply)'}")
         return False
@@ -469,18 +527,23 @@ class NetworkManagementMixin:
         _net_extract_ip picks the address out, so the echo is harmless — it
         carries no digits.
 
+        The read stops as soon as the address is in hand (via _net_reply_has_ip),
+        whether the firmware prefixes it with 'IP=' or returns the bare address
+        as WiFly 4.75 does — so a bare-address reply no longer waits out the full
+        window for an 'IP=' that never arrives.
+
         A '?-' reply means the module lost the command's first character. The VB
         tool retries by re-sending it split after the 'g', which is mirrored
         here rather than tidied away — it reads like a real field workaround."""
         self._net_discard_buffers()
         self._net_write("get ip a@")
-        resp = self._net_read(want="IP=", tries=12, per_read=0.4)
+        resp = self._net_read(stop=self._net_reply_has_ip, tries=12, per_read=0.4)
         if "?-" in resp:
             self._net_log("RN131 garbled the command (?-) — retrying...")
             self._net_write("g")
             self._net_discard_buffers()
             self._net_write("et ip a@")
-            resp = self._net_read(want="IP=", tries=12, per_read=0.4)
+            resp = self._net_read(stop=self._net_reply_has_ip, tries=12, per_read=0.4)
         return resp
 
     def _net_read_rn131_ip(self):
@@ -568,13 +631,27 @@ class NetworkManagementMixin:
     def _net_configure_rn131(self, ssid, pwd):
         self._net_settle = 0.3                          # RN131 settle per command
         self._net_log(f"Configuring RN131 for home network '{ssid}'...")
+
+        # WiFly splits 'set wlan ...' on spaces, so encode spaces as '$'. Without
+        # this a space in the SSID or password is truncated at the first space
+        # and the module fails to authenticate (AUTH-ERR).
+        if " " in ssid or " " in pwd:
+            self._net_log("Note: encoding space(s) in the SSID/password as '$' "
+                          "for the RN131 (WiFly space convention).")
+        if "$" in ssid or "$" in pwd:
+            self._net_log("WARNING: a literal '$' in the SSID or password can't be "
+                          "sent to an RN131 (WiFly reads '$' as a space). If the "
+                          "join fails, the RN131 can't use this password.")
+        ssid_enc = self._rn131_wlan_value(ssid)
+        pwd_enc = self._rn131_wlan_value(pwd)
+
         if not self._net_rn131_command_mode():
             return
         in_command_mode = True
         try:
             for cmd in (
-                f"set wlan ssid {ssid}@",
-                f"set wlan pass {pwd}@",
+                f"set wlan ssid {ssid_enc}@",
+                f"set wlan pass {pwd_enc}@",
                 "set wlan join 1@",
                 "set wlan chan 0@",
                 "set ip dhcp 1@",

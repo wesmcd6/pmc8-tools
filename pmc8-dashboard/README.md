@@ -1,24 +1,30 @@
-# PMC8 Dashboard v0.2.3
+# PMC8 Dashboard v0.2.4
 
-PMC8 Dashboard v0.2.3 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.4 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
 
 ## Downloads
 
-Grab the ZIP for your platform (PMC8 Dashboard v0.2.3):
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.4):
 
-- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
-- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
-- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.3/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
 
 For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
 
-## What's new in v0.2.3
+## What's new in v0.2.4
 
-- **RN131: Get WiFi Address and home-network setup now work.** On RN131 modules these never completed — the app opened the pass-through to the module but never switched the module itself into command mode, so it quietly ignored the request and no address came back. Both now work, and the module is returned to its normal mode afterwards. ESP32 and ESP8266 users are unaffected.
-- **Fast Server (Envision) boot control.** The Configuration tab now shows whether Fast Server is installed and running on your WiFi module, and lets you choose whether the module boots into it. Read it with **Get Configuration**, change it with **Save Configuration**. Fast Server requires an **ESP32 or ESP8266 updated to the latest firmware build** — on an older build the control stays greyed out until you update the module. **RN131 modules do not support Fast Server at all.** The status line tells you which case you're in.
-- **Fast Server no longer interferes with firmware uploads or network setup.** While Fast Server is running it holds the module's serial line, which could corrupt a Propeller firmware upload or block WiFi configuration. The app now detects it, stops it for the duration, and restores it afterwards.
-- **Type commands directly in the Command Console.** Pick a command from the list as before, or type one in yourself (`ESGe!`, for example) and send it.
-- **Steadier connection handling.** Your serial port stays selected when the list refreshes or a connection attempt fails, Disconnect works reliably even if the cable was already pulled, and the app reconnects to the same port after a firmware upload rather than whichever port happens to be showing.
+- **RN131 home-network setup now handles passwords (and SSIDs) with spaces.** A space used to truncate the value at the first word, so the RN131 stored the wrong key and failed to authenticate (`AUTH-ERR`), looping without joining. Spaces are now sent correctly; if you saw this before, update and try again.
+- **RN131 WiFi address reads faster**, and the Network tab no longer sends a Fast Server query to RN131 modules (they don't have it) — so setup is quicker and the log is cleaner.
+- **Clearer help when an RN131 won't join.** If a saved password is wrong the module gets stuck retrying, which blocks reconfiguring; the log now says so and points you to Restore to Default first. It also notes that RN131 modules are 2.4 GHz WPA/WPA2 only and can't join WPA3-only or PMF-required networks common on newer routers.
+
+> **RN131 (EXOS2) and modern routers:** RN131 WiFi modules are older 2.4 GHz radios that speak WPA/WPA2 only. They cannot join a network that is WPA3-only, runs WPA2/WPA3 "transition" mode, or requires Protected Management Frames (PMF) — increasingly common on newer WiFi 6 routers. If an RN131 can see the network but the log shows an authentication error (`AUTH-ERR`) and it keeps retrying, point the mount at a **2.4 GHz WPA2** network (a guest or IoT SSID is ideal). ESP32 and ESP8266 modules are newer and less fussy. See the user manual's Troubleshooting section for details.
+
+### Earlier: v0.2.3
+
+- **RN131: Get WiFi Address and home-network setup now work.** On RN131 modules these never completed — the app opened the pass-through to the module but never switched the module itself into command mode, so no address came back. Both now work, and the module is returned to its normal mode afterwards.
+- **Fast Server (Envision) boot control** on the Configuration tab, for ESP32/ESP8266 modules on current firmware — plus interlocks so Fast Server no longer interferes with firmware uploads or network setup.
+- **Type commands directly in the Command Console**, and steadier serial connect/disconnect and post-upload reconnect.
 
 ### Earlier: v0.2.2
 

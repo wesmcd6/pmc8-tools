@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.3"
+APP_VERSION = "0.2.4"
 
 
 def _is_readable_file(path):
@@ -1187,7 +1187,7 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         ESGe! returns a 3-bit field: bit 0 = Envision capable, bit 1 = Envision
         boot flag (the checkbox), bit 2 = Envision currently on. Codes 4 and 6
         (on without capable) are impossible and treated as unknown."""
-        if self._wifi_type == "RN131":
+        if self._module_is_rn131():
             self._fast_server_apply_state(False, False, "Not available on RN-131.")
             self.response_box.append("Fast Server: not supported on RN-131 modules.")
             self.scroll_response_to_bottom()
@@ -1673,6 +1673,8 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         (reply value >= 4) send ESSe0! and wait ~5 s for the WiFi module to
         reboot. Uses the live serial connection if present, else a temp one.
         Returns True if it stopped Envision (module rebooted), else False."""
+        if self._module_is_rn131():
+            return False  # RN131 has no Fast Server/Envision — nothing to stop
         owns_temp = False
         if self.serial_port is not None and self.serial_port.is_open:
             sp = self.serial_port

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMC8 Dashboard v0.2.3 User Manual</title>
+  <title>PMC8 Dashboard v0.2.4 User Manual</title>
   <style>
     :root { --ink:#172033; --head:#0f2742; --line:#d6dde8; --soft:#f3f5f8; }
     * { box-sizing: border-box; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1>PMC8 Dashboard</h1>
-<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.3.</em></p>
+<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.4.</em></p>
 
 <div class="box note">
   <span class="label">New to the dashboard?</span>
@@ -195,6 +195,12 @@ python3 PMC8_Dashboard.py</pre>
   <span class="label">Joining can take several seconds</span>
   After "Joining home network&hellip;" appears, give it time &mdash; connecting to a router and getting an address isn't instant. The log will say <strong>Joined home network</strong> when it sees the address. If it warns it didn't see an address, see <a href="#trouble">Troubleshooting</a>.
 </div>
+<div class="box note">
+  <span class="label">RN131 modules and modern routers</span>
+  RN131 modules (common on EXOS2 mounts) are older 2.4&nbsp;GHz radios that speak <strong>WPA and WPA2 only</strong>. They cannot join a network that is WPA3-only, that runs WPA2/WPA3 &ldquo;transition&rdquo; mode, or that requires Protected Management Frames (PMF / 802.11w) &mdash; all common on newer WiFi&nbsp;6 routers. When an RN131 can see such a network but can't complete the login, the log shows an authentication error (<code>AUTH-ERR</code>) and the module keeps retrying. If that happens, point the mount at a <strong>2.4&nbsp;GHz WPA2</strong> network &mdash; a guest or IoT SSID is ideal &mdash; rather than your main modern network. The ESP32 and ESP8266 modules are newer and less fussy about this.
+  <br><br>
+  <strong>Passwords with spaces are fine</strong> &mdash; the app now encodes them correctly for the RN131. (Earlier versions truncated an RN131 password at the first space, which also showed up as <code>AUTH-ERR</code>, so update if you saw that before.)
+</div>
 
 <h3 id="task-ip">5.2 Find my mount's WiFi address</h3>
 <p><strong>Connection needed:</strong> Serial (USB). <strong>Tab:</strong> Network.</p>
@@ -303,6 +309,10 @@ python3 PMC8_Dashboard.py</pre>
     <td>Double&#8209;check the SSID and password (the password field is case&#8209;sensitive). Make sure the network is in range and is a 2.4&nbsp;GHz network &mdash; many of these modules don't support 5&nbsp;GHz. Then try again.</td>
   </tr>
   <tr>
+    <td>RN131 shows "<code>AUTH-ERR</code>" or won't join, and keeps retrying</td>
+    <td>The RN131 reached your network but was refused at login. Two common causes. <strong>Wrong password:</strong> the module gets stuck retrying a failed login, which also blocks the app from re&#8209;entering command mode &mdash; click <strong>Restore to Default</strong> first (this returns it to its own access point and stops the retrying), then <strong>Configure for Home Network</strong> again with the correct password. <strong>A network the RN131 can't use:</strong> RN131 modules are 2.4&nbsp;GHz WPA/WPA2 only and cannot join WPA3&#8209;only, WPA2/WPA3 transition, or PMF&#8209;required networks (common on modern WiFi&nbsp;6 routers) &mdash; if the password is definitely right, join a 2.4&nbsp;GHz WPA2 network instead (a guest or IoT SSID is ideal). Spaces in the password are handled correctly now; an older version could truncate them and cause the same error.</td>
+  </tr>
+  <tr>
     <td>The mount seems "stuck" after a WiFi step</td>
     <td>The app always sends the exit command (<code>###</code>) to leave the mount's pass&#8209;through mode, even if an error happened &mdash; so this is rare. If it persists, power&#8209;cycle the mount and reconnect.</td>
   </tr>
@@ -335,7 +345,7 @@ python3 PMC8_Dashboard.py</pre>
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
 
 <footer>
-  PMC8 Dashboard v0.2.3 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
+  PMC8 Dashboard v0.2.4 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
 </footer>
 </body>
 </html>
