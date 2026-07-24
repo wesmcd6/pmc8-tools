@@ -27,16 +27,16 @@ iOS and macOS app-store builds are planned.
 
 ## PMC8 Dashboard
 
-**Downloads:** get the latest assets from the [`pmc8-dashboard-v0.2.4`](../../releases/tag/pmc8-dashboard-v0.2.4) release.
+**Downloads:** get the latest assets from the [`pmc8-dashboard-v0.2.5`](../../releases/tag/pmc8-dashboard-v0.2.5) release.
 
 PMC8 Dashboard is a Python/PyQt6 desktop utility for PMC-Eight configuration, WiFi/home-network setup, command testing, response logging, and firmware upload workflow support.
 
 | Item | Link | Notes |
 |---|---|---|
 | Source and manual | [`pmc8-dashboard`](../../tree/pmc8-dashboard/pmc8-dashboard) | Public source, docs, and third-party notices |
-| Windows ZIP | [`PMC8_Dashboard_Windows.zip`](../../releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Windows.zip) | Extract and run `run_dashboard_windows.bat` |
-| macOS ZIP | [`PMC8_Dashboard_macOS.zip`](../../releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_macOS.zip) | Extract, double-click `setup_macos.command` (first run), then `run_PMC8-Dashboard.command` |
-| Linux / Raspberry Pi (64-bit) ZIP | [`PMC8_Dashboard_Linux.zip`](../../releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Linux.zip) | Extract, run `setup_linux.sh` (first run), then `run_dashboard_linux.sh` |
+| Windows ZIP | [`PMC8_Dashboard_Windows.zip`](../../releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_Windows.zip) | Extract and run `run_dashboard_windows.bat` |
+| macOS ZIP | [`PMC8_Dashboard_macOS.zip`](../../releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_macOS.zip) | Extract, double-click `setup_macos.command` (first run), then `run_PMC8-Dashboard.command` |
+| Linux / Raspberry Pi (64-bit) ZIP | [`PMC8_Dashboard_Linux.zip`](../../releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_Linux.zip) | Extract, run `setup_linux.sh` (first run), then `run_dashboard_linux.sh` |
 
 ## Network Configuration
 
