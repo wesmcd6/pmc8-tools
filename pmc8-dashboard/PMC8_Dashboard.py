@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.4"
+APP_VERSION = "0.2.5"
 
 
 def _is_readable_file(path):
@@ -309,7 +309,8 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
     def initUI(self):
         self.setWindowTitle(f"PMC-Eight Dashboard v{APP_VERSION}")
         self.resize(960, 820)
-        self.setMinimumSize(820, 680)
+        self.setMinimumSize(660, 520)
+        self.resize(720, 764)
 
         outer_layout = QVBoxLayout()
         outer_layout.setContentsMargins(0, 0, 0, 0)
@@ -319,8 +320,8 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         page = QWidget()
         main_layout = QVBoxLayout(page)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-        main_layout.setSpacing(18)
+        main_layout.setContentsMargins(14, 8, 14, 8)
+        main_layout.setSpacing(6)
 
         title = QLabel(f"PMC-Eight Dashboard v{APP_VERSION}")
         title.setObjectName("TitleLabel")
@@ -333,39 +334,39 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         connection_panel = QWidget()
         connection_panel.setObjectName("Panel")
         connection_layout = QVBoxLayout(connection_panel)
-        connection_layout.setContentsMargins(18, 18, 18, 18)
-        connection_layout.setSpacing(14)
+        connection_layout.setContentsMargins(12, 6, 12, 6)
+        connection_layout.setSpacing(8)
         connection_header = QLabel("Connection")
         connection_header.setObjectName("SectionHeader")
         connection_layout.addWidget(connection_header)
 
         connection_grid = QGridLayout()
-        connection_grid.setHorizontalSpacing(14)
-        connection_grid.setVerticalSpacing(12)
+        connection_grid.setHorizontalSpacing(10)
+        connection_grid.setVerticalSpacing(8)
         connection_layout.addLayout(connection_grid)
 
         type_label = QLabel("Type")
-        type_label.setMinimumWidth(100)
+        type_label.setMinimumWidth(76)
         self.connection_type_combo = QComboBox()
-        self.connection_type_combo.setMinimumWidth(180)
+        self.connection_type_combo.setMinimumWidth(150)
         self.connection_type_combo.addItems(["Serial", "WiFi"])
         self.connection_type_combo.currentIndexChanged.connect(self.update_connection_ui)
         connection_grid.addWidget(type_label, 0, 0)
         connection_grid.addWidget(self.connection_type_combo, 0, 1)
 
         self.serial_port_label = QLabel("Serial Port")
-        self.serial_port_label.setMinimumWidth(100)
+        self.serial_port_label.setMinimumWidth(76)
         self.port_combo = QComboBox()
-        self.port_combo.setMinimumWidth(320)
+        self.port_combo.setMinimumWidth(240)
         self.refresh_ports()
         connection_grid.addWidget(self.serial_port_label, 1, 0)
         connection_grid.addWidget(self.port_combo, 1, 1, 1, 3)
 
         self.ip_label = QLabel("IP Address")
-        self.ip_label.setMinimumWidth(100)
+        self.ip_label.setMinimumWidth(76)
         self.ip_edit = QLineEdit()
         self.ip_edit.setPlaceholderText("192.168.47.1")
-        self.ip_edit.setMinimumWidth(220)
+        self.ip_edit.setMinimumWidth(180)
         connection_grid.addWidget(self.ip_label, 2, 0)
         connection_grid.addWidget(self.ip_edit, 2, 1)
 
@@ -407,8 +408,8 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         actions_panel = QWidget()
         actions_panel.setObjectName("Panel")
         actions_layout = QVBoxLayout(actions_panel)
-        actions_layout.setContentsMargins(18, 18, 18, 18)
-        actions_layout.setSpacing(12)
+        actions_layout.setContentsMargins(12, 6, 12, 6)
+        actions_layout.setSpacing(8)
         actions_header = QLabel("Configuration Actions")
         actions_header.setObjectName("SectionHeader")
         actions_layout.addWidget(actions_header)
@@ -434,8 +435,8 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         command_panel = QWidget()
         command_panel.setObjectName("Panel")
         command_layout = QVBoxLayout(command_panel)
-        command_layout.setContentsMargins(18, 18, 18, 18)
-        command_layout.setSpacing(12)
+        command_layout.setContentsMargins(12, 6, 12, 6)
+        command_layout.setSpacing(8)
         command_header = QLabel("Command Console")
         command_header.setObjectName("SectionHeader")
         command_layout.addWidget(command_header)
@@ -444,6 +445,11 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         # Editable: pick a command from the list OR type a raw one (e.g. ESGe!).
         self.command_combo.setEditable(True)
         self.command_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        # Don't let the longest item ("ESGi! - Retrieve all …") force the whole
+        # window wide. Size to a modest content length; it still fills the panel
+        # width and the dropdown popup shows full item text.
+        self.command_combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+        self.command_combo.setMinimumContentsLength(22)
         self.command_combo.lineEdit().setPlaceholderText("Select a command, or type one here (e.g. ESGe!)")
         self.update_command_dropdown()
         self.command_combo.currentIndexChanged.connect(self.update_command_description)
@@ -475,14 +481,14 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         response_panel = QWidget()
         response_panel.setObjectName("Panel")
         response_layout = QVBoxLayout(response_panel)
-        response_layout.setContentsMargins(18, 18, 18, 18)
-        response_layout.setSpacing(12)
+        response_layout.setContentsMargins(12, 6, 12, 6)
+        response_layout.setSpacing(8)
         response_header = QLabel("Response Log")
         response_header.setObjectName("SectionHeader")
         response_layout.addWidget(response_header)
         self.response_box = QTextEdit()
         self.response_box.setReadOnly(True)
-        self.response_box.setMinimumHeight(170)
+        self.response_box.setMinimumHeight(130)
         response_layout.addWidget(self.response_box)
         main_layout.addWidget(response_panel)
 
@@ -490,14 +496,18 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         config_panel = QWidget()
         config_panel.setObjectName("Panel")
         config_layout = QVBoxLayout(config_panel)
-        config_layout.setContentsMargins(18, 18, 18, 18)
-        config_layout.setSpacing(12)
+        config_layout.setContentsMargins(12, 6, 12, 6)
+        config_layout.setSpacing(8)
         config_header = QLabel("Configuration Settings")
         config_header.setObjectName("SectionHeader")
         config_layout.addWidget(config_header)
         self.config_grid = QGridLayout()
-        self.config_grid.setHorizontalSpacing(24)
-        self.config_grid.setVerticalSpacing(10)
+        self.config_grid.setHorizontalSpacing(14)
+        self.config_grid.setVerticalSpacing(6)
+        # Pack the label/value pairs to the left: give a trailing column all the
+        # slack so the label columns shrink to their text instead of stretching
+        # wide across the panel (that was the "ton of room" after the labels).
+        self.config_grid.setColumnStretch(4, 1)
         config_layout.addLayout(self.config_grid)
 
         # Fast Server (WiFi fast-server boot) — persistent sub-section. Populated
@@ -527,7 +537,7 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         upload_panel = QWidget()
         upload_panel.setObjectName("Panel")
         upload_layout = QVBoxLayout(upload_panel)
-        upload_layout.setContentsMargins(18, 18, 18, 18)
+        upload_layout.setContentsMargins(12, 6, 12, 6)
         upload_layout.setSpacing(12)
         upload_header = QLabel("Firmware Upload")
         upload_header.setObjectName("SectionHeader")
@@ -565,7 +575,7 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 font-size: 10.5pt;
             }
             QLabel#TitleLabel {
-                font-size: 22pt;
+                font-size: 16pt;
                 font-weight: 700;
                 color: #ffffff;
             }
@@ -573,10 +583,10 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 color: #9fb0c2;
             }
             QLabel#SectionHeader {
-                font-size: 12pt;
+                font-size: 11pt;
                 font-weight: 700;
                 color: #cfe2f5;
-                padding-bottom: 4px;
+                padding-bottom: 1px;
             }
             QWidget#Panel {
                 background: #15202b;
@@ -584,11 +594,11 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 border-radius: 8px;
             }
             QLineEdit, QComboBox, QTextEdit {
-                min-height: 34px;
+                min-height: 26px;
                 background: #0b1118;
                 border: 1px solid #31465c;
                 border-radius: 6px;
-                padding: 7px 9px;
+                padding: 4px 8px;
                 color: #f3f7fb;
                 selection-background-color: #2f7dd3;
             }
@@ -603,9 +613,9 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 background: #223244;
                 border: 1px solid #3a5169;
                 border-radius: 6px;
-                padding: 8px 14px;
+                padding: 3px 14px;
                 color: #eef6ff;
-                min-height: 36px;
+                min-height: 20px;
             }
             QPushButton:hover {
                 background: #2c4056;
@@ -833,6 +843,13 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             self.serial_port.open()
             self.response_box.append(f"Connected to {port} (Serial, DTR/RTS held low)")
             self.set_connection_indicator(True)
+            # On Linux the kernel asserts DTR when the tty is opened (unlike
+            # Windows/macOS, which honour the pre-open "DTR off"), and DTR is
+            # tied to the Propeller reset — so every serial connect reboots the
+            # mount. It comes right back, so just wait for it before handing
+            # control back. No-op on platforms that don't reset.
+            if sys.platform.startswith("linux"):
+                self._wait_for_mount_after_reset()
         except Exception as e:
 #            self.response_box.append(f"Failed to connect (Serial): {e}")
              self.response_box.append("Please select the PMC-Eight COM port")
@@ -842,6 +859,41 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
 
         finally:
             self.scroll_response_to_bottom()
+
+    def _wait_for_mount_after_reset(self, timeout=25.0):
+        """After a Linux serial connect, the DTR pulse reboots the PMC-Eight.
+        Poll ESGi! until it answers so the reset is transparent — the connect
+        just takes a few seconds longer while the mount restarts. The probe uses
+        ESGi!, so once the mount is back we reuse that reply to fill the config
+        fields and then send ESGe! for the Fast Server fields — the connect
+        doubles as Get Configuration. Keeps the GUI responsive and gives up
+        after `timeout` seconds (the user can retry Get Configuration)."""
+        self.response_box.append("Mount reboots on serial connect (Linux) — waiting for it to come back...")
+        self.scroll_response_to_bottom()
+        end = time.time() + timeout
+        while time.time() < end:
+            try:
+                resp = self._serial_send_command("ESGi!", timeout=1.5)
+            except Exception:  # noqa: BLE001 - port may be mid-reboot
+                resp = ""
+            if resp and resp.startswith("ESGi"):
+                config = self.parse_ESGi_response(resp)
+                if config:  # a full, valid reply — mount is up
+                    self.response_box.append("Mount is back up — filling configuration.")
+                    self.update_config_display(config)
+                    self._wifi_type = config.get("WiFi Type")
+                    self.save_config_button.setEnabled(True)
+                    # Finish the fields with the Fast Server state (ESGe!);
+                    # skipped for RN131, tolerated when unanswered.
+                    self._fast_server_refresh(lambda c: self._serial_send_command(c, timeout=5.0))
+                    self.scroll_response_to_bottom()
+                    return True
+            QApplication.processEvents()
+            time.sleep(0.3)
+        self.response_box.append("Mount didn't answer within the wait — it may still be "
+                                 "starting. Try Get Configuration in a moment.")
+        self.scroll_response_to_bottom()
+        return False
 
     def disconnect_serial(self):
         try:
@@ -1002,7 +1054,12 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 break
 
         if not chunks:
-            raise TimeoutError(f"No WiFi response for {cmd}")
+            # Old firmware silently ignores commands it doesn't implement
+            # (e.g. ESGe!/ESSe* on a mount without Fast Server) — no reply at
+            # all. Treat a missing reply as an empty response, NOT an error, so
+            # an unanswered command never looks like a dropped connection. The
+            # socket stays open; the caller just gets "" and moves on.
+            return ""
 
         response = b"".join(chunks).decode("ascii", errors="replace").strip()
         bang = response.find("!")
@@ -1115,12 +1172,17 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         self.response_box.append(f"Sent: {cmd}\nReceived: {response}")
         self.scroll_response_to_bottom()
 
-        # Selecting ESGi! from the list also refreshes the config display.
-        if command_key == "ESGi!":
+        # ESGi! refreshes the config display — whether it was picked from the
+        # list (command_key set) or typed as a raw command (command_key None).
+        if command_key == "ESGi!" or cmd.strip() == "ESGi!":
             config = self.parse_ESGi_response(response)
             self.update_config_display(config)
             self._wifi_type = config.get("WiFi Type")
             self.save_config_button.setEnabled(True)
+        # A manually-sent ESGe! with a valid reply updates the Fast Server
+        # display too (skip on RN131, which has no Fast Server).
+        elif cmd.strip() == "ESGe!" and not self._module_is_rn131():
+            self._fast_server_apply_reply(response)
 
     def scroll_response_to_bottom(self):
         self.response_box.moveCursor(QTextCursor.MoveOperation.End)
@@ -1200,12 +1262,22 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             self.scroll_response_to_bottom()
             return
         self.response_box.append(f"Sent: ESGe!\nReceived: {reply}")
+        self._fast_server_apply_reply(reply)
+        self.scroll_response_to_bottom()
+
+    def _fast_server_apply_reply(self, reply):
+        """Drive the Fast Server status/checkbox from an ESGe! reply — shared by
+        Get Configuration and a manually-sent ESGe! in the console, so a valid
+        value typed by hand is reflected in the display too.
+
+        ESGe! returns a 3-bit field: bit 0 = capable, bit 1 = boot flag (the
+        checkbox), bit 2 = currently on. Codes 4 and 6 (on without capable) are
+        impossible and shown as unknown. Returns True if it was a valid value."""
         state = self._parse_esge(reply)
         self._fast_server_state = state
         if state is None:
             self._fast_server_apply_state(False, False, "Unknown status.")
-            self.scroll_response_to_bottom()
-            return
+            return False
         able = bool(state & 1)
         boot = bool(state & 2)
         on = bool(state & 4)
@@ -1218,7 +1290,7 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             status = self._fast_server_status_text(able, boot, on)
             hint = "" if able else "Update your WiFi firmware."
             self._fast_server_apply_state(able, boot, status, hint=hint)
-        self.scroll_response_to_bottom()
+        return True
 
     def _fast_server_apply(self, send):
         """Push the Boot-into-Fast-Server choice after the ESSi save:
@@ -1309,21 +1381,21 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                     self._wifi_type = config.get("WiFi Type")
                     self.save_config_button.setEnabled(True)
                     fw_response = self._wifi_send_command("ESGv!")
-                    if fw_response.startswith("ESGv"):
-                        fw = fw_response[4:]
-                    else:
-                        fw = fw_response
-                    if fw.endswith("!"):
-                        fw = fw[:-1]
-                    row = self.config_grid.rowCount()
-                    fw_label = QLabel("FIRMWARE VERSION:")
-                    fw_value = QLabel(fw)
-                    fw_value.setMinimumWidth(360)
-                    self.config_grid.addWidget(fw_label, row, 0)
-                    self.config_grid.addWidget(fw_value, row, 1, 1, 3)
-                    self.response_box.append(f"Firmware Version: {fw}")
-                    self.scroll_response_to_bottom()
-                    self.scroll_response_to_bottom()
+                    if fw_response:  # firmware version is optional — skip if the mount didn't answer
+                        if fw_response.startswith("ESGv"):
+                            fw = fw_response[4:]
+                        else:
+                            fw = fw_response
+                        if fw.endswith("!"):
+                            fw = fw[:-1]
+                        row = self.config_grid.rowCount()
+                        fw_label = QLabel("FIRMWARE VERSION:")
+                        fw_value = QLabel(fw)
+                        fw_value.setMinimumWidth(360)
+                        self.config_grid.addWidget(fw_label, row, 0)
+                        self.config_grid.addWidget(fw_value, row, 1, 1, 3)
+                        self.response_box.append(f"Firmware Version: {fw}")
+                        self.scroll_response_to_bottom()
                     self._fast_server_refresh(lambda c: self._wifi_send_command(c))
                 except Exception as e:
                     self.response_box.append(f"Error in WiFi get configuration: {e}")
@@ -1536,7 +1608,22 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
             self.config_widgets[key] = widget
         self.config_populated = True
         self.update_command_dropdown()
- 
+        # Reflect the module type detected here in the Network tab's WiFi-module
+        # dropdown, so the user doesn't have to select it by hand.
+        self._sync_net_module_from_config(config.get("WiFi Type"))
+
+    def _sync_net_module_from_config(self, wifi_type):
+        """Pre-set the Network tab's WiFi-module dropdown from the type detected
+        by Get Configuration (ESGi! byte 30). The config value '8266' maps to the
+        dropdown's 'ESP8266' label; RN131/ESP32 match directly. Unknown/blank
+        leaves the current selection alone."""
+        target = {"RN131": "RN131", "8266": "ESP8266", "ESP32": "ESP32"}.get(wifi_type)
+        combo = getattr(self, "net_module_combo", None)
+        if target and combo is not None:
+            idx = combo.findText(target)
+            if idx >= 0 and combo.currentIndex() != idx:
+                combo.setCurrentIndex(idx)
+
     def build_config_command(self):
         mount_mapping = {
             "Exos2": "08",

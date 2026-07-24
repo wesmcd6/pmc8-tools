@@ -297,6 +297,49 @@ class NetworkManagementMixin:
             raw = (resp or "").replace("\r", " ").replace("\n", " ").strip()
             self._net_log(f"Could not read {module} WiFi address. Raw: {raw}")
 
+    @staticmethod
+    def _net_ip_after(text, marker):
+        """First dotted quad appearing after `marker` (e.g. 'STAIP,' / 'APIP,') —
+        used to separate the station and AP addresses in an ESP8266 CIFSR reply
+        that lists both. Returns '' if the marker or an address isn't found."""
+        if not text:
+            return ""
+        i = text.find(marker)
+        if i < 0:
+            return ""
+        m = re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", text[i + len(marker):])
+        return m.group(0) if m else ""
+
+    def _net_report_ips(self, module, sta_ip, ap_ip):
+        """Show BOTH addresses when an ESP module has both: the home-network
+        (station) address and the access-point (192.168.47.1) address. The
+        station stays 0.0.0.0/blank until the module joins a home network, so on
+        a freshly-booted module only the AP shows. Prefills the Configurator WiFi
+        field with the connectable address — home when joined, otherwise the AP."""
+        sta_ok = bool(sta_ip) and sta_ip != "0.0.0.0"
+        ap_ok = bool(ap_ip) and ap_ip != "0.0.0.0"
+        if sta_ok and ap_ok:
+            self._net_log(f"{module} WiFi addresses — Home network: {sta_ip}   |   "
+                          f"Access point: {ap_ip}")
+            self.net_ip_edit.setText(f"{sta_ip} (home)  /  {ap_ip} (AP)")
+        elif sta_ok:
+            self._net_log(f"{module} home-network WiFi address: {sta_ip}")
+            self.net_ip_edit.setText(sta_ip)
+        elif ap_ok:
+            self._net_log(f"{module} access-point address: {ap_ip}  "
+                          f"(not joined to a home network)")
+            self.net_ip_edit.setText(ap_ip)
+        else:
+            self._net_log(f"Could not read {module} WiFi address "
+                          f"(station={sta_ip or '?'}, AP={ap_ip or '?'}).")
+            return
+        # Connectable address for the Configurator WiFi field: home if joined.
+        primary = sta_ip if sta_ok else ap_ip
+        self._net_last_ip = primary
+        field = getattr(self, "ip_edit", None)   # Configurator-tab WiFi field
+        if field is not None:
+            field.setText(primary)
+
     def _net_wait(self, seconds, label):
         """Responsive wait (keeps the GUI alive) with start/done log notes."""
         from PyQt6.QtWidgets import QApplication
@@ -310,13 +353,18 @@ class NetworkManagementMixin:
     def _module_is_rn131(self):
         """True when the WiFi module is (or is selected as) an RN131. Fast
         Server / Envision does not exist on RN131, so every ESGe!/ESSe* probe
-        must be skipped for it — on an RN131 those commands just time out with
-        no reply and waste seconds. Either the Network-tab selection or a module
-        type detected by Get Configuration being RN131 is enough."""
+        must be skipped for it.
+
+        A module type DETECTED by Get Configuration (self._wifi_type) is
+        authoritative and wins over the Network-tab dropdown: otherwise a stale
+        'RN131' selection would wrongly report 'Fast Server not supported' on an
+        ESP module that Get Config just identified as ESP32/8266. Only when
+        nothing has been detected yet do we fall back to the dropdown."""
+        wt = getattr(self, "_wifi_type", None)
+        if wt in ("RN131", "8266", "ESP32"):
+            return wt == "RN131"
         combo = getattr(self, "net_module_combo", None)
-        if combo is not None and combo.currentText() == "RN131":
-            return True
-        return getattr(self, "_wifi_type", None) == "RN131"
+        return combo is not None and combo.currentText() == "RN131"
 
     def _rn131_wlan_value(self, value):
         """Encode an SSID or passphrase for a WiFly 'set wlan ...' command.
@@ -421,25 +469,26 @@ class NetworkManagementMixin:
         # arrives, _net_read still polls the full window and the regex extracts
         # whatever address is present.
         if module == "ESP8266":
-            # AT+CIFSR reports both the SoftAP IP (APIP) and the station IP
-            # (STAIP) in one reply. On a freshly-booted PMC-Eight the module is
-            # in AP mode at 192.168.47.1 and STAIP is 0.0.0.0; after joining a
-            # home network STAIP holds the DHCP address. _net_extract_ip skips
-            # 0.0.0.0, so the right one is reported in either state.
+            # AT+CIFSR lists BOTH the SoftAP IP (APIP) and the station IP (STAIP)
+            # in one reply. On a freshly-booted PMC-Eight the module is in AP mode
+            # at 192.168.47.1 and STAIP is 0.0.0.0; after joining a home network
+            # STAIP holds the DHCP address. Split them by marker so we show both.
             self._net_write("AT+CIFSR@")
             resp = self._net_read(want="+CIFSR", tries=12, per_read=0.4)
+            sta_ip = self._net_ip_after(resp, "STAIP,")
+            ap_ip = self._net_ip_after(resp, "APIP,")
         else:
-            # ESP32: CIPSTA? is the *station* interface, which stays 0.0.0.0
-            # until the module joins a home network — that is why "Get WiFi
-            # Address" returned 0.0.0.0 on a fresh boot. The default 192.168.47.1
-            # lives on the SoftAP interface (CIPAP?), so read both and let
-            # _net_extract_ip pick the first routable address: the station IP if
-            # joined, otherwise the AP IP.
+            # ESP32: the station interface (CIPSTA?, the home-network address,
+            # 0.0.0.0 until joined) and the SoftAP interface (CIPAP?, the
+            # 192.168.47.1 access point) are two separate queries. Read both and
+            # report both; _net_extract_ip pulls the address out of each reply.
             self._net_write("AT+CIPSTA?@")
-            resp = self._net_read(want="+CIPSTA", tries=12, per_read=0.4)
+            sta_resp = self._net_read(want="+CIPSTA", tries=12, per_read=0.4)
             self._net_write("AT+CIPAP?@")
-            resp += self._net_read(want="+CIPAP", tries=12, per_read=0.4)
-        self._net_report_ip(module, resp)
+            ap_resp = self._net_read(want="+CIPAP", tries=12, per_read=0.4)
+            sta_ip = self._net_extract_ip(sta_resp)
+            ap_ip = self._net_extract_ip(ap_resp)
+        self._net_report_ips(module, sta_ip, ap_ip)
 
     def _net_discard_buffers(self):
         """Drop anything queued in both directions (the VB tool's DiscardIn/Out

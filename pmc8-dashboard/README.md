@@ -1,18 +1,26 @@
-# PMC8 Dashboard v0.2.4
+# PMC8 Dashboard v0.2.5
 
-PMC8 Dashboard v0.2.4 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.5 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
 
 ## Downloads
 
-Grab the ZIP for your platform (PMC8 Dashboard v0.2.4):
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.5):
 
-- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
-- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
-- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.4/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.5/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
 
 For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
 
-## What's new in v0.2.4
+## What's new in v0.2.5
+
+- **Get WiFi Address shows both addresses.** For ESP32/ESP8266 modules it now reports the **home-network address and the access-point address (192.168.47.1)** together when both are up, instead of just one — and pre-fills the WiFi connect field with the home address.
+- **The Network tab picks your module for you.** Get Configuration detects the WiFi module type and sets the Network tab's module dropdown to match, so you don't have to. This also fixes a case where an ESP32 could be mislabeled "RN-131, Fast Server not supported."
+- **Smoother on Linux / Raspberry Pi.** Connecting over serial resets the mount on Linux (a kernel quirk of opening the port); the app now waits for it to come back and fills in the configuration automatically, so a connect just works instead of looking dead.
+- **Steadier WiFi command handling.** A command the mount silently ignores no longer looks like a dropped connection, and a command typed directly into the console (`ESGi!`, `ESGe!`) updates the on-screen fields, not just the log.
+- **More compact window.** The Configurator tab is tighter — the response log is visible without scrolling, and the window is narrower.
+
+### Earlier: v0.2.4
 
 - **RN131 home-network setup now handles passwords (and SSIDs) with spaces.** A space used to truncate the value at the first word, so the RN131 stored the wrong key and failed to authenticate (`AUTH-ERR`), looping without joining. Spaces are now sent correctly; if you saw this before, update and try again.
 - **RN131 WiFi address reads faster**, and the Network tab no longer sends a Fast Server query to RN131 modules (they don't have it) — so setup is quicker and the log is cleaner.

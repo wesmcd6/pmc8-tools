@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.4  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.5  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -478,6 +478,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.4 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.5 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================
