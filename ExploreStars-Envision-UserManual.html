@@ -75,17 +75,53 @@
     background: rgba(0,0,0,0.3); z-index: 1999;
   }
   #toc-overlay.open { display: block; }
+
+  /* Language picker (top-right). We use our OWN native <select> — Google's own
+     widget renders an obfuscated popup menu that truncates/doesn't scroll on
+     phones. The Google engine still runs (invisibly) and applies the language on
+     load; our select just seeds its cookie and reloads. Shown only once the
+     Google script has loaded (online); offline the manual reads in English. */
+  #esl-translate {
+    position: fixed; top: 8px; right: 8px; z-index: 2001;
+    background: #1a237e; border-radius: 4px; padding: 4px 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3); display: none;
+    align-items: center; gap: 5px;
+  }
+  #esl-translate.ready { display: inline-flex; }
+  #esl-translate .globe { color: #fff; font-size: 0.9rem; line-height: 1; }
+  #esl-lang {
+    font-size: 0.85rem; padding: 3px 6px; border-radius: 3px; border: none;
+    color: #1a237e; background: #fff; max-width: 170px;
+  }
+  /* Google's engine element must stay rendered — park it out of sight. */
+  #google_translate_element { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  /* Suppress Google's injected chrome: the top banner AND its language popups are
+     all "skiptranslate" iframes (class names are obfuscated and change, so target
+     the stable skiptranslate marker); undo the 40px body shift it applies. */
+  iframe.skiptranslate { display: none !important; }
+  body { top: 0 !important; }
+  .goog-tooltip, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+  .goog-text-highlight { background: none !important; box-shadow: none !important; }
 </style>
 </head>
 <body>
 
 <button id="toc-toggle" onclick="toggleToc()">&#9776; Contents</button>
+<div id="esl-translate" class="notranslate" translate="no">
+  <span class="globe">&#127760;</span><select id="esl-lang" aria-label="Language"></select>
+</div>
+<div id="google_translate_element" class="notranslate" translate="no"></div>
 <div id="toc-overlay" onclick="toggleToc()"></div>
 
 <div id="toc-panel">
 <div class="toc-title">Contents</div>
 <ul>
-  <li><a href="#overview">1. Overview</a></li>
+  <li><a href="#overview">1. Overview</a>
+    <ul>
+      <li><a href="#whatsnew">What's New in 2.5.0.0</a></li>
+    </ul>
+  </li>
   <li><a href="#install">2. Installation</a></li>
   <li><a href="#quickstart">3. Quick Start</a></li>
   <li><a href="#layout">4. Screen Layout</a>
@@ -101,6 +137,7 @@
       <li><a href="#location">5.2 Site Location &amp; Time</a></li>
       <li><a href="#tools">5.3 Tools</a></li>
       <li><a href="#language">5.4 Display Language</a></li>
+      <li><a href="#translate-manual">5.5 Translating this Manual</a></li>
     </ul>
   </li>
   <li><a href="#target">6. Target Page</a>
@@ -159,7 +196,9 @@
     <ul>
       <li><a href="#apmode">14.1 AP Mode (Field Use)</a></li>
       <li><a href="#lanmode">14.2 LAN Mode (Home Use)</a></li>
-      <li><a href="#alpaca">14.3 Alpaca Server Compatibility</a></li>
+      <li><a href="#alpaca">14.3 Sharing Your Mount (Alpaca / INDI)</a></li>
+      <li><a href="#startpage">14.4 Setup Page (QR Codes) &amp; Home-Screen Icon</a></li>
+      <li><a href="#envision-mode">14.5 Envision Mode (Enhanced Wi-Fi)</a></li>
     </ul>
   </li>
   <li><a href="#mounts">15. Supported Mounts</a></li>
@@ -184,12 +223,22 @@
 
 <h1>ExploreStars Envision User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.4.0.2</strong> &bull; July 2026</p>
+<p><strong>Version 2.5.0.0</strong> &bull; July 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
 <p>ExploreStars Envision controls Explore Scientific PMC-Eight&trade; telescope mounts from your phone or PC via WiFi, Bluetooth, or serial (USB). The companion <strong>Star Seeker</strong> sky chart is built in &mdash; a full offline planetarium-style view with sensor-driven push-to identification, tap-to-GoTo, and an integrated mount marker. No internet connection is required.</p>
 <p>The app supports four ways of talking to your mount: two over WiFi (one for current ESP32 firmware, one for legacy modules), Bluetooth Classic on Android, and USB serial on Windows. Your commands are forwarded to the PMC-Eight's Propeller processor regardless of route. See <a href="#connection">Section 5.1</a> for picking the right one for your hardware.</p>
+
+<div class="note" id="whatsnew">
+<strong>What's New in 2.5.0.0</strong>
+<ul>
+  <li><strong>Share one mount with everything.</strong> The PWA-server now hands a single mount connection &mdash; USB serial, WiFi, or legacy TCP &mdash; to the app on several phones and tablets, and to an ASCOM <strong>Alpaca</strong> or <strong>INDI</strong> driver, all <em>at the same time</em>. (Planetarium apps like Cartes du Ciel, SkySafari, or Stellarium connect <em>through</em> that driver &mdash; they don't talk to the mount directly.) Even a USB-serial mount, which normally only one program can open, becomes shareable. You set it up from a web page &mdash; no files to edit. See <a href="#alpaca">Section 14.3</a>.</li>
+  <li><strong>Runs on a Raspberry Pi.</strong> The server bundle now runs on a Raspberry Pi (64-bit), Mac, and Windows from one download, with the web server and USB-serial support built in &mdash; a great always-on mount server. See the separate Server Setup Guide.</li>
+  <li><strong>Drive a USB mount from your phone.</strong> A phone or tablet browser can now control a mount that is plugged into the server by USB.</li>
+  <li><strong>Enhanced-WiFi &ldquo;Envision Mode&rdquo;</strong> for smoother WiFi telemetry (<a href="#envision-mode">Section 14.5</a>), and <strong>in-app User-Manual translation</strong> (<a href="#translate-manual">Section 5.5</a>).</li>
+</ul>
+</div>
 
 <p><strong>Key features:</strong></p>
 <ul>
@@ -209,7 +258,7 @@
   <li>Bluetooth Classic (SPP) connection on Android &mdash; no WiFi needed in the field</li>
   <li>Serial (USB COM port) connection on Windows desktop &mdash; direct to Propeller</li>
   <li>Connection settings remembered across sessions</li>
-  <li>Works alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel)</li>
+  <li>Shares one mount connection across the app on multiple phones/tablets and an ASCOM Alpaca/INDI driver at once &mdash; planetarium apps like Cartes du Ciel or SkySafari connect through that driver (see <a href="#alpaca">Section 14.3</a>)</li>
 </ul>
 
 <!-- ======================= INSTALL ======================= -->
@@ -347,7 +396,7 @@
   </tr>
   <tr>
     <td><strong>TCP (legacy mounts)</strong></td>
-    <td>Older PMC-Eight units that shipped with an <em>RN-131</em> WiFi module, an older <em>ESP8266</em> daughter board, or an older <em>ESP32</em> with firmware that predates the HTTP bridge. These all expose a raw-TCP serial bridge on port 54372. Also a valid choice on a modern ESP32 unit &mdash; raw TCP runs noticeably faster than the HTTP bridge.</td>
+    <td>Older PMC-Eight units that shipped with an <em>RN-131</em> WiFi module, an older <em>ESP8266</em> daughter board, or an older <em>ESP32</em> with firmware that predates the HTTP bridge. These expose a raw-TCP serial bridge on port 54372 (RN-131 / legacy ESP32 &amp; 8266), or port 85 with the ESP32/8266 server firmware. Also a valid choice on a modern ESP32 unit &mdash; raw TCP runs noticeably faster than the HTTP bridge.</td>
   </tr>
   <tr>
     <td><strong>Bluetooth</strong></td>
@@ -366,7 +415,7 @@
 <p>Direct raw-TCP connection to the mount's WiFi module. Use this for RN-131, older ESP8266, and older ESP32 units, or any time you want a faster path on a modern ESP32.</p>
 <ol>
   <li>Enter the mount's IP address.</li>
-  <li>Leave the port at <code>54372</code> &mdash; that's the standard for all PMC-Eight TCP connections, regardless of module type.</li>
+  <li>Choose the <strong>Port</strong> from the list: <code>54372</code> for an <strong>RN-131 or a legacy ESP32/8266</strong> module (the default, and correct for almost every unit); <code>85</code> for an <strong>ESP32 or 8266 running the server firmware</strong>.</li>
   <li>Tap <strong>CONNECT</strong>.</li>
 </ol>
 
@@ -422,7 +471,7 @@
   <tr><td>Port</td><td><code>54372</code></td><td>TCP port for the legacy-mount path. Standard PMC-Eight value &mdash; rarely needs changing. Only shown when <strong>TCP (legacy mounts)</strong> is selected.</td></tr>
   <tr><td>PMC-Eight Bluetooth</td><td>&mdash;</td><td>Paired Bluetooth device. Only shown when Bluetooth is selected. Tap Refresh if the mount was recently paired.</td></tr>
   <tr><td>COM Port</td><td>&mdash;</td><td>Serial port for USB connection. Only shown when Serial is selected on Windows. Tap Refresh ports to rescan.</td></tr>
-  <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: Losmandy G-11, iExos-100, EXOS-2.</td></tr>
+  <tr><td>Mount Model</td><td>iExos-100</td><td>Determines encoder counts used for position calculations. Options: ES G-11, iExos-100, EXOS-2.</td></tr>
 </table>
 
 <div class="warning">
@@ -462,6 +511,21 @@
 
 <div class="note">
 <strong>Note:</strong> Your language choice is saved on the device and persists across app restarts. If you sideload a new APK, the saved choice is preserved.
+</div>
+
+<h3 id="translate-manual">5.5 Translating this Manual</h3>
+<p>This User Manual can be shown in about a hundred languages. When you open Help, the manual starts in the same language you chose on the <strong>Setup</strong> page (see 5.4 above). To read it in a different language, use the <strong>&#127760; language menu</strong> at the top-right of the manual and pick any language &mdash; or choose <strong>English (original)</strong> to switch back.</p>
+<p>Translation is done online, so this needs an internet connection. With no connection the manual is simply shown in English; nothing breaks. This translates only the manual &mdash; the app's own interface language is set separately on the Setup page, above.</p>
+
+<div class="note">
+<strong>Note &mdash; the manual's language is "sticky".</strong> Once you pick a language from the manual's <span aria-hidden="true">&#127760;</span> menu, that choice is remembered and <strong>overrides</strong> the Setup-page language for the manual from then on. That's usually what you want &mdash; if you deliberately translated the manual, you probably want it to stay that way, even if you keep the app interface in English to learn the English terms.
+<br><br>
+To clear the override so the manual follows the Setup page again:
+<ol>
+  <li>On the <strong>Setup</strong> page, set the language to <strong>English</strong>.</li>
+  <li>Open Help and, in the manual's <span aria-hidden="true">&#127760;</span> menu, choose <strong>English (original)</strong>.</li>
+</ol>
+The override is now cleared. From this point on, whatever language you set on the <strong>Setup</strong> page will carry over to the manual the next time you open Help.
 </div>
 
 <!-- ======================= TARGET ======================= -->
@@ -684,6 +748,7 @@
 <h3 id="target-wiki">6.7 Wikipedia Lookup</h3>
 <p>Once a target is selected, a <strong>Wikipedia ↗</strong> button next to its name opens the Wikipedia article for that object inside the app. Tap → a full-screen overlay loads the mobile-Wikipedia page. The header has a red <strong>✕ CLOSE</strong> to dismiss the overlay and a <strong>browser ↗</strong> button to hand the article off to your default browser if you want to keep it open after closing the overlay.</p>
 <p>The button is gated on internet availability. ExploreStars Envision otherwise works fully offline; this is the only feature that needs the internet. Without a working connection (probed at app start and on each foreground/online event), the button shows <strong>Wikipedia (offline)</strong> and is disabled.</p>
+<p><strong>Reading in another language.</strong> The article opens in your <a href="#language">display language</a> (set on the Setup page) &mdash; a French user reading <code>M42</code> lands on the French article. If that language's Wikipedia has no article for the object, the app automatically falls back to the <strong>English</strong> article rather than showing "not available." To read that English article in your language, use your browser's built-in translation: in <strong>Safari</strong> tap <strong>aA</strong> in the address bar &rarr; <strong>Translate</strong>; in <strong>Chrome</strong> tap the <strong>translate icon</strong>. The prompt appears on its own, because the page is in a different language than your browser prefers &mdash; and a machine-translated English article is often <em>more complete</em> than a short native-language one. <em>Running the app full-screen from the Home Screen?</em> There's no browser toolbar there, so tap <strong>browser &#8599;</strong> to open the article in your browser, then translate it.</p>
 <p>The Star Seeker chart has the same Wikipedia affordance for selected chart objects &mdash; see <a href="#ss-wiki">Section 8.16</a> for the chart-side details and how the lookup resolves catalog identifiers like <code>HIP 91262</code> or <code>HR 2491</code>.</p>
 
 <!-- ======================= CONTROL ======================= -->
@@ -1009,7 +1074,7 @@
   <li><strong>Selection panel</strong> &mdash; in FREE / LIVE mode, tapping an object pops a panel at the bottom of the chart with the object's name, RA / Dec (in JNow), Alt / Az, and a <strong>Wikipedia ↗</strong> button.</li>
   <li><strong>Chart top-cluster button</strong> &mdash; the leftmost button on the second row of the top-right control cluster shows a small <strong>W</strong> icon. Visible whenever a chart target is in play (selected via tap, or active push-to target). This is the only Wikipedia entry point in <a href="#ss-pushto">push-to mode</a>, since push-to does not open the selection panel. It stays available for the current target after a GoTo, so you can read up on the object you just slewed to.</li>
 </ul>
-<p>Both buttons open the same full-screen modal as the <a href="#target-wiki">Target-page link</a>. An internet connection is required (the button shows <strong>Wikipedia (offline)</strong> when the connectivity probe has failed).</p>
+<p>Both buttons open the same full-screen modal as the <a href="#target-wiki">Target-page link</a>, including opening in your display language (with English fallback) and browser translation &mdash; see <a href="#target-wiki">Section 6.7</a>. An internet connection is required (the button shows <strong>Wikipedia (offline)</strong> when the connectivity probe has failed).</p>
 
 <h4>Catalog identifier resolution</h4>
 <p>Star objects are referenced by many overlapping catalog schemes &mdash; Hipparcos (HIP), Yale Bright Star (HR), Henry Draper (HD), Smithsonian (SAO), Gliese (GJ), Bayer letters, Flamsteed numbers, proper names. Wikipedia's article naming is inconsistent across these. ExploreStars Envision routes the lookup through several mechanisms so the modal lands on the right article whenever possible:</p>
@@ -1075,7 +1140,7 @@
 <h4>Available Settings</h4>
 <table>
   <tr><th>Section</th><th>Settings</th></tr>
-  <tr><td>Mount Type</td><td>16 mount models (iExos-100, G-11, EXOS-2 variants, etc.)</td></tr>
+  <tr><td>Mount Type</td><td>16 mount models (iExos-100, ES G-11, EXOS-2 variants, etc.)</td></tr>
   <tr><td>Communication</td><td>Baud rate (read-only), IP protocol (TCP/UDP)</td></tr>
   <tr><td>Tracking Defaults</td><td>Hemisphere (N/S), sidereal drive on boot, track on loss of comms</td></tr>
   <tr><td>Guide Rates</td><td>RA and DEC guide rates (0&ndash;100%)</td></tr>
@@ -1197,18 +1262,71 @@
 <strong>Multi-client:</strong> In LAN mode, ExploreStars Envision on your phone can run alongside Alpaca/ASCOM and planetarium software (e.g., Cartes du Ciel) on your PC, all controlling the same mount.
 </div>
 
-<h3 id="alpaca">14.3 Alpaca Server Compatibility</h3>
-<p>ExploreStars Envision works seamlessly alongside the PMC-Eight ASCOM Alpaca telescope driver. The Alpaca server may connect to the PMC-Eight either serially (USB) or through WiFi, and may be configured to use either TCP or UDP &mdash; the PMC-Eight supports both simultaneously without specific configuration. The app and Alpaca can communicate with the mount at the same time.</p>
+<h3 id="alpaca">14.3 Sharing Your Mount (Alpaca / INDI &amp; Multiple Devices)</h3>
+<p>ExploreStars Envision is designed to <strong>share your mount</strong>. When you run the PWA-server (the downloadable server bundle), it keeps a single, well-behaved connection to the PMC-Eight and hands that one connection out to as many programs as you like &mdash; the app on several phones and tablets, and an external ASCOM <strong>Alpaca</strong> or <strong>INDI</strong> driver &mdash; all at the same time. Planetarium programs such as Cartes du Ciel, Stellarium, or SkySafari don't talk to the mount directly; they connect <em>through</em> that Alpaca/INDI driver, and the driver is what shares the mount with the server. Even a <strong>USB-serial</strong> mount, which normally only one program on one computer can open, becomes shareable this way.</p>
 
-<p>When running together:</p>
+<p>Commands from every client are serialized through the server so they never collide, and all clients see live status:</p>
 <ul>
-  <li><strong>Either can control the mount</strong> &mdash; GoTo, tracking, slewing, and sync commands from ExploreStars Envision or any ASCOM Alpaca Server connected planetarium software (e.g., Cartes du Ciel, Stellarium, SkySafari) are accepted by the mount.</li>
-  <li><strong>Real-time status</strong> &mdash; ExploreStars Envision displays the mount's current position, tracking state, and slew status regardless of which client issued the command. If your planetarium software starts a GoTo, the app shows "Slewing" and updates the position in real time.</li>
-  <li><strong>Shared tracking</strong> &mdash; If Alpaca starts or stops tracking, ExploreStars Envision detects the rate change within a few seconds and updates its display.</li>
-  <li><strong>Manual centering</strong> &mdash; Use the app's thumb pad for fine centering while your planetarium software maintains the target reference. This is especially useful for visual observing sessions where the PC handles planning and the phone handles eyepiece work.</li>
+  <li><strong>Any client can control the mount</strong> &mdash; GoTo, tracking, slewing, and sync from the app or from any connected planetarium software are all accepted.</li>
+  <li><strong>Real-time status everywhere</strong> &mdash; if your planetarium software starts a GoTo, the app shows &ldquo;Slewing&rdquo; and updates the position in real time; if a driver changes the tracking rate, the app picks it up within a few seconds.</li>
+  <li><strong>Planning + eyepiece work together</strong> &mdash; use planetarium software on a laptop for planning while the phone handles fine centering at the eyepiece with the thumb pad.</li>
 </ul>
 
-<p>No special setup is required. Simply connect both the app and Alpaca to the same PMC-Eight, either in AP mode or on your home LAN.</p>
+<h4>Letting an ASCOM / INDI driver connect (the driver-config page)</h4>
+<p>External drivers reach the mount through a small network listener the server provides. You turn it on and point it at your mount from a web page &mdash; nothing to install, no file to edit. <em>On a phone, the quickest way to open this page is to scan its QR code on the <a href="#startpage">setup page</a> (Section 14.4).</em></p>
+<ol>
+  <li>With the server running, open <code>http://<em>&lt;server-ip&gt;</em>:5257/driver-config</code> in any browser on your network (or the secure <code>https://<em>&lt;server-ip&gt;</em>:5256/driver-config</code>). On the server's own machine you can use <code>localhost</code>.</li>
+  <li>Choose how the <em>server</em> should reach the mount &mdash; the <strong>target</strong>:
+    <ul>
+      <li><strong>Serial (auto-detect USB)</strong> &mdash; the PMC-Eight is plugged into the server by USB; it is found automatically.</li>
+      <li><strong>TCP</strong> &mdash; a legacy WiFi module; enter its IP address (port 85 or 54372).</li>
+      <li><strong>HTTP</strong> &mdash; a current ESP32 HTTP-bridge mount; enter its IP address (port 80).</li>
+    </ul>
+  </li>
+  <li>Tick <strong>Enable</strong>, leave the <strong>listen port</strong> at <code>54372</code> (the port most PMC-Eight drivers expect), and click <strong>Apply</strong>. The server begins listening immediately &mdash; no restart needed.</li>
+  <li>In your ASCOM Alpaca or INDI driver, set the mount's TCP address to <code><em>&lt;server-ip&gt;</em>:54372</code> and connect.</li>
+</ol>
+<p>The driver, the app on every phone, and the mount are now all sharing one link. This was validated end-to-end with Cartes du Ciel and SkySafari (each via its Alpaca/ASCOM driver) driving a USB-connected PMC-Eight through a Raspberry Pi server.</p>
+
+<div class="note"><strong>Note:</strong> The driver listener is <strong>off by default</strong>, so existing setups are unchanged until you enable it. The target and mount address you set on this page govern only the ASCOM/INDI listener &mdash; the app on each device keeps its own connection choice from the <a href="#connection">Setup page</a>.</div>
+
+<h3 id="startpage">14.4 Setup Page (QR Codes) &amp; Home-Screen Icon</h3>
+<p>Getting a phone onto the server &mdash; trusting the HTTPS certificate, opening the app, or reaching the <a href="#alpaca">driver-sharing page</a> above &mdash; used to mean typing long web addresses on a phone keyboard. The server now provides a <strong>setup page</strong> with everything on it, so there is nothing to type. Each item is a <strong>QR code with a tappable link beneath it</strong>, and every address is <strong>generated by the server to match its own network address automatically</strong> &mdash; you never enter an IP, and if the server's address changes the page updates to match.</p>
+<p>The page <strong>opens by itself</strong> on the server at launch (on any machine with a screen), and you can open it any time at <code>http://<em>&lt;server-ip&gt;</em>:5257/start</code> &mdash; that address is printed when the server starts. There are two easy ways to use it:</p>
+
+<h4>1. From the server's screen &mdash; scan the codes</h4>
+<p>With the page showing on the server (a Mac, Windows PC, or a Pi with a monitor), point your phone's camera at a code:</p>
+<ul>
+  <li><strong>Install the certificate</strong> &mdash; the one-time HTTPS trust profile (so compass &amp; GPS work over HTTPS). <strong>On iPhone this one must open in Safari</strong> &mdash; iOS installs certificates only through Safari. The page shows the two steps: install under <strong>Settings &#9656; General &#9656; VPN &amp; Device Management</strong>, then turn on trust under <strong>Settings &#9656; General &#9656; About &#9656; Certificate Trust Settings</strong>.</li>
+  <li><strong>Open the app</strong> &mdash; opens ExploreStars on the secure (HTTPS) address once the certificate is trusted.</li>
+  <li><strong>Share the mount</strong> &mdash; opens the driver-sharing page from <a href="#alpaca">Section 14.3</a>.</li>
+</ul>
+
+<h4>2. From the phone &mdash; tap the links</h4>
+<p>You don't need the server's screen. Open <code>http://<em>&lt;server-ip&gt;</em>:5257/start</code> once in your phone's browser and <strong>tap the link under each code</strong> instead of scanning &mdash; the certificate, the app, and the driver-sharing page each have a tappable link. Once you add the page to your Home Screen (below), the <strong>Start Envision</strong> icon reopens it on the phone in one tap, and from then on you just tap the links.</p>
+
+<h4>Make a Home-Screen (or Dock) icon &mdash; &ldquo;Start Envision&rdquo;</h4>
+<p>Adding the setup page to your Home Screen turns it into a one-tap icon called <strong>Start Envision</strong> that always reopens this page on that device. Everything you launch from it &mdash; the app included &mdash; then runs <strong>full-screen like a native app</strong>, with no browser address bar, which also gives the Star Seeker chart more room.</p>
+<ul>
+  <li><strong>iPhone / iPad (Safari):</strong> open the <code>/start</code> address in Safari, tap the <strong>Share</strong> button (the square with an up-arrow), then <strong>Add to Home Screen</strong>.</li>
+  <li><strong>Android (Chrome):</strong> open it in Chrome, tap the <strong>&#8942;</strong> menu (top-right), then <strong>Add to Home screen</strong> (it may read <strong>Install app</strong>).</li>
+  <li><strong>Mac (Safari, macOS Sonoma or later):</strong> open it in Safari, then <strong>File &#8594; Add to Dock</strong>. On older macOS use Chrome, as below.</li>
+  <li><strong>Raspberry Pi (Chromium) or Desktop (Chrome / Edge):</strong> open it, then use the <strong>install</strong> icon in the address bar, or the <strong>&#8942;</strong> menu &rarr; <strong>More tools &#8594; Create shortcut</strong> (Chrome / Chromium) / <strong>Apps &#8594; Install</strong> (Edge), ticking <em>Open as window</em>. On a Pi with a touchscreen you can even autostart this at boot for a dedicated control console.</li>
+</ul>
+<div class="note">The certificate download must open in <strong>Safari</strong> on iPhone. If your camera opens it in another browser, open the <code>/start</code> page itself in Safari and tap the certificate link there.</div>
+
+<div class="note"><strong>Android, Mac &amp; Windows use a CA certificate</strong>, not the iPhone profile &mdash; the <em>same</em> <code>ExploreStars-CA.crt</code> from the <strong>Android, Mac &amp; Windows</strong> block on the setup page, installed per system:
+<ul>
+  <li><strong>Android:</strong> <strong>Settings &#9656; Security &#9656; Encryption &amp; credentials &#9656; Install a certificate &#9656; CA certificate</strong> &rarr; pick the downloaded file.</li>
+  <li><strong>Mac:</strong> double-click it &rarr; <strong>Keychain Access</strong> &rarr; find it under <strong>Certificates</strong> in the <em>login</em> keychain (watch the <strong>category list on the left</strong> &mdash; it can land in a category you're not looking at) &rarr; double-click &rarr; <strong>Trust &#9656; When using this certificate: Always Trust</strong> &rarr; close the window and <strong>enter your Mac password when prompted</strong> (that prompt is what actually saves it). Then quit &amp; reopen the browser.</li>
+  <li><strong>Windows:</strong> the link <strong>downloads</strong> the file &mdash; open your <strong>Downloads</strong> folder, double-click <code>ExploreStars-CA.crt</code>, and click <strong>Install Certificate&hellip;</strong> to open the Certificate Import Wizard. In the wizard: pick <strong>Current User</strong> &rarr; Next; select <strong>&ldquo;Place all certificates in the following store&rdquo;</strong> &rarr; <strong>Browse</strong> &rarr; <strong>Trusted Root Certification Authorities</strong> &rarr; OK &rarr; Next &rarr; <strong>Finish</strong>; then click <strong>Yes</strong> on the security warning. (Chrome and Edge use the Windows certificate store.)</li>
+</ul>
+<strong>Full-screen app:</strong> on Android and desktop, open the app at <code>https://&lt;server-ip&gt;:5256</code> and use Chrome/Edge's <strong>&#8942; &#9656; Install app</strong> (Mac Safari: <strong>File &#9656; Add to Dock</strong>). On Android, don't add the <code>/start</code> page to the Home Screen &mdash; that's only a bookmark; install the <em>app</em> instead. In the installed Android app, the only thing left on screen is Android's own back/home/recents bar (gesture navigation slims it).</div>
+
+<h3 id="envision-mode">14.5 Envision Mode (Enhanced Wi-Fi)</h3>
+<p><strong>Envision Mode</strong> is an enhanced Wi-Fi mode on the PMC-Eight that speeds up the back-and-forth between the app (or the server) and the mount. It makes live telemetry noticeably smoother, and it's what lets several programs share one Wi-Fi mount reliably at the same time &mdash; the engine behind the mount-sharing in <a href="#alpaca">Section 14.3</a>.</p>
+<p>Turn it on from the <strong>Setup</strong> page: with a <strong>Wi-Fi</strong> (or legacy TCP) connection established, tap the <strong>Envision Mode</strong> button in the Tools row. It turns green and reads <strong>Envision Mode &middot; On</strong>. Enabling briefly resets the mount's Wi-Fi and the app reconnects on its own. The button only appears on Wi-Fi/TCP connections &mdash; it isn't relevant on Bluetooth or USB serial.</p>
+<div class="note"><strong>Which modules:</strong> Envision Mode runs on PMC-Eight units with the <strong>ESP32</strong> Wi-Fi daughter board (current firmware) &mdash; that's the standard modern module, and it handles Envision Mode fully. Support for the older <strong>ESP8266</strong> module is coming in a future firmware update (currently in beta).</div>
 
 <!-- ======================= MOUNTS ======================= -->
 <h2 id="mounts">15. Supported Mounts</h2>
@@ -1217,7 +1335,7 @@
   <tr><th>Mount</th><th>Encoder Counts</th><th>Notes</th></tr>
   <tr><td>iExos-100</td><td>4,147,200</td><td>Default model. Cable wrap limit on meridian flip.</td></tr>
   <tr><td>EXOS-2</td><td>4,147,200</td><td>4 min max past meridian (hardware clash risk).</td></tr>
-  <tr><td>Losmandy G-11</td><td>4,608,000</td><td>Higher resolution encoders.</td></tr>
+  <tr><td>ES G-11</td><td>4,608,000</td><td>Higher resolution encoders.</td></tr>
 </table>
 
 <!-- ======================= TROUBLESHOOTING ======================= -->
@@ -1326,6 +1444,103 @@ document.getElementById('toc-panel').addEventListener('click', function(e) {
         toggleToc();
     }
 });
+
+/* ---- Language translation --------------------------------------------------
+   Translates ONLY this manual. Because the manual is shown in an iframe, the
+   Google engine is isolated from the Blazor app (which Google Translate would
+   otherwise corrupt) and is torn down cleanly when the user leaves Help.
+
+   We render our OWN native <select> rather than Google's widget: Google's popup
+   menu truncates and won't scroll on phones. The select seeds Google's cookie
+   and reloads; the engine (parked off-screen) applies the language on load. On
+   first open it defaults to the app's Setup language (localStorage esl_language,
+   same origin). Offline the Google script can't load, the picker stays hidden,
+   and the manual reads in English. */
+(function () {
+  // App display language → Google Translate target code.
+  function eslGoogleLang(code) {
+    if (!code) return '';
+    code = code.toLowerCase();
+    if (code === 'en' || code.indexOf('en-') === 0) return '';   // English → no translation
+    if (code === 'zh-hans' || code === 'zh-cn' || code === 'zh') return 'zh-CN';
+    if (code === 'zh-hant' || code === 'zh-tw') return 'zh-TW';
+    return code.split('-')[0];                                    // es-ES → es, pt-BR → pt
+  }
+
+  // Full Google Translate language set (native <select> scrolls fine on every
+  // device). Values are Google target codes. Listed A–Z by English name; the
+  // pinned first entry ('') reverts to the original untranslated English.
+  var LANGS = [
+    ['af','Afrikaans'],['sq','Albanian'],['am','Amharic'],['ar','Arabic'],['hy','Armenian'],
+    ['az','Azerbaijani'],['eu','Basque'],['be','Belarusian'],['bn','Bengali'],['bs','Bosnian'],
+    ['bg','Bulgarian'],['ca','Catalan'],['ceb','Cebuano'],['ny','Chichewa'],['zh-CN','Chinese (Simplified)'],
+    ['zh-TW','Chinese (Traditional)'],['co','Corsican'],['hr','Croatian'],['cs','Czech'],['da','Danish'],
+    ['nl','Dutch'],['eo','Esperanto'],['et','Estonian'],['tl','Filipino'],['fi','Finnish'],
+    ['fr','French'],['fy','Frisian'],['gl','Galician'],['ka','Georgian'],['de','German'],
+    ['el','Greek'],['gu','Gujarati'],['ht','Haitian Creole'],['ha','Hausa'],['haw','Hawaiian'],
+    ['iw','Hebrew'],['hi','Hindi'],['hmn','Hmong'],['hu','Hungarian'],['is','Icelandic'],
+    ['ig','Igbo'],['id','Indonesian'],['ga','Irish'],['it','Italian'],['ja','Japanese'],
+    ['jw','Javanese'],['kn','Kannada'],['kk','Kazakh'],['km','Khmer'],['ko','Korean'],
+    ['ku','Kurdish (Kurmanji)'],['ky','Kyrgyz'],['lo','Lao'],['la','Latin'],['lv','Latvian'],
+    ['lt','Lithuanian'],['lb','Luxembourgish'],['mk','Macedonian'],['mg','Malagasy'],['ms','Malay'],
+    ['ml','Malayalam'],['mt','Maltese'],['mi','Maori'],['mr','Marathi'],['mn','Mongolian'],
+    ['my','Myanmar (Burmese)'],['ne','Nepali'],['no','Norwegian'],['ps','Pashto'],['fa','Persian'],
+    ['pl','Polish'],['pt','Portuguese'],['pa','Punjabi'],['ro','Romanian'],['ru','Russian'],
+    ['sm','Samoan'],['gd','Scots Gaelic'],['sr','Serbian'],['st','Sesotho'],['sn','Shona'],
+    ['sd','Sindhi'],['si','Sinhala'],['sk','Slovak'],['sl','Slovenian'],['so','Somali'],
+    ['es','Spanish'],['su','Sundanese'],['sw','Swahili'],['sv','Swedish'],['tg','Tajik'],
+    ['ta','Tamil'],['te','Telugu'],['th','Thai'],['tr','Turkish'],['uk','Ukrainian'],
+    ['ur','Urdu'],['uz','Uzbek'],['vi','Vietnamese'],['cy','Welsh'],['xh','Xhosa'],
+    ['yi','Yiddish'],['yo','Yoruba'],['zu','Zulu']
+  ];
+  LANGS.sort(function (a, b) { return a[1].localeCompare(b[1]); });   // A–Z by English name
+  LANGS.unshift(['', 'English (original)']);                          // pinned revert entry
+
+  function cookieTarget() {
+    var m = document.cookie.match(/googtrans=\/[^\/]*\/([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  var saved = 'en';
+  try { saved = localStorage.getItem('esl_language') || 'en'; } catch (e) { }
+  // Cookie wins (the reader's last explicit pick); else default to Setup language.
+  var active = cookieTarget() || eslGoogleLang(saved);
+  if (!cookieTarget() && active) {
+    try { document.cookie = 'googtrans=/en/' + active + ';path=/'; } catch (e) { }
+  }
+
+  // Build the select; ensure the active language is always an option.
+  var sel = document.getElementById('esl-lang');
+  LANGS.forEach(function (p) {
+    var o = document.createElement('option'); o.value = p[0]; o.textContent = p[1]; sel.appendChild(o);
+  });
+  if (active && !LANGS.some(function (p) { return p[0] === active; })) {
+    var o = document.createElement('option'); o.value = active; o.textContent = active; sel.appendChild(o);
+  }
+  sel.value = active || '';
+
+  sel.addEventListener('change', function () {
+    var v = sel.value;
+    if (v) { document.cookie = 'googtrans=/en/' + v + ';path=/'; }
+    else { document.cookie = 'googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT'; }  // revert to English
+    location.reload();
+  });
+
+  window.googleTranslateElementInit = function () {
+    try {
+      new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+    } catch (e) { }
+    var box = document.getElementById('esl-translate');
+    if (box) box.classList.add('ready');   // reveal the picker once the engine is up
+  };
+
+  try {
+    var s = document.createElement('script');
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    s.async = true;
+    document.head.appendChild(s);
+  } catch (e) { /* offline / blocked → picker stays hidden, manual reads in English */ }
+})();
 </script>
 
 </body>
