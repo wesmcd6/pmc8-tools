@@ -10,7 +10,7 @@ Downloads for **Explore Scientific&trade; PMC-Eight&trade;** telescope mount use
 
 ## ExploreStars Envision&trade; — current
 
-📦 **[Get the v2.4.0.2 release →](../../releases/tag/v2.4.0.2)**
+📦 **[Get the v2.5.0.0 release →](../../releases/tag/v2.5.0.0)**
 
 The Releases page carries pre-built binaries for every platform. Pick the asset that matches your device:
 
@@ -92,7 +92,9 @@ Cross-platform telescope mount control — runs on Android, Windows, and as a se
 - Night vision mode for dark adaptation
 - GPS location, firmware config reader/writer
 - **Envision Mode (Enhanced WiFi)** — optional faster, smoother multi-client operation where the WiFi-module firmware supports it
-- Works alongside Alpaca/ASCOM and planetarium software
+- **Share one mount** with the app on several phones/tablets AND an ASCOM Alpaca / INDI driver at once — Cartes du Ciel, SkySafari, Stellarium, etc. connect through the driver
+- **Self-hosted server runs on macOS, Raspberry Pi, and Windows** from one download (web server + USB-serial support bundled)
+- **QR-code phone setup** — a `/start` page with scannable codes for the certificate, the app, and mount-sharing, plus a "Start Envision" full-screen Home-Screen icon
 - Built-in user manual
 
 ## Trademarks &amp; copyright
