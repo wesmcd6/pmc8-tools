@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PMC8 Dashboard v0.2.5 User Manual</title>
+  <title>PMC8 Dashboard v0.2.6 User Manual</title>
   <style>
     :root { --ink:#172033; --head:#0f2742; --line:#d6dde8; --soft:#f3f5f8; }
     * { box-sizing: border-box; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1>PMC8 Dashboard</h1>
-<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.5.</em></p>
+<p class="lede">A friendly desktop app for setting up, testing, and updating your Explore Scientific PMC&#8209;Eight mount controller &mdash; on Windows, macOS, or Linux. <em>Version 0.2.6.</em></p>
 
 <div class="box note">
   <span class="label">New to the dashboard?</span>
@@ -127,6 +127,14 @@ py PMC8_Dashboard.py</pre>
 <pre>./setup_linux.sh</pre>
 <p>Setup installs PyQt6 + pyserial (via <code>apt</code> on Raspberry Pi OS, otherwise pip), adds you to the <code>dialout</code> group for serial&#8209;port access, then launches the dashboard. After setup succeeds once, the normal day&#8209;to&#8209;day launcher is:</p>
 <pre>./run_dashboard_linux.sh</pre>
+<div class="box note">
+  <span class="label">Log out and back in before connecting (first time)</span>
+  <code>setup_linux.sh</code> adds you to the <code>dialout</code> group so you can open the serial port, but that group change only takes effect after a fresh login. If the dashboard opens but the serial port won't connect, log out and back in (or reboot the Pi) once &mdash; it works from then on.
+</div>
+<div class="box note">
+  <span class="label">On Linux, connecting over serial reboots the mount &mdash; this is normal</span>
+  Opening the serial port on Linux briefly toggles the reset line, so the PMC&#8209;Eight restarts every time you press <strong>Connect</strong>. The dashboard expects this: it shows &ldquo;Mount reboots on serial connect (Linux) &mdash; waiting for it to come back&hellip;&rdquo;, waits ~20&nbsp;seconds for the mount to restart, then fills in the configuration automatically. Let it finish &mdash; it is not an error. (Windows and macOS do not reset the mount on connect.)
+</div>
 <p>If a <code>.sh</code> file isn't executable (for example the folder was copied instead of extracted), make them clickable first with <code>chmod +x setup_linux.sh run_dashboard_linux.sh</code>.</p>
 <p><strong>Source / manual run.</strong> On a Raspberry Pi, the easiest install uses the system packages (this avoids building Qt from source):</p>
 <pre>sudo apt install python3-pyqt6 python3-serial
@@ -278,7 +286,16 @@ python3 PMC8_Dashboard.py</pre>
 </div>
 
 <h3>Command Console</h3>
-<p>For testing and advanced use: pick a PMC&#8209;Eight command from the list, fill in any parameter fields it needs, and click send. You can also type a command in yourself instead of picking one &mdash; useful for commands the list doesn't carry. The reply appears in the response log.</p>
+<p>For testing and advanced use: pick a PMC&#8209;Eight command from the list, fill in any parameter fields it needs, and click send. The reply appears in the response log.</p>
+
+<p>Below the list there's an <strong>&ldquo;Or type a command:&rdquo;</strong> box for anything the list doesn't carry &mdash; type the command exactly as you want it sent (for example <code>ESGe!</code>) and press Enter or click send. While that box has any text in it, it is what gets sent and the list selection is ignored, so clear it (the <strong>&times;</strong> at its right edge) when you want to go back to picking from the list.</p>
+
+<p>Two Envision (Fast Server) commands are on the list:</p>
+<table>
+  <tr><th>Command</th><th>What it does</th></tr>
+  <tr><td><code>ESGe!</code></td><td>Get Envision status. The reply is a 3&#8209;bit value: <strong>1</strong> = the module is Envision&#8209;capable, <strong>2</strong> = the boot flag is set, <strong>4</strong> = Envision is running right now (so 3 = capable and set to boot into it).</td></tr>
+  <tr><td><code>ESSe&lt;p&gt;!</code></td><td>Set Envision. <code>p</code> = <strong>0</strong> stop now, <strong>1</strong> start now, <strong>3</strong> boot on, <strong>4</strong> boot off. Sending this by hand re&#8209;reads <code>ESGe!</code> afterwards so the Fast Server display stays in step. Note that 0 and 1 reboot the WiFi module, so the status may read Unknown for a few seconds &mdash; and over a WiFi connection they will drop the link you are using.</td></tr>
+</table>
 
 <h2 id="trouble">7. Troubleshooting</h2>
 
@@ -345,7 +362,7 @@ python3 PMC8_Dashboard.py</pre>
 <p>See <code>THIRD_PARTY_NOTICES.md</code> in the distribution folder for the full notice text.</p>
 
 <footer>
-  PMC8 Dashboard v0.2.5 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
+  PMC8 Dashboard v0.2.6 &mdash; User Manual. For Explore Scientific PMC&#8209;Eight controllers.
 </footer>
 </body>
 </html>

@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.5"
+APP_VERSION = "0.2.6"
 
 
 def _is_readable_file(path):
@@ -285,6 +285,16 @@ COMMANDS = {
         "template": "ESGi!",
         "params": []
     },
+    "ESGe!": {
+        "desc": "Get Envision (Fast Server) status. 3-bit field: 1 = capable, 2 = boot flag, 4 = currently on",
+        "template": "ESGe!",
+        "params": []
+    },
+    "ESSe<p>!": {
+        "desc": "Set Envision (Fast Server). p = 0 (stop now), 1 (start now), 3 (boot on), 4 (boot off)",
+        "template": "ESSe{p}!",
+        "params": [{"name": "p", "label": "Value (0 = stop, 1 = start, 3 = boot on, 4 = boot off)"}]
+    },
     "ESSi!": {
         "desc": "Set PMC8 Configuration settings (computed from fields)",
         "template": "",  # Built dynamically.
@@ -440,17 +450,20 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         command_header = QLabel("Command Console")
         command_header.setObjectName("SectionHeader")
         command_layout.addWidget(command_header)
+        # Two separate inputs on purpose: this combo picks from the known-command
+        # list, and the raw box below types anything else. It used to be a single
+        # editable combo doing both jobs, but on macOS the embedded line edit
+        # never took a click — every click just dropped the list, so a raw command
+        # could not be typed at all. A plain QLineEdit is predictable everywhere,
+        # and it also means the list selection no longer has to be reverse-
+        # engineered from the visible text (see _resolve_command_to_send).
         self.command_combo = QComboBox()
         self.command_combo.setObjectName("CommandCombo")
-        # Editable: pick a command from the list OR type a raw one (e.g. ESGe!).
-        self.command_combo.setEditable(True)
-        self.command_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         # Don't let the longest item ("ESGi! - Retrieve all …") force the whole
         # window wide. Size to a modest content length; it still fills the panel
         # width and the dropdown popup shows full item text.
         self.command_combo.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
         self.command_combo.setMinimumContentsLength(22)
-        self.command_combo.lineEdit().setPlaceholderText("Select a command, or type one here (e.g. ESGe!)")
         self.update_command_dropdown()
         self.command_combo.currentIndexChanged.connect(self.update_command_description)
         self.command_combo.currentIndexChanged.connect(lambda: self.update_param_fields(self.command_combo.currentData()))
@@ -471,6 +484,20 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         self.param_layout.setVerticalSpacing(10)
         self.param_area.setLayout(self.param_layout)
         command_layout.addWidget(self.param_area)
+
+        # Raw command entry — always available, and takes precedence over the
+        # list whenever it has text (see _resolve_command_to_send). Enter sends.
+        raw_row = QHBoxLayout()
+        raw_row.setSpacing(8)
+        raw_label = QLabel("Or type a command:")
+        self.raw_command_edit = QLineEdit()
+        self.raw_command_edit.setObjectName("RawCommandEdit")
+        self.raw_command_edit.setClearButtonEnabled(True)
+        self.raw_command_edit.setPlaceholderText("e.g. ESGe!  — overrides the selection above when not empty")
+        self.raw_command_edit.returnPressed.connect(self.send_command)
+        raw_row.addWidget(raw_label)
+        raw_row.addWidget(self.raw_command_edit, 1)
+        command_layout.addLayout(raw_row)
 
         self.send_button = QPushButton("Send Command")
         self.send_button.clicked.connect(self.send_command)
@@ -681,6 +708,12 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
                 border: 1px solid #4aa3ff;
             }
             QComboBox#CommandCombo:focus {
+                border: 1px solid #6bb6ff;
+            }
+            QLineEdit#RawCommandEdit {
+                border: 1px solid #4aa3ff;
+            }
+            QLineEdit#RawCommandEdit:focus {
                 border: 1px solid #6bb6ff;
             }
             /* Boot-into-Fast-Server checkbox: red = off, green = on, so its
@@ -1106,43 +1139,41 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
 
     def _resolve_command_to_send(self):
         """Return (cmd_string, command_key) to transmit. `command_key` is the
-        known-command key when a list entry is genuinely selected, else None for
-        a free-typed raw command. Returns (None, None) on error/empty.
+        known-command key when the list selection was used, else None for a
+        free-typed raw command. Returns (None, None) on error/empty.
 
-        The combo is editable, so currentData()/currentIndex() keep pointing at
-        the last-picked list item even after the user types over the text. So we
-        only treat it as a list command when the visible text STILL matches the
-        selected item's display; any edit means send the typed text verbatim."""
-        typed = self.command_combo.currentText().strip()
+        The raw box wins whenever it holds text — it's the deliberate "send
+        exactly this" escape hatch, so an empty box is the only way to mean
+        "use the list". Clear it to go back to the dropdown."""
+        typed = self.raw_command_edit.text().strip()
+        if typed:
+            return typed, None
+
         idx = self.command_combo.currentIndex()
-        on_list_item = idx >= 0 and typed == self.command_combo.itemText(idx).strip()
-        if on_list_item:
-            command_key = self.command_combo.itemData(idx)
-            if command_key == "ESSi!":
-                return self.build_config_command(), command_key  # cmd may be None
-            info = COMMANDS.get(command_key, {})
-            template = info.get("template", "")
-            params = {}
-            for param in info.get("params", []):
-                name = param["name"]
-                value = self.param_widgets[name].text().strip()
-                if not value:
-                    self.response_box.append(f"Parameter '{name}' is required.")
-                    self.scroll_response_to_bottom()
-                    return None, None
-                params[name] = value
-            try:
-                return (template.format(**params) if template else command_key), command_key
-            except KeyError as e:
-                self.response_box.append(f"Missing parameter: {e}")
-                self.scroll_response_to_bottom()
-                return None, None
-        # Free-typed raw command — send exactly what the user typed.
-        if not typed:
-            self.response_box.append("Enter or select a command to send.")
+        if idx < 0:
+            self.response_box.append("Select a command, or type one in the box below the list.")
             self.scroll_response_to_bottom()
             return None, None
-        return typed, None
+        command_key = self.command_combo.itemData(idx)
+        if command_key == "ESSi!":
+            return self.build_config_command(), command_key  # cmd may be None
+        info = COMMANDS.get(command_key, {})
+        template = info.get("template", "")
+        params = {}
+        for param in info.get("params", []):
+            name = param["name"]
+            value = self.param_widgets[name].text().strip()
+            if not value:
+                self.response_box.append(f"Parameter '{name}' is required.")
+                self.scroll_response_to_bottom()
+                return None, None
+            params[name] = value
+        try:
+            return (template.format(**params) if template else command_key), command_key
+        except KeyError as e:
+            self.response_box.append(f"Missing parameter: {e}")
+            self.scroll_response_to_bottom()
+            return None, None
 
     def send_command(self):
         conn_type = self.connection_type_combo.currentText()
@@ -1183,6 +1214,20 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
         # display too (skip on RN131, which has no Fast Server).
         elif cmd.strip() == "ESGe!" and not self._module_is_rn131():
             self._fast_server_apply_reply(response)
+        # A manually-sent ESSe<p>! changes the Envision state, but its reply
+        # carries no status — so re-read ESGe! rather than leave the panel
+        # showing what was true before the command.
+        elif cmd.strip().startswith("ESSe") and not self._module_is_rn131():
+            if cmd.strip() in ("ESSe0!", "ESSe1!"):
+                # 0/1 start-stop Envision, which reboots the WiFi module. The
+                # read-back often lands mid-reboot and comes back empty; say so
+                # rather than let "Unknown" look like a failure.
+                self.response_box.append(
+                    "Envision start/stop reboots the WiFi module — if the status "
+                    "reads Unknown, wait a few seconds and run Get Configuration.")
+            self._fast_server_refresh(
+                (lambda c: self._serial_send_command(c, timeout=5.0))
+                if conn_type == "Serial" else (lambda c: self._wifi_send_command(c)))
 
     def scroll_response_to_bottom(self):
         self.response_box.moveCursor(QTextCursor.MoveOperation.End)
@@ -1894,6 +1939,15 @@ class PMC8Configurator(NetworkManagementMixin, QWidget):
 if __name__ == '__main__':
     if not preflight_assets():
         sys.exit(1)
+
+    # Raspberry Pi OS (Bookworm) defaults to Wayland, but python3-pyqt6 doesn't
+    # ship the Qt Wayland platform plugin — Qt prints "Could not find the Qt
+    # platform plugin 'wayland'" and falls back on its own. Pin the well-tested
+    # X11/XWayland plugin (xcb) here, before Qt initialises, so it applies no
+    # matter how the app was launched (launcher, desktop icon, or python3
+    # directly). Linux only; setdefault honours an explicit QT_QPA_PLATFORM.
+    if sys.platform.startswith("linux"):
+        os.environ.setdefault("QT_QPA_PLATFORM", "xcb")
 
     try:
         app = QApplication(sys.argv)

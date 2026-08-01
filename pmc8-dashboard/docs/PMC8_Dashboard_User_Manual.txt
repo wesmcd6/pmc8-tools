@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.5  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.6  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -136,6 +136,20 @@ Packaged ZIP (recommended):
      launches the dashboard.
   3. After setup succeeds once, launch day-to-day with:
        ./run_dashboard_linux.sh
+
+  >> Log out and back in before connecting (first time): setup_linux.sh adds
+     you to the "dialout" group so you can open the serial port, but that group
+     change only takes effect after a fresh login. If the dashboard opens but
+     the serial port won't connect, log out and back in (or reboot the Pi)
+     once, and it will work from then on.
+
+  >> On Linux, connecting over serial reboots the mount - this is normal.
+     Opening the serial port on Linux briefly toggles the reset line, so the
+     PMC-Eight restarts every time you press Connect. The dashboard knows this:
+     it shows "Mount reboots on serial connect (Linux) - waiting for it to come
+     back...", waits about 20 seconds for the mount to restart, then fills in
+     the configuration automatically. Just let it finish - it is not an error.
+     (Windows and macOS do not reset the mount on connect.)
 
   >> If a .sh file isn't executable (for example the folder was copied instead
      of extracted), make them clickable first:
@@ -368,9 +382,24 @@ CONFIGURATION TAB
 
 COMMAND CONSOLE
   For testing and advanced use: pick a PMC-Eight command from the list, fill in
-  any parameter fields it needs, and click send. You can also type a command
-  in yourself instead of picking one - useful for commands the list doesn't
-  carry. The reply appears in the response log.
+  any parameter fields it needs, and click send. The reply appears in the
+  response log.
+
+  Below the list there's an "Or type a command:" box for anything the list
+  doesn't carry - type the command exactly as you want it sent (for example
+  ESGe!) and press Enter or click send. While that box has any text in it, it
+  is what gets sent and the list selection is ignored, so clear it (the x at
+  its right edge) when you want to go back to picking from the list.
+
+  Two Envision (Fast Server) commands are on the list:
+    ESGe!     Get Envision status. The reply is a 3-bit value: 1 = the module
+              is Envision-capable, 2 = the boot flag is set, 4 = Envision is
+              running right now (so 3 = capable and set to boot into it).
+    ESSe<p>!  Set Envision. p = 0 stop now, 1 start now, 3 boot on, 4 boot off.
+              Sending this by hand re-reads ESGe! afterwards so the Fast Server
+              display stays in step. Note that 0 and 1 reboot the WiFi module,
+              so the status may read Unknown for a few seconds - and over a
+              WiFi connection they will drop the link you are using.
 
 
 ==============================================================================
@@ -478,6 +507,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.5 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.6 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================
