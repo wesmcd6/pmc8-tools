@@ -4,15 +4,16 @@ Update your PMC-Eight's ESP32 firmware **over-the-air** — no opening the
 enclosure, no hex wrench, no jumper, no risk to the fragile Wi-Fi antenna
 cable. This is the **simplest** way to update the ESP32 firmware.
 
-**This release: ES4.2.29 (July 2026).** See *What's new* below.
+**This release: ES4.2.29 firmware, updater v2.1.** See *What's new* below.
 
 If OTA isn't possible (ESP32 has no firmware, has corrupted firmware, or
 has firmware too old to support OTA), fall back to the
-[`esp32-serial-flash`](../../tree/esp32-serial-flash) branch.
+[`esp32-serial-flash`](../../tree/esp32-serial-flash) branch. The updater
+tells you if this applies to you, before it changes anything.
 
 ---
 
-## What's new in this update
+## What's new in the firmware
 
 This release lets the Wi-Fi adapter **serve Bluetooth and Wi-Fi at the same
 time** and talk to the mount with **much less overhead** — a faster, leaner,
@@ -38,29 +39,48 @@ more reliable conversation.
 It updates **only the Wi-Fi adapter** — it does not change your mount's
 motor/control firmware or how the mount itself behaves.
 
+## What's new in the updater (v2.1)
+
+- **Works on macOS**, which it previously did not — and there's nothing to
+  type: double-click `start_ota_macos.command`.
+- **No serial port to find.** The updater locates the mount by itself, on
+  every platform.
+- **It refuses to install the wrong firmware** (see *ESP32 modules only*).
+- **Envision mode handled automatically** — the ESP32 ignores update commands
+  while it's on, which used to cause a confusing mid-run failure.
+
 ---
 
 ## Download
 
-| File | Contents |
-|------|----------|
-| `pmc8-esp32-ota-20260707-7b39e9b.zip` | ✅ **NEW — download this** · ES4.2.29 firmware (~1 MB) |
-| `pmc8-esp32-ota-20260627-483fd19.zip` | Older — ES4.2.27 firmware (previous version, for rollback) |
-| [`OTA_QUICK_START_V2.txt`](OTA_QUICK_START_V2.txt) | Read the manual here before you download |
+### 👉 [**Get the latest release**](../../releases/tag/esp32-ota-v2.1)
 
-Most people want the one marked **NEW** (top row). Click a zip filename above → click
-**Download raw file** (the small download arrow in GitHub's file view) to
-save it to your PC. The user guide is the same file bundled inside the zip,
-posted here so you can read it in your browser before committing to the
-procedure.
+Download **`pmc8-esp32-ota-v2.1-ES4.2.29.zip`** from that page.
+
+Older versions stay available on the [releases page](../../releases) if you
+ever need to roll back.
+
+You can read the user guide in your browser before downloading:
+[**OTA_QUICK_START_V2.txt**](OTA_QUICK_START_V2.txt) — it's the same file
+that's bundled inside the zip.
+
+## ESP32 modules only
+
+This package updates **ESP32** Wi-Fi modules. Some PMC-Eights have an
+**ESP8266** instead, which needs a different firmware package — those are
+different chips, not different versions.
+
+You don't have to know which you have. The updater checks your mount against
+the firmware and **stops safely, changing nothing**, if they don't match.
 
 ## What's in the zip
 
 After extracting you'll have:
 
 ```
-pmc8-esp32-ota-YYYYMMDD-<sha>\
+pmc8-esp32-ota-v2.1-ES4.2.29\
     ota_update_v2.py                 <- the walkthrough script
+    start_ota_macos.command          <- macOS: double-click this
     OTA_QUICK_START_V2.txt           <- written instructions
     MANIFEST.txt                     <- build provenance
     esp-at.bin                       <- ESP32 OTA firmware payload (~1.3 MB)
@@ -70,40 +90,54 @@ pmc8-esp32-ota-YYYYMMDD-<sha>\
 
 - **Any desktop OS:** Windows 10/11, **macOS**, or **Linux — including Raspberry Pi.**
   The tool is pure Python + `pyserial` with no OS-specific dependencies.
-- Python 3.x (the script will offer to `pip install` pyserial if missing)
+- Python 3.x (the updater installs `pyserial` for you if it's missing)
 - USB cable from your computer to the PMC-Eight
 - Either **direct access** to the PMC-8's own Wi-Fi network (AP mode) OR
   **a home Wi-Fi network** that both your computer and the PMC-8 can join
 
 ## Quick Start
 
-1. Download the zip above and extract it somewhere easy (`C:\PMC8_OTA\` on
+1. Download the zip and extract it somewhere easy (`C:\PMC8_OTA\` on
    Windows; `~/pmc8-ota/` on macOS / Linux / Raspberry Pi).
-2. Open a terminal in the extracted folder — **Command Prompt / PowerShell** on
-   Windows, **Terminal** on macOS / Linux / Raspberry Pi.
-3. Run it, passing your serial port (see the table below):
-   ```
-   # Windows
-   python  ota_update_v2.py --port COM3
-   # macOS / Linux / Raspberry Pi
-   python3 ota_update_v2.py --port /dev/ttyUSB0
-   ```
-   Omit `--port` and it will prompt you for the port.
-4. Follow the prompts. The script supports two modes:
+2. Connect the USB cable and power on the mount.
+3. Run it. **You do not need to find or type a serial port** — the updater
+   locates the mount itself:
+
+   | | |
+   |---|---|
+   | **macOS** | double-click `start_ota_macos.command` |
+   | **Windows** | `python ota_update_v2.py` |
+   | **Linux / Raspberry Pi** | `python3 ota_update_v2.py` |
+
+4. Follow the prompts. The updater supports two modes:
    - **Direct (AP mode)** — your computer is connected to the PMC-8's own Wi-Fi
      network (`PMC8_xxxx`). Simplest; no home Wi-Fi needed.
    - **LAN mode** — your computer and the PMC-8 are both on your home Wi-Fi
-     network. The script connects the ESP32 to your SSID for the
+     network. The updater connects the ESP32 to your SSID for the
      duration of the update, then returns to AP mode on next power cycle.
 
-### Which serial port?
-| OS | Typical port | How to find it |
-|----|--------------|----------------|
+### macOS — first launch only
+
+macOS blocks the launcher once, because it isn't signed by a paid Apple
+developer account. Dismiss the message, then **System Settings ▸ Privacy &
+Security**, scroll to Security, click **Open Anyway**, then double-click again
+and choose **Open**. Once only.
+
+### Naming the serial port yourself (rarely needed)
+
+Only if more than one USB-serial adapter is attached and the updater picks the
+wrong one:
+
+| OS | Typical port | How to list them |
+|----|--------------|------------------|
 | Windows | `COM3`, `COM11`, … | Device Manager → *Ports (COM & LPT)* |
 | Linux / Raspberry Pi | `/dev/ttyUSB0` or `/dev/ttyACM0` | `ls /dev/ttyUSB* /dev/ttyACM*` |
-| macOS | `/dev/cu.usbserial-XXXX` | `ls /dev/cu.usbserial-*` |
+| macOS | `/dev/cu.usbserial-XXXX` | `ls /dev/cu.*` |
+
+On macOS use the `/dev/cu.*` name, never its `/dev/tty.*` twin.
 
 ### Platform notes
+
 - **Linux / Raspberry Pi:** grant serial access once — `sudo usermod -aG dialout $USER`,
   then log out/in (or run with `sudo`). If you run a firewall (`ufw`), allow the
   update server's port: `sudo ufw allow 8000/tcp`. (Stock Raspberry Pi OS has no
@@ -112,7 +146,18 @@ pmc8-esp32-ota-YYYYMMDD-<sha>\
   incoming network connections?"* — click **Allow** (the ESP has to reach the tool's
   built-in web server to pull the firmware).
 - **Windows:** the tool adds its own temporary firewall rule automatically; on
-  macOS / Linux that step simply self-skips (nothing to add).
+  macOS / Linux there's no rule to add and that step is skipped.
+
+### Two pauses that look like a freeze — both normal
+
+- **"Checking the mount is responding…"** — on macOS and Linux, opening the USB
+  port makes the mount restart. The updater waits it out (about 25 seconds) with
+  a countdown. Windows users won't see this at all.
+- **"Waiting 15s for the ESP32 modem to reset"** — after Envision mode is switched
+  off. The mount itself does not restart here, only the Wi-Fi module.
+
+> Envision mode is left **off** after the update. Turn it back on in
+> ExploreStars Envision ▸ Setup ▸ Envision Mode.
 
 The full step-by-step procedure, troubleshooting, and safety notes are in
 `OTA_QUICK_START_V2.txt` inside the zip (also previewable above).
