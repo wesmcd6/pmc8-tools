@@ -1,5 +1,5 @@
 ================================================================================
-  PMC8 ESP32 Serial Flash -- User Guide (DRAFT)
+  PMC8 ESP32 Serial Flash -- User Guide  (tool v1.0)
 ================================================================================
 
 This guide explains how to reflash the ESP32 firmware on your PMC8 telescope
@@ -56,23 +56,27 @@ Hardware:
   - A small piece of tape (recommended) -- to hold the enclosure lid aside
     while open, so the fragile Wi-Fi antenna cable isn't stressed.
 
-Software on the PC:
-  - Windows 10 or 11.
-  - Python 3.x (with "Add to PATH" during install).
+Software on the PC -- Windows, macOS, or Linux/Raspberry Pi:
+  - Windows 10 or 11, macOS, or Linux (including Raspberry Pi OS).
+  - Python 3.x. On Windows, install it with "Add to PATH" checked; macOS and
+    Linux normally have it already.
   - esptool (the script will offer to `pip install` it if missing).
   - pyserial (the script will offer to `pip install` it if missing).
-  - Everything else -- including proploader.exe and all three firmware
+  - Everything else -- including the Propeller loader and all three firmware
     binaries -- comes bundled in the zip distribution. No separate
-    downloads needed.
+    downloads needed, and nothing platform-specific: the Propeller loader is
+    built into the script as pure Python.
 
 Files (bundled in the zip):
   - serial_flash.py                    (the walkthrough script)
+  - start_flash.sh                     (launcher: Linux / Raspberry Pi)
+  - start_flash.command                (launcher: macOS double-click)
   - SERIAL_FLASH_USER_GUIDE.txt        (this guide)
+  - THIRD_PARTY_NOTICES.md             (licences for bundled components)
+  - p1_loader.py                       (built-in Propeller P1 loader, MIT)
   - firmware/factory_WROOM-32.bin      (4 MB ESP32 flash image)
   - firmware/ESPLoad1.binary           (Propeller transparent UART bridge)
   - firmware/pmc8_normal_firmware.binary  (normal PMC8 Propeller firmware)
-  - tools/proploader.exe               (David Betz's P1 loader, MIT)
-  - tools/proploader-LICENSE.txt
   - MANIFEST.txt                       (build provenance)
 
 
@@ -115,37 +119,72 @@ STEP 2 -- Install pyserial and esptool
    it up-front is cleaner.
 
 
-FINDING YOUR COM PORT
----------------------
-1. Connect the USB cable from your PC to the PMC8.
-2. Open Device Manager:
-     - Press Windows key + X, then click "Device Manager"
-3. Expand "Ports (COM & LPT)".
-4. Look for your USB-serial adapter (e.g., "USB Serial Port (COM3)").
-5. Note the COM port number.
+FINDING YOUR SERIAL PORT
+------------------------
+You do not normally have to do this -- the script lists the ports it can see
+and lets you pick one by number. Use this section only if the list is empty or
+you are not sure which entry is the mount.
 
-If you don't see a COM port, install the driver for your USB-serial adapter
-(FTDI, CH340, or CP210x -- check a label on the adapter).
+Windows:
+  1. Connect the USB cable from your PC to the PMC8.
+  2. Press Windows key + X, then click "Device Manager".
+  3. Expand "Ports (COM & LPT)".
+  4. Look for your USB-serial adapter (e.g. "USB Serial Port (COM3)").
+
+  If no COM port appears, install the driver for your USB-serial adapter
+  (FTDI, CH340 or CP210x -- check a label on the adapter).
+
+macOS:
+  Ports appear as /dev/tty.usbserial-XXXXXXXX. List them with:
+      ls /dev/tty.usb*
+  Most adapters work without a driver; CH340 clones may need one.
+
+Linux / Raspberry Pi:
+  Ports appear as /dev/ttyUSB0 (FTDI/CH340) or /dev/ttyACM0. List them with:
+      ls /dev/ttyUSB* /dev/ttyACM*
+
+  You must be in the 'dialout' group to open the port. Check with `groups`;
+  if it is missing:
+      sudo usermod -aG dialout $USER
+  then log out and back in. Do this BEFORE you open the enclosure -- a
+  permission error looks exactly like a broken cable.
 
 
 RUNNING THE UPDATE
 ==================
 
-The script walks you through six phases. Four are fully automatic; two
-need your physical intervention (installing and removing the boot jumper).
+The script walks you through seven phases. Four are fully automatic; three
+need you: installing the boot jumper, one power cycle, and removing the
+jumper again.
 
 
 STEP 1 -- Unzip and Launch
 --------------------------
 
-1. Unzip the distribution into a working folder, e.g. C:\PMC8_Flash\.
-2. Open Command Prompt and change to that folder:
-     cd C:\PMC8_Flash
+1. Unzip the distribution into a working folder, keeping all the files
+   together -- e.g. C:\PMC8_Flash\ on Windows, or ~/pmc8_flash on
+   macOS/Linux.
+2. Open a Command Prompt (Windows) or Terminal (macOS/Linux) and change to
+   that folder:
+     cd C:\PMC8_Flash          (Windows)
+     cd ~/pmc8_flash           (macOS / Linux)
 3. Make sure the PMC8 is connected via USB and fully booted (wait ~15 s
    after power-on).
-4. Close any program using the COM port (ExploreStars, SkySafari, etc.).
-5. Run:
-     python serial_flash.py
+4. Close any program using the serial port (ExploreStars, SkySafari, etc).
+5. Run it:
+
+     Windows:            python serial_flash.py
+     macOS:              double-click start_flash.command
+     Linux / Raspberry Pi:   ./start_flash.sh
+
+   The macOS and Linux launchers check Python and the required packages for
+   you first. On Windows, run the script directly as shown.
+
+   macOS first run: the .command file is not signed by a paid Apple developer
+   account, so macOS blocks it once. Dismiss the message, then go to
+   System Settings > Privacy & Security > Security, find
+   "start_flash.command was blocked" and click Open Anyway. Double-click it
+   again and choose Open. Once only.
 
 
 STEP 2 -- What Each Phase Does
@@ -160,8 +199,9 @@ Phase 1: PRE-FLIGHT VALIDATION  (automatic)
   Auto-installs pyserial and esptool if missing.
 
 Phase 2: INSTALL THE BOOT JUMPER  (manual -- you open the enclosure)
-  The mount stays powered and USB stays connected throughout the entire
-  procedure. You don't need to power-cycle between phases.
+  The USB cable stays connected throughout. The mount stays powered for
+  this phase -- the jumper can be fitted on a live board -- but you WILL be
+  asked to switch the mount off and on once, in Phase 3.5.
 
   The script prints these instructions and waits for you to confirm:
 
@@ -183,19 +223,44 @@ Phase 2: INSTALL THE BOOT JUMPER  (manual -- you open the enclosure)
 
   Press Enter in the script when done.
 
-Phase 3: LOAD ESP_LOADER TO PROPELLER  (automatic via proploader.exe)
-  The script runs:
-     tools\proploader.exe -p COMx -e -r firmware\ESPLoad1.binary
-  This resets the Propeller and loads the ESPLoad1 binary into its EEPROM.
+Phase 3: LOAD ESP_LOADER TO PROPELLER  (automatic, built in)
+  The script loads firmware/ESPLoad1.binary into the Propeller's EEPROM
+  using its own built-in loader -- no external tool, no separate download,
+  and the same code on every operating system.
   On completion, the mount reboots and the GREEN status light will be
   flashing SLOWLY -- that means ESP_Loader is running and idle, ready to
   act as a transparent USB-to-ESP32 bridge.
 
+Phase 3.5: POWER-CYCLE THE MOUNT  (manual, then automatic check)
+  LEAVE THE BOOT_OPT JUMPER INSTALLED. The script asks you to:
+
+    1. Switch the PMC8 completely OFF.
+    2. Wait about 5 seconds.
+    3. Switch it back ON.
+    4. Confirm the GREEN status light is flashing SLOWLY.
+
+  Keep the USB cable connected the whole time.
+
+  WHY: the ESP32 only enters its bootloader if the BOOT_OPT jumper is
+  holding its GPIO0 pin low at the moment it resets. A cold power-on makes
+  that happen reliably, because the ESP32 checks the pin as it powers up.
+  The script can also try to trigger this automatically, but that route has
+  proved unreliable on some mounts, so the power cycle is now the main path.
+
+  The script then runs a harmless read-only check (esptool flash-id) to
+  confirm the ESP32 really is in bootloader mode. Nothing is written. If the
+  check fails, the script tries the automatic reset as a fallback, and if
+  that fails too it stops BEFORE writing anything and tells you what to
+  check.
+
+  If your USB adapter is powered from the mount, its port will disappear and
+  come back during the power cycle. The script waits for it, and copes if
+  the port comes back under a different name (common on Linux).
+
 Phase 4: FLASH THE ESP32  (automatic via esptool)
-  The script runs:
-     python -m esptool --chip esp32 --port COMx --baud 115200 \
-         --before no-reset --after no-reset write-flash 0x0 \
-         firmware\factory_WROOM-32.bin
+  The script runs esptool to write firmware/factory_WROOM-32.bin to the
+  ESP32 at 0x0, with resets disabled (--before no-reset --after no-reset)
+  because ESP_Loader is managing the ESP32, not esptool.
   Watch the mount's green status light:
      - Slow flashing before esptool starts  = ESP_Loader idle
      - Rapid flashing while data is flowing = flash in progress (1-2 minutes)
@@ -213,14 +278,14 @@ Phase 5: REMOVE JUMPER + RESTORE NORMAL FIRMWARE  (manual + automatic)
            it isn't pinched when the lid closes.
          - Replace the four bolts with the 5/64" or 2 mm hex wrench.
 
-  Press Enter in the script. Then the script automatically runs:
-     tools\proploader.exe -p COMx -e -r firmware\pmc8_normal_firmware.binary
-  This overwrites ESP_Loader with the normal PMC8 Propeller firmware,
+  Press Enter in the script. It then uses the same built-in loader as
+  Phase 3 to write firmware/pmc8_normal_firmware.binary over ESP_Loader,
   restoring full mount functionality.
 
 Phase 6: VERIFY  (fully automatic)
-  The script waits ~15 seconds for the mount to finish booting, then
-  does three checks in sequence:
+  The script waits for the mount to answer -- polling rather than counting
+  down a fixed delay, because how long it takes depends on the operating
+  system -- then does three checks in sequence:
 
     (a) ESGp0!  -- does the PMC8 Propeller respond?
         Confirms the normal PMC8 Propeller firmware (loaded in Phase 5)
@@ -288,17 +353,22 @@ Phase 1 says "ESP32 is already running the version in the flash binary":
     the flash, or 'y' to proceed anyway (e.g., if you suspect the current
     firmware is corrupted even though it reports the expected version).
 
-proploader reports "Failed to connect" or times out (Phase 3 or 5):
+The Propeller load fails or times out (Phase 3 or 5):
   - Is the mount powered on and USB connected?
-  - Is the COM port correct?
-  - Is another program using the COM port? Close it.
+  - Is the serial port correct?
+  - Is another program using the serial port? Close it.
 
-esptool reports "Failed to connect" (Phase 4):
-  - Is the green status light flashing SLOWLY? If not flashing at all,
-    ESP_Loader isn't running -- re-run Phase 3 (exit and start over).
-  - Is the BOOT_OPT jumper firmly installed across BOTH pins? Without it,
-    the ESP32 doesn't enter bootloader mode and esptool can't talk to it.
-  - Is another program using the COM port? Close it.
+"The ESP32 is NOT in bootloader mode" (Phase 3.5):
+  This is the check that protects you -- nothing has been written to the
+  ESP32 and its firmware is unchanged.
+  - Is the BOOT_OPT jumper firmly installed across BOTH pins? This is the
+    most common cause by a distance. It must stay fitted through the power
+    cycle.
+  - Did you actually switch the mount fully off, and leave it off for a few
+    seconds? A quick flick may not discharge enough to be a real reset.
+  - Is the green status light flashing SLOWLY? Solid ON means ESP_Loader
+    hit a fatal error and must be reloaded -- start the script over.
+  - Is another program using the serial port? Close it.
 
 esptool starts but fails mid-flash:
   - The bridge may have hit a serial buffer overrun. Try a shorter USB cable
@@ -310,11 +380,15 @@ Green status light is solid ON (fatal overrun error):
     mount and re-run the script from the start. If this repeats, try a
     shorter USB cable or a different USB port.
 
-Phase 5 proploader call fails:
+The Phase 5 Propeller restore fails:
   - The Propeller is still running ESP_Loader -- the mount won't function
     normally until the regular firmware is loaded.
-  - Power-cycle the mount, re-run the script with --skip-ota-check to get
-    back to Phase 5 more quickly.
+  - The script offers to retry the restore straight away. Say yes. Do not
+    leave the mount in this state.
+  - If you decline and exit, re-run the script and let it complete: it
+    reloads ESP_Loader in Phase 3 and restores the normal firmware in
+    Phase 5. There is no way to "skip to Phase 5" -- the script has no
+    resume.
 
 UFCT modem type (Phase 6) doesn't reflect the ESP32:
   - The ESP32 flash may not have taken. Repeat the full procedure.
@@ -328,13 +402,48 @@ Flash completes but the mount doesn't work afterward:
     installed, the ESP32 stays in bootloader mode and won't run the new
     firmware.
 
-"python is not recognized" or "pip is not recognized":
+"python is not recognized" or "pip is not recognized" (Windows):
   - Python isn't on your PATH. Reinstall with "Add python.exe to PATH"
     checked.
+
+"Permission denied" opening the port (Linux / Raspberry Pi):
+  - Add yourself to the 'dialout' group, then log out and back in:
+      sudo usermod -aG dialout $USER
+
+"start_flash.command can't be opened" (macOS):
+  - Expected on the first run. System Settings > Privacy & Security >
+    Security > "Open Anyway", then double-click again and choose Open.
+  - If you get "Permission denied" instead, the unzip stripped the
+    executable bit. In Terminal type  sh  and a space, drag the file in,
+    and press Return.
 
 "No module named esptool" or "pyserial is required":
   - The script will offer to install them. Or manually:
       pip install pyserial esptool
+
+
+AFTER A SUCCESSFUL FLASH -- YOU ARE NOT QUITE FINISHED
+======================================================
+
+The ESP32 firmware in this package is deliberately an OLDER version.
+
+That is not an oversight. This tool exists to rescue a mount whose ESP32 will
+not talk to anything -- so it installs a known-good, proven-bootable firmware
+over the wire, which is the one job it has to do reliably. Getting your mount
+back is the goal; being current is the next step, not this one.
+
+Once the mount is working again:
+
+  Run the OTA updater to bring the ESP32 up to the current firmware.
+
+      https://github.com/wesmcd6/pmc8-tools/tree/esp32-ota
+
+  No enclosure, no jumper, no hex wrench -- it updates over Wi-Fi in a few
+  minutes. Until you do it, your mount will not have the newest features or
+  fixes, and some things (such as Envision mode) are not present at all in
+  the version this tool installs.
+
+The script prints this reminder too when it finishes successfully.
 
 
 SAFETY NOTES
@@ -346,10 +455,11 @@ SAFETY NOTES
   this procedure -- only the electronic control firmware.
 - Do NOT unplug the USB cable or power off the mount during an automated
   phase. Wait for the script to report completion before doing anything.
-- The mount can stay powered and USB connected throughout the whole
-  procedure -- the BOOT_OPT jumper can be installed and removed on a
-  live board. If you're not comfortable working on live electronics,
-  you can still power off between phases at your discretion.
+- The USB cable stays connected throughout. The BOOT_OPT jumper can be
+  installed and removed on a live board, so the mount only has to be
+  switched off for the deliberate power cycle in Phase 3.5. If you'd rather
+  not work on live electronics, you can power off for the jumper steps too
+  -- the script waits for you at each one.
 - If you're uncomfortable opening the enclosure, handling the Wi-Fi
   antenna cable, or identifying the BOOT_OPT pins, stop and contact
   Explore Scientific support rather than risking damage.
