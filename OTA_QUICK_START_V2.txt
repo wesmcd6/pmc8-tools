@@ -2,7 +2,7 @@
   PMC8 ESP32 Over-the-Air (OTA) Firmware Update — User Guide (V2)
 ================================================================================
 
-This guide is for ota_update_v2.py — the V2 update script, tool v2.1.
+This guide is for ota_update_v2.py — the V2 update script, tool v2.3.
 
 (The script prints its tool version in the banner when it starts. If you ask
 for help with a problem, include that line — it tells us exactly which build
@@ -132,19 +132,39 @@ Place the script and firmware file in the same folder. For example:
   macOS / Linux     ~/pmc8-ota/
 
       ota_update_v2.py
-      start_ota_macos.command   (macOS launcher — double-click this)
+      start_ota.sh              (Linux / Raspberry Pi launcher)
+      start_ota.command   (macOS launcher — double-click this)
       esp-at.bin                (or whatever the firmware file is named)
 
 Keep the files together in one folder. The launcher looks for the updater
 beside itself and will tell you if they have been separated.
 
 
-MACOS — THE EASY WAY (no typing)
----------------------------------
-The zip contains a launcher:  start_ota_macos.command
+LAUNCHERS — THE EASY WAY (no typing)
+-------------------------------------
+The zip contains two launchers. They do the same thing; the only difference is
+how your system starts them.
 
-Double-click it. It opens Terminal, checks what it needs, finds your mount and
-runs the updater. You never type a command or a serial-port name.
+  macOS              double-click   start_ota.command
+  Linux / Pi         run            ./start_ota.sh
+
+Either one checks what it needs, finds your mount and runs the updater. You
+never type a command or a serial-port name.
+
+(`start_ota.sh` does the work. `start_ota.command` is a small wrapper that runs
+it — the `.command` name exists because that is what the macOS Finder needs in
+order to double-click a script. Linux ignores the extension entirely and goes by
+the file's executable bit, so on a Pi desktop double-clicking EITHER file
+generally works too, depending on how your file manager is set up. Running
+`./start_ota.sh` from a terminal is the one that always works.)
+
+On Linux / Raspberry Pi:
+
+    chmod +x start_ota.sh      # only if your unzip tool dropped the permission
+    ./start_ota.sh
+
+The launcher warns you if your user is not in the `dialout` group, which Linux
+needs in order to open the USB serial port.
 
 *** FIRST TIME ONLY — macOS will refuse to open it once ***
 
@@ -155,18 +175,18 @@ runs the updater. You never type a command or a serial-port name.
 
   It takes about fifteen seconds to allow it:
 
-      1. Double-click start_ota_macos.command.
+      1. Double-click start_ota.command.
          macOS refuses. Click  Done  (or OK) to dismiss the message.
 
       2. Open  System Settings  ▸  Privacy & Security
 
       3. Scroll down to the Security section. You will see a line saying
-         "start_ota_macos.command was blocked."
+         "start_ota.command was blocked."
          Click  Open Anyway.
 
       4. Confirm with your password / Touch ID if asked.
 
-      5. Double-click start_ota_macos.command again. Click  Open.
+      5. Double-click start_ota.command again. Click  Open.
 
   It runs, and from then on double-clicking just works. You only do this once.
 
@@ -180,7 +200,7 @@ runs the updater. You never type a command or a serial-port name.
 
           sh
 
-      then drag start_ota_macos.command from Finder into the Terminal window
+      then drag start_ota.command from Finder into the Terminal window
       and press Return. That runs it regardless, and repairs the permissions so
       later double-clicks work.
 
@@ -217,7 +237,8 @@ Use this method when your PC is connected to the PMC8's WiFi network.
 6. Run the script. It finds the serial port on its own:
 
      Windows           python  ota_update_v2.py
-     macOS / Linux     python3 ota_update_v2.py
+     macOS             double-click start_ota.command
+     Linux / Pi        ./start_ota.sh
 
    It will ask for the firmware filename (press Enter for the default).
 
@@ -245,7 +266,8 @@ Use this method when your PC is on a home WiFi network.
 4. Run the script:
 
      Windows           python  ota_update_v2.py
-     macOS / Linux     python3 ota_update_v2.py
+     macOS             double-click start_ota.command
+     Linux / Pi        ./start_ota.sh
 
    The script finds the serial port itself, then prompts you for:
      - WiFi SSID (your home network name — case-sensitive!)
