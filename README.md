@@ -3,20 +3,55 @@
 Latest PMC-Eight Propeller firmware binaries, for use with the **PMC8 Dashboard** or
 the UFCT (Universal Firmware Configuration Tool).
 
-## Current Version: 20A02.2.0.0
+## Current Version: 20A02.2.0.1
 
 | File | Behavior |
 |------|----------|
-| `20A02.2.0.0.bt.binary` | **Current release.** Wi-Fi module active — needed for ExplorestarsLite, the HTTP bridge, and any wireless control. |
-| `20A02.1.8.3.no_wifi.binary` | Previous release, Wi-Fi module kept disabled at runtime. Use this only if you control the mount solely over USB and want to reduce power draw or minimize RFI for sensitive imaging. A no-Wi-Fi build of 20A02.2.0.0 has not been produced — ask if you need one. RN131-equipped units do not implement this feature. |
+| `20A02.2.0.1.bt.binary` | **Current release.** Wi-Fi module active — needed for ExplorestarsLite, the HTTP bridge, and any wireless control. |
+| `20A02.2.0.0.bt.binary` | Previous release. Superseded by 2.2.0.1, which fixes Bluetooth and fast-mode startup. |
+| `20A02.1.8.3.no_wifi.binary` | Older release, Wi-Fi module kept disabled at runtime. Use this only if you control the mount solely over USB and want to reduce power draw or minimize RFI for sensitive imaging. A no-Wi-Fi build of 20A02.2.0.1 has not been produced — ask if you need one. RN131-equipped units do not implement this feature. |
 
-Reports as `ES20A02.2.0.0.bt Release 2026.07.27`.
+Reports as `ES20A02.2.0.1.bt Release 2026.08.10`.
 
 Fully supports both the **Alpaca server** and the older **ASCOM COM driver**.
 
 ---
 
-## What's New in 20A02.2.0.0
+## What's New in 20A02.2.0.1
+
+A focused follow-up to 2.2.0.0, fixing how the mount starts up in and leaves fast
+(Envision) mode. Everything from 2.2.0.0 below still applies.
+
+### Bluetooth works when the mount starts up in fast mode
+
+Previously, if the mount came up already in fast mode, **Bluetooth would silently
+never connect** — no error, nothing to see, it simply did not work. Connecting
+Bluetooth first and *then* switching to fast mode was fine, which made this a
+confusing one to run into.
+
+Fixed. The mount now hands the Bluetooth radio over to the Wi-Fi module correctly
+during startup, so Bluetooth is available either way.
+
+### Turning fast mode off is reliable
+
+Leaving fast mode could fail in a way that left the mount unresponsive to further
+configuration — it looked "stuck". The signal the mount sends to bring the module
+back is now delivered as a direct reply rather than on its own, which is what the
+module actually listens for.
+
+Also in this area: switching fast mode off when it is already off now gives a proper
+answer instead of silence, leftover input is cleared on the way out, and the mount
+re-checks the module's real state rather than trusting what it last set — so status
+reports match reality.
+
+### Starting directly in fast mode
+
+The mount can now boot straight into fast mode when configured to, instead of
+starting normally and switching over afterwards.
+
+---
+
+## Previously, in 20A02.2.0.0
 
 ### Your mount remembers your network — and serves two at once
 
