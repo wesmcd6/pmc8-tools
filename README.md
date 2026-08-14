@@ -66,8 +66,8 @@ Each zip is a self-contained single-file executable plus the User Manual — no 
 | Tool | Branch | Description |
 |------|--------|-------------|
 | PMC-Eight UFCT | [`pmc8-ufct`](../../tree/pmc8-ufct) | **Universal Firmware Configuration Tool** (Windows) — read/write config, send raw commands, serial firmware flash, RN-131 restore |
-| PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware (flash via UFCT) |
-| ESP32 OTA Update | [**v2.1 release**](../../releases/tag/esp32-ota-v2.1) · [docs](../../tree/esp32-ota) | Update the **ESP32** Wi-Fi firmware over the air — no opening the mount. macOS: double-click launcher. Finds the serial port for you |
+| PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware, **20A02.2.0.1** (flash via UFCT or the PMC8 Dashboard) |
+| ESP32 OTA Update | [**v2.3 release**](../../releases/tag/esp32-ota-v2.3) · [docs](../../tree/esp32-ota) | Update the **ESP32** Wi-Fi firmware (**ES4.2.30**) over the air — no opening the mount. Windows, macOS and Linux/Raspberry Pi. Finds the serial port for you |
 | ESP32 Serial Flash | [**v1.0 release**](../../releases/tag/esp32-serial-flash-v1.0) · [docs](../../tree/esp32-serial-flash) | Rescue path when OTA isn't possible — needs opening the mount and fitting a jumper. Windows, macOS and Linux/Raspberry Pi |
 
 ## Alternate distribution branches
