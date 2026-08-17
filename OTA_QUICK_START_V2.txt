@@ -2,7 +2,7 @@
   PMC8 ESP32 Over-the-Air (OTA) Firmware Update — User Guide (V2)
 ================================================================================
 
-This guide is for ota_update_v2.py — the V2 update script, tool v2.3.
+This guide is for ota_update_v2.py — the V2 update script, tool v2.4.
 
 (The script prints its tool version in the banner when it starts. If you ask
 for help with a problem, include that line — it tells us exactly which build
@@ -164,7 +164,14 @@ On Linux / Raspberry Pi:
     ./start_ota.sh
 
 The launcher warns you if your user is not in the `dialout` group, which Linux
-needs in order to open the USB serial port.
+needs in order to open the USB serial port. To fix it:
+
+    sudo usermod -aG dialout $USER
+
+then REBOOT. Logging out and back in is NOT enough on current Ubuntu/GNOME --
+the systemd user session survives a logout and keeps your old group membership,
+so the port still refuses to open and it looks like the tool is broken. If you
+want it in the current terminal without rebooting, run:  newgrp dialout
 
 *** FIRST TIME ONLY — macOS will refuse to open it once ***
 

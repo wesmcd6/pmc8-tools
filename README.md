@@ -4,7 +4,7 @@ Update your PMC-Eight's ESP32 firmware **over-the-air** — no opening the
 enclosure, no hex wrench, no jumper, no risk to the fragile Wi-Fi antenna
 cable. This is the **simplest** way to update the ESP32 firmware.
 
-**This release: ES4.2.30 firmware, updater v2.3.** See *What's new* below.
+**This release: ES4.2.30 firmware, updater v2.4.** See *What's new* below.
 
 If OTA isn't possible (ESP32 has no firmware, has corrupted firmware, or
 has firmware too old to support OTA), fall back to the
@@ -48,7 +48,19 @@ mode on and off dependable.
 It updates **only the Wi-Fi adapter** — it does not change your mount's
 motor/control firmware or how the mount itself behaves.
 
-## What's new in the updater (v2.3)
+## What's new in the updater (v2.4)
+
+- **It tells you straight away if your module is too old to update.** Some
+  early Wi-Fi modules don't support over-the-air updates at all and need the
+  serial-flash tool instead. The updater now checks for that in the first few
+  seconds — **before** it asks for a firmware file, before it asks for your
+  Wi-Fi password, and before it touches the module's network settings. It used
+  to find out only near the end, after all of that.
+- **Clearer Linux serial-port advice.** After adding yourself to the `dialout`
+  group you must **reboot** — logging out and back in is not enough on current
+  Ubuntu, which left people stuck with a port that would not open.
+
+## Earlier, in v2.3
 
 - **Works on macOS**, which it previously did not — and there's nothing to
   type: double-click `start_ota.command`.
@@ -68,9 +80,9 @@ motor/control firmware or how the mount itself behaves.
 
 ## Download
 
-### 👉 [**Get the latest release**](../../releases/tag/esp32-ota-v2.3)
+### 👉 [**Get the latest release**](../../releases/tag/esp32-ota-v2.4)
 
-Download **`pmc8-esp32-ota-v2.3-ES4.2.30.zip`** from that page.
+Download **`pmc8-esp32-ota-v2.4-ES4.2.30.zip`** from that page.
 
 Older versions stay available on the [releases page](../../releases) if you
 ever need to roll back.
@@ -93,7 +105,7 @@ the firmware and **stops safely, changing nothing**, if they don't match.
 After extracting you'll have:
 
 ```
-pmc8-esp32-ota-v2.3-ES4.2.30\
+pmc8-esp32-ota-v2.4-ES4.2.30\
     ota_update_v2.py                 <- the walkthrough script
     start_ota.sh                     <- Linux / Raspberry Pi: run this
     start_ota.command          <- macOS: double-click this
@@ -155,9 +167,12 @@ On macOS use the `/dev/cu.*` name, never its `/dev/tty.*` twin.
 ### Platform notes
 
 - **Linux / Raspberry Pi:** grant serial access once — `sudo usermod -aG dialout $USER`,
-  then log out/in (or run with `sudo`). If you run a firewall (`ufw`), allow the
-  update server's port: `sudo ufw allow 8000/tcp`. (Stock Raspberry Pi OS has no
-  blocking firewall, so usually nothing to do.)
+  then **reboot**. Logging out and back in is *not* enough on current Ubuntu/GNOME:
+  the systemd user session survives a logout and keeps your old group membership, so
+  the port still refuses to open. (`newgrp dialout` gets it in the current terminal
+  only; `sudo` also works.) If you run a firewall (`ufw`), allow the update server's
+  port: `sudo ufw allow 8000/tcp`. (Stock Raspberry Pi OS has no blocking firewall,
+  so usually nothing to do.)
 - **macOS:** the first run may pop *"Do you want the application 'Python' to accept
   incoming network connections?"* — click **Allow** (the ESP has to reach the tool's
   built-in web server to pull the firmware).
