@@ -1,5 +1,5 @@
 ================================================================================
-  PMC8 ESP32 Serial Flash -- User Guide  (tool v1.0)
+  PMC8 ESP32 Serial Flash -- User Guide  (tool v1.3)
 ================================================================================
 
 This guide explains how to reflash the ESP32 firmware on your PMC8 telescope
@@ -115,8 +115,23 @@ STEP 2 -- Install pyserial and esptool
 
    If you skipped this step, the script will notice the missing packages
    the first time you run it and ask "Install <package> now? (y/n)" --
-   answer y and it'll pip-install for you. That's a convenience; doing
+   answer y and it'll install them for you. That's a convenience; doing
    it up-front is cleaner.
+
+   LINUX / RASPBERRY PI -- the commands above are the Windows/macOS form.
+   Debian, Ubuntu and Raspberry Pi OS ship Python as an "externally managed
+   environment", where a plain `pip install` is refused, and on a stock
+   Ubuntu 24.04 pip is not installed at all. Use:
+
+     sudo apt install -y python3-serial
+     sudo apt install -y python3-pip
+     python3 -m pip install --user --break-system-packages esptool
+
+   Take esptool from pip, NOT from apt. Ubuntu's esptool package is missing
+   its stub-flasher files: it will connect to your ESP32, print the chip ID
+   and MAC, and then crash before writing anything. The script detects that
+   case and repairs it for you, but installing the right one up front saves
+   the detour.
 
 
 FINDING YOUR SERIAL PORT
@@ -146,7 +161,10 @@ Linux / Raspberry Pi:
   You must be in the 'dialout' group to open the port. Check with `groups`;
   if it is missing:
       sudo usermod -aG dialout $USER
-  then log out and back in. Do this BEFORE you open the enclosure -- a
+  then REBOOT. Logging out and back in is NOT enough on current Ubuntu --
+  the systemd user session survives a logout and keeps your old group
+  membership, so the port still refuses to open. (`newgrp dialout` works in
+  the current terminal only.) Do this BEFORE you open the enclosure -- a
   permission error looks exactly like a broken cable.
 
 
@@ -249,9 +267,27 @@ Phase 3.5: POWER-CYCLE THE MOUNT  (manual, then automatic check)
 
   The script then runs a harmless read-only check (esptool flash-id) to
   confirm the ESP32 really is in bootloader mode. Nothing is written. If the
-  check fails, the script tries the automatic reset as a fallback, and if
-  that fails too it stops BEFORE writing anything and tells you what to
-  check.
+  check fails, what happens next depends on your mount:
+
+    iEXOS-100 style -- the script tries an automatic reset as a fallback.
+                       On these boards that reset does reach the ESP32.
+
+    SILVER BOX      -- the script asks you to power-cycle the mount AGAIN,
+                       jumper still installed, and waits for you. On these
+                       boards the automatic reset restarts the Propeller but
+                       NOT the ESP32, so a real power cycle is the only
+                       thing that can put it into bootloader mode. Trying
+                       the automatic reset here would be worse than doing
+                       nothing: it can knock an ESP32 that was already in
+                       bootloader mode back out of it.
+
+  If it still cannot reach the ESP32, the script stops BEFORE writing
+  anything and tells you what to check.
+
+  The same applies at the end of the run: on a silver box, expect to power
+  the mount off and on by hand whenever the ESP32 needs restarting, and to
+  wait for the script's go-ahead each time rather than for it to do the
+  reset itself.
 
   If your USB adapter is powered from the mount, its port will disappear and
   come back during the power cycle. The script waits for it, and copes if

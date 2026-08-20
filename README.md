@@ -13,8 +13,8 @@ This tool checks for you and will tell you to go and use it.
 
 ## Download
 
-**⬇ [Download the latest release](../../releases/tag/esp32-serial-flash-v1.0)** —
-`pmc8-esp32-serial-flash-v1.0-ES4.2.3.zip`
+**⬇ [Download the latest release](../../releases/tag/esp32-serial-flash-v1.3)** —
+`pmc8-esp32-serial-flash-v1.3-ES4.2.3.zip`
 
 Downloads moved to Releases in v1.0. Previous versions were files committed to
 this branch; the release page carries the zip, a `.sha256` to check it against,
@@ -33,7 +33,14 @@ screwdriver.
 | macOS | double-click `start_flash.command` |
 | Linux / Raspberry Pi | `./start_flash.sh` |
 
-Tested with a full flash on all three.
+Tested with a full flash of a real mount on **all four** — Windows, macOS, Linux
+and Raspberry Pi — from the same download.
+
+> **v1.3: G11, EXOS-2 and Titan now flash from Linux and Raspberry Pi.** On those
+> mounts this previously could not work at all: the mount was unable to send a
+> single byte back, so the flash always failed however many times you re-seated the
+> jumper. See the [release notes](../../releases/tag/esp32-serial-flash-v1.3) for
+> why. iEXOS-100 / 200 / 300 were never affected.
 
 ## What's in the zip
 
