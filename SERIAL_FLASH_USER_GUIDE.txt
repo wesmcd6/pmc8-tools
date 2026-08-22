@@ -1,0 +1,348 @@
+================================================================================
+  PMC-Eight ESP8266 Serial Flash -- User Guide  (tool v1.0)
+================================================================================
+
+This guide explains how to install new Wi-Fi firmware on a PMC-Eight mount that
+uses the ESP8266 module.
+
+Most of the work is done for you by the `serial_flash.py` script. Your only
+hardware job is fitting one jumper and taking it out again. Everything else --
+loading the Propeller, resetting the module, writing the firmware, putting your
+mount's own firmware back, and checking the result -- is automatic.
+
+Set aside about twenty minutes for your first run.
+
+
+================================================================================
+  WHY THIS TOOL EXISTS, AND WHY YOU ONLY NEED IT ONCE
+================================================================================
+
+The Wi-Fi firmware that shipped on ESP8266 mounts predates over-the-air
+updating. There is no way to update those modules wirelessly, because the
+firmware on them has no update command to send. That is the whole problem.
+
+This tool is the way out. It connects over the USB cable and writes new firmware
+directly -- and the firmware it writes DOES support over-the-air updates.
+
+So this is a one-time bootstrap:
+
+    BEFORE   no way to update at all
+    NOW      you run this once, with a jumper and a screwdriver
+    AFTER    every future update is over Wi-Fi, enclosure closed
+
+You should not need this tool a second time. Keep it anyway: it is also the
+rescue path if a module is ever left with no working firmware.
+
+For the same reason, the firmware in this bundle is a fixed, known-good version
+rather than "the newest". Its job is to get your mount from "cannot update" to
+"can update". After that, updates come over the air.
+
+
+================================================================================
+  WHAT YOU NEED
+================================================================================
+
+Hardware
+--------
+  - The PMC-Eight mount, powered, with its USB cable to your computer.
+  - A small Phillips screwdriver for the enclosure lid.
+  - ONE jumper -- the small plastic shorting block used on circuit-board pin
+    headers. A spare from an old PC hard drive is exactly right. If you do not
+    have one, a spare jumper is often parked on a single pin somewhere inside
+    the enclosure.
+
+Computer
+--------
+Windows 10/11, macOS, or Linux (including Raspberry Pi OS). All four are
+supported and use the same download.
+
+  - Python 3.
+      Windows: install from python.org and TICK "Add python.exe to PATH"
+               during setup. This is the step people miss.
+      macOS / Linux / Raspberry Pi: already installed.
+
+  - Two Python packages, `pyserial` and `esptool`.
+      On macOS, Linux and Raspberry Pi the launcher installs these for you
+      the first time you run it -- just answer yes.
+      On Windows, if they are missing the script tells you the exact command.
+
+Files
+-----
+Everything is in the zip. Unpack it and keep the files together:
+
+    serial_flash.py                  the script you run
+    start_flash.sh                   launcher: Linux / Raspberry Pi
+    start_flash.command              launcher: macOS (double-click)
+    p1_loader.py                     built-in Propeller loader
+    SERIAL_FLASH_USER_GUIDE.txt      this file
+    THIRD_PARTY_NOTICES.md           licences
+    MANIFEST.txt                     exactly what this bundle contains
+    firmware/
+        esp-at.bin                   the new Wi-Fi firmware
+        ESPLoad1.binary              temporary helper for the Propeller
+        pmc8_normal_firmware.binary  your mount's own firmware, put back at the end
+
+Nothing else to download, on any platform.
+
+
+================================================================================
+  STARTING IT
+================================================================================
+
+First, unpack the zip into a folder of its own. Do not unpack it on top of an
+older copy -- on macOS and Linux that can leave the launcher without permission
+to run.
+
+Then make sure the mount is connected by USB and fully powered up. Wait about
+fifteen seconds after switching on. Close anything else that might be using the
+serial port: ExploreStars, SkySafari, a terminal program, the PMC8 Dashboard.
+
+  Windows
+      Open a Command Prompt in the folder and run:
+          python serial_flash.py
+
+  macOS
+      Double-click  start_flash.command
+
+      The first time, macOS will refuse to open it, because it is not signed by
+      a paid Apple developer account. Dismiss that message, then go to
+          System Settings > Privacy & Security > scroll down to Security
+          > "start_flash.command was blocked" > Open Anyway
+      and double-click it again. Once only.
+
+  Linux / Raspberry Pi
+      In a terminal, in the folder:
+          ./start_flash.sh
+
+The window stays open when the script finishes, successfully or not, so you can
+read the last message. Press Enter to close it.
+
+
+================================================================================
+  WHAT HAPPENS, PHASE BY PHASE
+================================================================================
+
+Six phases. Two need you; the rest run on their own.
+
+
+PHASE 1 -- CHECKS AND PORT SELECTION            (automatic, then one question)
+------------------------------------------------------------------------------
+Confirms all the firmware files are present and readable, then lists the serial
+ports it can see and asks which one the mount is on.
+
+On Windows the mount is usually the only "USB Serial Port (COMn)" in the list.
+On macOS and Linux, look for the entry mentioning FTDI or FT232R -- typically
+/dev/ttyUSB0 on Linux, or /dev/cu.usbserial-XXXX on macOS. Ignore the long list
+of /dev/ttyS0 ... /dev/ttyS31 entries on Linux; those are not real ports.
+
+It also prints the firmware version it is about to install. Note it down -- you
+will see it again at the end.
+
+
+PHASE 2 -- IDENTIFY THE MODULE, THEN FIT THE JUMPER                     (you)
+------------------------------------------------------------------------------
+Leave the mount powered on and connected.
+
+FIRST, A WARNING ABOUT THE LID
+    If you are not certain which Wi-Fi module your mount has, open it CAREFULLY.
+    On ESP32 mounts the Wi-Fi antenna is attached to the LID, on a short and
+    fragile cable. Lift the lid slowly, and only far enough to look inside.
+
+    ESP8266 mounts have no antenna on the lid, so the lid comes straight off --
+    but you cannot know that until you have looked.
+
+TELLING THE TWO APART
+    With the lid up, this takes one glance:
+
+      ESP32     an antenna is attached to the LID.
+
+      ESP8266   NO antenna on the lid. Instead there is a BLUE extension
+                coming out of the SIDE of the silver Wi-Fi module, sitting
+                ABOVE THE USB CONNECTOR.
+
+    This bundle installs ESP8266 firmware and will not work on an ESP32. If you
+    see an antenna on the lid, stop and use the ESP32 serial flash tool instead.
+
+    The script asks you to confirm this before going any further, and will not
+    continue until you answer. In practice most people already know: if you are
+    running this because Bluetooth is unavailable to you, you have an ESP8266.
+
+FITTING THE JUMPER
+    Find the BOOT_OPT pins on the ESP8266 module. They are:
+
+       - a PAIR of pins at the top of the card edge,
+       - next to the TOP-LEFT CORNER of the 8266 module,
+       - running PARALLEL to the module's long top edge.
+
+    There is a separate three-pin header nearby, at right angles to these. That
+    is NOT the one. If the pins you are looking at run perpendicular to the
+    module's edge, or there are three of them, look again.
+
+    Push the jumper on so it covers BOTH pins.
+
+Leave the lid off. You will not need to reach inside again until Phase 5, and
+nothing between now and then asks you to.
+
+Press Enter when the jumper is on.
+
+
+PHASE 3 -- PREPARE THE MODULE                                     (automatic)
+------------------------------------------------------------------------------
+The computer cannot reach the Wi-Fi module directly -- everything goes through
+the mount's main processor. So the script temporarily loads a small helper
+program onto that processor, which acts as a wire between your computer and the
+Wi-Fi module.
+
+You will see a progress list ending in DONE, taking around seven seconds, then
+two short waits while the module restarts into its programming mode.
+
+Your mount's own firmware is put back in Phase 5. If anything goes wrong before
+then, the script offers to put it back immediately -- see "IF SOMETHING GOES
+WRONG" below.
+
+
+PHASE 4 -- WRITE THE FIRMWARE                                     (automatic)
+------------------------------------------------------------------------------
+Writes the new Wi-Fi firmware. Progress runs to 100%.
+
+This takes a few minutes. It is limited by the speed of the link through the
+mount, not by your computer, so it is the same on every platform.
+
+Do not unplug anything, and do not switch the mount off, during this phase.
+
+
+PHASE 5 -- REMOVE THE JUMPER, RESTORE YOUR FIRMWARE          (you, then automatic)
+------------------------------------------------------------------------------
+  1. TAKE THE JUMPER OFF. Both pins, all the way off.
+  2. Put the lid back on.
+
+Press Enter, and the script puts your mount's own firmware back automatically.
+
+Leaving the jumper in is the single most common mistake. A mount left with it
+fitted starts the Wi-Fi module in programming mode every time it powers on: no
+Wi-Fi, no response to commands, and no way to update over the air. It looks
+exactly like a dead module when nothing is wrong at all. The script reminds you
+on every exit for this reason.
+
+
+PHASE 6 -- CHECK                                                  (automatic)
+------------------------------------------------------------------------------
+Waits for the mount to finish starting up, then asks the Wi-Fi module what
+firmware it is running and compares it with what was installed.
+
+Expect roughly a minute of waiting here, with the script saying what it is
+waiting for. That is normal -- the mount takes time to boot, and a question
+asked too early is simply ignored by it.
+
+If the version it reports matches, you are done.
+
+
+================================================================================
+  AFTER IT WORKS
+================================================================================
+
+Put the mount back on your Wi-Fi network if it asks, and use it as normal.
+
+From now on your module supports over-the-air updates. The next firmware update
+will not need this tool, the enclosure, the jumper, or the screwdriver -- it
+will be a wireless update with everything closed up.
+
+
+================================================================================
+  IF SOMETHING GOES WRONG
+================================================================================
+
+Nothing here is unrecoverable. The two things worth understanding:
+
+THE MOUNT IS NOT A MOUNT BETWEEN PHASE 3 AND PHASE 5.
+    During that window the main processor is running the helper program instead
+    of your mount's firmware. If the script stops in between, it ASKS whether to
+    put your firmware back. Say yes -- unless you are about to fix something and
+    run straight away, in which case the script reloads the helper itself.
+
+    If you ever end up here with a mount that will not behave, just run the
+    script again and let it finish. Or, from the bundle folder:
+
+        python3 -c "import p1_loader; p1_loader.upload('PORT','firmware/pmc8_normal_firmware.binary',eeprom=True,run=True,progress=print)"
+
+    replacing PORT with your serial port.
+
+THE WI-FI MODULE IS ONLY AT RISK DURING PHASE 4.
+    Before Phase 4, nothing has been written to it. After Phase 4 finishes,
+    the new firmware is in place. If Phase 4 fails partway, run the whole
+    procedure again -- a half-written module is still perfectly reflashable.
+
+
+"The script cannot see my mount / no ports listed"
+    Check the USB cable, that the mount is powered, and that nothing else has
+    the port open. ExploreStars and the Dashboard are the usual culprits. On
+    Windows only one program can hold a COM port at a time.
+
+"Permission denied" opening the port, on Linux or Raspberry Pi
+    Your user needs to be in the `dialout` group:
+
+        sudo usermod -aG dialout $USER
+
+    Then REBOOT. Logging out and back in is NOT enough on current Ubuntu and
+    Raspberry Pi OS -- the desktop session keeps your old group membership and
+    the port carries on refusing. This catches almost everyone once.
+
+"Permission denied" running start_flash.command or start_flash.sh
+    Your unzip tool discarded the permission that marks it runnable. Open a
+    terminal, type  sh  and a space, drag the file in, and press Return. That
+    works regardless and repairs it for next time.
+
+The Wi-Fi module does not respond in Phase 6
+    Usually the mount had not finished starting up. Try:
+
+        python serial_flash.py --verify-only
+
+    which just re-asks the question -- no jumper, no reflash, about a minute.
+    If it still cannot get an answer, allow longer:
+
+        python serial_flash.py --verify-only --pmc8-boot-wait 30
+
+    A failure here does not mean the firmware write failed. Phase 4 reports its
+    own success separately.
+
+Phase 3 or Phase 4 fails and mentions the jumper
+    Take the lid off and look again. The jumper must sit across BOTH pins of
+    the pair that runs parallel to the module's top edge -- not the three-pin
+    header beside it, and not hanging on one pin.
+
+Anything else
+    Run it again. The procedure is safe to repeat from the beginning, and a
+    second run fixes most transient problems. If it fails the same way twice,
+    the last thing the script printed is the useful part -- keep it.
+
+
+================================================================================
+  NOTES FOR THE CURIOUS
+================================================================================
+
+Why a jumper at all?
+    It ties one pin on the Wi-Fi module low while it starts, which tells the
+    module to come up ready to be programmed instead of running its firmware.
+    There is no way to do that in software -- if there were, you would not need
+    to open the box.
+
+Why does the mount's own processor get involved?
+    Your computer's USB cable is wired to the mount's main processor, not to the
+    Wi-Fi module. The temporary helper program loaded in Phase 3 makes that
+    processor pass bytes straight through, so the flashing tool can reach the
+    module. Phase 5 puts your firmware back.
+
+Why is the bundled firmware not the newest?
+    Because this tool is the bootstrap, not the update mechanism. It installs a
+    fixed, well-tested version whose job is to give your module the ability to
+    update itself over Wi-Fi. Once that works, updates arrive over the air --
+    which is easier for you and safer than opening the enclosure again.
+
+What if I have an ESP32 mount rather than an ESP8266?
+    Use the ESP32 serial flash bundle -- the firmware here is not
+    interchangeable, and this script asks you to confirm the module in Phase 2
+    before it does anything, so an honest answer there is enough to stop it.
+
+    The visual check is in Phase 2: an antenna on the lid means ESP32; a blue
+    extension from the side of the silver module, above the USB connector, means
+    ESP8266.
