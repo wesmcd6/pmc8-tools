@@ -69,6 +69,7 @@ Each zip is a self-contained single-file executable plus the User Manual — no 
 | PMC-Eight Firmware | [`pmc8-firmware`](../../tree/pmc8-firmware) | Latest Propeller firmware, **20A02.2.0.1** (flash via UFCT or the PMC8 Dashboard) |
 | ESP32 OTA Update | [**v2.4 release**](../../releases/tag/esp32-ota-v2.4) · [docs](../../tree/esp32-ota) | Update the **ESP32** Wi-Fi firmware (**ES4.2.30**) over the air — no opening the mount. Windows, macOS and Linux/Raspberry Pi. Finds the serial port for you, and tells you in seconds if your module is too old for OTA |
 | ESP32 Serial Flash | [**v1.3 release**](../../releases/tag/esp32-serial-flash-v1.3) · [docs](../../tree/esp32-serial-flash) | Rescue path when OTA isn't possible — needs opening the mount and fitting a jumper. Windows, macOS and Linux/Raspberry Pi |
+| ESP8266 Serial Flash | [**v1.0 release**](../../releases/tag/esp8266-serial-flash-v1.0) · [docs](../../tree/esp8266-serial-flash) | For mounts with the **ESP8266** module, whose original firmware predates over-the-air updating — this is the one-time bootstrap to a build that supports it. Needs opening the mount and fitting a jumper. Windows, macOS and Linux/Raspberry Pi |
 
 ## Alternate distribution branches
 
