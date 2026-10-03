@@ -4,7 +4,7 @@ Update your PMC-Eight's ESP32 firmware **over-the-air** — no opening the
 enclosure, no hex wrench, no jumper, no risk to the fragile Wi-Fi antenna
 cable. This is the **simplest** way to update the ESP32 firmware.
 
-**This release: ES4.2.30 firmware, updater v2.4.** See *What's new* below.
+**This release: ES4.2.32 firmware, updater v2.5.** See *What's new* below.
 
 If OTA isn't possible (ESP32 has no firmware, has corrupted firmware, or
 has firmware too old to support OTA), fall back to the
@@ -13,9 +13,27 @@ tells you if this applies to you, before it changes anything.
 
 ---
 
-## What's new in the firmware
+## What's new in the firmware (ES4.2.32)
 
-This release lets the Wi-Fi adapter talk to the mount with **much less
+- **The PMC-Eight web tool is served by the mount itself.** Open
+  `http://192.168.47.1/` in a browser while connected to the mount's own
+  Wi-Fi, or `http://<mount-ip>/` when the mount is on your home network — on a
+  computer, tablet or phone. Nothing to install, nothing hosted elsewhere, and
+  because the page comes from the mount it can talk to it directly. Over the
+  web it is Wi-Fi only; the USB-only sections (firmware, RN131, network setup)
+  are hidden there.
+- **The web page never slows the mount down.** Serving the page yields to
+  anything actually driving the mount, so loading it while you are slewing or
+  guiding costs nothing.
+- **Better fault-finding.** The adapter's status page counts timed-out and
+  failed commands, so "the mount dropped it" can be told apart from "the app
+  dropped it".
+
+Bluetooth, Envision fast mode, and everything else from ES4.2.30 are unchanged.
+
+## Earlier, in ES4.2.30
+
+That release let the Wi-Fi adapter talk to the mount with **much less
 overhead** — a faster, leaner conversation — and makes switching that faster
 mode on and off dependable.
 
@@ -48,7 +66,9 @@ mode on and off dependable.
 It updates **only the Wi-Fi adapter** — it does not change your mount's
 motor/control firmware or how the mount itself behaves.
 
-## What's new in the updater (v2.4)
+## The updater (unchanged since v2.4)
+
+v2.5 is a firmware release; the updater is the same as v2.4.
 
 - **It tells you straight away if your module is too old to update.** Some
   early Wi-Fi modules don't support over-the-air updates at all and need the
@@ -80,9 +100,9 @@ motor/control firmware or how the mount itself behaves.
 
 ## Download
 
-### 👉 [**Get the latest release**](../../releases/tag/esp32-ota-v2.4)
+### 👉 [**Get the latest release**](../../releases/tag/esp32-ota-v2.5)
 
-Download **`pmc8-esp32-ota-v2.4-ES4.2.30.zip`** from that page.
+Download **`pmc8-esp32-ota-v2.5-ES4.2.32.zip`** from that page.
 
 Older versions stay available on the [releases page](../../releases) if you
 ever need to roll back.
@@ -105,13 +125,13 @@ the firmware and **stops safely, changing nothing**, if they don't match.
 After extracting you'll have:
 
 ```
-pmc8-esp32-ota-v2.4-ES4.2.30\
+pmc8-esp32-ota-v2.5-ES4.2.32\
     ota_update_v2.py                 <- the walkthrough script
     start_ota.sh                     <- Linux / Raspberry Pi: run this
     start_ota.command          <- macOS: double-click this
     OTA_QUICK_START_V2.txt           <- written instructions
     MANIFEST.txt                     <- build provenance
-    esp-at.bin                       <- ESP32 OTA firmware payload (~1.3 MB)
+    esp-at.bin                       <- ESP32 OTA firmware payload (~1.4 MB)
 ```
 
 ## Prerequisites
