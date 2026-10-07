@@ -203,8 +203,8 @@ class NetworkManagementMixin:
         After flushing, wait `settle` seconds so the module has time to start
         processing before we read its reply. This is what prevents the ESP-AT
         'busy p...' notice that appears when the next read/command arrives too
-        soon. `settle` defaults to `self._net_settle` (set per module — the
-        ESP32 is slower than the ESP8266, so it gets a longer delay).
+        soon. `settle` defaults to `self._net_settle` (set per module — see
+        _net_read_esp_ip for why both ESP families now get the same delay).
         """
         self.serial_port.write(data.encode("ascii"))
         self.serial_port.flush()
@@ -448,7 +448,15 @@ class NetworkManagementMixin:
             self._envision_restore_after_at(was_active)
 
     def _net_read_esp_ip(self, module):
-        self._net_settle = 0.6 if module == "ESP32" else 0.35
+        # Same settle for BOTH ESP families. The ESP8266 used to get 0.35 s, sized
+        # for its old stock AT 1.x firmware. A module serial-flashed to the
+        # esp-at 2.2.x bridge (2.2.40-env and later) runs the same AT core family
+        # as the ESP32, and 0.35 s proved too short there: right after an
+        # Envision exit (ESSe0! -> ~BOOT! -> module reboot), the ESP8266 setting
+        # got "no AT OK" while the ESP32 setting (0.6 s) read both addresses,
+        # from the same module (2026-10-07). The settle also sets the gap
+        # between ESPw42! and the first AT@.
+        self._net_settle = 0.6
         self._net_log(f"Reading current {module} WiFi address...")
         self._net_write("ESPw42!")                      # enter AT passthrough
         time.sleep(0.2)
@@ -638,10 +646,10 @@ class NetworkManagementMixin:
             self._envision_restore_after_at(was_active)
 
     def _net_configure_esp(self, module, ssid, pwd):
-        # Settle delay after each command before reading the reply. The ESP32 is
-        # slower to turn a command around than the ESP8266, so give it more time;
-        # both have headroom to go slower, which avoids the 'busy p...' notice.
-        self._net_settle = 0.6 if module == "ESP32" else 0.35
+        # Settle delay after each command before reading the reply; headroom here
+        # avoids the 'busy p...' notice. Same 0.6 s for both ESP families -- see
+        # _net_read_esp_ip for why the ESP8266 no longer gets a shorter one.
+        self._net_settle = 0.6
         self._net_log(f"Configuring {module} for home network '{ssid}'...")
         self._net_write("ESPw42!")                      # enter AT passthrough
         time.sleep(0.2)

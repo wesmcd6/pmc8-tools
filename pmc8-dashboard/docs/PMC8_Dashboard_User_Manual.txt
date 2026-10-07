@@ -1,6 +1,6 @@
 ==============================================================================
 PMC8 DASHBOARD - USER MANUAL
-Version 0.2.6  |  For Explore Scientific PMC-Eight controllers
+Version 0.2.7  |  For Explore Scientific PMC-Eight controllers
 ==============================================================================
 
 A friendly desktop app for setting up, testing, and updating your Explore
@@ -137,11 +137,13 @@ Packaged ZIP (recommended):
   3. After setup succeeds once, launch day-to-day with:
        ./run_dashboard_linux.sh
 
-  >> Log out and back in before connecting (first time): setup_linux.sh adds
-     you to the "dialout" group so you can open the serial port, but that group
-     change only takes effect after a fresh login. If the dashboard opens but
-     the serial port won't connect, log out and back in (or reboot the Pi)
-     once, and it will work from then on.
+  >> REBOOT before connecting (first time): setup_linux.sh adds you to the
+     "dialout" group so you can open the serial port, but that group change
+     does not reach a running session. Logging out and back in is NOT reliable
+     on current Ubuntu/GNOME - the systemd user session survives logout and
+     keeps your old group membership, so the port still refuses to open.
+     Reboot once and it works from then on. To get it in the current terminal
+     without rebooting, run:  newgrp dialout
 
   >> On Linux, connecting over serial reboots the mount - this is normal.
      Opening the serial port on Linux briefly toggles the reset line, so the
@@ -417,7 +419,8 @@ My serial port isn't in the list
   app). On Windows, a missing port often means the USB-serial driver (FTDI /
   CP210x / CH340) isn't installed. On Linux / Raspberry Pi, the mount shows as
   /dev/ttyUSB0 or /dev/ttyACM0; if it's listed but won't open, add yourself to
-  the "dialout" group (sudo usermod -aG dialout $USER) and log out and back in.
+  the "dialout" group (sudo usermod -aG dialout $USER) and REBOOT - logging out
+  and back in is not enough on current Ubuntu/GNOME.
   To identify the right port, unplug the mount, note which entries disappear,
   plug it back in, and pick the one that returns.
 
@@ -507,6 +510,6 @@ firmware loading support.
 See THIRD_PARTY_NOTICES.md in the distribution folder for the full notice text.
 
 ------------------------------------------------------------------------------
-PMC8 Dashboard v0.2.6 - User Manual. For Explore Scientific PMC-Eight
+PMC8 Dashboard v0.2.7 - User Manual. For Explore Scientific PMC-Eight
 controllers.
 ==============================================================================

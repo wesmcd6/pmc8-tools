@@ -10,7 +10,7 @@ DOCS_DIR = APP_DIR / "docs"
 ASSETS_DIR = APP_DIR / "assets"
 MANUAL_HTML = DOCS_DIR / "PMC8_Dashboard_User_Manual.html"
 MANUAL_TXT = DOCS_DIR / "PMC8_Dashboard_User_Manual.txt"
-APP_VERSION = "0.2.6"
+APP_VERSION = "0.2.7"
 
 
 def _is_readable_file(path):
@@ -89,9 +89,22 @@ def print_dependency_help(app_name, missing_package):
         print("  cd /path/to/p1loader")
         print("  python3 PMC8_Dashboard.py")
     else:
-        print("  python3 -m pip install PyQt6 pyserial")
+        # Linux. Do NOT lead with pip: Debian/Ubuntu (and Raspberry Pi OS) ship
+        # Python as an "externally managed environment" (PEP 668), where
+        # `pip install` into system Python is refused outright -- and pip is
+        # often not installed at all. Telling a user to run it sends them into
+        # a dead end. The distro packages are the supported route, and
+        # setup_linux.sh already prefers them.
+        print("  sudo apt install python3-pyqt6 python3-serial")
         print("  cd /path/to/p1loader")
         print("  python3 PMC8_Dashboard.py")
+        print("")
+        print("Or let the setup script do it for you:  ./setup_linux.sh")
+        print("If apt is unavailable, use a virtual environment rather than")
+        print("pip --break-system-packages:")
+        print("  python3 -m venv ~/pmc8venv")
+        print("  ~/pmc8venv/bin/pip install PyQt6 pyserial")
+        print("  ~/pmc8venv/bin/python PMC8_Dashboard.py")
 
 try:
     import serial

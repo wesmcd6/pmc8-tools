@@ -1,18 +1,23 @@
-# PMC8 Dashboard v0.2.6
+# PMC8 Dashboard v0.2.7
 
-PMC8 Dashboard v0.2.6 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
+PMC8 Dashboard v0.2.7 is a Python/PyQt6 desktop utility for configuring and testing an Explore Scientific PMC-Eight controller.
 
 ## Downloads
 
-Grab the ZIP for your platform (PMC8 Dashboard v0.2.6):
+Grab the ZIP for your platform (PMC8 Dashboard v0.2.7):
 
-- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.6/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
-- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.6/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
-- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.6/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
+- [**Windows**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.7/PMC8_Dashboard_Windows.zip) — `PMC8_Dashboard_Windows.zip`
+- [**macOS**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.7/PMC8_Dashboard_macOS.zip) — `PMC8_Dashboard_macOS.zip`
+- [**Linux / Raspberry Pi (64-bit)**](https://github.com/wesmcd6/pmc8-tools/releases/download/pmc8-dashboard-v0.2.7/PMC8_Dashboard_Linux.zip) — `PMC8_Dashboard_Linux.zip`
 
 For the newest version, see the [PMC8 Dashboard releases](https://github.com/wesmcd6/pmc8-tools/releases?q=pmc8-dashboard) on the tools page. Extract the ZIP and follow the matching setup section below.
 
-## What's new in v0.2.6
+## What's new in v0.2.7
+
+- **ESP8266 modules on the new WiFi firmware work again in the Network tab.** After an ESP8266 is updated to the new over-the-air-capable WiFi firmware (2.2.40-env, installed with the ESP8266 serial-flash tool), **Get WiFi Address** with ESP8266 selected could fail with "no AT OK" whenever Fast Server (Envision) was running. The new firmware is built on the same core as the ESP32's and needs the same settle time between commands. The dashboard now gives it that, for both Get WiFi Address and Configure for Home Network.
+- **Correct Linux setup advice.** If you start the dashboard directly on Linux or Raspberry Pi without its dependencies, the help it prints now says `sudo apt install python3-pyqt6 python3-serial` (or points at `setup_linux.sh`). It used to suggest `pip install`, which these systems refuse. It also now says to **reboot** after adding yourself to the `dialout` group, because logging out and back in is not enough on current Ubuntu/Raspberry Pi OS.
+
+### Earlier: v0.2.6
 
 - **Typing your own command now works on macOS.** In the Command Console, clicking the command line only opened the drop-down list — you could pick a command but never type one. There is now a separate **"Or type a command:"** box beneath the parameter fields: click it, type any command (for example `ESGe!`), and press Enter or click Send. While that box has text in it, it is what gets sent; clear it with the **×** at its right edge to go back to choosing from the list. Windows and Linux were not affected, but they get the same clearer two-field layout.
 - **Two Envision (Fast Server) commands added to the list.** `ESGe!` reads the Envision status, and `ESSe<p>!` sets it (`p` = 0 stop now, 1 start now, 3 boot on, 4 boot off). Sending `ESSe<p>!` by hand now re-reads the status afterwards, so the Fast Server display on the Configuration tab can't be left showing the old state. Note that `p` = 0 and 1 restart the WiFi module, so the status may read "Unknown" for a few seconds — and over a WiFi connection they will drop the link you're using.
@@ -160,6 +165,18 @@ python3 -m pip install -r requirements.txt
 python3 PMC8_Dashboard.py
 ```
 
+⚠️ On Debian, Ubuntu and Raspberry Pi OS that `pip install` will be **refused** —
+those ship Python as an "externally managed environment" (PEP 668), and pip is
+often not installed at all. Use the `apt` command above. If you genuinely need
+pip there, create a virtual environment rather than passing
+`--break-system-packages`:
+
+```bash
+python3 -m venv ~/pmc8venv
+~/pmc8venv/bin/pip install -r requirements.txt
+~/pmc8venv/bin/python PMC8_Dashboard.py
+```
+
 Notes:
 
 - **Use a 64-bit OS.** PyQt6 ships wheels/packages for 64-bit ARM (`aarch64`)
@@ -168,8 +185,11 @@ Notes:
   version and try to compile Qt — prefer `apt install python3-pyqt6` on the Pi.
 - **Serial port & permissions.** The mount usually appears as `/dev/ttyUSB0`
   (FTDI/CP210x/CH340 adapters) or `/dev/ttyACM0`. Add your user to the
-  `dialout` group once so you can open the port without root, then log out and
-  back in: `sudo usermod -aG dialout $USER`.
+  `dialout` group once so you can open the port without root:
+  `sudo usermod -aG dialout $USER`, then **reboot**. Logging out and back in is
+  *not* enough on current Ubuntu/GNOME — the systemd user session survives
+  logout and keeps the old group membership, so the port still won't open.
+  (`newgrp dialout` gets it in the current shell only.)
 - **This is a desktop (GUI) app.** Run it on the Pi desktop or over VNC/X — not
   from a headless SSH session with no display.
 

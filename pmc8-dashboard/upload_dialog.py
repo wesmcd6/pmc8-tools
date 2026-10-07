@@ -15,9 +15,14 @@ def print_dependency_help(app_name, missing_package):
         print("  cd /path/to/p1loader")
         print("  python3 PMC8_Dashboard.py")
     else:
-        print("  python3 -m pip install PyQt6 pyserial")
+        # Linux: apt, not pip. See the matching note in PMC8_Dashboard.py --
+        # PEP 668 makes `pip install` into system Python fail on Debian,
+        # Ubuntu and Raspberry Pi OS.
+        print("  sudo apt install python3-pyqt6 python3-serial")
         print("  cd /path/to/p1loader")
         print("  python3 PMC8_Dashboard.py")
+        print("")
+        print("Or let the setup script do it for you:  ./setup_linux.sh")
 
 try:
     from PyQt6.QtCore import QObject, QThread, pyqtSignal
