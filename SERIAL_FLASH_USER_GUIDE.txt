@@ -1,5 +1,5 @@
 ================================================================================
-  PMC-Eight ESP8266 Serial Flash -- User Guide  (tool v1.0)
+  PMC-Eight ESP8266 Serial Flash -- User Guide  (tool v1.1)
 ================================================================================
 
 This guide explains how to install new Wi-Fi firmware on a PMC-Eight mount that
@@ -74,11 +74,12 @@ Everything is in the zip. Unpack it and keep the files together:
     start_flash.sh                   launcher: Linux / Raspberry Pi
     start_flash.command              launcher: macOS (double-click)
     p1_loader.py                     built-in Propeller loader
+    image_check.py                   checks the Wi-Fi image before it is written
     SERIAL_FLASH_USER_GUIDE.txt      this file
     THIRD_PARTY_NOTICES.md           licences
     MANIFEST.txt                     exactly what this bundle contains
     firmware/
-        esp-at.bin                   the new Wi-Fi firmware
+        esp-at-full-2MB.bin          the new Wi-Fi firmware (the whole chip)
         ESPLoad1.binary              temporary helper for the Propeller
         pmc8_normal_firmware.binary  your mount's own firmware, put back at the end
 
@@ -205,6 +206,13 @@ PHASE 4 -- WRITE THE FIRMWARE                                     (automatic)
 ------------------------------------------------------------------------------
 Writes the new Wi-Fi firmware. Progress runs to 100%.
 
+This writes the WHOLE Wi-Fi chip, not just the program on it: the start-up
+code, the layout that makes over-the-air updates possible, and the settings
+that let the module talk to the mount. A mount that has never had this tool
+has none of those, so all of it is needed. It also clears anything the old
+firmware had stored, including your Wi-Fi network settings -- you will put
+those back afterwards.
+
 This takes a few minutes. It is limited by the speed of the link through the
 mount, not by your computer, so it is the same on every platform.
 
@@ -241,7 +249,8 @@ If the version it reports matches, you are done.
   AFTER IT WORKS
 ================================================================================
 
-Put the mount back on your Wi-Fi network if it asks, and use it as normal.
+Put the mount back on your Wi-Fi network, and use it as normal. Phase 4
+cleared the old settings, so expect to be asked.
 
 From now on your module supports over-the-air updates. The next firmware update
 will not need this tool, the enclosure, the jumper, or the screwdriver -- it
@@ -271,6 +280,14 @@ THE WI-FI MODULE IS ONLY AT RISK DURING PHASE 4.
     Before Phase 4, nothing has been written to it. After Phase 4 finishes,
     the new firmware is in place. If Phase 4 fails partway, run the whole
     procedure again -- a half-written module is still perfectly reflashable.
+    The ESP8266 has a built-in programming mode that the jumper always reaches,
+    whatever is or is not on its flash.
+
+ALREADY RAN VERSION 1.0 OF THIS TOOL?
+    Version 1.0 wrote only part of the firmware, which is not enough on a mount
+    that has never been updated -- the module can end up silent afterwards.
+    Nothing is damaged. Run this version (1.1 or later) the same way; it writes
+    the whole chip and the module comes back.
 
 
 "The script cannot see my mount / no ports listed"

@@ -23,8 +23,16 @@ path if a module is ever left without working firmware.
 
 ## Download
 
-**⬇ [Download the latest release](../../releases/tag/esp8266-serial-flash-v1.0)** —
-`pmc8-esp8266-serial-flash-v1.0-2.2.40-env.zip`
+**⬇ [Download the latest release](../../releases/tag/esp8266-serial-flash-v1.1)** —
+`pmc8-esp8266-serial-flash-v1.1-2.2.40-env.zip`
+
+> **v1.1 replaces v1.0.** v1.0 wrote only part of the firmware, which is not
+> enough on a mount that still has its original Wi-Fi firmware. v1.1 writes the
+> whole chip. If you ran v1.0 and the module went silent, nothing is damaged:
+> run v1.1 and it comes back. Writing the whole chip clears the module's stored
+> Wi-Fi settings, so put the mount back on your home network afterwards (the
+> Network tab in [PMC8 Dashboard](../../releases/tag/pmc8-dashboard-v0.2.7)
+> v0.2.7 or later).
 
 The release page carries the zip and a `.sha256` to check it against.
 
