@@ -20,7 +20,7 @@ The Releases page carries pre-built binaries for every platform. Pick the asset 
 | `ExploreStars-Envision-vX.Y.Z.W-windows.zip` | Windows | Extract, run `ExplorestarsLite.Maui.exe` |
 | `ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA | Run on a Windows/Mac/Linux PC; phones connect via local Wi-Fi |
 
-For the user manual and attribution doc, see the [`explorestars-envision`](../../tree/explorestars-envision) branch.
+For the user manual and attribution doc, see the [`envision`](../../tree/envision) branch.
 
 iOS and macOS app-store builds are planned.
 
