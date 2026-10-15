@@ -37,7 +37,7 @@ Connect to your PMC-Eight via Wi-Fi or Serial (USB / Bluetooth virtual COM port)
 ## Features
 
 See the built-in user manual (? icon in the app) or the
-[`explorestars-envision`](../../tree/explorestars-envision) branch for the full feature list.
+[`envision`](../../tree/envision) branch for the full feature list.
 
 ## Trademarks
 
