@@ -41,6 +41,8 @@ See the built-in user manual (? icon in the app) or the
 
 ## Trademarks
 
-ExploreStars Envision&trade; is a trademark of Wes McDonald. Explore Scientific&trade; and PMC-Eight&trade; are trademarks of Explore Scientific, LLC. ExploreStars Envision&trade; is an independent application authored and owned by Wes McDonald; if Explore Scientific, LLC recommends, endorses, promotes, or distributes it, that should be understood as support for an independently authored application within the PMC-Eight&trade; ecosystem, not as Explore Scientific authorship or ownership of the app.
+Envision the Heavens&trade; (formerly ExploreStars Envision) is a trademark of Wes McDonald. Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are trademarks of Explore Scientific, LLC, and are used here with acknowledgement.
+
+Envision the Heavens&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. The application code and project materials are authored and owned by Wes McDonald except where third-party credits are listed in `LICENSES.md`. If Explore Scientific, LLC recommends, endorses, promotes, or distributes the app, that endorsement should be understood as support for use of an independently authored application within the PMC-Eight ecosystem, not as Explore Scientific authorship or ownership of the app.
 
 Copyright © 2026 Wes McDonald. All rights reserved.
