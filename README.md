@@ -1,24 +1,26 @@
 # PMC-Eight&trade; Tools
 
-Downloads for **Explore Scientific&trade; PMC-Eight&trade;** telescope mount users — the **ExploreStars Envision&trade;** mount-control app, ESP32 Wi-Fi firmware tools, and the latest Propeller firmware.
+Downloads for **Explore Scientific&trade; PMC-Eight&trade;** telescope mount users — the **Envision the Heavens&trade;** (Envision) mount-control app, ESP32 Wi-Fi firmware tools, and the latest Propeller firmware.
 
 > 📖 **New here?** Start with [**GETTING_STARTED.txt**](GETTING_STARTED.txt) —
 > a step-by-step guide that walks you through choosing the right tool,
-> updating firmware, and installing ExploreStars Envision in the correct order.
+> updating firmware, and installing Envision in the correct order.
 > First-time users should read this before anything else. Experienced
 > users can jump to its "Quick Reference" section.
 
-## ExploreStars Envision&trade; — current
+## Envision the Heavens&trade; — current
 
-📦 **[Get the v2.5.0.6 release →](../../releases/tag/v2.5.0.6)**
+Envision the Heavens&trade; (Envision for short) was called ExploreStars Envision before 2.5.2.0.
+
+📦 **[Get the v2.5.2.0 release →](../../releases/tag/v2.5.2.0)**
 
 The Releases page carries pre-built binaries for every platform. Pick the asset that matches your device:
 
 | Asset name | Platform | Notes |
 |---|---|---|
-| `ExploreStars-Envision-vX.Y.Z.W-android.apk` | Android | Sideload — tap to install |
-| `ExploreStars-Envision-vX.Y.Z.W-windows.zip` | Windows | Extract, run `ExplorestarsLite.Maui.exe` |
-| `ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA | Run on a Windows/Mac/Linux PC; phones connect via local Wi-Fi |
+| `Envision-vX.Y.Z.W-android.apk` | Android | Sideload — tap to install |
+| `Envision-vX.Y.Z.W-windows.zip` | Windows | Extract somewhere you can write to (not Program Files), open the `Envision` folder, run **Start Envision** |
+| `Envision-vX.Y.Z.W-pwa-server.zip` | Self-hosted PWA | Run on a Windows/Mac/Linux PC or Raspberry Pi; phones connect via local Wi-Fi. Setup guide: `Envision/docs/server-setup-guide.html` in the zip |
 
 For the user manual and attribution doc, see the [`envision`](../../tree/envision) branch.
 
@@ -78,14 +80,17 @@ Each zip is a self-contained single-file executable plus the User Manual — no 
 | [`pwa-server`](../../tree/pwa-server) | Pre-built PWA server distribution (alternate to the Release zip — same content) |
 | [`windows`](../../tree/windows) | Windows desktop binary (alternate to the Release zip — same content) |
 
-## About ExploreStars Envision&trade;
+## About Envision the Heavens&trade;
 
 Cross-platform telescope mount control — runs on Android, Windows, and as a self-hosted PWA accessible from any phone or tablet on your local network.
 
 - 11,000+ object catalog with altitude-based visibility coloring
 - GoTo, Sync, Tracking (Sidereal/Solar/Lunar), Meridian Flip, multi-star alignment
+- **Polar Assist** — polar-align with the altitude and azimuth bolts, guided by the star alignment
+- **Pointing model** fitted from your alignment stars (including Taki's Z1 term), with refraction correction and alignments remembered per site
 - **Model-aware display** — chart marker and RA/Dec readouts can show the alignment-corrected "true sky" position
-- **Star Seeker** in-app sky chart with sensor-based push-to identification
+- **Star Seeker** in-app sky chart with sensor-based push-to identification, pointing at true north (World Magnetic Model)
+- **VR sky window** — hold the phone up and the screen shows the sky behind it
 - **Camera field-of-view** overlay on the sky chart, with a calculator — sensor/camera presets, Barlow/reducer, and rotator-angle support
 - Spiral Search, Thumb Pad centering with Fine/Coarse rates
 - Solar system targets: planets, Moon, Sun, minor planets
@@ -100,9 +105,9 @@ Cross-platform telescope mount control — runs on Android, Windows, and as a se
 
 ## Trademarks &amp; copyright
 
-ExploreStars Envision&trade; is a trademark of Wes McDonald. Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are trademarks of [Explore Scientific, LLC](https://www.explorescientific.com), and are used here with acknowledgement.
+Envision the Heavens&trade; is a trademark of Wes McDonald. Explore Scientific&trade;, ExploreStars&trade;, and PMC-Eight&trade; are trademarks of [Explore Scientific, LLC](https://www.explorescientific.com), and are used here with acknowledgement.
 
-ExploreStars Envision&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. The application code and project materials are authored and owned by Wes McDonald. If Explore Scientific, LLC recommends, endorses, promotes, or distributes the app, that should be understood as support for an independently authored application within the PMC-Eight&trade; ecosystem, not as Explore Scientific authorship or ownership of the app.
+Envision the Heavens&trade; is an independent application that controls Explore Scientific&trade; PMC-Eight&trade; telescope mounts. The application code and project materials are authored and owned by Wes McDonald except where third-party credits are listed in `LICENSES.md`. If Explore Scientific, LLC recommends, endorses, promotes, or distributes the app, that endorsement should be understood as support for use of an independently authored application within the PMC-Eight ecosystem, not as Explore Scientific authorship or ownership of the app.
 
 Copyright © 2026 Wes McDonald. All rights reserved.
 

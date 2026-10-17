@@ -1,5 +1,5 @@
 PMC-8 TOOLS — FIRST-TIME AND REFERENCE USER GUIDE  
-Firmware, Wi-Fi Updates, and ExploreStars Envision  
+Firmware, Wi-Fi Updates, and Envision the Heavens(TM) (Envision)  
 START HERE
 
 --------------------------------------------------------------------
@@ -12,7 +12,7 @@ It explains what PMC-8 tools are available, what each tool does, why the
 tools exist, and how to use them safely and correctly.
 
 For new users, this guide provides a clear, end-to-end path for setting
-up Wi-Fi, updating firmware, and installing ExploreStars Envision without
+up Wi-Fi, updating firmware, and installing Envision without
 making common mistakes.
 
 For experienced users, this guide serves as a current reference that
@@ -24,7 +24,7 @@ optional, or unnecessary.
 If you follow this guide from top to bottom, you will be able to:
 - Safely update PMC-8 firmware
 - Enable or recover Wi-Fi functionality
-- Install and run ExploreStars Envision on Android or Windows
+- Install and run Envision on Android or Windows
 - Avoid unnecessary enclosure opening or incorrect update paths
 - Know when NOT to update and when to ask for help
 
@@ -37,7 +37,7 @@ This guide is intended for:
 - NEW PMC-8 users setting up their system for the first time
 - EXPERIENCED PMC-8 users updating firmware or adding new capabilities
 - Users enabling or troubleshooting Wi-Fi
-- Users installing or upgrading ExploreStars Envision
+- Users installing or upgrading Envision
 - Users who want a single, authoritative reference for PMC-8 tools
 
 No assumptions are made about prior firmware-update experience.
@@ -69,7 +69,7 @@ It contains TWO independent components:
    - Controls mount motion, tracking, and GoTo accuracy
 
 2) ESP32 Wi-Fi module
-   - Handles wireless networking, ExploreStars Envision, and Alpaca/ASCOM access
+   - Handles wireless networking, Envision, and Alpaca/ASCOM access
 
 These components are updated separately using different tools.
 
@@ -87,8 +87,8 @@ Computer / Devices:
   macOS / Linux users can run the OTA update (Python + esptool are
   cross-platform) but the serial-flash path bundles proploader.exe,
   which is Windows-only.
-- Android phone or tablet (optional, ExploreStars Envision Android)
-- Windows PC (optional, ExploreStars Envision Windows)
+- Android phone or tablet (optional, Envision Android)
+- Windows PC (optional, Envision Windows)
 
 Software:
 - Python 3 (required for ESP32 update tools)
@@ -126,11 +126,11 @@ https://github.com/wesmcd6/pmc8-tools/tree/esp32-ota
 ESP32 serial flash (fallback method):
 https://github.com/wesmcd6/pmc8-tools/tree/esp32-serial-flash
 
-ExploreStars Envision (all platforms — APK, Windows, PWA server):
+Envision (all platforms — APK, Windows, PWA server):
 https://github.com/wesmcd6/pmc8-tools/releases/latest
 
-ExploreStars Envision branch (manual + LICENSES):
-https://github.com/wesmcd6/pmc8-tools/tree/explorestars-envision
+Envision branch (manual + LICENSES):
+https://github.com/wesmcd6/pmc8-tools/tree/envision
 
 --------------------------------------------------------------------
 
@@ -138,7 +138,7 @@ WHICH TOOL DO I USE?
 
 Use this decision guide:
 
-- Want to use ExploreStars Envision?
+- Want to use Envision?
   -> You MUST update ESP32 Wi-Fi firmware first
 
 - Does Wi-Fi already work?
@@ -160,7 +160,7 @@ https://github.com/wesmcd6/pmc8-tools
 
 COMMON TASKS AND TOOLS
 
-Enable ExploreStars Envision:
+Enable Envision:
 - Update ESP32 Wi-Fi firmware FIRST
 - Use OTA if Wi-Fi works
 - Use Serial Flash only if OTA is not possible
@@ -182,7 +182,7 @@ UPDATE ORDER (IMPORTANT)
 Correct order:
 1) ESP32 Wi-Fi firmware
 2) Verify Wi-Fi
-3) ExploreStars Envision (optional)
+3) Envision (optional)
 4) PMC-8 Propeller firmware
 
 ESP32 METHODS SUMMARY
@@ -226,7 +226,7 @@ END OF QUICK REFERENCE FOR EXPERIENCED USERS
 --------------------------------------------------------------------
 
 STEP 1: UPDATE ESP32 WI-FI FIRMWARE
-(REQUIRED FOR EXPLORESTARS ENVISION)
+(REQUIRED FOR ENVISION)
 
 There are two update methods. Use OTA whenever possible.
 
@@ -274,19 +274,21 @@ DO NOT proceed until Wi-Fi is verified.
 
 --------------------------------------------------------------------
 
-STEP 3: INSTALL AND RUN EXPLORESTARS ENVISION
+STEP 3: INSTALL AND RUN ENVISION
 (OPTIONAL BUT RECOMMENDED)
 
 All platforms — pick the binary that matches your device on the
 GitHub Releases page:
 https://github.com/wesmcd6/pmc8-tools/releases/latest
 
-Android:  ExploreStars-Envision-vX.Y.Z.W-android.apk  (sideload)
-Windows:  ExploreStars-Envision-vX.Y.Z.W-windows.zip  (extract + run)
-Self-hosted PWA: ExploreStars-Envision-vX.Y.Z.W-pwa-server.zip
+Android:  Envision-vX.Y.Z.W-android.apk  (sideload)
+Windows:  Envision-vX.Y.Z.W-windows.zip  (extract somewhere you can
+          write to, not Program Files, then run "Start Envision")
+Self-hosted PWA: Envision-vX.Y.Z.W-pwa-server.zip
+          (setup guide inside: Envision/docs/server-setup-guide.html)
 
 Documentation (manual + license + attribution):
-https://github.com/wesmcd6/pmc8-tools/tree/explorestars-envision
+https://github.com/wesmcd6/pmc8-tools/tree/envision
 
 --------------------------------------------------------------------
 
