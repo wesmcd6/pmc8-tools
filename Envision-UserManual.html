@@ -119,7 +119,7 @@
 <ul>
   <li><a href="#overview">1. Overview</a>
     <ul>
-      <li><a href="#whatsnew">What's New in 2.5.2.0</a></li>
+      <li><a href="#whatsnew">What's New in 2.6.0.0</a></li>
     </ul>
   </li>
   <li><a href="#install">2. Installation</a></li>
@@ -151,6 +151,7 @@
       <li><a href="#goto">6.5 GoTo &amp; Sync</a></li>
       <li><a href="#altaz-goto">6.6 Alt/Az GoTo</a></li>
       <li><a href="#target-wiki">6.7 Wikipedia Lookup</a></li>
+      <li><a href="#visibility">6.8 Visibility (Altitude vs Time)</a></li>
     </ul>
   </li>
   <li><a href="#control">7. Control Page</a>
@@ -181,6 +182,7 @@
       <li><a href="#ss-settings">8.15 Chart Settings</a></li>
       <li><a href="#ss-offline">8.16 Data &amp; Offline</a></li>
       <li><a href="#ss-wiki">8.17 Wikipedia Lookup</a></li>
+      <li><a href="#ss-images">8.18 Object Pictures on the Chart</a></li>
     </ul>
   </li>
   <li><a href="#calculators">9. Calculators</a></li>
@@ -194,7 +196,12 @@
       <li><a href="#sa-polarassist">11.5 Polar Assist</a></li>
     </ul>
   </li>
-  <li><a href="#polar">12. Daylight Polar Alignment</a></li>
+  <li><a href="#polar">12. Daylight Polar Alignment</a>
+    <ul>
+      <li><a href="#findhome">12.1 Find Home</a></li>
+      <li><a href="#levelbyhand">12.2 Level by Hand</a></li>
+    </ul>
+  </li>
   <li><a href="#nightvision">13. Night Vision Mode</a></li>
   <li><a href="#networking">14. Networking</a>
     <ul>
@@ -207,7 +214,11 @@
   </li>
   <li><a href="#mounts">15. Supported Mounts</a></li>
   <li><a href="#troubleshooting">16. Troubleshooting</a></li>
-  <li><a href="#credits">17. Credits &amp; Data Sources</a></li>
+  <li><a href="#credits">17. Credits &amp; Data Sources</a>
+    <ul>
+      <li><a href="#image-contributors">Image contributors</a></li>
+    </ul>
+  </li>
   <li><a href="#trademarks">18. Trademarks, Copyright &amp; Disclaimer</a></li>
 </ul>
 <!-- Invisible white-on-white filler so iOS PWA's rubber-band scroll
@@ -227,7 +238,7 @@
 
 <h1>Envision the Heavens User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.5.2.0</strong> &bull; October 2026</p>
+<p><strong>Version 2.6.0.0</strong> &bull; October 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -235,6 +246,24 @@
 <p>The app supports four ways of talking to your mount: two over WiFi (one for current ESP32 firmware, one for legacy modules), Bluetooth Classic on Android, and USB serial on Windows. Your commands are forwarded to the PMC-Eight's Propeller processor regardless of route. See <a href="#connection">Section 5.1</a> for picking the right one for your hardware.</p>
 
 <div class="note" id="whatsnew">
+<strong>What's New in 2.6.0.0</strong>
+<ul>
+  <li><strong>Find home.</strong> Home Finder is now part of Envision. Find your mount's home position
+      with the mount connected, or level it by hand without one. Export a run to share. It's also the
+      first step of Polar Align. See <a href="#findhome">Section 12.1</a>.</li>
+  <li><strong>Object pictures on the chart.</strong> As you zoom in, pictures appear on the chart, sized
+      and placed where the objects really are. Wide fields show the surrounding sky; tap an object to bring
+      its close-up in front. A chart setting controls how early pictures appear. See
+      <a href="#ss-images">Section 8.18</a>.</li>
+  <li><strong>Common names.</strong> The chart now shows names like "Whirlpool Galaxy" and "Inchworm
+      Cluster" alongside the catalogue number.</li>
+  <li><strong>Catalog.</strong> Positions were checked against professional references and hundreds
+      corrected. Duplicate entries were merged, Caldwell numbers fixed, and new objects added (NGC 7822,
+      the Vela Supernova Remnant and others).</li>
+  <li><strong>Visibility chart.</strong> Drag across the night to read altitude and azimuth, step night to
+      night, or pick a date.</li>
+  <li><strong>Fixes.</strong> Accuracy and stability fixes throughout.</li>
+</ul>
 <strong>What's New in 2.5.2.0</strong>
 <ul>
   <li><strong>A new name and a new look.</strong> The app is now <strong>Envision</strong>
@@ -257,7 +286,7 @@
       with the bolts. See Section 11.5.</li>
   <li><strong>A more complete pointing model.</strong> It now also fits Taki's Z1 (the Dec axis not
       quite square to the polar axis), and each term is solved only once the stars you've centered can
-      pin it down. Large polar errors and wedges of tens of degrees are handled. See Section 11.2.</li>
+      pin it down. Polar axis errors of tens of degrees are handled. See Section 11.2.</li>
   <li><strong>Better alignment stars.</strong> Star Align ranks the whole catalog, uses Hipparcos
       magnitudes, and asks for the stars the model actually needs (for example a high star on the
       side of the meridian that lacks one). <strong>Skip</strong> now keeps a star out of the list,
@@ -496,7 +525,7 @@
   </tr>
   <tr>
     <td><svg class="ui-icon" viewBox="0 0 24 24" style="width:1.5em;height:1.5em;"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M21,8c-1.45,0-2.26,1.44-1.93,2.51l-3.55,3.56c-0.3-0.09-0.74-0.09-1.04,0l-2.55-2.55C12.27,10.45,11.46,9,10,9 c-1.45,0-2.27,1.44-1.93,2.52l-4.56,4.55C2.44,15.74,1,16.55,1,18c0,1.1,0.9,2,2,2c1.45,0,2.26-1.44,1.93-2.51l4.55-4.56 c0.3,0.09,0.74,0.09,1.04,0l2.55,2.55C12.73,16.55,13.54,18,15,18c1.45,0,2.27-1.44,1.93-2.52l3.56-3.55 C21.56,12.26,23,11.45,23,10C23,8.9,22.1,8,21,8z"/><polygon points="15,9 15.94,6.93 18,6 15.94,5.07 15,3 14.08,5.07 12,6 14.08,6.93"/><polygon points="3.5,11 4,9 6,8.5 4,8 3.5,6 3,8 1,8.5 3,9"/></g></g></svg></td>
-    <td>Visibility</td>
+    <td><a href="#visibility">Visibility</a></td>
     <td>What is up tonight and when objects are best placed.</td>
   </tr>
   <tr>
@@ -939,6 +968,21 @@ The override is now cleared. From this point on, whatever language you set on th
 <p><strong>Reading in another language.</strong> The article opens in your <a href="#language">display language</a> (set on the Setup page) &mdash; a French user reading <code>M42</code> lands on the French article. If that language's Wikipedia has no article for the object, the app automatically falls back to the <strong>English</strong> article rather than showing "not available." To read that English article in your language, use your browser's built-in translation: in <strong>Safari</strong> tap <strong>aA</strong> in the address bar &rarr; <strong>Translate</strong>; in <strong>Chrome</strong> tap the <strong>translate icon</strong>. The prompt appears on its own, because the page is in a different language than your browser prefers &mdash; and a machine-translated English article is often <em>more complete</em> than a short native-language one. <em>Running the app full-screen from the Home Screen?</em> There's no browser toolbar there, so tap <strong>browser &#8599;</strong> to open the article in your browser, then translate it.</p>
 <p>The Star Seeker chart has the same Wikipedia affordance for selected chart objects &mdash; see <a href="#ss-wiki">Section 8.17</a> for the chart-side details and how the lookup resolves catalog identifiers like <code>HIP 91262</code> or <code>HR 2491</code>.</p>
 
+<h3 id="visibility">6.8 Visibility (Altitude vs Time)</h3>
+<p>The <strong>Visibility</strong> page charts the selected target's altitude through one night, so you can see when it rises, when it is highest, and when it sets. Select a target on the Target page (or the chart) first; the page shows "Select a target first" until you do. Times are your phone's local time, and the chart uses the latitude and longitude on the Setup page.</p>
+<ul>
+  <li><strong>The curve</strong> runs from rise to set. The dashed gray line is the horizon (0&deg;). An object that never rises or never sets shows a full 24 hours, and the title says so.</li>
+  <li><strong>Rise, Transit, Set</strong> under the chart give the times, and the transit altitude in brackets. Transit is when the object crosses the meridian, due south or due north of you, and is highest in the sky. When the chart shows tonight, the line under them also gives the object's altitude <strong>now</strong>.</li>
+  <li><strong>The green "Now" marker</strong> shows the present moment when it falls inside the chart.</li>
+</ul>
+<p><strong>Reading any moment.</strong> The blue cursor starts on the transit. Tap the chart, or drag sideways along it, to move the cursor: the readout at the top shows that moment's time, altitude and <strong>azimuth</strong> (degrees east of north: 90&deg; east, 180&deg; south, 270&deg; west). Near the transit line the cursor snaps back to it and reads <strong>Transit</strong>. A swipe up or down on the chart scrolls the page and leaves the cursor where it is.</p>
+<p><strong>Other nights.</strong> The date above the buttons reads <strong>Tonight</strong> or <strong>Night of</strong> a date. Each chart covers one night, from that evening through the next morning, so an object that transits at 2&nbsp;a.m. is on the chart for the evening before. Until 6&nbsp;a.m., <em>tonight</em> means the night in progress; after that, the coming one.</p>
+<ul>
+  <li><strong>&#9664; / &#9654;</strong> step back or forward one night.</li>
+  <li><strong>Tap the date</strong> to open a calendar and pick any night. To change the year, tap the year at the top of the calendar.</li>
+  <li><strong>Today</strong> returns to tonight with the cursor on the transit.</li>
+</ul>
+
 <!-- ======================= CONTROL ======================= -->
 <h2 id="control">7. Control Page</h2>
 
@@ -960,7 +1004,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Auto flip</strong> toggle &mdash; automatically flips when the mount tracks more than 2 minutes past the meridian.</li>
   <li><strong>FLIP</strong> button &mdash; manually trigger a meridian flip. Enabled when connected and the mount is past the meridian.</li>
   <li><strong>A flip is a GoTo.</strong> The mount goes to the selected target again (or, with no target selected, to where it points now), with the star alignment applied as for any GoTo. Past the meridian, the GoTo puts it on the other side of the pier.</li>
-  <li><strong>Large wedge near the pole:</strong> if the star alignment can't be solved for a GoTo (or a flip) on its normal side, the mount does not move. A prompt says so and offers: <em>Use the other pier</em> (when that works and stays within the mount&rsquo;s <em>auto flip off</em> limit; it says how far past the meridian that puts the mount), <em>Best attempt</em> (how far off it may land), or <em>Cancel</em>. A flip held this way is not retried for that crossing.</li>
+  <li><strong>Polar axis too far off for a target near the pole:</strong> if the star alignment can't be solved for a GoTo (or a flip) on its normal side, the mount does not move. A prompt says so and offers: <em>Use the other pier</em> (when that works and stays within the mount&rsquo;s <em>auto flip off</em> limit; it says how far past the meridian that puts the mount), <em>Best attempt</em> (how far off it may land), or <em>Cancel</em>. A flip held this way is not retried for that crossing.</li>
   <li><strong>Tracking limits</strong> (minutes past the meridian; blank = no stop). <em>Stop if a flip is held</em>: auto flip is on, a flip was due and hasn't happened. <em>Stop if auto flip is off</em> &mdash; also the limit after a flip landed on the other pier by choice (<em>Use the other pier</em>), where auto flip doesn&rsquo;t fire again that crossing. At a limit tracking stops and the app says so; GoTo the target to continue on the other side. Defaults come from the mount model (Setup) and change with it unless you edited them; <em>Mount defaults</em> restores them.
     <table>
       <tr><th>Mount</th><th>Flip held</th><th>Auto flip off</th></tr>
@@ -1139,7 +1183,7 @@ The override is now cleared. From this point on, whatever language you set on th
 <p>The reverse flow works too: tap an object on the chart, switch to the Target page, and the picked target is already in the search box. The Nearby search there centers on it (instead of motor counts), so finding companions or related objects is one tap away.</p>
 
 <h4>ALIGN in Push-To</h4>
-<p>ALIGN in Push-To is <strong>essential</strong>, not optional. The phone's compass is the only thing telling the chart where the OTA is pointed; without calibration, the aim marker can be off by tens of degrees from sky reality and pushing toward the target arrow won't land on the actual target.</p>
+<p>ALIGN in Push-To is <strong>essential</strong>, not optional. The phone's compass is the only thing telling the chart where the OTA is pointed; without calibration, the aim marker can be off by tens of degrees from sky reality and pushing toward the target arrow won't land on the actual target. Some phones, notably some Android models, have unsteady compasses that drift during a session; on those, expect to ALIGN again more often, whenever the chart stops landing on targets.</p>
 <p>The workflow:</p>
 <ol>
   <li>Pick a bright star you can identify visually. Either pick it from the Target page (it'll be active immediately) or tap it on the chart.</li>
@@ -1223,7 +1267,7 @@ The override is now cleared. From this point on, whatever language you set on th
 <ul>
   <li><strong>Constellation-line node stars</strong> use Bayer designations when known (&alpha; CMa, &beta; Tri, &pi;&sup3; Cyg, ...), Flamsteed numbers when only those exist (38 Lyn, 7 Cam), or "HIP &lt;n&gt; ABBR" for catalog-faint nodes. Every constellation node has a label.</li>
   <li><strong>Other named stars</strong> use their Bayer form if available (e.g. &alpha; CMa for Sirius), else a proper name, else "HIP &lt;n&gt;".</li>
-  <li><strong>DSOs</strong> use their catalog name (M31, NGC 2237, ...).</li>
+  <li><strong>DSOs</strong> use their catalog name, followed by any common names: "M 51 &middot; Whirlpool Galaxy", "NGC 6910 &middot; Inchworm Cluster / Rocking Horse Cluster". The tap panel shows the same names on a line under the catalog name.</li>
   <li><strong>Solar-system bodies</strong> use their body name (Mars, Jupiter, ...).</li>
 </ul>
 
@@ -1282,7 +1326,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Position</strong> &mdash; choose whether the mount marker and the RA/Dec readout show the model-corrected "true sky" position or the raw, uncorrected position. Available once you have at least a two-star alignment model; the change takes effect on the next position update.</li>
   <li><strong>Reference Lines</strong> &mdash; the four yellow great circles (ecliptic, celestial equator, galactic equator, local meridian) each with separate <em>line</em> and <em>label</em> toggles, plus the zenith marker (Z). Once you know the meridian by sight, turn its label off without losing the line.</li>
   <li><strong>Coordinate Grids</strong> &mdash; RA/Dec grid + labels, Alt/Az grid + labels.</li>
-  <li><strong>Catalog</strong> &mdash; stars, DSOs, constellation lines + labels (the <strong>LINES</strong> top-right button toggles both as a unit), planets + labels.</li>
+  <li><strong>Catalog</strong> &mdash; stars, DSOs, constellation lines + labels (the <strong>LINES</strong> top-right button toggles both as a unit), planets + labels, and <strong>Object images</strong> (<a href="#ss-images">&sect;8.18</a>). With Object images on, <strong>Images appear</strong> sets how early pictures show as you zoom in: <strong>Late</strong>, <strong>Normal</strong>, <strong>Early</strong> or <strong>Earliest</strong>. Early settings show pictures as small patches at wide fields &mdash; a map of where the pictures are.</li>
   <li><strong>Reticle &amp; Markers</strong> &mdash; Telrad rings + diameter labels, mount marker, camera FOV box (<a href="#cam-fov">&sect;9.1</a>), center-of-field label.</li>
   <li><strong>Display</strong> &mdash; the bottom-left FOV/mag/alt/az/RA/Dec readout.</li>
 </ul>
@@ -1315,6 +1359,15 @@ The override is now cleared. From this point on, whatever language you set on th
 <div class="note">
 <strong>Note:</strong> Wikipedia titles its star articles by whichever designation it considers canonical, which isn't always what your input was. <code>HR 2491</code> resolves to "Sirius"; <code>HIP 91262</code> resolves to "Vega"; <code>i Persei</code> resolves to "9 Persei" (Wikipedia titles many lowercase-Latin Bayer-letter stars by their Flamsteed number). The modal's header shows what you searched for; the article body shows Wikipedia's chosen title.
 </div>
+
+<h3 id="ss-images">8.18 Object Pictures on the Chart</h3>
+<p>As you zoom in, photographs of deep-sky objects appear on the chart, each one sized and turned to match the sky and placed exactly where the object is. They fade in as you zoom, and the stars and symbols stay drawn over them, so the chart remains a chart. Pictures appear in FREE mode.</p>
+<ul>
+  <li><strong>Wide fields.</strong> Some objects have a wide-field picture that shows the surrounding sky &mdash; the Butterfly region around Sadr, the North America and Pelican nebulae, Orion's Belt from the Flame to M78. Panning across them shows how neighbouring objects relate.</li>
+  <li><strong>Close-ups.</strong> Where an object has a sharper close-up inside a wide field, <strong>tap the object</strong> and its close-up comes in front, with the wide field dimmed underneath. Tap another object, choose a new target, or tap anywhere outside the close-up, and it goes back.</li>
+  <li><strong>How early they appear.</strong> Set in the chart settings: <strong>Catalog &rarr; Object images &rarr; Images appear</strong> (<a href="#ss-settings">&sect;8.15</a>). Turn <strong>Object images</strong> off to hide them.</li>
+  <li><strong>Credits.</strong> The photographers or observatories of the pictures on screen are named at the bottom right of the chart. See <a href="#image-contributors">Image contributors</a>.</li>
+</ul>
 
 <!-- ======================= CALCULATORS ======================= -->
 <h2 id="calculators">9. Calculators</h2>
@@ -1464,7 +1517,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <tr><td>"Centering looks off"</td><td>The star doesn't agree with the others. Re-center, skip it, or commit anyway if you're sure.</td></tr>
   <tr><td>"Likely the wrong star or off center&hellip;"</td><td>The other stars fit well without this one. Remove it.</td></tr>
   <tr><td>"Sync on X was not used&hellip; use it anyway"</td><td>The sync didn't fit the alignment. <strong>Use anyway</strong> adds it, marked &#9873;.</td></tr>
-  <tr><td>"GoTo could not be fully corrected for the alignment &mdash; expect it to land about X off."</td><td>A very large wedge near the pole. Center the target and Sync.</td></tr>
+  <tr><td>"GoTo could not be fully corrected for the alignment &mdash; expect it to land about X off."</td><td>The polar axis is far off and the target is near the pole. Center the target and Sync.</td></tr>
   <tr><td>"Refraction correction switched ON/OFF to match the imported alignment."</td><td>An imported alignment was built with the other setting; the app follows it.</td></tr>
   <tr><td>"Tracking stopped X past the meridian&hellip;"</td><td>A tracking limit was reached (Section 7.2). GoTo the target to continue on the other side.</td></tr>
 </table>
@@ -1486,7 +1539,7 @@ The override is now cleared. From this point on, whatever language you set on th
 </ul>
 
 <h2 id="polar">12. Daylight Polar Alignment</h2>
-<p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>.</p>
+<p>Align your mount's polar axis to the celestial pole using your phone's compass and accelerometer &mdash; no stars needed. Access from Setup &rarr; <strong>Polar Alignment</strong>. The page has two steps: <strong>1. Find home first</strong> (<a href="#findhome">&sect;12.1</a>), then <strong>2. Polar azimuth</strong>, described below.</p>
 
 <h4>How It Works</h4>
 <p>The display shows two crosshairs:</p>
@@ -1500,15 +1553,55 @@ The override is now cleared. From this point on, whatever language you set on th
 <ol>
   <li>Verify your latitude and longitude are set correctly on the Setup page.</li>
   <li>Check your <strong>magnetic declination</strong>. It is computed for your site automatically and shown at the top of this page; you only need to change it if you have a better local value, which you enter on the Setup page (see <a href="#declination">Section 5.3</a>).</li>
+  <li><strong>Unplug the motor cables.</strong> Run Find home with the motors connected, then unplug the motor cables before you go on. Leave the mount where it is. See the warning below.</li>
   <li><strong>Calibrate the compass</strong> by moving the phone slowly in a figure-8 pattern.</li>
   <li>Place the phone flat on the mount's RA axis (or on a flat surface aligned with the axis).</li>
   <li>Tap <strong>Start Alignment</strong>.</li>
   <li>Adjust the mount's <strong>altitude</strong> (up/down) and <strong>azimuth</strong> (left/right) until the green crosshair overlaps the red crosshair.</li>
 </ol>
 
+<div class="warning">
+<strong>Motors off for the compass.</strong> Powered mount motors make strong magnetic fields, and a phone lying on the mount can read 20&deg; or more off because of them. It can even swing the wrong way when you turn the mount. Some phones are hardly affected and others badly, so don't trust a phone just because it seemed fine before. Do Find home with the motors on, because it needs them to move the mount. Then <strong>unplug the motor cables</strong> before you calibrate the compass and tap <strong>Start Alignment</strong>. Keep the mount still while they are unplugged, and plug them back in when the alignment is done.
+</div>
+
+<div class="warning">
+<strong>Some phone compasses can&rsquo;t be trusted.</strong> Phone compasses vary a lot, and some phones, notably some Android models, have a hard time with theirs: the reading can drift, jump after an ordinary turn of the phone, or sit 10&deg; to 20&deg; off. On those phones the <strong>azimuth</strong> from daylight polar alignment is unreliable. <strong>Altitude is still good</strong>, because it comes from gravity, not the compass. If your phone&rsquo;s azimuth doesn&rsquo;t hold steady, or disagrees with a direction you know, finish the azimuth after dark:
+<ol>
+  <li>In daylight, use this page to set the <strong>altitude</strong> only.</li>
+  <li>After dark, leave the mount at home, where Find home left it. The motors can stay unplugged. At home the telescope and its finder point along the polar axis.</li>
+  <li><strong>Northern sky:</strong> turn only the mount&rsquo;s <strong>azimuth</strong> adjustment until <strong>Polaris</strong> is centered in the finder. Polaris sits less than 1&deg; from the pole.</li>
+  <li><strong>Southern sky:</strong> do the same with <strong>Polaris Australis</strong> (Sigma Octantis), about 1&deg; from the south pole. It is faint (magnitude 5.4), so you need a dark sky and a finder that shows it.</li>
+  <li>Neither star sits exactly on the pole. Centering it, or better, placing it about its distance from the pole off center on the correct side, gets you close enough for push-to with ALIGN, or for a star alignment to model the mount and take out the rest.</li>
+</ol>
+</div>
+
+<div class="note">
+<strong>iPhone: allow Location.</strong> With Location allowed, the installed iPhone app gets a true-north heading straight from the phone. Without it the phone can give only magnetic north; Envision notices and corrects with your site&rsquo;s magnetic declination instead, so the result depends on your latitude and longitude on the Setup page being right. The <strong>Sensor</strong> line on this page shows which you have: <em>true north</em> or <em>magnetic + declination</em>. Allowing Location is the better choice: turn on <strong>Settings &#9656; Privacy &amp; Security &#9656; Location Services</strong>, then set <strong>Envision</strong> to <strong>While Using the App</strong> with <strong>Precise Location</strong> on.
+</div>
+
 <div class="note">
 <strong>Phone requirements:</strong> Your phone must have a magnetometer (compass) and accelerometer. Most iPhones have both. Some budget Android phones lack a magnetometer &mdash; in that case, only altitude adjustment will work (azimuth requires the compass).
 </div>
+
+<h3 id="findhome">12.1 Find Home</h3>
+<p>Find home locates the mount's true home position &mdash; counterweight straight down, tube parallel to the polar axis &mdash; from gravity alone, using the phone's motion sensor. No stars, no compass. It also measures the polar axis altitude. Open it from <strong>Polar Alignment &rarr; Find home</strong> or <strong>Setup &rarr; Find home</strong>.</p>
+<ol>
+  <li>Power the mount on roughly at home: counterweight down, tube toward the pole. Connect Envision to the mount.</li>
+  <li>Strap the phone on top of the tube or dovetail, <strong>top edge toward the sky end</strong>, long edge along the tube, screen up.</li>
+  <li>Tap <strong>Find home</strong>. Keep Envision in front with the screen on until it finishes. The mount moves through a set of positions (Standard: 10; Quick: 6) while the phone reads its tilt at each. <strong>STOP</strong> halts the mount at any time.</li>
+  <li>The result is graded <strong>GO</strong>, <strong>CHECK</strong> or <strong>NO-GO</strong>, with the evidence shown item by item. On GO the mount goes to the home it found; otherwise it waits for you to decide.</li>
+  <li>Check by eye, then choose <strong>Set as home</strong>. The mount's RA and Dec motor positions then read 0° there. These are motor positions, not sky coordinates: RA 0° is not right ascension 0h, and Dec 0° does not mean the telescope points at declination 0°.</li>
+</ol>
+<p><strong>Without a new sweep</strong>, once you have run Find home: <strong>Use the last result</strong>, <strong>Set current position as home</strong>, or <strong>Check with the phone</strong>, which turns RA a little and back to confirm the mount is at home. <strong>Export last run</strong> saves or shares the run's data. The gear button holds the settings: which way the phone lies, and the Standard or Quick set of positions.</p>
+
+<h3 id="levelbyhand">12.2 Level by Hand</h3>
+<p>No motor control? <strong>Level by hand</strong> finds home with the clutches loose while the phone reads the angles. Do the daytime polar alignment first: Dec home is set against the polar altitude. With the phone on the tube as for Find home, the page takes you through four steps, each with a reading and a bubble:</p>
+<ol>
+  <li><strong>Counterweight bar horizontal.</strong> Loosen the RA clutch and turn RA until the counterweight bar is horizontal, pointing east or west. Lock RA.</li>
+  <li><strong>Dec home.</strong> Loosen the Dec clutch and turn the tube until its tilt equals your latitude: the tube is then parallel to the polar axis. Lock Dec.</li>
+  <li><strong>RA home.</strong> Loosen the RA clutch and turn the counterweight down until RA reads 0&deg;. Lock RA.</li>
+  <li><strong>At home.</strong> Switch the mount on now (or off and on, without moving it): the mount takes its power-on position as home. If it is already connected, tap <strong>Set as home</strong>. Later, with the mount connected, Find home can refine it.</li>
+</ol>
 
 <!-- ======================= NIGHT VISION ======================= -->
 <h2 id="nightvision">13. Night Vision Mode</h2>
@@ -1632,6 +1725,8 @@ The override is now cleared. From this point on, whatever language you set on th
   <tr><td>Spiral search step size is 0</td><td>Set the TFOV using the Eyepiece TFOV or Imaging FOV calculator first.</td></tr>
   <tr><td>Launch screen meteors don't move</td><td>The phone's <strong>Reduce Motion</strong> setting is on (iPhone: Settings &rarr; Accessibility &rarr; Motion), so the launch screen shows a still picture. Turn Reduce Motion off, or turn on <strong>Settings &rarr; Launch screen &rarr; Animate the meteors even when Reduce Motion is on</strong>.</td></tr>
   <tr><td>No sound on the launch screen</td><td>Check <strong>Settings &rarr; Launch screen &rarr; Play night sounds</strong>. On iPhone, Silent mode mutes it (the side switch, or the Action button / Control Center on newer models), and the sound plays only once per launch.</td></tr>
+  <tr><td>Daylight polar alignment azimuth is far off, or moves the wrong way when you turn the mount</td><td>The mount motors are probably still powered. Their magnetic field throws the phone compass off by 20&deg; or more on some phones. Run Find home first, then unplug the motor cables and start the alignment again. See <a href="#polar">Section 12</a>.</td></tr>
+  <tr><td>Daylight polar alignment azimuth is off by about the magnetic declination (often 5&ndash;15&deg;)</td><td>Look at the <strong>Sensor</strong> line on the Polar Alignment page. <em>magnetic + declination</em> means the correction comes from your site, so check the latitude and longitude on the Setup page and the declination shown at the top of the page. On iPhone, allowing Location gives a <em>true north</em> heading and doesn&rsquo;t need the correction: <strong>Settings &#9656; Privacy &amp; Security &#9656; Location Services</strong>, set <strong>Envision</strong> to <strong>While Using the App</strong> with <strong>Precise Location</strong> on, then reopen the page. See <a href="#polar">Section 12</a>.</td></tr>
   <tr><td>Night vision mode too dark</td><td>This is by design for dark adaptation. Your eyes will adjust after a few minutes.</td></tr>
   <tr><td>Everything is suddenly too big, too small, or cut off (PC, Mac, PWA)</td><td>The page was zoomed, usually Ctrl + mouse wheel by accident. Press <strong>Ctrl&nbsp;+&nbsp;0</strong> (<strong>&#8984;&nbsp;+&nbsp;0</strong> on a Mac) to go back to 100%. See <a href="#zoom">Section 4.4</a>.</td></tr>
   <tr><td>App installed but won't open</td><td>Ensure you're running Android 7.0 (API 24) or later.</td></tr>
@@ -1645,7 +1740,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <tr><td>iPhone won't let Star Seeker use sensors</td><td>iOS gates motion/orientation access behind a user prompt. Tap <strong>LIVE</strong> again to re-trigger the "Motion &amp; Orientation Access" dialog and accept it.</td></tr>
   <tr><td>Push-to aim marker doesn't appear (iPhone)</td><td>Sensor permission hasn't been granted yet. Tap <strong>ALIGN</strong> on the chart &mdash; first tap on cold-boot iPhone triggers the iOS "Motion &amp; Orientation Access" prompt. Tap Allow and the aim marker should appear within a second. Alternative: open Chart Settings (gear icon) and toggle Push-to off then on to fire the same prompt.</td></tr>
   <tr><td>Push-to toggle is greyed in Chart Settings</td><td>Either the chart is still probing for sensors at first open (label "Checking sensors&hellip;" &mdash; wait 1-2 seconds), or your device has no orientation sensors (desktop browser, no-magnetometer Android &mdash; label "No motion sensors detected"). The chart still works as a planetarium without push-to.</td></tr>
-  <tr><td>Push-to chart is way off</td><td>Phone compass needs calibration. Center a bright known star in the eyepiece, tap that star on the chart (or pick from the Target page) to make it the active push-to target, then tap <strong>ALIGN</strong> and confirm. Chart pins to truth at that star; offset persists across app restarts.</td></tr>
+  <tr><td>Push-to chart is way off</td><td>Phone compass needs calibration. Center a bright known star in the eyepiece, tap that star on the chart (or pick from the Target page) to make it the active push-to target, then tap <strong>ALIGN</strong> and confirm. Chart pins to truth at that star; offset persists across app restarts. If it keeps drifting off, your phone&rsquo;s compass is unsteady (common on some Android models): ALIGN again more often.</td></tr>
   <tr><td>Push-to chart is consistently off in altitude</td><td>Likely a phone-bracket pitch error &mdash; the phone isn't mounted parallel to the OTA tube. ALIGN only corrects azimuth (the compass), not altitude (which the gravity sensor handles directly). Re-clamp the bracket so the phone face is parallel to the tube.</td></tr>
   <tr><td>Push-to vector arrow won't disappear</td><td>The active target is sticky &mdash; pan/zoom won't clear it. Replace it by tapping a different object, or turn Push-To off in Chart Settings (which clears the active target).</td></tr>
   <tr><td>GoTo button greyed out, says "GOTO (push-to)"</td><td>Push-To is on; motor GoTo is disabled while push-to is the active interaction mode. Open Chart Settings (gear icon) and toggle Push-to off to re-enable motor GoTo. Connecting the mount also clears push-to automatically.</td></tr>
@@ -1672,8 +1767,11 @@ The override is now cleared. From this point on, whatever language you set on th
 <h3>Deep-sky objects</h3>
 <p>Non-stellar entries originated with the legacy ExploreStars catalog and trace to the <strong>Revised NGC (RNGC)</strong> and <strong>Index Catalogue (IC)</strong>, both in the public domain.</p>
 
-<h3>Object thumbnails &mdash; astrophotography</h3>
-<p>Object thumbnail images shown on the Target page are sourced from <strong>Explore Scientific&trade;</strong> (original ExploreStars&trade; project images, used with permission), <strong>Jim McKee</strong> (astrophotographs marked "Jim McKee" in the Target-page caption, used with permission &mdash; see more of his work on <a href="https://app.astrobin.com/u/mckeejh" target="_blank">AstroBin</a>), <strong>NASA / JPL</strong> (specific solar-system and deep-sky imagery, public domain), and <strong>Chuck Ayoub</strong> (Crescent Nebula NGC 6888, via Wikimedia Commons under the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons CC0 1.0 Universal Public Domain Dedication</a> &mdash; photographer credit retained as courtesy).</p>
+<h3 id="image-contributors">Image contributors</h3>
+<p>The object pictures in Envision come from these photographers and organizations. Thank you to all of them.</p>
+<p><strong>Photographers:</strong> Jim McKee (see more of his work on <a href="https://app.astrobin.com/u/mckeejh" target="_blank">AstroBin</a>), Sean M McHenry, Steve Lang, Ryan Wecker, Wes McDonald, Adam Block (Mount Lemmon SkyCenter, University of Arizona), Andreigusan, Ardenau4, Chuck Ayoub, David (Deddy) Dayag, Fabian Rodriguez Frustaglia, Juan lacruz, Kevinmloch, Minnastronomer, Taavi Niittee and Yann Sainty.</p>
+<p><strong>Organizations and research teams:</strong> NASA, ESA, CSA and STScI (the Hubble, Webb, Spitzer, Voyager 2 and Dawn missions, and the Hubble Heritage Team); ESO, the European Southern Observatory (including the VISTA VMC Survey and PESSTO); NSF NOIRLab and AURA, with the Vera C. Rubin Observatory and the DESI Legacy Imaging Surveys; 2MASS (University of Massachusetts and IPAC/Caltech); Explore Scientific&trade; (the original ExploreStars&trade; pictures); and Wikimedia Commons, where many of these are published.</p>
+<p>The full list of image credits &mdash; each picture's source and licence &mdash; is in <code>LICENSES.md</code>, bundled with the app and in the <a href="https://github.com/wesmcd6/pmc8-tools/blob/envision/LICENSES.md" target="_blank">public Envision distribution repository</a>.</p>
 
 <h3>Planetary, solar, and lunar positions</h3>
 <p>Computed from algorithms in Jean Meeus, <em>Astronomical Algorithms</em>, 2nd ed., Willmann-Bell, 1998. Public-domain mathematics; credit retained as a courtesy.</p>
@@ -1693,7 +1791,7 @@ The override is now cleared. From this point on, whatever language you set on th
 <p>Envision the Heavens&trade; is provided as a compiled binary for personal use with the Explore Scientific&trade; PMC-Eight&trade; mount. The source code is not publicly distributed. Redistribution of the unmodified binary is permitted; modification, reverse engineering, decompilation, and source extraction are not. The software is provided "as is," without warranty of any kind.</p>
 
 <h3 id="privacy">Privacy Policy</h3>
-<p>Envision the Heavens&trade; does not collect, store, or share personal information &mdash; no accounts, analytics, advertising, or tracking. Read the full <a href="https://github.com/ExploreScientific/ExploreStars-Envision-Releases/blob/main/PRIVACY.md" target="_blank">Privacy Policy</a>.</p>
+<p>Envision the Heavens&trade; does not collect, store, or share personal information &mdash; no accounts, analytics, advertising, or tracking. Read the full <a href="https://github.com/ExploreScientific/Envision-the-Heavens-Releases/blob/main/PRIVACY.md" target="_blank">Privacy Policy</a>.</p>
 
 <h3>Trademarks</h3>
 <ul>
