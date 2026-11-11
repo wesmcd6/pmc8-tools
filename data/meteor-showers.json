@@ -1,0 +1,1734 @@
+{
+ "schema": 1,
+ "year": 2027,
+ "source": "IMO Meteor Shower Calendar 2027 (Working List, Tables 5 and 6)",
+ "built": "2026-11-10",
+ "showers": [
+  {
+   "code": "QUA",
+   "iau": 10,
+   "name": "Quadrantids",
+   "constellation": "Boötes",
+   "start": "12-28",
+   "peak": "01-04",
+   "end": "01-12",
+   "activeDays": [
+    -7,
+    8
+   ],
+   "peakSolarLong": 283.15,
+   "ra": 230.0,
+   "dec": 49.0,
+   "track": [
+    [
+     -5,
+     226.0,
+     50.0
+    ],
+    [
+     -4,
+     228.0,
+     50.0
+    ],
+    [
+     1,
+     231.0,
+     49.0
+    ],
+    [
+     6,
+     234.0,
+     48.0
+    ]
+   ],
+   "speed": 41,
+   "r": 2.1,
+   "zhr": 80,
+   "zhrPlus": true,
+   "parent": "2003 EH1"
+  },
+  {
+   "code": "GUM",
+   "iau": 404,
+   "name": "Gamma Ursae Minorids",
+   "constellation": "Ursa Minor",
+   "start": "01-10",
+   "peak": "01-18",
+   "end": "01-22",
+   "activeDays": [
+    -8,
+    4
+   ],
+   "peakSolarLong": 298.0,
+   "ra": 228.0,
+   "dec": 67.0,
+   "track": [
+    [
+     -8,
+     220.0,
+     71.0
+    ],
+    [
+     -3,
+     224.0,
+     69.0
+    ],
+    [
+     2,
+     228.0,
+     67.0
+    ],
+    [
+     7,
+     232.0,
+     65.0
+    ]
+   ],
+   "speed": 31,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "ACE",
+   "iau": 102,
+   "name": "Alpha Centaurids",
+   "constellation": "Centaurus",
+   "start": "01-31",
+   "peak": "02-08",
+   "end": "02-20",
+   "activeDays": [
+    -8,
+    12
+   ],
+   "peakSolarLong": 319.4,
+   "ra": 211.0,
+   "dec": -58.0,
+   "track": [
+    [
+     -9,
+     199.0,
+     -56.0
+    ],
+    [
+     -3,
+     206.0,
+     -58.0
+    ],
+    [
+     2,
+     213.0,
+     -59.0
+    ],
+    [
+     7,
+     219.0,
+     -61.0
+    ],
+    [
+     12,
+     224.0,
+     -62.0
+    ]
+   ],
+   "speed": 58,
+   "r": 2.0,
+   "zhr": 6
+  },
+  {
+   "code": "LYR",
+   "iau": 6,
+   "name": "Lyrids",
+   "constellation": "Lyra",
+   "start": "04-14",
+   "peak": "04-23",
+   "end": "04-30",
+   "activeDays": [
+    -9,
+    7
+   ],
+   "peakSolarLong": 32.32,
+   "ra": 271.0,
+   "dec": 34.0,
+   "track": [
+    [
+     -8,
+     263.0,
+     34.0
+    ],
+    [
+     -3,
+     269.0,
+     34.0
+    ],
+    [
+     2,
+     274.0,
+     34.0
+    ],
+    [
+     7,
+     279.0,
+     34.0
+    ]
+   ],
+   "speed": 49,
+   "r": 2.1,
+   "zhr": 18,
+   "parent": "C/1861 G1 (Thatcher)"
+  },
+  {
+   "code": "PPU",
+   "iau": 137,
+   "name": "Pi Puppids",
+   "constellation": "Puppis",
+   "start": "04-15",
+   "peak": "04-24",
+   "end": "04-28",
+   "activeDays": [
+    -9,
+    4
+   ],
+   "peakSolarLong": 33.5,
+   "ra": 110.0,
+   "dec": -45.0,
+   "track": [
+    [
+     -9,
+     106.0,
+     -44.0
+    ],
+    [
+     -4,
+     109.0,
+     -45.0
+    ],
+    [
+     1,
+     111.0,
+     -45.0
+    ]
+   ],
+   "speed": 18,
+   "r": 2.0,
+   "zhr": null,
+   "parent": "26P/Grigg-Skjellerup"
+  },
+  {
+   "code": "ETA",
+   "iau": 31,
+   "name": "Eta Aquariids",
+   "constellation": "Aquarius",
+   "start": "04-19",
+   "peak": "05-06",
+   "end": "05-28",
+   "activeDays": [
+    -17,
+    22
+   ],
+   "peakSolarLong": 45.5,
+   "ra": 338.0,
+   "dec": -1.0,
+   "track": [
+    [
+     -16,
+     323.0,
+     -7.0
+    ],
+    [
+     -11,
+     328.0,
+     -5.0
+    ],
+    [
+     -6,
+     332.0,
+     -3.0
+    ],
+    [
+     -1,
+     337.0,
+     -1.0
+    ],
+    [
+     4,
+     341.0,
+     1.0
+    ],
+    [
+     9,
+     345.0,
+     3.0
+    ],
+    [
+     14,
+     349.0,
+     5.0
+    ],
+    [
+     19,
+     353.0,
+     7.0
+    ]
+   ],
+   "speed": 66,
+   "r": 2.4,
+   "zhr": 50,
+   "parent": "1P/Halley"
+  },
+  {
+   "code": "ELY",
+   "iau": 145,
+   "name": "Eta Lyrids",
+   "constellation": "Lyra",
+   "start": "05-05",
+   "peak": "05-11",
+   "end": "05-14",
+   "activeDays": [
+    -6,
+    3
+   ],
+   "peakSolarLong": 50.0,
+   "ra": 291.0,
+   "dec": 43.0,
+   "track": [
+    [
+     -6,
+     286.0,
+     43.0
+    ],
+    [
+     -1,
+     291.0,
+     43.0
+    ],
+    [
+     4,
+     296.0,
+     44.0
+    ]
+   ],
+   "speed": 43,
+   "r": 3.0,
+   "zhr": 3,
+   "parent": "C/1983 H1 (IRAS-Araki-Alcock)"
+  },
+  {
+   "code": "ARI",
+   "iau": 171,
+   "name": "Daytime Arietids",
+   "constellation": "Aries",
+   "start": "05-14",
+   "peak": "06-08",
+   "end": "06-24",
+   "activeDays": [
+    -25,
+    16
+   ],
+   "peakSolarLong": 76.7,
+   "ra": 43.0,
+   "dec": 24.0,
+   "track": [
+    [
+     -3,
+     42.0,
+     24.0
+    ],
+    [
+     2,
+     47.0,
+     24.0
+    ]
+   ],
+   "speed": 38,
+   "r": 2.8,
+   "zhr": 30,
+   "daytime": true
+  },
+  {
+   "code": "JBO",
+   "iau": 170,
+   "name": "June Bootids",
+   "constellation": "Boötes",
+   "start": "06-22",
+   "peak": "06-22",
+   "end": "07-02",
+   "activeDays": [
+    0,
+    10
+   ],
+   "peakSolarLong": 90.3,
+   "ra": 221.0,
+   "dec": 48.0,
+   "track": [
+    [
+     0,
+     221.0,
+     48.0
+    ],
+    [
+     3,
+     221.0,
+     48.0
+    ],
+    [
+     8,
+     222.0,
+     47.0
+    ]
+   ],
+   "speed": 18,
+   "r": 2.2,
+   "zhr": null,
+   "parent": "7P/Pons-Winnecke"
+  },
+  {
+   "code": "JPE",
+   "iau": 175,
+   "name": "July Pegasids",
+   "constellation": "Pegasus",
+   "start": "07-01",
+   "peak": "07-10",
+   "end": "07-20",
+   "activeDays": [
+    -9,
+    10
+   ],
+   "peakSolarLong": 108.0,
+   "ra": 347.0,
+   "dec": 11.0,
+   "track": [
+    [
+     -5,
+     343.0,
+     10.0
+    ],
+    [
+     0,
+     347.0,
+     11.0
+    ],
+    [
+     5,
+     351.0,
+     12.0
+    ],
+    [
+     10,
+     356.0,
+     13.0
+    ]
+   ],
+   "speed": 63,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "GDR",
+   "iau": 184,
+   "name": "July Gamma Draconids",
+   "constellation": "Draco",
+   "start": "07-25",
+   "peak": "07-28",
+   "end": "07-31",
+   "activeDays": [
+    -3,
+    3
+   ],
+   "peakSolarLong": 125.13,
+   "ra": 280.0,
+   "dec": 51.0,
+   "track": [
+    [
+     -3,
+     277.0,
+     51.0
+    ],
+    [
+     2,
+     282.0,
+     51.0
+    ]
+   ],
+   "speed": 27,
+   "r": 3.0,
+   "zhr": 5
+  },
+  {
+   "code": "CAP",
+   "iau": 1,
+   "name": "Alpha Capricornids",
+   "constellation": "Capricornus",
+   "start": "07-03",
+   "peak": "07-31",
+   "end": "08-15",
+   "activeDays": [
+    -28,
+    15
+   ],
+   "peakSolarLong": 128.0,
+   "ra": 307.0,
+   "dec": -10.0,
+   "track": [
+    [
+     -26,
+     285.0,
+     -16.0
+    ],
+    [
+     -21,
+     289.0,
+     -15.0
+    ],
+    [
+     -16,
+     294.0,
+     -14.0
+    ],
+    [
+     -11,
+     299.0,
+     -12.0
+    ],
+    [
+     -6,
+     303.0,
+     -11.0
+    ],
+    [
+     -1,
+     307.0,
+     -10.0
+    ],
+    [
+     5,
+     313.0,
+     -8.0
+    ],
+    [
+     10,
+     318.0,
+     -6.0
+    ]
+   ],
+   "speed": 23,
+   "r": 2.5,
+   "zhr": 5,
+   "parent": "169P/NEAT"
+  },
+  {
+   "code": "SDA",
+   "iau": 5,
+   "name": "Southern Delta Aquariids",
+   "constellation": "Aquarius",
+   "start": "07-12",
+   "peak": "07-31",
+   "end": "08-23",
+   "activeDays": [
+    -19,
+    23
+   ],
+   "peakSolarLong": 128.0,
+   "ra": 340.0,
+   "dec": -16.0,
+   "track": [
+    [
+     -21,
+     325.0,
+     -19.0
+    ],
+    [
+     -16,
+     329.0,
+     -19.0
+    ],
+    [
+     -11,
+     333.0,
+     -18.0
+    ],
+    [
+     -6,
+     337.0,
+     -17.0
+    ],
+    [
+     -1,
+     340.0,
+     -16.0
+    ],
+    [
+     5,
+     345.0,
+     -14.0
+    ],
+    [
+     10,
+     349.0,
+     -13.0
+    ],
+    [
+     15,
+     352.0,
+     -12.0
+    ],
+    [
+     20,
+     356.0,
+     -11.0
+    ]
+   ],
+   "speed": 41,
+   "r": 2.5,
+   "zhr": 25,
+   "parent": "96P/Machholz"
+  },
+  {
+   "code": "ERI",
+   "iau": 191,
+   "name": "Eta Eridanids",
+   "constellation": "Eridanus",
+   "start": "07-31",
+   "peak": "08-08",
+   "end": "08-19",
+   "activeDays": [
+    -8,
+    11
+   ],
+   "peakSolarLong": 135.0,
+   "ra": 41.0,
+   "dec": -11.0,
+   "track": [
+    [
+     -3,
+     39.0,
+     -14.0
+    ],
+    [
+     2,
+     44.0,
+     -12.0
+    ],
+    [
+     7,
+     48.0,
+     -10.0
+    ],
+    [
+     12,
+     52.0,
+     -9.0
+    ]
+   ],
+   "speed": 64,
+   "r": 3.0,
+   "zhr": 3,
+   "parent": "C/1852 K1 (Chacornac)"
+  },
+  {
+   "code": "PER",
+   "iau": 7,
+   "name": "Perseids",
+   "constellation": "Perseus",
+   "start": "07-17",
+   "peak": "08-13",
+   "end": "08-24",
+   "activeDays": [
+    -27,
+    11
+   ],
+   "peakSolarLong": 140.0,
+   "ra": 48.0,
+   "dec": 58.0,
+   "track": [
+    [
+     -29,
+     6.0,
+     50.0
+    ],
+    [
+     -24,
+     11.0,
+     52.0
+    ],
+    [
+     -19,
+     22.0,
+     53.0
+    ],
+    [
+     -14,
+     29.0,
+     54.0
+    ],
+    [
+     -8,
+     37.0,
+     56.0
+    ],
+    [
+     -3,
+     45.0,
+     57.0
+    ],
+    [
+     2,
+     51.0,
+     58.0
+    ],
+    [
+     7,
+     57.0,
+     58.0
+    ],
+    [
+     12,
+     63.0,
+     58.0
+    ]
+   ],
+   "speed": 59,
+   "r": 2.2,
+   "zhr": 110,
+   "zhrPlus": true,
+   "parent": "109P/Swift-Tuttle"
+  },
+  {
+   "code": "KCG",
+   "iau": 12,
+   "name": "Kappa Cygnids",
+   "constellation": "Cygnus",
+   "start": "08-03",
+   "peak": "08-17",
+   "end": "08-28",
+   "activeDays": [
+    -14,
+    11
+   ],
+   "peakSolarLong": 144.0,
+   "ra": 286.0,
+   "dec": 59.0,
+   "track": [
+    [
+     -12,
+     281.0,
+     45.0
+    ],
+    [
+     -7,
+     284.0,
+     49.0
+    ],
+    [
+     -2,
+     287.0,
+     53.0
+    ],
+    [
+     3,
+     289.0,
+     56.0
+    ],
+    [
+     8,
+     291.0,
+     59.0
+    ],
+    [
+     13,
+     293.0,
+     62.0
+    ]
+   ],
+   "speed": 23,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "AUR",
+   "iau": 206,
+   "name": "Aurigids",
+   "constellation": "Auriga",
+   "start": "08-28",
+   "peak": "09-01",
+   "end": "09-05",
+   "activeDays": [
+    -4,
+    4
+   ],
+   "peakSolarLong": 158.6,
+   "ra": 91.0,
+   "dec": 39.0,
+   "track": [
+    [
+     -7,
+     85.0,
+     40.0
+    ],
+    [
+     -2,
+     90.0,
+     39.0
+    ],
+    [
+     4,
+     96.0,
+     39.0
+    ],
+    [
+     9,
+     102.0,
+     39.0
+    ]
+   ],
+   "speed": 66,
+   "r": 2.5,
+   "zhr": 6,
+   "parent": "C/1911 N1 (Kiess)"
+  },
+  {
+   "code": "SPE",
+   "iau": 208,
+   "name": "September Epsilon Perseids",
+   "constellation": "Perseus",
+   "start": "09-05",
+   "peak": "09-10",
+   "end": "09-21",
+   "activeDays": [
+    -5,
+    11
+   ],
+   "peakSolarLong": 166.7,
+   "ra": 48.0,
+   "dec": 40.0,
+   "track": [
+    [
+     -5,
+     43.0,
+     40.0
+    ],
+    [
+     0,
+     48.0,
+     40.0
+    ],
+    [
+     5,
+     53.0,
+     40.0
+    ],
+    [
+     10,
+     59.0,
+     41.0
+    ]
+   ],
+   "speed": 64,
+   "r": 2.5,
+   "zhr": 8
+  },
+  {
+   "code": "SLY",
+   "iau": 81,
+   "name": "September Lyncids",
+   "constellation": "Lynx",
+   "start": "09-10",
+   "peak": "09-13",
+   "end": "10-08",
+   "activeDays": [
+    -3,
+    25
+   ],
+   "peakSolarLong": 170.0,
+   "ra": 113.0,
+   "dec": 56.0,
+   "track": [
+    [
+     0,
+     113.0,
+     56.0
+    ],
+    [
+     7,
+     120.0,
+     48.0
+    ],
+    [
+     12,
+     127.0,
+     47.0
+    ],
+    [
+     17,
+     133.0,
+     46.0
+    ],
+    [
+     22,
+     140.0,
+     45.0
+    ],
+    [
+     27,
+     147.0,
+     44.0
+    ]
+   ],
+   "speed": 60,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "DSX",
+   "iau": 221,
+   "name": "Daytime Sextantids",
+   "constellation": "Sextans",
+   "start": "09-20",
+   "peak": "10-01",
+   "end": "10-06",
+   "activeDays": [
+    -11,
+    5
+   ],
+   "peakSolarLong": 188.0,
+   "ra": 156.0,
+   "dec": -2.0,
+   "track": [
+    [
+     -6,
+     152.0,
+     -2.0
+    ],
+    [
+     -1,
+     156.0,
+     -2.0
+    ],
+    [
+     4,
+     160.0,
+     -2.0
+    ]
+   ],
+   "speed": 32,
+   "r": 2.5,
+   "zhr": 5,
+   "daytime": true,
+   "parent": "3200 Phaethon"
+  },
+  {
+   "code": "OCT",
+   "iau": 281,
+   "name": "October Camelopardalids",
+   "constellation": "Camelopardalis",
+   "start": "10-05",
+   "peak": "10-06",
+   "end": "10-06",
+   "activeDays": [
+    -1,
+    0
+   ],
+   "peakSolarLong": 192.58,
+   "ra": 164.0,
+   "dec": 79.0,
+   "track": [
+    [
+     -1,
+     164.0,
+     79.0
+    ]
+   ],
+   "speed": 47,
+   "r": 2.5,
+   "zhr": 5
+  },
+  {
+   "code": "DRA",
+   "iau": 9,
+   "name": "Draconids",
+   "constellation": "Draco",
+   "start": "10-06",
+   "peak": "10-09",
+   "end": "10-10",
+   "activeDays": [
+    -3,
+    1
+   ],
+   "peakSolarLong": 195.4,
+   "ra": 263.0,
+   "dec": 56.0,
+   "track": [
+    [
+     1,
+     263.0,
+     56.0
+    ]
+   ],
+   "speed": 20,
+   "r": 2.6,
+   "zhr": 5,
+   "parent": "21P/Giacobini-Zinner"
+  },
+  {
+   "code": "EGE",
+   "iau": 23,
+   "name": "Epsilon Geminids",
+   "constellation": "Gemini",
+   "start": "10-14",
+   "peak": "10-19",
+   "end": "10-27",
+   "activeDays": [
+    -5,
+    8
+   ],
+   "peakSolarLong": 205.0,
+   "ra": 102.0,
+   "dec": 27.0,
+   "track": [
+    [
+     -4,
+     99.0,
+     27.0
+    ],
+    [
+     1,
+     104.0,
+     27.0
+    ],
+    [
+     6,
+     109.0,
+     27.0
+    ]
+   ],
+   "speed": 70,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "ORI",
+   "iau": 8,
+   "name": "Orionids",
+   "constellation": "Orion",
+   "start": "10-02",
+   "peak": "10-22",
+   "end": "11-07",
+   "activeDays": [
+    -20,
+    16
+   ],
+   "peakSolarLong": 208.0,
+   "ra": 95.0,
+   "dec": 16.0,
+   "track": [
+    [
+     -17,
+     85.0,
+     14.0
+    ],
+    [
+     -12,
+     88.0,
+     15.0
+    ],
+    [
+     -7,
+     91.0,
+     15.0
+    ],
+    [
+     -2,
+     94.0,
+     16.0
+    ],
+    [
+     3,
+     98.0,
+     16.0
+    ],
+    [
+     8,
+     101.0,
+     16.0
+    ],
+    [
+     14,
+     105.0,
+     17.0
+    ]
+   ],
+   "speed": 66,
+   "r": 2.5,
+   "zhr": 20,
+   "parent": "1P/Halley"
+  },
+  {
+   "code": "LMI",
+   "iau": 22,
+   "name": "Leonis Minorids",
+   "constellation": "Leo Minor",
+   "start": "10-19",
+   "peak": "10-25",
+   "end": "10-27",
+   "activeDays": [
+    -6,
+    2
+   ],
+   "peakSolarLong": 211.0,
+   "ra": 162.0,
+   "dec": 37.0,
+   "track": [
+    [
+     -5,
+     158.0,
+     39.0
+    ],
+    [
+     0,
+     163.0,
+     37.0
+    ],
+    [
+     5,
+     168.0,
+     35.0
+    ]
+   ],
+   "speed": 62,
+   "r": 3.0,
+   "zhr": 2,
+   "parent": "C/1739 K1 (Zanotti)"
+  },
+  {
+   "code": "STA",
+   "iau": 2,
+   "name": "Southern Taurids",
+   "constellation": "Taurus",
+   "start": "09-20",
+   "peak": "11-06",
+   "end": "11-20",
+   "activeDays": [
+    -47,
+    14
+   ],
+   "peakSolarLong": 223.0,
+   "ra": 52.0,
+   "dec": 15.0,
+   "track": [
+    [
+     -47,
+     18.0,
+     5.0
+    ],
+    [
+     -42,
+     21.0,
+     6.0
+    ],
+    [
+     -37,
+     25.0,
+     7.0
+    ],
+    [
+     -32,
+     28.0,
+     8.0
+    ],
+    [
+     -27,
+     32.0,
+     9.0
+    ],
+    [
+     -22,
+     36.0,
+     11.0
+    ],
+    [
+     -17,
+     40.0,
+     12.0
+    ],
+    [
+     -12,
+     43.0,
+     13.0
+    ],
+    [
+     -7,
+     47.0,
+     14.0
+    ],
+    [
+     -1,
+     52.0,
+     15.0
+    ],
+    [
+     4,
+     56.0,
+     15.0
+    ],
+    [
+     9,
+     60.0,
+     16.0
+    ],
+    [
+     14,
+     64.0,
+     16.0
+    ]
+   ],
+   "speed": 27,
+   "r": 2.3,
+   "zhr": 7,
+   "parent": "2P/Encke"
+  },
+  {
+   "code": "NTA",
+   "iau": 17,
+   "name": "Northern Taurids",
+   "constellation": "Taurus",
+   "start": "10-20",
+   "peak": "11-13",
+   "end": "12-10",
+   "activeDays": [
+    -24,
+    27
+   ],
+   "peakSolarLong": 230.0,
+   "ra": 58.0,
+   "dec": 22.0,
+   "track": [
+    [
+     -24,
+     38.0,
+     18.0
+    ],
+    [
+     -19,
+     43.0,
+     19.0
+    ],
+    [
+     -14,
+     47.0,
+     20.0
+    ],
+    [
+     -8,
+     52.0,
+     21.0
+    ],
+    [
+     -3,
+     56.0,
+     22.0
+    ],
+    [
+     2,
+     61.0,
+     23.0
+    ],
+    [
+     7,
+     65.0,
+     24.0
+    ],
+    [
+     12,
+     70.0,
+     24.0
+    ],
+    [
+     17,
+     74.0,
+     24.0
+    ]
+   ],
+   "speed": 29,
+   "r": 2.3,
+   "zhr": 5,
+   "parent": "2P/Encke"
+  },
+  {
+   "code": "LEO",
+   "iau": 13,
+   "name": "Leonids",
+   "constellation": "Leo",
+   "start": "11-06",
+   "peak": "11-18",
+   "end": "11-30",
+   "activeDays": [
+    -12,
+    12
+   ],
+   "peakSolarLong": 235.27,
+   "ra": 152.0,
+   "dec": 22.0,
+   "track": [
+    [
+     -8,
+     147.0,
+     24.0
+    ],
+    [
+     -3,
+     150.0,
+     23.0
+    ],
+    [
+     2,
+     153.0,
+     21.0
+    ],
+    [
+     7,
+     156.0,
+     20.0
+    ],
+    [
+     12,
+     159.0,
+     19.0
+    ]
+   ],
+   "speed": 71,
+   "r": 2.5,
+   "zhr": 15,
+   "zhrPlus": true,
+   "parent": "55P/Tempel-Tuttle"
+  },
+  {
+   "code": "AMO",
+   "iau": 246,
+   "name": "Alpha Monocerotids",
+   "constellation": "Canis Minor",
+   "start": "11-15",
+   "peak": "11-22",
+   "end": "11-25",
+   "activeDays": [
+    -7,
+    3
+   ],
+   "peakSolarLong": 239.32,
+   "ra": 117.0,
+   "dec": 1.0,
+   "track": [
+    [
+     -7,
+     112.0,
+     2.0
+    ],
+    [
+     -2,
+     116.0,
+     1.0
+    ],
+    [
+     3,
+     120.0,
+     0.0
+    ]
+   ],
+   "speed": 65,
+   "r": 2.4,
+   "zhr": null
+  },
+  {
+   "code": "NOO",
+   "iau": 250,
+   "name": "November Orionids",
+   "constellation": "Orion",
+   "start": "11-14",
+   "peak": "11-28",
+   "end": "12-06",
+   "activeDays": [
+    -14,
+    8
+   ],
+   "peakSolarLong": 246.0,
+   "ra": 91.0,
+   "dec": 16.0,
+   "track": [
+    [
+     -13,
+     81.0,
+     16.0
+    ],
+    [
+     -8,
+     84.0,
+     16.0
+    ],
+    [
+     -3,
+     88.0,
+     16.0
+    ],
+    [
+     2,
+     92.0,
+     16.0
+    ]
+   ],
+   "speed": 43,
+   "r": 3.0,
+   "zhr": 3
+  },
+  {
+   "code": "PHO",
+   "iau": 254,
+   "name": "Phoenicids",
+   "constellation": "Phoenix",
+   "start": "11-20",
+   "peak": "12-02",
+   "end": "12-05",
+   "activeDays": [
+    -12,
+    3
+   ],
+   "peakSolarLong": 249.5,
+   "ra": 8.0,
+   "dec": -27.0,
+   "track": [
+    [
+     -2,
+     7.0,
+     -27.0
+    ],
+    [
+     3,
+     10.0,
+     -27.0
+    ],
+    [
+     8,
+     13.0,
+     -28.0
+    ]
+   ],
+   "speed": 15,
+   "r": 2.8,
+   "zhr": null,
+   "parent": "289P/Blanpain"
+  },
+  {
+   "code": "AND",
+   "iau": 18,
+   "name": "Andromedids",
+   "constellation": "Andromeda",
+   "start": "11-12",
+   "peak": "12-06",
+   "end": "12-10",
+   "activeDays": [
+    -24,
+    4
+   ],
+   "peakSolarLong": 254.0,
+   "ra": 25.0,
+   "dec": 51.0,
+   "track": [
+    [
+     0,
+     25.0,
+     51.0
+    ]
+   ],
+   "speed": 18,
+   "r": 3.0,
+   "zhr": 5,
+   "parent": "3D/Biela"
+  },
+  {
+   "code": "PUP",
+   "iau": 301,
+   "name": "Puppid-Velids",
+   "constellation": "Puppis",
+   "start": "12-01",
+   "peak": "12-07",
+   "end": "12-15",
+   "activeDays": [
+    -6,
+    8
+   ],
+   "peakSolarLong": 255.0,
+   "ra": 123.0,
+   "dec": -45.0,
+   "track": [
+    [
+     -7,
+     119.0,
+     -45.0
+    ],
+    [
+     -2,
+     122.0,
+     -45.0
+    ],
+    [
+     3,
+     125.0,
+     -45.0
+    ],
+    [
+     8,
+     128.0,
+     -45.0
+    ]
+   ],
+   "speed": 44,
+   "r": 2.9,
+   "zhr": 10
+  },
+  {
+   "code": "MON",
+   "iau": 19,
+   "name": "Monocerotids",
+   "constellation": "Monoceros",
+   "start": "12-01",
+   "peak": "12-09",
+   "end": "12-19",
+   "activeDays": [
+    -8,
+    10
+   ],
+   "peakSolarLong": 257.0,
+   "ra": 100.0,
+   "dec": 8.0,
+   "track": [
+    [
+     -9,
+     91.0,
+     8.0
+    ],
+    [
+     -4,
+     98.0,
+     9.0
+    ],
+    [
+     1,
+     101.0,
+     8.0
+    ],
+    [
+     6,
+     105.0,
+     7.0
+    ],
+    [
+     11,
+     108.0,
+     7.0
+    ]
+   ],
+   "speed": 41,
+   "r": 3.0,
+   "zhr": 3,
+   "parent": "C/1917 F1 (Mellish)"
+  },
+  {
+   "code": "HYD",
+   "iau": 16,
+   "name": "Sigma Hydrids",
+   "constellation": "Hydra",
+   "start": "12-03",
+   "peak": "12-09",
+   "end": "12-20",
+   "activeDays": [
+    -6,
+    11
+   ],
+   "peakSolarLong": 257.0,
+   "ra": 125.0,
+   "dec": 2.0,
+   "track": [
+    [
+     -4,
+     122.0,
+     3.0
+    ],
+    [
+     1,
+     126.0,
+     2.0
+    ],
+    [
+     6,
+     130.0,
+     1.0
+    ],
+    [
+     11,
+     134.0,
+     0.0
+    ]
+   ],
+   "speed": 58,
+   "r": 3.0,
+   "zhr": 7
+  },
+  {
+   "code": "GEM",
+   "iau": 4,
+   "name": "Geminids",
+   "constellation": "Gemini",
+   "start": "12-04",
+   "peak": "12-14",
+   "end": "12-20",
+   "activeDays": [
+    -10,
+    6
+   ],
+   "peakSolarLong": 262.2,
+   "ra": 112.0,
+   "dec": 33.0,
+   "track": [
+    [
+     -9,
+     103.0,
+     33.0
+    ],
+    [
+     -4,
+     108.0,
+     33.0
+    ],
+    [
+     1,
+     113.0,
+     33.0
+    ],
+    [
+     6,
+     118.0,
+     32.0
+    ]
+   ],
+   "speed": 35,
+   "r": 2.6,
+   "zhr": 150,
+   "parent": "3200 Phaethon"
+  },
+  {
+   "code": "URS",
+   "iau": 15,
+   "name": "Ursids",
+   "constellation": "Ursa Minor",
+   "start": "12-17",
+   "peak": "12-23",
+   "end": "12-26",
+   "activeDays": [
+    -6,
+    3
+   ],
+   "peakSolarLong": 270.7,
+   "ra": 217.0,
+   "dec": 76.0,
+   "track": [
+    [
+     -3,
+     217.0,
+     76.0
+    ],
+    [
+     2,
+     217.0,
+     74.0
+    ]
+   ],
+   "speed": 33,
+   "r": 2.8,
+   "zhr": 10,
+   "parent": "8P/Tuttle"
+  },
+  {
+   "code": "COM",
+   "iau": 20,
+   "name": "Comae Berenicids",
+   "constellation": "Leo Minor",
+   "start": "12-04",
+   "peak": "12-23",
+   "end": "01-30",
+   "activeDays": [
+    -19,
+    38
+   ],
+   "peakSolarLong": 271.0,
+   "ra": 164.0,
+   "dec": 29.0,
+   "track": [
+    [
+     -18,
+     148.0,
+     35.0
+    ],
+    [
+     -13,
+     152.0,
+     34.0
+    ],
+    [
+     -8,
+     157.0,
+     32.0
+    ],
+    [
+     -3,
+     161.0,
+     30.0
+    ],
+    [
+     2,
+     166.0,
+     28.0
+    ],
+    [
+     7,
+     170.0,
+     26.0
+    ],
+    [
+     8,
+     172.0,
+     25.0
+    ],
+    [
+     13,
+     176.0,
+     24.0
+    ],
+    [
+     18,
+     180.0,
+     23.0
+    ],
+    [
+     23,
+     185.0,
+     21.0
+    ],
+    [
+     28,
+     189.0,
+     19.0
+    ],
+    [
+     33,
+     194.0,
+     17.0
+    ],
+    [
+     38,
+     198.0,
+     16.0
+    ]
+   ],
+   "speed": 65,
+   "r": 3.0,
+   "zhr": 3
+  }
+ ]
+}
