@@ -28,13 +28,20 @@ if not defined PYTHON_CMD (
 )
 
 echo Using Python command: %PYTHON_CMD%
-%PYTHON_CMD% -m pip install -r requirements.txt
+%PYTHON_CMD% -m pip install -r requirements.txt >nul 2>nul
 if errorlevel 1 (
-    echo.
-    echo Failed to install Python requirements.
-    pause
-    exit /b 1
+    echo Installing required packages...
+    %PYTHON_CMD% -m pip install -r requirements.txt
+    if errorlevel 1 (
+        echo.
+        echo Failed to install Python requirements.
+        pause
+        exit /b 1
+    )
 )
 
-%PYTHON_CMD% PMC8_Dashboard.py
-pause
+start "" pythonw PMC8_Dashboard.py
+if errorlevel 1 (
+    start "" %PYTHON_CMD% PMC8_Dashboard.py
+)
+exit /b 0
