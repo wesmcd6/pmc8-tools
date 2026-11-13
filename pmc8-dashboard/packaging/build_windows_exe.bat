@@ -24,7 +24,7 @@ echo Installing build dependencies...
 %PYTHON_CMD% -m pip install -r requirements.txt pyinstaller
 
 echo Running PyInstaller to build a standalone single-file executable...
-%PYTHON_CMD% -m PyInstaller --noconfirm --onefile --windowed --name "PMC8_Dashboard" --add-data "docs;docs" --add-data "p1load_package (1);p1load_package (1)" PMC8_Dashboard.py
+%PYTHON_CMD% -m PyInstaller --noconfirm --onefile --windowed --name "PMC8_Dashboard" --add-data "p1_loader.py;." --add-data "upload_dialog.py;." --add-data "network_management.py;." --add-data "PMC8_Configurator.py;." --add-data "docs;docs" --add-data "p1load_package (1);p1load_package (1)" PMC8_Dashboard.py
 
 if errorlevel 1 (
     echo Build failed.
