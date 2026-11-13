@@ -23,8 +23,8 @@ if not defined PYTHON_CMD (
 echo Installing build dependencies...
 %PYTHON_CMD% -m pip install -r requirements.txt pyinstaller
 
-echo Running PyInstaller...
-%PYTHON_CMD% -m PyInstaller --noconfirm --onedir --windowed --name "PMC8_Dashboard" --add-data "docs;docs" --add-data "p1load_package (1);p1load_package (1)" PMC8_Dashboard.py
+echo Running PyInstaller to build a standalone single-file executable...
+%PYTHON_CMD% -m PyInstaller --noconfirm --onefile --windowed --name "PMC8_Dashboard" --add-data "docs;docs" --add-data "p1load_package (1);p1load_package (1)" PMC8_Dashboard.py
 
 if errorlevel 1 (
     echo Build failed.
@@ -33,6 +33,6 @@ if errorlevel 1 (
 )
 
 echo.
-echo Build succeeded! Standalone executable is available at:
-echo %CD%\dist\PMC8_Dashboard\PMC8_Dashboard.exe
+echo Build succeeded! Standalone single-file executable is available at:
+echo %CD%\dist\PMC8_Dashboard.exe
 pause
