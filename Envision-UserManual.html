@@ -119,7 +119,7 @@
 <ul>
   <li><a href="#overview">1. Overview</a>
     <ul>
-      <li><a href="#whatsnew">What's New in 2.6.0.0</a></li>
+      <li><a href="#whatsnew">What's New in 2.6.1.0</a></li>
     </ul>
   </li>
   <li><a href="#install">2. Installation</a></li>
@@ -140,6 +140,7 @@
       <li><a href="#tools">5.4 Tools</a></li>
       <li><a href="#language">5.5 Display Language</a></li>
       <li><a href="#translate-manual">5.6 Translating this Manual</a></li>
+      <li><a href="#data-update">5.7 Comet and Meteor Data</a></li>
     </ul>
   </li>
   <li><a href="#target">6. Target Page</a>
@@ -183,6 +184,8 @@
       <li><a href="#ss-offline">8.16 Data &amp; Offline</a></li>
       <li><a href="#ss-wiki">8.17 Wikipedia Lookup</a></li>
       <li><a href="#ss-images">8.18 Object Pictures on the Chart</a></li>
+      <li><a href="#ss-meteors">8.19 Meteor Showers</a></li>
+      <li><a href="#ss-comets">8.20 Comets</a></li>
     </ul>
   </li>
   <li><a href="#calculators">9. Calculators</a></li>
@@ -238,7 +241,7 @@
 
 <h1>Envision the Heavens User Manual</h1>
 <p class="subtitle">Explore Scientific PMC-Eight&trade; Telescope Mount Control</p>
-<p><strong>Version 2.6.0.0</strong> &bull; October 2026</p>
+<p><strong>Version 2.6.1.0</strong> &bull; November 2026</p>
 
 <!-- ======================= OVERVIEW ======================= -->
 <h2 id="overview">1. Overview</h2>
@@ -246,6 +249,30 @@
 <p>The app supports four ways of talking to your mount: two over WiFi (one for current ESP32 firmware, one for legacy modules), Bluetooth Classic on Android, and USB serial on Windows. Your commands are forwarded to the PMC-Eight's Propeller processor regardless of route. See <a href="#connection">Section 5.1</a> for picking the right one for your hardware.</p>
 
 <div class="note" id="whatsnew">
+<strong>What's New in 2.6.1.0</strong>
+<ul>
+  <li><strong>Comets.</strong> Every known comet, from the IAU Minor Planet Center's orbits, refreshed
+      weekly. A <strong>Comets</strong> chip on the Target page (the chips are now two rows of four), search by
+      name or type <em>comets</em> for them all, and a green comet symbol on the chart with its tails pointing
+      away from the Sun. Each comet shows its brightness, distance, perihelion and the date it is brightest;
+      GoTo and Follow work as for a planet. See <a href="#ss-comets">Section 8.20</a>.</li>
+  <li><strong>Meteor showers.</strong> The radiant of every active shower on the chart, animated, where it is
+      tonight. The Target page gives each shower's status, peak and rate. See
+      <a href="#ss-meteors">Section 8.19</a>.</li>
+  <li><strong>When to look.</strong> The Visibility page follows comets and planets through the night, and its
+      calendar shades the nights a comet is up in a dark sky or a meteor shower is active. See
+      <a href="#visibility">Section 6.8</a>.</li>
+  <li><strong>Update comet and meteor data</strong> on the Setup page gets the latest files now. See
+      <a href="#data-update">Section 5.7</a>.</li>
+  <li><strong>PUSH-TO button</strong> on the chart's top row, and the chart remembers your choice. See
+      <a href="#ss-pushto">Section 8.6</a>.</li>
+  <li><strong>Catalog and pictures.</strong> Every Caldwell number is searchable ("Caldwell 33" finds C 33);
+      the Swan, Western Veil and Witch's Broom names corrected; one meteor radiant per shower. New pictures:
+      Jim McKee's Bubble to Lobster Claw mosaic and WR 134, and Sean M McHenry's Jellyfish wide field. An
+      object whose picture is on screen can always be tapped and named, whatever the magnitude slider says,
+      and the credit line names only the pictures you are looking at.</li>
+  <li><strong>Fixes.</strong> Messages stay up long enough to read, with a close button; other small fixes.</li>
+</ul>
 <strong>What's New in 2.6.0.0</strong>
 <ul>
   <li><strong>Find home.</strong> Home Finder is now part of Envision. Find your mount's home position
@@ -743,6 +770,14 @@ To clear the override so the manual follows the Setup page again:
 The override is now cleared. From this point on, whatever language you set on the <strong>Setup</strong> page will carry over to the manual the next time you open Help.
 </div>
 
+<h3 id="data-update">5.7 Comet and Meteor Data</h3>
+<p>Comets and meteor showers come from files Envision downloads and keeps on the device (<a href="#ss-comets">Section 8.20</a>, <a href="#ss-meteors">Section 8.19</a>). They update themselves, but you can update them now with <strong>Update comet and meteor data</strong>:</p>
+<ul>
+  <li><strong>Comets:</strong> a fresh copy every time you press it, since the Minor Planet Center updates its file daily. A good moment is before a night out, when a new comet is in the news.</li>
+  <li><strong>Meteor showers:</strong> the file covers a whole year, so it is downloaded only if it is missing or from a past year. Otherwise you see <strong>Meteor shower data is current</strong>.</li>
+</ul>
+<p>The line under the button shows what you have, for example <em>Comets: downloaded Nov 12, 14:05 &middot; Meteor showers: 2027 data</em>. The button is grayed out without an internet connection. If the comet file can't be fetched, you see <strong>Comet data could not be downloaded. Try again later.</strong> and the copy you have is kept.</p>
+
 <!-- ======================= TARGET ======================= -->
 <h2 id="target">6. Target Page</h2>
 <p>Use this page to find celestial objects and send the mount to them.</p>
@@ -828,7 +863,7 @@ The override is now cleared. From this point on, whatever language you set on th
 </table>
 
 <h4>Class filter chips</h4>
-<p>Below the search field is a row of toggle chips, each shown as the chart's symbol for that class. Tapping a chip filters the result list to that class; the status line below the chips always shows what's currently selected in plain text. Multiple chips combine with logical OR. Tap the same chip again to deselect.</p>
+<p>Below the search field are eight toggle chips in two rows of four, each shown as the chart's symbol for that class. Tapping a chip filters the result list to that class; the status line below the chips always shows what's currently selected in plain text. Multiple chips combine with logical OR. Tap the same chip again to deselect.</p>
 <p>The available chips and their behaviors:</p>
 <ul>
   <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="5.5" fill="none" stroke="#9bd0ff" stroke-width="1"/><path d="M -2.4,2.4 L -2.4,-2.4 L 0,0.4 L 2.4,-2.4 L 2.4,2.4" fill="none" stroke="#9bd0ff" stroke-width="1.2" stroke-linejoin="miter"/></svg></span> <strong>Messier</strong> &mdash; the M1&ndash;M110 catalogue. Sorts in catalogue number order by default.</li>
@@ -838,6 +873,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><rect x="-4" y="-4" width="8" height="8" fill="none" stroke="#ffb066" stroke-width="1" stroke-dasharray="2,2"/></svg></span> <strong>Nebulae</strong> &mdash; a hand-curated showpiece set with three difficulty tiers (see below). This chip is <em>exclusive</em>: tapping it deselects the others, and tapping any other chip turns it off.</li>
   <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="2.5" fill="none" stroke="#aaa" stroke-width="1"/><circle cx="0" cy="0" r="0.6" fill="#aaa"/></svg></span> <strong>Asterisms</strong> &mdash; star patterns, sorts by visibility.</li>
   <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><circle cx="0" cy="0" r="3.5" fill="#dda060"/></svg></span> <strong>Solar System</strong> &mdash; Sun, Moon, planets, asteroids; live ephemeris coordinates.</li>
+  <li><span class="cls-symbol"><svg viewBox="-7 -7 14 14" width="18" height="18"><path d="M -3,3 L 5.5,-5.5" stroke="#9be37a" stroke-width="1" stroke-opacity="0.85" fill="none"/><path d="M -3,3 Q 1.5,-0.5 2.5,-6" stroke="#9be37a" stroke-width="0.8" stroke-opacity="0.55" fill="none"/><path d="M -3,3 Q 1,-1 6,-2.5" stroke="#9be37a" stroke-width="0.8" stroke-opacity="0.55" fill="none"/><circle cx="-3" cy="3" r="2.2" fill="#9be37a"/></svg></span> <strong>Comets</strong> &mdash; every comet in the downloaded comet file, brightest first; <strong>Visibility</strong> and <strong>Name</strong> re-sort them. Each row gives the estimated magnitude and the altitude now. See <a href="#ss-comets">Section 8.20</a>.</li>
 </ul>
 <p>To the right of the chip row is a small <strong>Sort</strong> column with three options: <strong>Brightness</strong>, <strong>Visibility</strong>, and <strong>Name</strong>. Visibility computes current altitude from your latitude/longitude and orders highest-in-sky first, continuing monotonically through below-horizon at the bottom. The first label adapts to the active chip &mdash; reads "Catalog #" when Messier is on, "Visibility" when Galaxies or Asterisms is on alone, "Brightness" otherwise. The center "Visibility" radio hides itself when the first label already means Visibility, since selecting either would do the same thing.</p>
 <p>Position-based deduplication is automatic when any chip is on. A galaxy with multiple alias rows (NGC primary plus Caldwell plus several Herschel-program entries) collapses to a single canonical row in the picker; type a query directly to see the individual alias rows when needed.</p>
@@ -893,6 +929,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Blue text</strong> &mdash; above the horizon</li>
   <li><strong>Gray text</strong> &mdash; below the horizon</li>
 </ul>
+<p>Below the planets, a <strong>Comets</strong> heading lists the comets brighter than magnitude 12, brightest first, each with its estimated magnitude and altitude: <strong>light green</strong> while it is above the horizon, gray when it isn't. For every comet, faint ones included, use the <strong>Comets</strong> chip or search (<a href="#ss-comets">Section 8.20</a>).</p>
 <p>Positions are computed offline using Meeus algorithms &mdash; no internet needed.</p>
 <p>The tracking rate is set automatically: Solar rate for the Sun, Lunar rate for the Moon, Sidereal for everything else.</p>
 
@@ -952,6 +989,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <tr><td>Pluto</td><td>20 minutes</td><td>essentially stationary</td></tr>
 </table>
 
+<p><strong>Comets</strong> have no fixed interval: Follow works out how fast the comet is moving against the stars from your site and re-points each time it has drifted about 1&prime;, at most every 15 seconds and at least every 20 minutes. Most comets move less than 3&prime; an hour, so that is every 20 minutes; a comet passing close to Earth at a degree an hour, every minute. When a comet sets, Follow turns itself off and says so ("&hellip; has set") rather than trying to slew below the horizon.</p>
 <p>Follow stays on across page navigations: turn it on for the Moon, then go to Star Seeker or Control, and the mount keeps re-acquiring. It pauses while you slew the thumb pad and resumes on release. It also requires the mount to be tracking; if you stop tracking, Follow waits.</p>
 <p>Follow remembers your intent across target changes. If you have Follow on for the Moon and then pick Mars, Follow stays enabled but won't auto-slew until you press <strong>GOTO</strong> on Mars (so you don't get a surprise slew the moment you tap a new target).</p>
 
@@ -966,6 +1004,7 @@ The override is now cleared. From this point on, whatever language you set on th
 <p>Once a target is selected, a <strong>Wikipedia ↗</strong> button next to its name opens the Wikipedia article for that object inside the app. Tap → a full-screen overlay loads the mobile-Wikipedia page. The header has a red <strong>✕ CLOSE</strong> to dismiss the overlay and a <strong>browser ↗</strong> button to hand the article off to your default browser if you want to keep it open after closing the overlay.</p>
 <p>The button is gated on internet availability. Envision otherwise works fully offline; this is the only feature that needs the internet. Without a working connection (probed at app start and on each foreground/online event), the button shows <strong>Wikipedia (offline)</strong> and is disabled.</p>
 <p><strong>Reading in another language.</strong> The article opens in your <a href="#language">display language</a> (set on the Setup page) &mdash; a French user reading <code>M42</code> lands on the French article. If that language's Wikipedia has no article for the object, the app automatically falls back to the <strong>English</strong> article rather than showing "not available." To read that English article in your language, use your browser's built-in translation: in <strong>Safari</strong> tap <strong>aA</strong> in the address bar &rarr; <strong>Translate</strong>; in <strong>Chrome</strong> tap the <strong>translate icon</strong>. The prompt appears on its own, because the page is in a different language than your browser prefers &mdash; and a machine-translated English article is often <em>more complete</em> than a short native-language one. <em>Running the app full-screen from the Home Screen?</em> There's no browser toolbar there, so tap <strong>browser &#8599;</strong> to open the article in your browser, then translate it.</p>
+<p><strong>Meteor showers.</strong> When the target is a meteor shower, a lavender line under the <strong>Wikipedia</strong> button says whether the shower is active tonight, when it peaks and how many meteors to expect, with the radiant&rsquo;s drift and the meteors&rsquo; speed below it. See <a href="#ss-meteors">Section 8.19</a>.</p>
 <p>The Star Seeker chart has the same Wikipedia affordance for selected chart objects &mdash; see <a href="#ss-wiki">Section 8.17</a> for the chart-side details and how the lookup resolves catalog identifiers like <code>HIP 91262</code> or <code>HR 2491</code>.</p>
 
 <h3 id="visibility">6.8 Visibility (Altitude vs Time)</h3>
@@ -982,6 +1021,9 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Tap the date</strong> to open a calendar and pick any night. To change the year, tap the year at the top of the calendar.</li>
   <li><strong>Today</strong> returns to tonight with the cursor on the transit.</li>
 </ul>
+<p><strong>Planets and comets.</strong> These move against the stars, so the curve follows them through the night: the position is worked out every half hour for the night shown, and rise, transit, set and the cursor readout all use where the body is at that moment. A comet close to Earth can move several degrees in a night.</p>
+<p><strong>Comets: when to look.</strong> For a comet, the lines under the name give its estimated magnitude on the night shown, whether it is brightening or fading, its distance from Earth and the Sun, its perihelion, and <strong>Brightest</strong> <em>date</em> &mdash; the night it is brightest over the next two years, or <strong>Brightest now</strong>. Tap the Brightest line to jump to that night. The calendar shades every night the comet is above the horizon while the sky is dark (the Sun 12&deg; or more below the horizon), whatever its brightness, deeper green when it is brighter (magnitude 12, 10 and 8). The magnitude tells you whether your telescope or camera can reach it.</p>
+<p><strong>Meteor showers.</strong> For a shower, the curve is the radiant&rsquo;s altitude on the night you picked, since the radiant moves from night to night. The line under the chart gives the shower&rsquo;s status for that night, and the calendar shades the nights it is active, darkest on the peak night. The best nights are the ones that are shaded and have the radiant high after midnight. See <a href="#ss-meteors">Section 8.19</a>.</p>
 
 <!-- ======================= CONTROL ======================= -->
 <h2 id="control">7. Control Page</h2>
@@ -1148,15 +1190,15 @@ The override is now cleared. From this point on, whatever language you set on th
 <h3 id="ss-pushto">8.6 Push-To Mode</h3>
 <p>Push-To turns the Star Seeker chart into a manual pointing guide. Phone orientation drives a live <em>aim marker</em> for where the optical tube is pointed; you pick a target (on the chart or on the Target page), the chart shows an arrow from your aim to the target with a live distance readout, and you physically push the telescope until the aim marker reaches the target. Designed for non-motorized mounts (Dobsonians, alt-az manuals, push-to-converted equatorials) and for motorized mounts with the clutches released for visual sweeping.</p>
 
-<h4>Boot Default and the Connect Switchover</h4>
-<p>Push-To is <strong>on at app start</strong>. The first launch of the day, before you've connected the mount, the app assumes you might be aiming a non-motorized scope &mdash; chart in push-to, sensor-driven aim marker, all motor GoTo buttons disabled and labeled <code>GOTO (push-to)</code> as a reminder.</p>
-<p><strong>Connecting the mount automatically turns Push-To off.</strong> Once a mount session is established the app assumes you're motorized; chart pip switches to motor counts, GoTo buttons enable. You can re-enable Push-To from Chart Settings any time &mdash; common reason: clutches released for finder-style sweeping with a connected mount.</p>
+<h4>The PUSH-TO Button and the Connect Switchover</h4>
+<p>Turn Push-To on and off with the <strong>PUSH-TO</strong> button on the chart, next to the FREE / LIVE / VR button; it is green when on. The app <strong>remembers your choice</strong> for the next launch. It starts off the first time, so with Push-To off the chart is a plain planetarium: a target you pick on the Target page is centred on the chart, and nothing guides you to it. With Push-To on, the chart guides you to your target with the sensor-driven aim marker, and all motor GoTo buttons are disabled and labeled <code>GOTO (push-to)</code> as a reminder.</p>
+<p><strong>Connecting the mount automatically turns Push-To off</strong> for that session. Once a mount session is established the app assumes you're motorized; chart pip switches to motor counts, GoTo buttons enable. Disconnecting turns it back on if it was on before. You can turn Push-To on with a mount connected any time &mdash; common reason: clutches released for finder-style sweeping with a connected mount.</p>
 
 <h4>Sensor Permission (iPhone)</h4>
-<p>iOS gates orientation sensors behind a permission dialog that requires a user gesture. Because Push-To boots on but the chart loads without a tap, the iPhone path needs one explicit user action to grant access. Two ways to do that:</p>
+<p>iOS gates orientation sensors behind a permission dialog that requires a user gesture. When Push-To is on from your last session, the chart loads without a tap, so the iPhone path needs one explicit user action to grant access. Two ways to do that:</p>
 <ul>
   <li><strong>Tap ALIGN.</strong> ALIGN button always shows in Push-To. On the first tap from a cold-boot iPhone state, instead of opening the calibrate dialog, ALIGN triggers the iOS "Motion &amp; Orientation Access" prompt. Tap Allow, and ALIGN reverts to its normal calibrate-on-target behavior on subsequent taps.</li>
-  <li><strong>Toggle Push-to in Chart Settings (gear icon).</strong> Toggling it off then on again also fires the permission prompt.</li>
+  <li><strong>Tap PUSH-TO on the chart</strong> (or the Push-to switch in Chart Settings). Turning it off then on again also fires the permission prompt.</li>
 </ul>
 <p>Android phones that support orientation events grant access transparently &mdash; no prompt; sensors flow as soon as the chart opens.</p>
 <p>If your device has no orientation sensors at all (desktop browser, no-magnetometer Android tablet), the Push-to toggle in Chart Settings shows <em>No motion sensors detected</em> and stays disabled. The chart works as a planetarium.</p>
@@ -1198,7 +1240,7 @@ The override is now cleared. From this point on, whatever language you set on th
 <p>The ALIGN button is always visible while Push-To is on. It is greyed out until both sensors are confirmed working AND you have an active push-to target. The single exception is the cold-boot iPhone case described above, where ALIGN is tappable from the start (its first tap is the iOS permission gesture).</p>
 
 <h4>Push-To with a Motorized Mount Connected</h4>
-<p>If a motorized mount is connected and you re-enable Push-To from Chart Settings, the chart's Mount marker is sensor-driven (not motor-driven) so the chart reflects what your phone says, not what the motors say. Motor telemetry continues to run in the background (top app-bar RA/Dec strip still shows mount position).</p>
+<p>If a motorized mount is connected and you turn Push-To on, the chart's Mount marker is sensor-driven (not motor-driven) so the chart reflects what your phone says, not what the motors say. Motor telemetry continues to run in the background (top app-bar RA/Dec strip still shows mount position).</p>
 <p>While Push-To is on, every motor GoTo button across the app is disabled and labeled <code>GOTO (push-to)</code> &mdash; on the Target page (main GoTo, Alt/Az GoTo, SYNC), on the Control page, and on the chart itself. Push-To is a manual-pointing UX; issuing a motor slew while in push-to would put the chart pip out of sync with the motors. Turn Push-To off in Chart Settings to re-enable motor GoTo.</p>
 
 <h3 id="ss-mount">8.7 Mount Marker, Telrad &amp; Lock</h3>
@@ -1326,7 +1368,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Position</strong> &mdash; choose whether the mount marker and the RA/Dec readout show the model-corrected "true sky" position or the raw, uncorrected position. Available once you have at least a two-star alignment model; the change takes effect on the next position update.</li>
   <li><strong>Reference Lines</strong> &mdash; the four yellow great circles (ecliptic, celestial equator, galactic equator, local meridian) each with separate <em>line</em> and <em>label</em> toggles, plus the zenith marker (Z). Once you know the meridian by sight, turn its label off without losing the line.</li>
   <li><strong>Coordinate Grids</strong> &mdash; RA/Dec grid + labels, Alt/Az grid + labels.</li>
-  <li><strong>Catalog</strong> &mdash; stars, DSOs, constellation lines + labels (the <strong>LINES</strong> top-right button toggles both as a unit), planets + labels, and <strong>Object images</strong> (<a href="#ss-images">&sect;8.18</a>). With Object images on, <strong>Images appear</strong> sets how early pictures show as you zoom in: <strong>Late</strong>, <strong>Normal</strong>, <strong>Early</strong> or <strong>Earliest</strong>. Early settings show pictures as small patches at wide fields &mdash; a map of where the pictures are.</li>
+  <li><strong>Catalog</strong> &mdash; stars, DSOs, constellation lines + labels (the <strong>LINES</strong> top-right button toggles both as a unit), planets + labels, <strong>Comets</strong> (<a href="#ss-comets">&sect;8.20</a>; their names follow Planet labels), and <strong>Object images</strong> (<a href="#ss-images">&sect;8.18</a>). With Object images on, <strong>Images appear</strong> sets how early pictures show as you zoom in: <strong>Late</strong>, <strong>Normal</strong>, <strong>Early</strong> or <strong>Earliest</strong>. Early settings show pictures as small patches at wide fields &mdash; a map of where the pictures are.</li>
   <li><strong>Reticle &amp; Markers</strong> &mdash; Telrad rings + diameter labels, mount marker, camera FOV box (<a href="#cam-fov">&sect;9.1</a>), center-of-field label.</li>
   <li><strong>Display</strong> &mdash; the bottom-left FOV/mag/alt/az/RA/Dec readout.</li>
 </ul>
@@ -1335,6 +1377,7 @@ The override is now cleared. From this point on, whatever language you set on th
 
 <h3 id="ss-offline">8.16 Data &amp; Offline</h3>
 <p>All chart data &mdash; star catalog, DSO catalog, constellation lines, and the planetary ephemeris &mdash; is bundled with the app and cached by the service worker. Star Seeker works exactly the same on home WiFi, on the mount's AP network, or in airplane mode at a dark-sky site.</p>
+<p>The exceptions are the <a href="#ss-meteors">meteor shower dates</a>, which change every year and are downloaded once a year, and the <a href="#ss-comets">comet orbits</a>, downloaded and refreshed every week. Once downloaded, both work offline too. To update them now, before a night at a dark site, use <strong>Update comet and meteor data</strong> on the Setup page (<a href="#data-update">Section 5.7</a>).</p>
 
 <h3 id="ss-wiki">8.17 Wikipedia Lookup</h3>
 <p>Star Seeker has two ways to open the Wikipedia article for a chart object:</p>
@@ -1366,8 +1409,95 @@ The override is now cleared. From this point on, whatever language you set on th
   <li><strong>Wide fields.</strong> Some objects have a wide-field picture that shows the surrounding sky &mdash; the Butterfly region around Sadr, the North America and Pelican nebulae, Orion's Belt from the Flame to M78. Panning across them shows how neighbouring objects relate.</li>
   <li><strong>Close-ups.</strong> Where an object has a sharper close-up inside a wide field, <strong>tap the object</strong> and its close-up comes in front, with the wide field dimmed underneath. Tap another object, choose a new target, or tap anywhere outside the close-up, and it goes back.</li>
   <li><strong>How early they appear.</strong> Set in the chart settings: <strong>Catalog &rarr; Object images &rarr; Images appear</strong> (<a href="#ss-settings">&sect;8.15</a>). Turn <strong>Object images</strong> off to hide them.</li>
-  <li><strong>Credits.</strong> The photographers or observatories of the pictures on screen are named at the bottom right of the chart. See <a href="#image-contributors">Image contributors</a>.</li>
+  <li><strong>Credits.</strong> The bottom right of the chart names who took the pictures you are looking at:
+    <ul>
+      <li><em>Nothing tapped:</em> every picture that stands on its own on screen. A small picture inside a wider one (a nebula's close-up inside a wide field of its region) blends into it and is named only once you zoom in until it fills about a quarter of the screen.</li>
+      <li><em>An object tapped, or picked as the target:</em> once its picture fills about a quarter of the screen, only that picture is named. Zoom well out and the line goes back to every picture seen.</li>
+      <li>Tapping an object gives its own picture the credit, even when another photographer's close-up overlaps it.</li>
+    </ul>
+    See <a href="#image-contributors">Image contributors</a>.</li>
 </ul>
+
+<h3 id="ss-meteors">8.19 Meteor Showers</h3>
+<p>The chart shows the <strong>radiant</strong> of each meteor shower that is active: the point in the sky the shower&rsquo;s meteors seem to come from. The symbol is four short lavender streaks pointing away from an empty centre, with the radiant at the centre. While you watch, the streaks fade in and out, and now and then a longer meteor flies outward. Busier showers send them more often, most of all near the peak. A shower that is not active is not drawn.</p>
+<p>The radiant is not fixed: it moves against the stars by up to a degree or so a day through the shower. Envision puts it where it is for the date and moves it again every two hours while the app is open. The catalog row for the shower moves with it, so a GoTo sends the mount to the radiant for tonight.</p>
+<p>Meteors can appear anywhere in the sky, not only at the radiant. To see the most, look about 40&deg; to 60&deg; away from the radiant, and wait until it is high, usually after midnight. Trace a meteor back: if its line runs back to the radiant, it belongs to the shower.</p>
+
+<h4>Finding a shower</h4>
+<p>Search for a shower on the Target page (<a href="#catalog">Section 6.1</a>) by name, or by its three-letter code: <code>PER</code> for the Perseids, <code>GEM</code> for the Geminids, <code>ORI</code> for the Orionids. The rows are named like <em>Perseids (Meteor Shower Radiant - Perseus - PER)</em>. Every shower is listed, active or not. Two of them, the Daytime Arietids and the Daytime Sextantids, have radiants close to the Sun. They are listed but never drawn on the chart, because they can only be detected by radar. Pick one and switch to the chart, and the chart centres on the radiant. Tapping the radiant symbol then gives a GoTo, as with any target.</p>
+
+<h4>The status line</h4>
+<p>For a shower, the Target page and the Visibility page show a lavender status line:</p>
+<ul>
+  <li><strong>Active &middot; peak</strong> <em>date</em>, with <strong>about <em>n</em> per hour at peak</strong>.</li>
+  <li><strong>At peak tonight</strong> (on the Visibility page, <strong>At peak this night</strong>), with <strong>about <em>n</em> per hour</strong>.</li>
+  <li><strong>Not active &middot; next</strong> <em>start &ndash; end</em><strong>, peak</strong> <em>date</em>. The line is dimmed.</li>
+  <li><strong>Rate varies from year to year</strong> for showers whose rate isn&rsquo;t predictable, such as those that only now and then produce outbursts.</li>
+</ul>
+<p>The Target page adds two lines. <strong>Radiant tonight &middot; moves about <em>n</em>&deg; a day</strong> means the RA/Dec shown is tonight&rsquo;s radiant. <strong>Radiant at the peak</strong> means the shower isn&rsquo;t active, so the peak position is shown. The second line gives the meteors&rsquo; speed in km/s and, where it is known, the comet or asteroid they come from. Fast meteors (60&ndash;70&nbsp;km/s, like the Perseids and Leonids) are quick and often leave trains. Slow ones (around 20&nbsp;km/s) seem to drift.</p>
+<p>The dates are for local nights. A night runs from that evening through the next morning, and until 6&nbsp;a.m. <em>tonight</em> means the night in progress, as on the <a href="#visibility">Visibility</a> page.</p>
+
+<div class="note">
+<strong>About the rate.</strong> &ldquo;Per hour&rdquo; is the shower&rsquo;s <strong>zenithal hourly rate</strong> (ZHR): the number one observer would see in an hour under a perfectly dark sky (stars to magnitude 6.5) with the radiant straight overhead. You will see fewer. With the radiant at 30&deg;, it is half as many. A suburban sky or a bright Moon can cut the count to a quarter or less. Use the rate to compare showers, not as a count you can expect.
+</div>
+
+<h4>The yearly download</h4>
+<p>Shower peaks fall on slightly different dates each year, so the dates come from a small file (a few kilobytes) for the year, from the International Meteor Organization&rsquo;s Working List of Visual Meteor Showers. Envision downloads it when the app opens and the file it has is missing or from an earlier year, or when you press <strong>Update comet and meteor data</strong> on the Setup page (<a href="#data-update">Section 5.7</a>). You will see:</p>
+<ul>
+  <li><strong>Meteor shower data downloaded</strong> or <strong>updated</strong>: the new year&rsquo;s file arrived.</li>
+  <li><strong>Meteor shower data is not downloaded. Connect to the internet and open the app again.</strong> The app has never had the file. Until it does, there are no radiants on the chart and no status lines.</li>
+  <li><strong>Meteor shower data is from</strong> <em>year</em><strong>. Connect to the internet and open the app again.</strong> The app is still using last year&rsquo;s file, which it does until the new one arrives. Its dates may be a day or so off. This shows at most once a day. Early in January it can also mean the new year&rsquo;s file isn&rsquo;t published yet.</li>
+</ul>
+<p>When the file is current, nothing is shown. The file is kept on the device, so showers work offline at a dark site.</p>
+
+<h3 id="ss-comets">8.20 Comets</h3>
+<p>Envision shows every known comet. Their orbits come from the IAU Minor Planet Center's comet file, which the app downloads; positions and brightness are then worked out on the phone, offline, for any date. The calculation matches NASA JPL's to a few arcseconds. How close that is to where the comet really is depends on its orbit: a well-observed comet's is excellent, a newly found one's improves week by week, which is why the file is refreshed weekly.</p>
+
+<h4>On the chart</h4>
+<p>A comet is drawn as a soft green coma with three tails. The middle tail points directly away from the Sun, where a comet's gas tail points; the two side tails curve back toward where the comet has come from, as dust tails do. The tails show direction only: their length says nothing about a real tail's size. Brighter comets are drawn larger, and the symbol grows as you zoom in. Within 2&deg; of the Sun, or of the point opposite it, only the head is drawn.</p>
+<ul>
+  <li><strong>Every comet is drawn</strong>, whatever the magnitude slider says, as the planets are. Most are very faint, and they gather along the ecliptic.</li>
+  <li><strong>Names</strong> are shown for comets brighter than magnitude 12, using the <strong>Planet labels</strong> setting. Any other comet is named by the center label or when you tap it.</li>
+  <li><strong>Tap a comet</strong> to select it; GoTo, Follow and the status lines then work as for a planet.</li>
+  <li><strong>Comets</strong> in the chart settings (Catalog) hides them all.</li>
+</ul>
+
+<h4>Finding a comet</h4>
+<ul>
+  <li><strong>The Comets chip</strong> on the Target page lists every comet, brightest first; sort by <strong>Visibility</strong> to see which are highest now.</li>
+  <li><strong>Search</strong> by name or designation: <code>Hartley</code>, <code>161P</code>, <code>C/2026 A2</code>. Search <code>comets</code> to list them all.</li>
+  <li><strong>Solar System</strong> lists the comets brighter than magnitude 12 under a Comets heading.</li>
+</ul>
+<p>A row is <strong>light green</strong> while the comet is above the horizon and gray when it isn't. You can pick a gray one: the Visibility page shows when it rises.</p>
+
+<h4>The status lines</h4>
+<p>Under the Wikipedia button, in green:</p>
+<ul>
+  <li><strong>About magnitude</strong> <em>m</em> &middot; <strong>brightening</strong> or <strong>fading</strong> (over the next week).</li>
+  <li>Its distance from Earth and from the Sun, in AU (1 AU is the Earth&ndash;Sun distance).</li>
+  <li><strong>Perihelion</strong> <em>date</em>: when it is closest to the Sun.</li>
+  <li><strong>Brightest</strong> <em>date</em> &middot; <strong>about magnitude</strong> <em>m</em>: the brightest it gets over the next two years. On the Visibility page, tap it to see that night (<a href="#visibility">Section 6.8</a>).</li>
+</ul>
+<div class="note">
+<strong>About comet magnitudes.</strong> A comet's brightness is an estimate from a formula fitted to past observations, and comets don't follow formulas closely: one can be a magnitude or two brighter or fainter than predicted, and some flare up without warning. The magnitude is that of the whole coma spread over arcminutes, so a comet looks fainter than a star of the same magnitude. Treat the number as a guide.
+</div>
+
+<h4>GoTo and Follow</h4>
+<p>GoTo is available only while the comet is above the horizon; below it, the Target page says <strong>Below the horizon &middot; see Visibility for when</strong>. Follow keeps the comet centered by re-pointing each time it has drifted about 1&prime; (<a href="#goto">Section 6.5</a>). Between those small slews the mount tracks at the star rate, so in a long exposure the stars stay sharp and the comet moves slightly. A comet can't be used to SYNC, as a planet can't.</p>
+
+<h4>The comet file</h4>
+<p>The comets' orbits come from a file the Minor Planet Center updates every day. Envision keeps a copy on the device and replaces it with a fresh one <strong>once a week</strong>.</p>
+<p><strong>When it checks:</strong> each time you open the app, and every 6 hours while it stays open. Each check looks at how old the copy is:</p>
+<table>
+  <tr><th>The copy is</th><th>Online</th><th>Offline</th></tr>
+  <tr><td>missing (first use)</td><td>Downloads it: <strong>Comet data downloaded</strong></td><td><strong>Comet data is not downloaded. Connect to the internet and open the app again.</strong> No comets until it is.</td></tr>
+  <tr><td>under a week old</td><td colspan="2">Nothing happens: the copy is used, no message.</td></tr>
+  <tr><td>a week to two weeks old</td><td>Downloads a fresh one: <strong>Comet data updated</strong></td><td>The copy is used, no message. The next check tries again.</td></tr>
+  <tr><td>over two weeks old</td><td>Downloads a fresh one: <strong>Comet data updated</strong></td><td>The copy is still used, with a warning: <strong>Comet data is</strong> <em>n</em> <strong>days old. Connect to the internet and open the app again.</strong> The warning shows <strong>at most once a day</strong>, however often the app checks.</td></tr>
+</table>
+<p>So with the internet available, the copy is never more than a week (plus a few hours) old. A failed or cut-off download never replaces a good copy. To get a fresh copy now, use <strong>Update comet and meteor data</strong> on the Setup page (<a href="#data-update">Section 5.7</a>).</p>
+<p><strong>Positions are separate from the file.</strong> The file holds each comet's orbit; where the comet is at any moment is worked out from it on the phone, continuously: the lists and status lines each minute, the chart every 2 minutes, Follow before each re-point. An older copy is still good for positions for weeks; it drifts slowly, most for a comet that has just passed close to a planet. (The 2-hour update in <a href="#ss-meteors">Section 8.19</a> is for meteor shower radiants, not comets.)</p>
+<p>The file is kept on the device, so comets work offline at a dark site.</p>
 
 <!-- ======================= CALCULATORS ======================= -->
 <h2 id="calculators">9. Calculators</h2>
@@ -1743,7 +1873,7 @@ The override is now cleared. From this point on, whatever language you set on th
   <tr><td>Push-to chart is way off</td><td>Phone compass needs calibration. Center a bright known star in the eyepiece, tap that star on the chart (or pick from the Target page) to make it the active push-to target, then tap <strong>ALIGN</strong> and confirm. Chart pins to truth at that star; offset persists across app restarts. If it keeps drifting off, your phone&rsquo;s compass is unsteady (common on some Android models): ALIGN again more often.</td></tr>
   <tr><td>Push-to chart is consistently off in altitude</td><td>Likely a phone-bracket pitch error &mdash; the phone isn't mounted parallel to the OTA tube. ALIGN only corrects azimuth (the compass), not altitude (which the gravity sensor handles directly). Re-clamp the bracket so the phone face is parallel to the tube.</td></tr>
   <tr><td>Push-to vector arrow won't disappear</td><td>The active target is sticky &mdash; pan/zoom won't clear it. Replace it by tapping a different object, or turn Push-To off in Chart Settings (which clears the active target).</td></tr>
-  <tr><td>GoTo button greyed out, says "GOTO (push-to)"</td><td>Push-To is on; motor GoTo is disabled while push-to is the active interaction mode. Open Chart Settings (gear icon) and toggle Push-to off to re-enable motor GoTo. Connecting the mount also clears push-to automatically.</td></tr>
+  <tr><td>GoTo button greyed out, says "GOTO (push-to)"</td><td>Push-To is on; motor GoTo is disabled while push-to is the active interaction mode. Tap PUSH-TO on the chart to turn it off and re-enable motor GoTo. Connecting the mount also clears push-to automatically.</td></tr>
   <tr><td>Wikipedia button shows "(offline)"</td><td>The connectivity probe didn't reach the internet. Check WiFi / cellular. The probe re-runs on app open and on each foreground/online event; switching networks usually re-enables the button without reload.</td></tr>
   <tr><td>Wikipedia article doesn't match the target</td><td>For obscure catalog codes (most HIP / HR / HD numbers), Wikipedia and Wikidata may not have a redirect or cross-reference and the modal lands on the search-results page. Use the search box at the top of that page, or close the modal and pick the target by its proper name on the Target or Star Seeker page.</td></tr>
   <tr><td>Wikipedia modal flashes briefly to a search page, then jumps to the article</td><td>Expected. The modal opens immediately with Wikipedia's search-and-go URL while the Wikidata cross-reference query runs in parallel. When Wikidata returns the canonical article, the iframe upgrades. Total delay is usually under a second.</td></tr>
