@@ -12,7 +12,7 @@ Downloads for **Explore Scientific&trade; PMC-Eight&trade;** telescope mount use
 
 Envision the Heavens&trade; (Envision for short) was called ExploreStars Envision before 2.5.2.0.
 
-📦 **[Get the v2.6.0.0 release →](../../releases/tag/v2.6.0.0)**
+📦 **[Get the v2.6.1.0 release →](../../releases/tag/v2.6.1.0)**
 
 The Releases page carries pre-built binaries for every platform. Pick the asset that matches your device:
 
@@ -93,6 +93,7 @@ Cross-platform telescope mount control — runs on Android, Windows, and as a se
 - **VR sky window** — hold the phone up and the screen shows the sky behind it
 - **Object pictures on the sky chart** — zoom in and nebulae, galaxies and clusters appear as pictures placed on the real sky, with common names
 - **Find home** — the phone's tilt sensor finds the mount's home position, with or without a mount connection
+- **Comets and meteor showers** — every known comet (Minor Planet Center orbits, refreshed weekly) with GoTo and Follow, and active shower radiants on the chart; the Visibility calendar shows the good nights
 - **Camera field-of-view** overlay on the sky chart, with a calculator — sensor/camera presets, Barlow/reducer, and rotator-angle support
 - Spiral Search, Thumb Pad centering with Fine/Coarse rates
 - Solar system targets: planets, Moon, Sun, minor planets
